@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="location">
+
+        <item>부산광역시</item>
+        <item>서울특별시</item>
+        <item>대구광역시</item>
+        <item>대전광역시</item>
+        <item>김해시</item>
+        <item>양산시</item>
+    </string-array>
+</resources>

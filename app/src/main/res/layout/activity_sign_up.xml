@@ -1,8 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <data>
+
+        <variable
+            name="activity"
+            type="com.sdin.tourstamprally.ui.activity.SignUpActivity" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
@@ -16,9 +23,11 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <ImageView
+            <ImageButton
                 android:layout_width="@dimen/_30sdp"
                 android:layout_height="@dimen/_30sdp"
+                android:contentDescription="@string/back"
+                android:onClick="@{ () -> activity.moveBack()}"
                 android:src="@color/black" />
 
             <TextView
@@ -55,31 +64,32 @@
 
             />
 
-            <EditText
-                android:id="@+id/edit_phone"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/_15sdp"
-                android:hint="@string/inputphone"
-                android:inputType="number"
-                android:textSize="@dimen/_10sdp"
-                app:layout_constraintBottom_toTopOf="@+id/edit_auth"
-                app:layout_constraintEnd_toStartOf="@+id/btn_request_auth"
-                app:layout_constraintStart_toStartOf="@+id/phone_txv"
-                app:layout_constraintTop_toBottomOf="@+id/phone_txv"
-                android:background="@drawable/bg_rounded_01"
-                android:padding="@dimen/_10sdp"
-                android:layout_marginTop="@dimen/_5sdp"
-                android:maxLength="11"
-                />
+        <EditText
+            android:id="@+id/edit_phone"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:layout_marginEnd="@dimen/_15sdp"
+            android:background="@drawable/bg_rounded_01"
+            android:hint="@string/inputphone"
+            android:inputType="phone"
+            android:maxLength="11"
+            android:padding="@dimen/_10sdp"
+            android:textSize="@dimen/_10sdp"
+            app:layout_constraintBottom_toTopOf="@+id/edit_auth"
+            app:layout_constraintEnd_toStartOf="@+id/btn_request_auth"
+            app:layout_constraintStart_toStartOf="@+id/phone_txv"
+            app:layout_constraintTop_toBottomOf="@+id/phone_txv"
+            android:importantForAutofill="no" />
 
         <Button
             android:id="@+id/btn_request_auth"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:layout_marginEnd="@dimen/_10sdp"
-            android:text="@string/AuthenticationRequest"
             android:background="@drawable/bg_rounded_02"
+            android:onClick="@{ () -> activity.authResponse() }"
+            android:text="@string/AuthenticationRequest"
             app:layout_constraintBottom_toBottomOf="@id/edit_phone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/edit_phone"
@@ -91,9 +101,10 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_5sdp"
             android:layout_marginEnd="@dimen/_15sdp"
-            android:hint="@string/inputAuth"
-            android:inputType="number"
             android:background="@drawable/bg_rounded_01"
+            android:hint="@string/inputAuth"
+            android:inputType="text"
+            android:autofillHints=""
             android:padding="@dimen/_10sdp"
             android:textSize="@dimen/_10sdp"
             app:layout_constraintEnd_toStartOf="@+id/btn_request_auth"
@@ -105,8 +116,9 @@
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:layout_marginEnd="@dimen/_10sdp"
-            android:text="@string/check"
             android:background="@drawable/bg_rounded_02"
+            android:onClick="@{ () -> activity.authCheck() }"
+            android:text="@string/check"
             app:layout_constraintBottom_toBottomOf="@id/edit_auth"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/btn_request_auth"
@@ -128,14 +140,16 @@
             android:id="@+id/edit_password"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:hint="@string/input_password"
             android:background="@drawable/bg_rounded_01"
+            android:hint="@string/input_password"
             android:padding="@dimen/_10sdp"
             android:textSize="@dimen/_10sdp"
+            android:inputType="textPassword"
             app:layout_constraintBottom_toTopOf="@+id/txv_password_confirm"
             app:layout_constraintEnd_toEndOf="@id/btn_request_auth"
             app:layout_constraintStart_toStartOf="@id/edit_phone"
-            app:layout_constraintTop_toBottomOf="@+id/txv_password" />
+            app:layout_constraintTop_toBottomOf="@+id/txv_password"
+            android:importantForAutofill="no" />
 
         <TextView
             android:id="@+id/txv_password_confirm"
@@ -152,14 +166,16 @@
             android:id="@+id/edit_password_confirm"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:hint="@string/input_password_confirm"
             android:background="@drawable/bg_rounded_01"
+            android:hint="@string/input_password_confirm"
             android:padding="@dimen/_10sdp"
             android:textSize="@dimen/_10sdp"
+            android:inputType="textPassword"
             app:layout_constraintBottom_toTopOf="@+id/txv_name"
             app:layout_constraintEnd_toEndOf="@id/btn_request_auth"
             app:layout_constraintStart_toStartOf="@id/edit_phone"
-            app:layout_constraintTop_toBottomOf="@+id/txv_password_confirm" />
+            app:layout_constraintTop_toBottomOf="@+id/txv_password_confirm"
+            android:importantForAutofill="no" />
 
         <TextView
             android:id="@+id/txv_name"
@@ -176,16 +192,17 @@
             android:id="@+id/edit_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:hint="@string/input_name"
             android:background="@drawable/bg_rounded_01"
+            android:hint="@string/input_name"
             android:padding="@dimen/_10sdp"
             android:textSize="@dimen/_10sdp"
+            android:inputType="textPersonName"
             app:layout_constraintBottom_toTopOf="@+id/txv_email"
             app:layout_constraintEnd_toEndOf="@id/btn_request_auth"
             app:layout_constraintStart_toStartOf="@id/edit_phone"
             app:layout_constraintTop_toBottomOf="@+id/txv_name"
 
-            />
+            android:importantForAutofill="no" />
 
 
         <TextView
@@ -203,14 +220,16 @@
             android:id="@+id/edit_email"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:hint="@string/input_email"
             android:background="@drawable/bg_rounded_01"
+            android:hint="@string/input_email"
             android:padding="@dimen/_10sdp"
             android:textSize="@dimen/_10sdp"
+            android:inputType="textWebEmailAddress"
             app:layout_constraintBottom_toTopOf="@+id/txv_location"
             app:layout_constraintEnd_toEndOf="@id/btn_request_auth"
             app:layout_constraintStart_toStartOf="@id/edit_phone"
-            app:layout_constraintTop_toBottomOf="@+id/txv_email" />
+            app:layout_constraintTop_toBottomOf="@+id/txv_email"
+            android:importantForAutofill="no" />
 
         <TextView
             android:id="@+id/txv_location"
@@ -219,19 +238,19 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_15sdp"
             android:text="@string/location"
-            app:layout_constraintBottom_toTopOf="@+id/edit_location"
+            app:layout_constraintBottom_toTopOf="@+id/spinner_location"
             app:layout_constraintStart_toStartOf="@+id/phone_txv"
             app:layout_constraintTop_toBottomOf="@+id/edit_email" />
 
-        <EditText
-            android:id="@+id/edit_location"
+        <androidx.appcompat.widget.AppCompatSpinner
+            android:id="@+id/spinner_location"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:hint="@string/busan"
+            android:layout_marginBottom="@dimen/_15sdp"
             android:background="@drawable/bg_rounded_01"
+            android:spinnerMode="dialog"
             android:padding="@dimen/_10sdp"
             android:textSize="@dimen/_10sdp"
-            android:layout_marginBottom="@dimen/_15sdp"
             app:layout_constraintBottom_toTopOf="@+id/btn_signUp"
             app:layout_constraintEnd_toEndOf="@id/btn_request_auth"
             app:layout_constraintStart_toStartOf="@id/edit_phone"
@@ -243,15 +262,14 @@
             android:id="@+id/btn_signUp"
             android:layout_width="0dp"
             android:layout_height="?attr/actionBarSize"
+            android:background="@color/midnight_blue"
+            android:gravity="center"
+            android:onClick="@{ () -> activity.signUp() }"
             android:text="@string/signUp"
             android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:background="@color/midnight_blue"
-            android:gravity="center"
-            android:textSize="@dimen/_15sdp"
-            />
+            app:layout_constraintStart_toStartOf="parent" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

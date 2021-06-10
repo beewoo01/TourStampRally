@@ -1,166 +1,171 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar_terms"
-        android:layout_width="0dp"
-        android:layout_height="?attr/actionBarSize"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+<layout>
 
-        <ImageView
-            android:layout_width="@dimen/_30sdp"
-            android:layout_height="@dimen/_30sdp"
-            android:src="@color/black" />
+    <data>
+        <variable
+            name="activity"
+            type="com.sdin.tourstamprally.ui.activity.TermsOfConditionsActivity" />
+    </data>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_20sdp"
-            android:text="@string/termsofconditions"
-            android:textColor="@color/black"
-            android:textStyle="bold"
-            android:textSize="@dimen/_15sdp"
-            />
-
-
-    </androidx.appcompat.widget.Toolbar>
-
-    <View
-        android:id="@+id/line_terms"
-        android:layout_width="0dp"
-        android:layout_height="0.8dp"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar_terms"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:background="@color/black"
-        />
-
-    <TextView
-        android:id="@+id/service_term_txv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/_15sdp"
-        android:text="@string/service_terms"
-        android:textColor="@color/black"
-        android:textSize="@dimen/_15sdp"
-        android:layout_marginTop="@dimen/_15sdp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/line_terms"
-        app:layout_constraintBottom_toTopOf="@+id/service_terms_scv"
-        />
-
-    <ScrollView
-        android:id="@+id/service_terms_scv"
-        android:layout_width="0dp"
-        android:layout_height="@dimen/_130sdp"
-        android:layout_marginTop="@dimen/_5sdp"
-        android:layout_marginEnd="@dimen/_20sdp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@id/service_term_txv"
-        app:layout_constraintTop_toBottomOf="@+id/service_term_txv"
-        app:layout_constraintBottom_toTopOf="@+id/service_term_rdb"
-        android:background="@drawable/bg_rounded_02"
-        >
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:textColor="@color/black"
-            android:textSize="@dimen/_8sdp" />
-
-    </ScrollView>
-
-    <androidx.appcompat.widget.AppCompatRadioButton
-        android:id="@+id/service_term_rdb"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/agree_service_term"
-        android:layout_marginTop="@dimen/_5sdp"
-        app:layout_constraintTop_toBottomOf="@+id/service_terms_scv"
-        app:layout_constraintStart_toStartOf="@+id/service_term_txv"
-        />
-
-
-    <TextView
-        android:id="@+id/personal_info_txv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/service_term_rdb"
-        app:layout_constraintStart_toStartOf="@+id/service_term_txv"
-        android:text="@string/personal_info"
-        android:textColor="@color/black"
-        android:textSize="@dimen/_15sdp"
-        android:layout_marginTop="@dimen/_20sdp"
-        />
-
-    <ScrollView
-        android:id="@+id/personal_terms_scv"
-        android:layout_width="0dp"
-        android:layout_height="@dimen/_130sdp"
-        app:layout_constraintStart_toStartOf="@+id/personal_info_txv"
-        app:layout_constraintTop_toBottomOf="@+id/personal_info_txv"
-        app:layout_constraintEnd_toEndOf="@+id/service_terms_scv"
-        android:layout_marginTop="@dimen/_5sdp"
-        android:background="@drawable/bg_rounded_02"
-        >
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:textColor="@color/black"
-            android:textSize="@dimen/_8sdp" />
-
-    </ScrollView>
-
-    <androidx.appcompat.widget.AppCompatRadioButton
-        android:id="@+id/personal_terms_rdb"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/agree_personal_term"
-        android:layout_marginTop="@dimen/_5sdp"
-        app:layout_constraintTop_toBottomOf="@+id/personal_terms_scv"
-        app:layout_constraintStart_toStartOf="@+id/personal_terms_scv"
-        />
-
-    <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="@dimen/_35sdp"
-        app:layout_constraintBottom_toTopOf="@+id/btn_next_to_signup"
-        app:layout_constraintStart_toStartOf="@+id/personal_terms_scv"
-        app:layout_constraintEnd_toEndOf="@+id/personal_terms_scv"
-        app:layout_constraintTop_toBottomOf="@+id/personal_terms_rdb"
-        android:gravity="center"
-        android:background="@drawable/bg_rounded_02"
-        >
-
-        <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/all_agree"
-            />
-
-    </LinearLayout>
-
-
-    <TextView
-        android:id="@+id/btn_next_to_signup"
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:text="@string/next"
-        android:gravity="center"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:background="@color/midnight_blue"
-        android:textColor="@color/white"
-        />
+        android:layout_height="match_parent">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar_terms"
+            android:layout_width="0dp"
+            android:layout_height="?attr/actionBarSize"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageButton
+                android:id="@+id/back_imb"
+                android:layout_width="@dimen/_30sdp"
+                android:layout_height="@dimen/_30sdp"
+                android:src="@color/black"
+                android:onClick="@{ () -> activity.moveBack()}"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_20sdp"
+                android:text="@string/termsofconditions"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_15sdp"
+                android:textStyle="bold" />
 
 
+        </androidx.appcompat.widget.Toolbar>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <View
+            android:id="@+id/line_terms"
+            android:layout_width="0dp"
+            android:layout_height="0.8dp"
+            android:background="@color/black"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar_terms" />
+
+        <TextView
+            android:id="@+id/service_term_txv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_15sdp"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:text="@string/service_terms"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_15sdp"
+            app:layout_constraintBottom_toTopOf="@+id/service_terms_scv"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/line_terms" />
+
+        <ScrollView
+            android:id="@+id/service_terms_scv"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_130sdp"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:layout_marginEnd="@dimen/_20sdp"
+            android:background="@drawable/bg_rounded_02"
+            app:layout_constraintBottom_toTopOf="@+id/service_term_rdb"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/service_term_txv"
+            app:layout_constraintTop_toBottomOf="@+id/service_term_txv">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_8sdp" />
+
+        </ScrollView>
+
+        <androidx.appcompat.widget.AppCompatCheckBox
+            android:id="@+id/service_term_rdb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:text="@string/agree_service_term"
+            app:layout_constraintStart_toStartOf="@+id/service_term_txv"
+            app:layout_constraintTop_toBottomOf="@+id/service_terms_scv" />
+
+
+        <TextView
+            android:id="@+id/personal_info_txv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:text="@string/personal_info"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_15sdp"
+            app:layout_constraintStart_toStartOf="@+id/service_term_txv"
+            app:layout_constraintTop_toBottomOf="@+id/service_term_rdb" />
+
+        <ScrollView
+            android:id="@+id/personal_terms_scv"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_130sdp"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:background="@drawable/bg_rounded_02"
+            app:layout_constraintEnd_toEndOf="@+id/service_terms_scv"
+            app:layout_constraintStart_toStartOf="@+id/personal_info_txv"
+            app:layout_constraintTop_toBottomOf="@+id/personal_info_txv">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_8sdp" />
+
+        </ScrollView>
+
+        <androidx.appcompat.widget.AppCompatCheckBox
+            android:id="@+id/personal_terms_rdb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:text="@string/agree_personal_term"
+            app:layout_constraintStart_toStartOf="@+id/personal_terms_scv"
+            app:layout_constraintTop_toBottomOf="@+id/personal_terms_scv" />
+
+        <LinearLayout
+            android:id="@+id/all_agree"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_35sdp"
+            android:background="@drawable/bg_rounded_02"
+            android:gravity="center"
+            android:onClick="@{()-> activity.allagree()} "
+            app:layout_constraintBottom_toTopOf="@+id/btn_next_to_signup"
+            app:layout_constraintEnd_toEndOf="@+id/personal_terms_scv"
+            app:layout_constraintStart_toStartOf="@+id/personal_terms_scv"
+            app:layout_constraintTop_toBottomOf="@+id/personal_terms_rdb">
+
+            <androidx.appcompat.widget.AppCompatCheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/all_agree" />
+
+        </LinearLayout>
+
+
+        <TextView
+            android:id="@+id/btn_next_to_signup"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/midnight_blue"
+            android:gravity="center"
+            android:text="@string/next"
+            android:textColor="@color/white"
+            android:onClick="@{()-> activity.nextBtnClick()}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

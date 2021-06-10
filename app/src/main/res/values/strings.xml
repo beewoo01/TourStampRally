@@ -23,11 +23,16 @@
     <string name="inputphone">-없이 입력해주세요</string>
     <string name="inputAuth">인증번호 입력</string>
 
+    <string name="inputphoneNumbar">핸드폰번호를 입력해 주세요.</string>
+
 
     <string name="password">비밀번호</string>
     <string name="input_password">비밀번호를 입력해주세요</string>
     <string name="password_confirm">비밀번호 확인</string>
     <string name="input_password_confirm">비밀번호를 다시 한번 입력해주세요</string>
+
+    <string name="input_find_password">비밀번호 찾기</string>
+    <string name="explan_find_password">비밀번호를 찾기 위해 필요한 정보를 정확하게 입력해주세요.</string>
 
     <string name="name">이름</string>
     <string name="input_name">이름을 입력해 주세요</string>
@@ -41,4 +46,5 @@
 
 
     <string name="check">확인</string>
+    <string name="back">back</string>
 </resources>

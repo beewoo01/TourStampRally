@@ -13,7 +13,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ui.activity.TermsOfConditionsActivit"></activity>
+        <activity android:name=".FindPasswordActivity"></activity>
+        <activity android:name=".SplashActivity" />
+        <activity android:name=".ui.activity.TermsOfConditionsActivity" />
         <activity android:name=".ui.activity.SignUpActivity" />
         <activity android:name=".ui.activity.LoginActivity" />
         <activity android:name=".ui.activity.MainActivity">
