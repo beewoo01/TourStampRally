@@ -1,0 +1,44 @@
+<resources>
+    <string name="app_name">TourStampRally</string>
+    <string name="forget_password">비밀번호를 잊으셨나요?</string>
+    <string name="auto_login">자동 로그인</string>
+    <string name="save_id">아이디 저장</string>
+    <string name="DoNotHaveID">계정이 없으신가요?</string>
+    <string name="gotoSignin">회원가입 하기</string>
+    <string name="login">로그인</string>
+
+    <string name="termsofconditions">이용약관</string>
+    <string name="service_terms">서비스 이용약관</string>
+    <string name="personal_info">개인정보 취급 방침</string>
+    <string name="agree_service_term">서비스 이용약관에 동의합니다.</string>
+    <string name="agree_personal_term">개인정보 취급 방침</string>
+
+
+    <string name="next">다음</string>
+    <string name="all_agree">전체동의</string>
+
+    <string name="signUp">회원가입</string>
+    <string name="phone">연락처</string>
+    <string name="AuthenticationRequest">인증요청</string>
+    <string name="inputphone">-없이 입력해주세요</string>
+    <string name="inputAuth">인증번호 입력</string>
+
+
+    <string name="password">비밀번호</string>
+    <string name="input_password">비밀번호를 입력해주세요</string>
+    <string name="password_confirm">비밀번호 확인</string>
+    <string name="input_password_confirm">비밀번호를 다시 한번 입력해주세요</string>
+
+    <string name="name">이름</string>
+    <string name="input_name">이름을 입력해 주세요</string>
+
+    <string name="email">E-main</string>
+    <string name="input_email">E-main을 입력해주세요</string>
+
+    <string name="location">지역</string>
+    <string name="busan">부산광역시</string>
+    <string name="seoul">서울특별시</string>
+
+
+    <string name="check">확인</string>
+</resources>

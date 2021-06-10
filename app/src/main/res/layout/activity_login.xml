@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/Sea_Blue"
+        >
+
+
+        <ImageView
+            android:id="@+id/logoImv"
+            android:layout_width="@dimen/_200sdp"
+            android:layout_height="@dimen/_200sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/edit_phone"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/ic_launcher_foreground"
+            />
+
+
+        <EditText
+            android:id="@+id/edit_phone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_marginHorizontal="@dimen/_30sdp"
+            android:hint="핸드폰 번호를 입력해 주세요"
+            android:maxLength="11"
+            android:background="@drawable/bg_rounded_03"
+            android:padding="@dimen/_10sdp"
+            android:textSize="@dimen/_10sdp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/edit_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_marginHorizontal="@dimen/_30sdp"
+            android:background="@drawable/bg_rounded_03"
+            android:padding="@dimen/_10sdp"
+            android:textSize="@dimen/_10sdp"
+            android:hint="비밀번호를 입력해 주세요"
+            android:maxLength="11"
+            android:inputType="textPassword"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/edit_phone"
+            android:layout_marginTop="@dimen/_5sdp"
+            app:layout_constraintBottom_toTopOf="@+id/forgot_psw"
+            />
+
+
+        <TextView
+            android:id="@+id/forgot_psw"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:text="@string/forget_password"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toEndOf="@+id/edit_password"
+            app:layout_constraintTop_toBottomOf="@+id/edit_password" />
+
+        <androidx.appcompat.widget.AppCompatRadioButton
+            android:id="@+id/auto_login_rbt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="@string/auto_login"
+            android:layout_marginTop="@dimen/_5sdp"
+            app:layout_constraintStart_toStartOf="@+id/edit_password"
+            app:layout_constraintTop_toBottomOf="@+id/forgot_psw" />
+
+        <androidx.appcompat.widget.AppCompatRadioButton
+            android:id="@+id/save_id_rbt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_20sdp"
+            android:checked="true"
+            android:text="@string/save_id"
+            android:layout_marginTop="@dimen/_5sdp"
+            app:layout_constraintStart_toEndOf="@+id/auto_login_rbt"
+            app:layout_constraintTop_toBottomOf="@+id/forgot_psw" />
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/save_id_rbt"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginHorizontal="@dimen/_30sdp"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:text="@string/login"
+            android:textColor="@color/white"
+            />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/_30sdp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <TextView
+                android:id="@+id/donothaveid"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/DoNotHaveID" />
+
+            <TextView
+                android:id="@+id/goto_signup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:text="@string/gotoSignin"
+                android:textColor="@color/white"
+                />
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

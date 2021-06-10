@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar_terms"
+            android:layout_width="0dp"
+            android:layout_height="?attr/actionBarSize"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:layout_width="@dimen/_30sdp"
+                android:layout_height="@dimen/_30sdp"
+                android:src="@color/black" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_20sdp"
+                android:text="@string/signUp"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_15sdp"
+                android:textStyle="bold" />
+
+        </androidx.appcompat.widget.Toolbar>
+
+        <View
+            android:id="@+id/line_terms"
+            android:layout_width="0dp"
+            android:layout_height="0.8dp"
+            android:background="@color/black"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar_terms" />
+
+
+        <TextView
+            android:id="@+id/phone_txv"
+            style="@style/TextViewStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_15sdp"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:text="@string/phone"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/line_terms"
+
+            />
+
+            <EditText
+                android:id="@+id/edit_phone"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/_15sdp"
+                android:hint="@string/inputphone"
+                android:inputType="number"
+                android:textSize="@dimen/_10sdp"
+                app:layout_constraintBottom_toTopOf="@+id/edit_auth"
+                app:layout_constraintEnd_toStartOf="@+id/btn_request_auth"
+                app:layout_constraintStart_toStartOf="@+id/phone_txv"
+                app:layout_constraintTop_toBottomOf="@+id/phone_txv"
+                android:background="@drawable/bg_rounded_01"
+                android:padding="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:maxLength="11"
+                />
+
+        <Button
+            android:id="@+id/btn_request_auth"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:text="@string/AuthenticationRequest"
+            android:background="@drawable/bg_rounded_02"
+            app:layout_constraintBottom_toBottomOf="@id/edit_phone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/edit_phone"
+            app:layout_constraintTop_toTopOf="@id/edit_phone" />
+
+        <EditText
+            android:id="@+id/edit_auth"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:layout_marginEnd="@dimen/_15sdp"
+            android:hint="@string/inputAuth"
+            android:inputType="number"
+            android:background="@drawable/bg_rounded_01"
+            android:padding="@dimen/_10sdp"
+            android:textSize="@dimen/_10sdp"
+            app:layout_constraintEnd_toStartOf="@+id/btn_request_auth"
+            app:layout_constraintStart_toStartOf="@+id/phone_txv"
+            app:layout_constraintTop_toBottomOf="@+id/edit_phone" />
+
+        <Button
+            android:id="@+id/btn_auth_check"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:text="@string/check"
+            android:background="@drawable/bg_rounded_02"
+            app:layout_constraintBottom_toBottomOf="@id/edit_auth"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/btn_request_auth"
+            app:layout_constraintTop_toTopOf="@+id/edit_auth" />
+
+
+        <TextView
+            android:id="@+id/txv_password"
+            style="@style/TextViewStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:text="@string/password"
+            app:layout_constraintBottom_toTopOf="@+id/edit_password"
+            app:layout_constraintStart_toStartOf="@+id/phone_txv"
+            app:layout_constraintTop_toBottomOf="@+id/edit_auth" />
+
+        <EditText
+            android:id="@+id/edit_password"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/input_password"
+            android:background="@drawable/bg_rounded_01"
+            android:padding="@dimen/_10sdp"
+            android:textSize="@dimen/_10sdp"
+            app:layout_constraintBottom_toTopOf="@+id/txv_password_confirm"
+            app:layout_constraintEnd_toEndOf="@id/btn_request_auth"
+            app:layout_constraintStart_toStartOf="@id/edit_phone"
+            app:layout_constraintTop_toBottomOf="@+id/txv_password" />
+
+        <TextView
+            android:id="@+id/txv_password_confirm"
+            style="@style/TextViewStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:text="@string/password_confirm"
+            app:layout_constraintBottom_toTopOf="@+id/edit_password_confirm"
+            app:layout_constraintStart_toStartOf="@+id/phone_txv"
+            app:layout_constraintTop_toBottomOf="@+id/edit_password" />
+
+        <EditText
+            android:id="@+id/edit_password_confirm"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/input_password_confirm"
+            android:background="@drawable/bg_rounded_01"
+            android:padding="@dimen/_10sdp"
+            android:textSize="@dimen/_10sdp"
+            app:layout_constraintBottom_toTopOf="@+id/txv_name"
+            app:layout_constraintEnd_toEndOf="@id/btn_request_auth"
+            app:layout_constraintStart_toStartOf="@id/edit_phone"
+            app:layout_constraintTop_toBottomOf="@+id/txv_password_confirm" />
+
+        <TextView
+            android:id="@+id/txv_name"
+            style="@style/TextViewStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:text="@string/name"
+            app:layout_constraintBottom_toTopOf="@+id/edit_name"
+            app:layout_constraintStart_toStartOf="@+id/phone_txv"
+            app:layout_constraintTop_toBottomOf="@+id/edit_password_confirm" />
+
+        <EditText
+            android:id="@+id/edit_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/input_name"
+            android:background="@drawable/bg_rounded_01"
+            android:padding="@dimen/_10sdp"
+            android:textSize="@dimen/_10sdp"
+            app:layout_constraintBottom_toTopOf="@+id/txv_email"
+            app:layout_constraintEnd_toEndOf="@id/btn_request_auth"
+            app:layout_constraintStart_toStartOf="@id/edit_phone"
+            app:layout_constraintTop_toBottomOf="@+id/txv_name"
+
+            />
+
+
+        <TextView
+            android:id="@+id/txv_email"
+            style="@style/TextViewStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:text="@string/email"
+            app:layout_constraintBottom_toTopOf="@+id/edit_email"
+            app:layout_constraintStart_toStartOf="@+id/phone_txv"
+            app:layout_constraintTop_toBottomOf="@+id/edit_name" />
+
+        <EditText
+            android:id="@+id/edit_email"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/input_email"
+            android:background="@drawable/bg_rounded_01"
+            android:padding="@dimen/_10sdp"
+            android:textSize="@dimen/_10sdp"
+            app:layout_constraintBottom_toTopOf="@+id/txv_location"
+            app:layout_constraintEnd_toEndOf="@id/btn_request_auth"
+            app:layout_constraintStart_toStartOf="@id/edit_phone"
+            app:layout_constraintTop_toBottomOf="@+id/txv_email" />
+
+        <TextView
+            android:id="@+id/txv_location"
+            style="@style/TextViewStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:text="@string/location"
+            app:layout_constraintBottom_toTopOf="@+id/edit_location"
+            app:layout_constraintStart_toStartOf="@+id/phone_txv"
+            app:layout_constraintTop_toBottomOf="@+id/edit_email" />
+
+        <EditText
+            android:id="@+id/edit_location"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/busan"
+            android:background="@drawable/bg_rounded_01"
+            android:padding="@dimen/_10sdp"
+            android:textSize="@dimen/_10sdp"
+            android:layout_marginBottom="@dimen/_15sdp"
+            app:layout_constraintBottom_toTopOf="@+id/btn_signUp"
+            app:layout_constraintEnd_toEndOf="@id/btn_request_auth"
+            app:layout_constraintStart_toStartOf="@id/edit_phone"
+            app:layout_constraintTop_toBottomOf="@+id/txv_location"
+
+            />
+
+        <TextView
+            android:id="@+id/btn_signUp"
+            android:layout_width="0dp"
+            android:layout_height="?attr/actionBarSize"
+            android:text="@string/signUp"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:background="@color/midnight_blue"
+            android:gravity="center"
+            android:textSize="@dimen/_15sdp"
+            />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

@@ -1,0 +1,111 @@
+package com.sdin.tourstamprally.api;
+
+
+
+import com.sdin.tourstamprally.model.UserModel;
+
+import java.util.List;
+
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.GET;
+import retrofit2.http.POST;
+import retrofit2.http.Query;
+
+
+public interface APIService {
+
+
+    /* test
+    @GET("_appV1/IF103.php")
+    Call<IF103> getIF103(@Query("token") String token,
+                         @Query("page") int page);
+    */
+
+//    /*ID 중복확인*/
+//    @GET("confirm_id")
+//    Call<ResponseBody> duplicateCheckUserId(@Query("user_id") String user_id);
+//
+//    /*로그인*/
+//    @GET("login_insteacher")
+//    Call<ResponseBody> userLogin(@Query("vteacher_id") String vteacher_id,
+//                                 @Query("userpw") String userpw);
+//
+
+//
+//    /*로그인*/
+//    @GET("login_nurse")
+//    Call<ResponseBody> nurseLogin(@Query("nurse_id") String userid,
+//                                  @Query("userpw") String userpw);
+//
+//    /* 제공인력 정보 가져오기*/
+//    @GET("insteacher_user_info")
+//    Call<List<UserModel>> getUserInfo(@Query("vteacher_id") String vteacher_id);
+
+
+    /*로그인*/
+    @GET("login")
+    Call<ResponseBody> Login(@Query("id") String id,
+                             @Query("password") String password);
+
+    /*로그인*/
+    @GET("id_check")
+    Call<ResponseBody> id_check(@Query("id") String id
+    );
+
+
+    /*비번찾기 조회*/
+    @GET("search_pw")
+    Call<ResponseBody> SearchPw(@Query("id") String id,
+                                @Query("phone") String phone,
+                                @Query("name") String name);
+
+    /*회원정보조회*/
+    @GET("get_my_info")
+    Call<List<UserModel>> getUserInfo(@Query("id") String id);
+
+
+    /*측정기록 검색*/
+    @GET("get_history_info")
+    Call<List<UserModel>> get_history_info(@Query("id") String id);
+
+
+    //유저 회원가입
+    @FormUrlEncoded
+    @POST("joinus")
+    Call<ResponseBody> userSignUp(@Field("id") String id,
+                                  @Field("name") String name,
+                                  @Field("password") String password,
+                                  @Field("email") String email,
+                                  @Field("phone") String phone,
+                                  @Field("agree1") int agree1,
+                                  @Field("agree2") int agree2,
+                                  @Field("agree3") int agree3
+
+    );
+
+    //비밀번호 업데이트
+    @FormUrlEncoded
+    @POST("change_password")
+    Call<ResponseBody> change_password(@Field("id") String id,
+                                       @Field("name") String name,
+                                       @Field("password") String password,
+                                       @Field("phone") String phone
+
+    );
+
+    //색 측정값 넣기
+    @FormUrlEncoded
+    @POST("insert_history")
+    Call<ResponseBody> historyInsert(@Field("adminidx") int adminidx,
+                                     @Field("useridx") int useridx,
+                                     @Field("adminid") String adminid,
+                                     @Field("userid") String userid,
+                                     @Field("colorcode") String colorcode
+
+    );
+
+
+}
