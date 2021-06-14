@@ -90,6 +90,7 @@
             android:background="@drawable/bg_rounded_02"
             android:onClick="@{ () -> activity.authResponse() }"
             android:text="@string/AuthenticationRequest"
+            android:textColor="@color/mainColor"
             app:layout_constraintBottom_toBottomOf="@id/edit_phone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/edit_phone"
@@ -119,6 +120,7 @@
             android:background="@drawable/bg_rounded_02"
             android:onClick="@{ () -> activity.authCheck() }"
             android:text="@string/check"
+            android:textColor="@color/mainColor"
             app:layout_constraintBottom_toBottomOf="@id/edit_auth"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/btn_request_auth"
@@ -245,7 +247,7 @@
         <androidx.appcompat.widget.AppCompatSpinner
             android:id="@+id/spinner_location"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/_30sdp"
             android:layout_marginBottom="@dimen/_15sdp"
             android:background="@drawable/bg_rounded_01"
             android:spinnerMode="dialog"
@@ -255,17 +257,17 @@
             app:layout_constraintEnd_toEndOf="@id/btn_request_auth"
             app:layout_constraintStart_toStartOf="@id/edit_phone"
             app:layout_constraintTop_toBottomOf="@+id/txv_location"
-
             />
 
         <TextView
             android:id="@+id/btn_signUp"
             android:layout_width="0dp"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/midnight_blue"
+            android:background="@color/mainColor"
             android:gravity="center"
             android:onClick="@{ () -> activity.signUp() }"
             android:text="@string/signUp"
+            android:textSize="@dimen/_12sdp"
             android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

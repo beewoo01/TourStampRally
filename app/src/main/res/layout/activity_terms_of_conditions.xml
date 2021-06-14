@@ -90,6 +90,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_5sdp"
             android:text="@string/agree_service_term"
+            android:button="@drawable/custom_checkbox"
+            android:padding="@dimen/_5sdp"
             app:layout_constraintStart_toStartOf="@+id/service_term_txv"
             app:layout_constraintTop_toBottomOf="@+id/service_terms_scv" />
 
@@ -129,6 +131,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_5sdp"
             android:text="@string/agree_personal_term"
+            android:button="@drawable/custom_checkbox"
+            android:padding="@dimen/_5sdp"
             app:layout_constraintStart_toStartOf="@+id/personal_terms_scv"
             app:layout_constraintTop_toBottomOf="@+id/personal_terms_scv" />
 
@@ -144,9 +148,12 @@
             app:layout_constraintStart_toStartOf="@+id/personal_terms_scv"
             app:layout_constraintTop_toBottomOf="@+id/personal_terms_rdb">
 
-            <androidx.appcompat.widget.AppCompatCheckBox
+            <CheckBox
+                android:id="@+id/all_agree_checkbox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:button="@drawable/custom_checkbox"
+                android:padding="@dimen/_5sdp"
                 android:text="@string/all_agree" />
 
         </LinearLayout>
@@ -156,9 +163,10 @@
             android:id="@+id/btn_next_to_signup"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/midnight_blue"
+            android:background="@color/mainColor"
             android:gravity="center"
             android:text="@string/next"
+            android:textSize="@dimen/_12sdp"
             android:textColor="@color/white"
             android:onClick="@{()-> activity.nextBtnClick()}"
             app:layout_constraintBottom_toBottomOf="parent"

@@ -4,7 +4,7 @@
     <color name="colorPrimaryDark">@color/mainColor</color>
     <color name="colorAccent">@color/mainColor</color>
 
-    <color name="mainColor">#2F2F2F</color>
+    <color name="mainColor">#005CAA</color>
     <color name="background">#F4F3F4</color>
     <color name="boldColor">#CC000000</color>
     <color name="boldColorInvert">#C07678</color>
@@ -19,6 +19,7 @@
     <color name="typeSelectOffBgColor">#E5E5E5</color>
     <color name="typeSelectOffTextColor">#616766</color>
 
+    <color name="loginBackgroundColor">#E5F6FF</color>
 
 
     <style name="progressbar_color">
