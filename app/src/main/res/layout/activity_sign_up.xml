@@ -28,7 +28,8 @@
                 android:layout_height="@dimen/_30sdp"
                 android:contentDescription="@string/back"
                 android:onClick="@{ () -> activity.moveBack()}"
-                android:src="@color/black" />
+                android:background="@null"
+                android:src="@drawable/back_ic_resize" />
 
             <TextView
                 android:layout_width="wrap_content"

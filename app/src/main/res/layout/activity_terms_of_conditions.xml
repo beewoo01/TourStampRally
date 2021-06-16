@@ -26,8 +26,9 @@
                 android:id="@+id/back_imb"
                 android:layout_width="@dimen/_30sdp"
                 android:layout_height="@dimen/_30sdp"
-                android:src="@color/black"
+                android:src="@drawable/back_ic_resize"
                 android:onClick="@{ () -> activity.moveBack()}"
+                android:background="@null"
                 />
 
             <TextView

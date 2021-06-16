@@ -22,6 +22,7 @@ public class UserInfo {
     public String name;
     public String email;
     public String phone;
+    public String agency;
     public boolean agree1;
     public boolean agree2;
     public boolean agree3;
