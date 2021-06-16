@@ -95,10 +95,10 @@
                 <LinearLayout
                     android:id="@+id/main_stemp_layout"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_330sdp"
+                    android:layout_height="@dimen/_320sdp"
                     android:background="@drawable/bg_rounded_05"
                     android:orientation="vertical"
-                    android:padding="@dimen/_20sdp"
+                    android:padding="@dimen/_10sdp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
@@ -147,9 +147,9 @@
                     <com.google.android.material.circularreveal.CircularRevealGridLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:background="@drawable/bg_rounded_02"
+                        android:background="@drawable/bg_rounded_08"
                         android:orientation="vertical"
-                        android:paddingVertical="@dimen/_15sdp"
+                        android:paddingVertical="@dimen/_10sdp"
                         android:paddingHorizontal="@dimen/_20sdp"
                         >
 
