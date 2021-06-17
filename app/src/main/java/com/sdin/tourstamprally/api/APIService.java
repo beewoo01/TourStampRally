@@ -55,6 +55,11 @@ public interface APIService {
     Call<ResponseBody> id_check(@Query("id") String id
     );
 
+    /*로그인*/
+    @GET("bsr_login_Exists")
+    Call<String> userLogin(@Query("user_phone") String user_phone,
+                                 @Query("user_password") String user_password);
+
 
     /*비번찾기 조회*/
     @GET("search_pw")
@@ -73,17 +78,15 @@ public interface APIService {
 
 
     //유저 회원가입
-    @FormUrlEncoded
-    @POST("joinus")
-    Call<ResponseBody> userSignUp(@Field("id") String id,
-                                  @Field("name") String name,
-                                  @Field("password") String password,
-                                  @Field("email") String email,
-                                  @Field("phone") String phone,
-                                  @Field("agree1") int agree1,
-                                  @Field("agree2") int agree2,
-                                  @Field("agree3") int agree3
-
+    //@FormUrlEncoded
+    @GET("bsr_join")
+    Call<String> userSignUp(@Query("user_phone") String phone,
+                                  @Query("user_password") String password,
+                                  @Query("user_name") String name,
+                                  @Query("user_email") String email,
+                                  @Query("user_location") String location,
+                                  @Query("agree1") int agree1,
+                                  @Query("agree2") int agree2
     );
 
     //비밀번호 업데이트

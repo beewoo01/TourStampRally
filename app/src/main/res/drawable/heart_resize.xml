@@ -3,8 +3,8 @@
 
     <item
         android:drawable="@drawable/full_heart"
-        android:width="@dimen/_12sdp"
-        android:height="@dimen/_10sdp"
+        android:width="@dimen/_15sdp"
+        android:height="@dimen/_12sdp"
         />
 
 </layer-list>

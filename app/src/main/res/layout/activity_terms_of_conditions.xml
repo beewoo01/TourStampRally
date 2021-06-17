@@ -71,7 +71,7 @@
             android:layout_height="@dimen/_130sdp"
             android:layout_marginTop="@dimen/_5sdp"
             android:layout_marginEnd="@dimen/_20sdp"
-            android:background="@drawable/bg_rounded_02"
+            android:background="@drawable/bg_rounded_09"
             app:layout_constraintBottom_toTopOf="@+id/service_term_rdb"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@id/service_term_txv"
@@ -79,9 +79,10 @@
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:textColor="@color/black"
-                android:textSize="@dimen/_8sdp" />
+                android:text=""
+                android:textSize="@dimen/_12sdp" />
 
         </ScrollView>
 
@@ -93,6 +94,7 @@
             android:text="@string/agree_service_term"
             android:button="@drawable/custom_checkbox"
             android:padding="@dimen/_5sdp"
+            android:onClick="@{ () -> activity.chackBoxClick()}"
             app:layout_constraintStart_toStartOf="@+id/service_term_txv"
             app:layout_constraintTop_toBottomOf="@+id/service_terms_scv" />
 
@@ -113,16 +115,17 @@
             android:layout_width="0dp"
             android:layout_height="@dimen/_130sdp"
             android:layout_marginTop="@dimen/_5sdp"
-            android:background="@drawable/bg_rounded_02"
+            android:background="@drawable/bg_rounded_09"
+            android:onClick="@{ () -> activity.chackBoxClick()}"
             app:layout_constraintEnd_toEndOf="@+id/service_terms_scv"
             app:layout_constraintStart_toStartOf="@+id/personal_info_txv"
             app:layout_constraintTop_toBottomOf="@+id/personal_info_txv">
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:textColor="@color/black"
-                android:textSize="@dimen/_8sdp" />
+                android:textSize="@dimen/_12sdp" />
 
         </ScrollView>
 
@@ -134,6 +137,7 @@
             android:text="@string/agree_personal_term"
             android:button="@drawable/custom_checkbox"
             android:padding="@dimen/_5sdp"
+            android:onClick="@{ () -> activity.chackBoxClick()}"
             app:layout_constraintStart_toStartOf="@+id/personal_terms_scv"
             app:layout_constraintTop_toBottomOf="@+id/personal_terms_scv" />
 
@@ -143,20 +147,23 @@
             android:layout_height="@dimen/_35sdp"
             android:background="@drawable/bg_rounded_02"
             android:gravity="center"
-            android:onClick="@{()-> activity.allagree()} "
+            android:onClick="@{ activity::allagree }"
             app:layout_constraintBottom_toTopOf="@+id/btn_next_to_signup"
             app:layout_constraintEnd_toEndOf="@+id/personal_terms_scv"
             app:layout_constraintStart_toStartOf="@+id/personal_terms_scv"
             app:layout_constraintTop_toBottomOf="@+id/personal_terms_rdb">
 
-            <CheckBox
+
+            <androidx.appcompat.widget.AppCompatCheckBox
                 android:id="@+id/all_agree_checkbox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:button="@drawable/custom_checkbox"
+                android:textColor="@color/black"
+                android:onClick="@{ activity::allagree }"
                 android:padding="@dimen/_5sdp"
                 android:text="@string/all_agree" />
-
+-->
         </LinearLayout>
 
 

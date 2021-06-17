@@ -89,14 +89,14 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <LinearLayout
+    <!--<LinearLayout
         android:layout_width="@dimen/_2sdp"
         android:layout_height="@dimen/_100sdp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:background="@color/blue"
         android:layout_marginStart="@dimen/_23sdp"
-        />
+        />-->
 
 
 

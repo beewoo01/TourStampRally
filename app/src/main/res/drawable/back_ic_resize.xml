@@ -3,8 +3,8 @@
 
     <item
         android:drawable="@drawable/back_icon"
-        android:width="@dimen/_25sdp"
-        android:height="@dimen/_20sdp"
+        android:width="@dimen/_15sdp"
+        android:height="@dimen/_10sdp"
         />
 
 </layer-list>

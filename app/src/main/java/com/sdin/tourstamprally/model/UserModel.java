@@ -15,9 +15,9 @@ public class UserModel implements Serializable {
     @Expose
     public Integer accountIdx;
 
-    @SerializedName("id")
+    @SerializedName("phone")
     @Expose
-    public String id;
+    public String phone;
 
     @SerializedName("name")
     @Expose
@@ -31,9 +31,9 @@ public class UserModel implements Serializable {
     @Expose
     public String email;
 
-    @SerializedName("phone")
+    @SerializedName("location")
     @Expose
-    public String phone;
+    public String location;
 
     @SerializedName("agree1")
     @Expose
@@ -42,10 +42,6 @@ public class UserModel implements Serializable {
     @SerializedName("agree2")
     @Expose
     public boolean agree2;
-
-    @SerializedName("agree3")
-    @Expose
-    public boolean agree3;
 
 
     @SerializedName("historyidx")

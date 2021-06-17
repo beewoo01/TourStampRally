@@ -21,16 +21,16 @@
 
         <ImageView
             android:id="@+id/news_imv"
-            android:layout_width="@dimen/_20sdp"
-            android:layout_height="@dimen/_20sdp"
+            android:layout_width="@dimen/_23sdp"
+            android:layout_height="@dimen/_23sdp"
             android:src="@drawable/hot_icon"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             />
 
         <ImageButton
-            android:layout_width="@dimen/_12sdp"
-            android:layout_height="@dimen/_10sdp"
+            android:layout_width="@dimen/_15sdp"
+            android:layout_height="@dimen/_12sdp"
             android:src="@drawable/heart_resize"
             android:background="@null"
             app:layout_constraintEnd_toEndOf="parent"
@@ -44,7 +44,7 @@
             android:text="해운대구"
             android:textColor="@color/white"
             android:textStyle="bold"
-            android:textSize="@dimen/_13sdp"
+            android:textSize="@dimen/_16sdp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toTopOf="@id/hashtag_txv"
             />
@@ -55,7 +55,7 @@
             android:layout_height="wrap_content"
             android:text="#해운대구 #돼지국밥 #혜리단길"
             android:textColor="@color/white"
-            android:textSize="@dimen/_5sdp"
+            android:textSize="@dimen/_7sdp"
             android:textStyle="bold"
             android:layout_marginBottom="@dimen/_3sdp"
             app:layout_constraintStart_toStartOf="parent"
@@ -81,7 +81,7 @@
             android:text="100%"
             android:textColor="@color/popupColor"
             android:textStyle="bold"
-            android:textSize="@dimen/_7sdp"
+            android:textSize="@dimen/_8sdp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/seekbar"
             app:layout_constraintEnd_toEndOf="parent"

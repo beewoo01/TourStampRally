@@ -7,7 +7,8 @@ import android.util.Log;
 public class Constant {
 
     /*FirstCare Server URL*/
-    public static final String SERVER_URL = "http://raon-soft.com/palette/";
+    //public static final String SERVER_URL = "http://raon-soft.com/palette/";
+    public static final String SERVER_URL = "http://192.168.1.8:8080/project/";
     //  http://raon-soft.com/firstcare_mobile/
     //  http://112.173.80.179:8080/firstcare_mobile/
     //  http://192.168.1.9:8080/firstcare_mobile/

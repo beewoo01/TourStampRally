@@ -95,7 +95,7 @@
                 <LinearLayout
                     android:id="@+id/main_stemp_layout"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_320sdp"
+                    android:layout_height="@dimen/_330sdp"
                     android:background="@drawable/bg_rounded_05"
                     android:orientation="vertical"
                     android:padding="@dimen/_10sdp"
@@ -107,14 +107,15 @@
                         android:id="@+id/main_top_layout"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/_20sdp"
+                        android:layout_marginBottom="@dimen/_10sdp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent">
 
                         <ImageView
                             android:id="@+id/location_imv"
-                            android:layout_width="@dimen/_10sdp"
-                            android:layout_height="@dimen/_10sdp"
+                            android:layout_width="@dimen/_13sdp"
+                            android:layout_height="@dimen/_13sdp"
                             android:src="@drawable/location"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
@@ -124,6 +125,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/_5sdp"
+                            android:textSize="@dimen/_13sdp"
                             android:text="@string/stemp_rally_location"
                             android:textColor="@color/mainColor"
                             app:layout_constraintBottom_toBottomOf="parent"
@@ -136,7 +138,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/more_btn"
-                            android:textSize="@dimen/_8sdp"
+                            android:textSize="@dimen/_10sdp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
@@ -249,6 +251,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/_5sdp"
                             android:text="@string/coupon_exchange"
+                            android:textSize="@dimen/_13sdp"
                             android:textColor="@color/mainColor"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toEndOf="@id/coupon_imv"
@@ -260,7 +263,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/more_btn"
-                            android:textSize="@dimen/_8sdp"
+                            android:textSize="@dimen/_10sdp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
