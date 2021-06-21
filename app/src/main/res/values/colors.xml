@@ -37,6 +37,8 @@
     <color name="trans">#00FFFFFF</color>
     <color name="black_80">#CC000000</color>
 
+    <color name="drawalayout_text_color">#8DC5F5</color>
+
 
     <color name="white">#FFFFFF</color>
     <color name="ivory">#FFFFF0</color>
