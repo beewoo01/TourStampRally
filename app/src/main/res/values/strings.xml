@@ -45,7 +45,6 @@
     <string name="seoul">서울특별시</string>
 
 
-
     <string name="stemp_rally_location">스탬프 랠리 구역</string>
     <string name="coupon_exchange">쿠폰 교환</string>
 
@@ -63,5 +62,7 @@
     <string name="notify_setting">알림설정</string>
     <string name="bascet_list">찜한목록</string>
     <string name="logout">로그아웃</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>
