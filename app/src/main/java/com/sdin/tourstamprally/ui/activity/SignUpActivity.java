@@ -42,7 +42,8 @@ public class SignUpActivity extends BaseActivity {
 
     }
 
-    private void initView(){
+    @Override
+    protected void initView() {
         String[] arr = getResources().getStringArray(R.array.location);
         SpinnerAdapter spinnerAdapter = new SpinnerAdapter(new ArrayList(Arrays.asList(arr)));
         //ArrayAdapter adapter = ArrayAdapter.createFromResource(this, R.array.location, android.R.layout.simple_spinner_item);
@@ -50,50 +51,50 @@ public class SignUpActivity extends BaseActivity {
         binding.spinnerLocation.setAdapter(spinnerAdapter);
     }
 
-    public void authResponse(){
+    public void authResponse() {
         // TODO: 6/10/21 전화번호 인증
     }
 
-    public void authCheck(){
+    public void authCheck() {
         // TODO: 6/10/21 인증확인
     }
 
-    public void moveBack(){
+    public void moveBack() {
         finish();
     }
 
 
-    public void signUp(){
+    public void signUp() {
 
         // TODO: 6/10/21 전화번호 인증ㄱㄱ
 
-        if (TextUtils.isEmpty(binding.editPassword.getText())){
+        if (TextUtils.isEmpty(binding.editPassword.getText())) {
 
             // TODO: 6/10/21 패스워드 체크
             Toast.makeText(this, "비밀번호를 입력해주세요", Toast.LENGTH_SHORT).show();
 
-        }else if (TextUtils.isEmpty(binding.editPasswordConfirm.getText())
-                && binding.editPassword.getText().equals(binding.editPasswordConfirm.getText())){
+        } else if (TextUtils.isEmpty(binding.editPasswordConfirm.getText())
+                && binding.editPassword.getText().equals(binding.editPasswordConfirm.getText())) {
 
             // TODO: 6/10/21 패스워드 확인 체크
             Toast.makeText(this, "비밀번호가 일치하지 않습니다.", Toast.LENGTH_SHORT).show();
 
-        }else if (TextUtils.isEmpty(binding.editName.getText())){
+        } else if (TextUtils.isEmpty(binding.editName.getText())) {
 
             // TODO: 6/10/21 이름 체크
             Toast.makeText(this, "이름을 입력해 주세요.", Toast.LENGTH_SHORT).show();
 
-        }else if (TextUtils.isEmpty(binding.editEmail.getText())){
+        } else if (TextUtils.isEmpty(binding.editEmail.getText())) {
 
             // TODO: 6/10/21 이메일 체크
             Toast.makeText(this, "이메일을 입력해 주세요.", Toast.LENGTH_SHORT).show();
 
-        }else {
+        } else {
             join();
         }
     }
 
-    private void join(){
+    private void join() {
         UserModel userModel = new UserModel();
         userModel.setPhone(binding.editPhone.getText().toString());
         userModel.setPassword(binding.editPassword.getText().toString());
@@ -104,16 +105,16 @@ public class SignUpActivity extends BaseActivity {
         RetrofitGenerator retrofitGenerator = new RetrofitGenerator();
         APIService apiService = retrofitGenerator.getApiService();
         apiService.userSignUp(userModel.getPhone(), userModel.getPassword(), userModel.getName()
-                ,userModel.getEmail(), userModel.getLocation(), 1, 1).enqueue(new Callback<String>() {
+                , userModel.getEmail(), userModel.getLocation(), 1, 1).enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
                 String result1 = String.valueOf(response.body());
                 Log.d("result11111 login", result1);
                 String result = response.body().toString();
                 Log.d("result login!!!!", result);
-                if (response.equals("1")){
+                if (response.equals("1")) {
                     Toast.makeText(SignUpActivity.this, "회원가입 성공!!!!" + result, Toast.LENGTH_SHORT).show();
-                }else {
+                } else {
                     Toast.makeText(SignUpActivity.this, "회원가입 실패!!!!" + result, Toast.LENGTH_SHORT).show();
                 }
             }
@@ -127,7 +128,7 @@ public class SignUpActivity extends BaseActivity {
     }
 
 
-    class SpinnerAdapter extends BaseAdapter{
+    class SpinnerAdapter extends BaseAdapter {
 
         private ArrayList<String> data;
 
@@ -153,25 +154,25 @@ public class SignUpActivity extends BaseActivity {
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            if (convertView == null){
+            if (convertView == null) {
                 convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.spinner_title_item, parent, false);
             }
 
-            if (data != null){
+            if (data != null) {
                 String text = data.get(position);
-                ((TextView)convertView.findViewById(R.id.spinnerTitleText)).setText(text);
+                ((TextView) convertView.findViewById(R.id.spinnerTitleText)).setText(text);
             }
             return convertView;
         }
 
         @Override
         public View getDropDownView(int position, View convertView, ViewGroup parent) {
-            if (convertView == null){
+            if (convertView == null) {
                 convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.spinner_item, parent, false);
             }
 
             String text = data.get(position);
-            ((TextView)convertView.findViewById(R.id.spinnerText)).setText(text);
+            ((TextView) convertView.findViewById(R.id.spinnerText)).setText(text);
             DisplayMetrics dm = getResources().getDisplayMetrics();
             int size = Math.round(20 * dm.density);
             TextView textView = convertView.findViewById(R.id.spinnerText);

@@ -1,26 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
+        android:id="@+id/account_admin"
         android:title="@string/account_admin"
         android:icon="@drawable/setting_icon"
         />
 
     <item
+        android:id="@+id/notice"
         android:title="@string/notice"
         android:icon="@drawable/notice_icon"
         />
 
     <item
+        android:id="@+id/coupon_list"
         android:title="@string/coupon_list"
         android:icon="@drawable/coupon_status_icon"
         />
 
     <item
+        android:id="@+id/notify_setting"
         android:title="@string/notify_setting"
         android:icon="@drawable/alarm_settings_icon"
         />
 
     <item
+        android:id="@+id/bascet_list"
         android:title="@string/bascet_list"
         android:icon="@drawable/steamed_list_icon"
         />

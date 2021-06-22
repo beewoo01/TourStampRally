@@ -2,9 +2,9 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:drawable="@drawable/logout_icon"
-        android:width="@dimen/_15sdp"
-        android:height="@dimen/_15sdp"
+        android:drawable="@drawable/ic_hamburger_menu"
+        android:width="@dimen/_40sdp"
+        android:height="@dimen/_40sdp"
         />
 
 </layer-list>

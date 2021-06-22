@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -60,6 +61,15 @@ public class BaseActivity extends AppCompatActivity {
     public void finish() {
         super.finish();
         overridePendingTransition(R.anim.activity_fade_in, R.anim.activity_fade_out);
+    }
+
+    protected void initView(){
+
+    }
+
+
+    public void showToast(String msg){
+        Toast.makeText(mContext, msg, Toast.LENGTH_SHORT).show();
     }
 
     /*회원 로그아웃 처리*/

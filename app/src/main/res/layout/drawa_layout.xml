@@ -1,101 +1,131 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+<layout>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="0dp"
-        android:layout_height="300dp"
-        android:background="@drawable/drawalayout_drarient"
-        android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+    <data>
+        <variable
+            name="activity"
+            type="com.sdin.tourstamprally.ui.activity.MainActivity" />
+    </data>
 
-        <ImageView
-            android:id="@+id/profile_icon"
-            android:layout_width="@dimen/_100sdp"
-            android:layout_height="@dimen/_100sdp"
-            android:src="@drawable/profile_image"
-            app:layout_constraintBottom_toTopOf="@id/user_name_layout"
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/headerLayout"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_250sdp"
+            android:background="@drawable/drawalayout_drarient"
+            android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent">
 
-        <LinearLayout
-            android:id="@+id/user_name_layout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/hello_txv"
-            >
+            <ImageView
+                android:id="@+id/profile_icon"
+                android:layout_width="@dimen/_90sdp"
+                android:layout_height="@dimen/_90sdp"
+                android:layout_marginTop="@dimen/_25sdp"
+                android:src="@drawable/profile_image"
+                app:layout_constraintBottom_toTopOf="@id/user_name_layout"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/user_name_txv"
+            <LinearLayout
+                android:id="@+id/user_name_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="홍길동"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toTopOf="@id/logout_txv"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/profile_icon"
+                app:layout_constraintVertical_chainStyle="spread_inside">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/user_name_txv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:text="홍길동"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/_20sdp"
+                        app:layout_constraintBottom_toTopOf="@id/hello_txv"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent" />
+
+                    <TextView
+                        android:id="@+id/nim"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom"
+                        android:text="님"
+                        android:textColor="@color/drawalayout_text_color"
+                        android:textSize="@dimen/_15sdp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/user_name_txv"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/user_name_txv"
+
+                        />
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/hello_txv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/_10sdp"
+                    android:text="안녕하세요!"
+                    android:textColor="@color/drawalayout_text_color"
+                    android:textSize="@dimen/_15sdp"
+                    app:layout_constraintBottom_toTopOf="@id/logout_txv"
+                    app:layout_constraintEnd_toEndOf="@id/logout_txv"
+                    app:layout_constraintStart_toStartOf="@id/logout_txv" />
+            </LinearLayout>
+
+
+            <TextView
+                android:id="@+id/logout_txv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/_10sdp"
+                android:drawableStart="@drawable/logout_icon_resize"
+                android:drawablePadding="@dimen/_7sdp"
+                android:gravity="center_vertical"
+                android:text="@string/logout"
                 android:textColor="@color/white"
-                android:textSize="@dimen/_25sdp"
-                android:layout_gravity="center_vertical"
-                app:layout_constraintStart_toStartOf="parent"
+                android:textSize="@dimen/_13sdp"
+                android:onClick="@{ ()-> activity.logout()}"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toTopOf="@id/hello_txv"
-                />
-
-            <TextView
-                android:id="@+id/nim"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="님"
-                android:layout_gravity="bottom"
-                android:textSize="@dimen/_20sdp"
-                android:textColor="@color/drawalayout_text_color"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintStart_toEndOf="@id/user_name_txv"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@id/user_name_txv"
-
-                />
+                app:layout_constraintStart_toStartOf="parent" />
 
 
-        </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-
-
-        <TextView
-            android:id="@+id/hello_txv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="안녕하세요!"
-            android:textColor="@color/drawalayout_text_color"
-            android:textSize="@dimen/_20sdp"
-            app:layout_constraintStart_toStartOf="@id/logout_txv"
-            app:layout_constraintEnd_toEndOf="@id/logout_txv"
-            app:layout_constraintBottom_toTopOf="@id/logout_txv"
-            android:layout_marginBottom="@dimen/_10sdp"
-            />
-
-        <TextView
-            android:id="@+id/logout_txv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/logout"
-            android:textColor="@color/white"
-            android:drawableStart="@drawable/logout_icon_resize"
-            android:textSize="@dimen/_16sdp"
-            android:gravity="center_vertical"
-            android:drawablePadding="@dimen/_7sdp"
-            android:layout_marginBottom="@dimen/_10sdp"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/drawa_recyclerview"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/headerLayout"
+            tools:itemCount="5"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:orientation="vertical"
+            tools:listitem="@layout/drawa_menu" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
