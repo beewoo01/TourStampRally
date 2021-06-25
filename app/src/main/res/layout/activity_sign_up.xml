@@ -88,7 +88,7 @@
                     android:background="@drawable/bg_rounded_01"
                     android:hint="@string/inputphone"
                     android:importantForAutofill="no"
-                    android:inputType="phone"
+                    android:inputType="date"
                     android:maxLength="11"
                     android:padding="@dimen/_10sdp"
                     android:textSize="@dimen/_10sdp"

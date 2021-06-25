@@ -111,4 +111,11 @@ public interface APIService {
     );
 
 
+    @GET("gabia_token")
+    Call<String> getToken();
+
+    @FormUrlEncoded
+    @POST("phonenum_authorization")
+    Call<String> getAutoNumber( @Field("user_phone") String phone, @Field("access_token") String token);
+
 }

@@ -16,8 +16,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.sdin.tourstamprally.R;
-import com.sdin.tourstamprally.RetrofitGenerator;
-import com.sdin.tourstamprally.api.APIService;
 import com.sdin.tourstamprally.databinding.ActivitySignUpBinding;
 import com.sdin.tourstamprally.model.UserModel;
 
@@ -32,6 +30,8 @@ import retrofit2.Response;
 public class SignUpActivity extends BaseActivity {
 
     private ActivitySignUpBinding binding;
+    private boolean isAuth = false;
+    private String auth = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,11 +52,66 @@ public class SignUpActivity extends BaseActivity {
     }
 
     public void authResponse() {
+
+        if (TextUtils.isEmpty(binding.editPhone.getText().toString())){
+            showToast("휴대폰번호를 입력해 주세요");
+            return;
+        }
+
+        apiService.getToken().enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                if (response.isSuccessful()){
+                    String Token = response.body();
+                    Log.d("Token3", Token);
+                    sendMsg(Token);
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
         // TODO: 6/10/21 전화번호 인증
     }
 
+    private void sendMsg(String Token){
+        Log.wtf("phone", binding.editPhone.getText().toString());
+        Log.wtf("Token", Token);
+        apiService.getAutoNumber(binding.editPhone.getText().toString(), Token).enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                if (response.isSuccessful()){
+                    auth = response.body();
+                    Log.d("Auth", auth);
+                }else {
+
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
+    }
+
     public void authCheck() {
-        // TODO: 6/10/21 인증확인
+        if (!TextUtils.isEmpty(binding.editAuth.getText().toString())){
+            if (binding.editAuth.getText().toString().equals(auth)){
+                isAuth = true;
+                showToast("휴대폰번호 인증에 성공하셨습니다.");
+                Log.d("Auth?", auth);
+                Log.d("Auth?", binding.editAuth.getText().toString());
+            }else {
+                showToast("인증번호를 정확히 입력해 주세요");
+            }
+        }else {
+            showToast("인증번호를 정확히 입력해 주세요");
+        }
     }
 
     public void moveBack() {
@@ -67,6 +122,11 @@ public class SignUpActivity extends BaseActivity {
     public void signUp() {
 
         // TODO: 6/10/21 전화번호 인증ㄱㄱ
+        if (!isAuth){
+            showToast("전화번호를 인증해 주세요");
+            return;
+        }
+        Log.d("SignUpActivity", "여기오면 안되는데?");
 
         if (TextUtils.isEmpty(binding.editPassword.getText())) {
 
@@ -102,8 +162,7 @@ public class SignUpActivity extends BaseActivity {
         userModel.setEmail(binding.editEmail.getText().toString());
         userModel.setLocation(binding.spinnerLocation.getSelectedItem().toString());
 
-        RetrofitGenerator retrofitGenerator = new RetrofitGenerator();
-        APIService apiService = retrofitGenerator.getApiService();
+
         apiService.userSignUp(userModel.getPhone(), userModel.getPassword(), userModel.getName()
                 , userModel.getEmail(), userModel.getLocation(), 1, 1).enqueue(new Callback<String>() {
             @Override
