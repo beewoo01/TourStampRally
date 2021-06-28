@@ -18,6 +18,7 @@ import com.sdin.tourstamprally.R;
 import com.sdin.tourstamprally.databinding.ActivityMainBinding;
 import com.sdin.tourstamprally.databinding.DrawaMenuBinding;
 import com.sdin.tourstamprally.ui.fragment.MainFragment;
+import com.sdin.tourstamprally.ui.fragment.NFCFragment;
 import com.sdin.tourstamprally.utill.ItemOnClick;
 
 
@@ -61,7 +62,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
             }
         });
         binding.bottomNavigationView.setOnNavigationItemSelectedListener(this);
-        getSupportFragmentManager().beginTransaction().replace(binding.framelayout.getId(), new MainFragment()).commit();
+        getSupportFragmentManager().beginTransaction().replace(binding.framelayout.getId(), new MainFragment().newInstance("","")).commit();
     }
 
     public void openDrawa(){
@@ -79,19 +80,19 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         switch (item.getItemId()){
             case R.id.page_home :
-                transaction.replace(binding.framelayout.getId(), new MainFragment()).commit();
+                transaction.replace(binding.framelayout.getId(), new MainFragment().newInstance("","")).commit();
                 break;
 
             case R.id.page_store :
-                transaction.replace(binding.framelayout.getId(), new MainFragment()).commit();
+                transaction.replace(binding.framelayout.getId(), new NFCFragment().newInstance("","")).commit();
                 break;
 
             case R.id.page_report :
-                transaction.replace(binding.framelayout.getId(), new MainFragment()).commit();
+                transaction.replace(binding.framelayout.getId(), new MainFragment().newInstance("","")).commit();
                 break;
 
             case R.id.page_navi :
-                transaction.replace(binding.framelayout.getId(), new MainFragment()).commit();
+                transaction.replace(binding.framelayout.getId(), new MainFragment().newInstance("","")).commit();
                 break;
 
         }

@@ -1,92 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:background="@drawable/bg_rounded_03"
-    android:layout_marginBottom="@dimen/_10sdp"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="@dimen/_120sdp"
-        android:layout_height="@dimen/_120sdp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:background="@drawable/haeundaegu"
-        android:paddingTop="@dimen/_3sdp"
-        android:paddingHorizontal="@dimen/_10sdp"
-        android:paddingBottom="@dimen/_12sdp"
-        >
+<layout>
 
-        <ImageView
-            android:id="@+id/news_imv"
-            android:layout_width="@dimen/_23sdp"
-            android:layout_height="@dimen/_23sdp"
-            android:src="@drawable/hot_icon"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            />
 
-        <ImageButton
-            android:layout_width="@dimen/_15sdp"
-            android:layout_height="@dimen/_12sdp"
-            android:src="@drawable/heart_resize"
-            android:background="@null"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/news_imv"
-            app:layout_constraintBottom_toBottomOf="@id/news_imv"
-            />
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/step_rally_bg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/_10sdp"
+        android:background="@drawable/bg_rounded_03">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="해운대구"
-            android:textColor="@color/white"
-            android:textStyle="bold"
-            android:textSize="@dimen/_16sdp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/hashtag_txv"
-            />
-
-        <TextView
-            android:id="@+id/hashtag_txv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="#해운대구 #돼지국밥 #혜리단길"
-            android:textColor="@color/white"
-            android:textSize="@dimen/_7sdp"
-            android:textStyle="bold"
-            android:layout_marginBottom="@dimen/_3sdp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/seekbar"
-            />
-
-        <androidx.appcompat.widget.AppCompatSeekBar
-            android:id="@+id/seekbar"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/_5sdp"
-            android:max="100"
-            android:layout_marginEnd="@dimen/_5sdp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/seekTxv"
-            app:layout_constraintBottom_toBottomOf="@id/seekTxv"
-            app:layout_constraintTop_toTopOf="@id/seekTxv"
-            />
-
-        <TextView
-            android:id="@+id/seekTxv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="100%"
-            android:textColor="@color/popupColor"
-            android:textStyle="bold"
-            android:textSize="@dimen/_8sdp"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="@dimen/_120sdp"
+            android:layout_height="@dimen/_120sdp"
+            android:background="@drawable/haeundaegu"
+            android:paddingHorizontal="@dimen/_10sdp"
+            android:paddingTop="@dimen/_3sdp"
+            android:paddingBottom="@dimen/_12sdp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@id/seekbar"
             app:layout_constraintEnd_toEndOf="parent"
-            />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/news_imv"
+                android:layout_width="@dimen/_23sdp"
+                android:layout_height="@dimen/_23sdp"
+                android:src="@drawable/hot_icon"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageButton
+                android:layout_width="@dimen/_15sdp"
+                android:layout_height="@dimen/_12sdp"
+                android:background="@null"
+                android:src="@drawable/heart_resize"
+                app:layout_constraintBottom_toBottomOf="@id/news_imv"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/news_imv" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="해운대구"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_16sdp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@id/hashtag_txv"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/hashtag_txv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/_3sdp"
+                android:text="#해운대구 #돼지국밥 #혜리단길"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_7sdp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@id/seekbar"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatSeekBar
+                android:id="@+id/seekbar"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_5sdp"
+                android:layout_marginEnd="@dimen/_5sdp"
+                android:max="100"
+                app:layout_constraintBottom_toBottomOf="@id/seekTxv"
+                app:layout_constraintEnd_toStartOf="@id/seekTxv"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/seekTxv" />
+
+            <TextView
+                android:id="@+id/seekTxv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="100%"
+                android:textColor="@color/popupColor"
+                android:textSize="@dimen/_8sdp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/seekbar" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

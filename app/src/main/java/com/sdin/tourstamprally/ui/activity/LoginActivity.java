@@ -30,7 +30,6 @@ public class LoginActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_login);
         binding.setActivity(this);
-        // TODO: 6/10/21 자동로그인 OR 아이디저장 확인
 
     }
 

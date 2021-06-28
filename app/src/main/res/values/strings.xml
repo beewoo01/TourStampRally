@@ -53,7 +53,16 @@
 
 
     <string name="check">확인</string>
+    <string name="cancle">취소</string>
     <string name="back">back</string>
+
+
+    <string name="nfc_scan">NFC 스캔</string>
+
+    <string name="tourist_guid">관광지 길안내</string>
+    <string name="shop_guid">매장 길안내</string>
+
+
 
 
     <string name="account_admin">계정관리</string>
@@ -64,5 +73,10 @@
     <string name="logout">로그아웃</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="select_service_dialog">원하는 서비스를 선택해주세요</string>
+    <string name="more_tour">관광지 자세히 보기</string>
+    <string name="nfcscan">NFC 스캔</string>
+    <string name="qrscan">QR코드 스캔</string>
+    <string name="navi">내비</string>
 
 </resources>
