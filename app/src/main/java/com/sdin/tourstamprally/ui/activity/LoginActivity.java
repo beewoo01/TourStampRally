@@ -14,10 +14,10 @@ import android.widget.Toast;
 import com.sdin.tourstamprally.FindPasswordActivity;
 import com.sdin.tourstamprally.R;
 import com.sdin.tourstamprally.RetrofitGenerator;
+import com.sdin.tourstamprally.Utils;
 import com.sdin.tourstamprally.api.APIService;
 import com.sdin.tourstamprally.databinding.ActivityLoginBinding;
 
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -30,6 +30,24 @@ public class LoginActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_login);
         binding.setActivity(this);
+        isAutoLogin();
+
+    }
+
+    private void isAutoLogin(){
+        // TODO: 6/29/21 SplashActivity로 이동해야함
+        SharedPreferences preferences = setSharedPref();
+        String phone = preferences.getString("phone", "");
+        String psw = preferences.getString("password", "");
+        Log.d("isAutoLogin phone", phone);
+        Log.d("isAutoLogin psw", psw);
+        if (!TextUtils.isEmpty(phone) && !TextUtils.isEmpty(psw)){
+            Utils.UserPhone = phone;
+            Utils.UserPassword = psw;
+            movoToMain();
+        } else if (!TextUtils.isEmpty(phone) && TextUtils.isEmpty(psw)) {
+            binding.editPhone.setText(phone);
+        }
 
     }
 
@@ -64,7 +82,7 @@ public class LoginActivity extends BaseActivity {
                 String result = response.body();
                 Log.d("result JOIN", result);
                 if (result.equals("true")){
-                    moveToMain();
+                    saveInfo();
                     Toast.makeText(LoginActivity.this, "로그인 성공!!" + result, Toast.LENGTH_SHORT).show();
                 }else {
                     Toast.makeText(LoginActivity.this, "로그인 실패!!" + result, Toast.LENGTH_SHORT).show();
@@ -78,7 +96,7 @@ public class LoginActivity extends BaseActivity {
         });
     }
 
-    private void moveToMain(){
+    private void saveInfo(){
 
         if (binding.autoLoginRbt.isChecked()){
             setShearedString("phone", binding.editPhone.getText().toString());
@@ -86,8 +104,15 @@ public class LoginActivity extends BaseActivity {
         }else if (binding.saveIdRbt.isChecked()){
             setShearedString("phone", binding.editPhone.getText().toString());
         }
-        startActivity(new Intent(LoginActivity.this, MainActivity.class));
+        Utils.UserPhone = binding.editPhone.getText().toString();
+        Utils.UserPassword = binding.editPassword.getText().toString();
+        movoToMain();
 
+    }
+
+    private void movoToMain(){
+        startActivity(new Intent(LoginActivity.this, MainActivity.class));
+        finish();
     }
 
     private SharedPreferences setSharedPref(){

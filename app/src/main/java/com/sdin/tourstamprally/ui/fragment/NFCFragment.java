@@ -1,52 +1,49 @@
 package com.sdin.tourstamprally.ui.fragment;
 
+import android.content.Intent;
 import android.graphics.Outline;
+import android.nfc.NdefMessage;
+import android.nfc.NdefRecord;
+import android.nfc.NfcAdapter;
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewOutlineProvider;
+import android.widget.Toast;
 
 import com.sdin.tourstamprally.R;
 import com.sdin.tourstamprally.databinding.FragmentNfcBinding;
+import com.sdin.tourstamprally.ui.activity.MainActivity;
+import com.sdin.tourstamprally.utill.NFCListener;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link NFCFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class NFCFragment extends Fragment {
+import java.io.UnsupportedEncodingException;
 
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+
+public class NFCFragment extends Fragment implements NFCListener {
+
+    private static final String DataArray = "param1";
+    private static final String Listener = "param2";
+    private NfcAdapter nfcAdapter;
 
     // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private NdefMessage[] dataArray;
     private FragmentNfcBinding binding;
 
     public NFCFragment() {
-        // Required empty public constructor
+
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment NFCFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static NFCFragment newInstance(String param1, String param2) {
+    public static NFCFragment newInstance(NdefMessage[] dataArray, NFCListener listener) {
         NFCFragment fragment = new NFCFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putParcelableArray(DataArray, dataArray);
         fragment.setArguments(args);
         return fragment;
     }
@@ -55,16 +52,49 @@ public class NFCFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            dataArray = (NdefMessage[]) getArguments().getParcelableArray(DataArray);
+            buildtagViews(dataArray);
+            //mParam2 = getArguments().getString(ARG_PARAM2);
+        }else {
+            MainActivity mainActivity = (MainActivity) getActivity();
+            mainActivity.setOnListener(this);
         }
     }
+
+
+    private void buildtagViews(NdefMessage[] msgs){
+        if (msgs == null || msgs.length == 0) return;
+
+        String text = "";
+        byte[] payload = msgs[0].getRecords()[0].getPayload();
+        String textEncoding = ((payload[0] & 128) == 0) ? "UTF-8" : "UTF-16";
+        int languageCodeLength = payload[0] & 0063;
+
+        try {
+            text = new String(payload, languageCodeLength + 1, payload.length - languageCodeLength - 1, textEncoding);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+        Toast.makeText(getContext(), text, Toast.LENGTH_SHORT).show();
+        Log.d("buildtagViews ", text);
+
+        //binding.nfContents.setText("NFC Content: " + text);
+
+    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_nfc, container, false);
+        nfcAdapter = NfcAdapter.getDefaultAdapter(getContext());
+
+        if (nfcAdapter == null) Toast.makeText(getContext(), "NFC를 지원하지 않는 단말기입니다.", Toast.LENGTH_SHORT).show();
+
+
+
         binding.imageViewNfcBg.setOutlineProvider(new ViewOutlineProvider() {
             @Override
             public void getOutline(View view, Outline outline) {
@@ -72,6 +102,19 @@ public class NFCFragment extends Fragment {
             }
         });
         binding.imageViewNfcBg.setClipToOutline(true);
+
         return binding.getRoot();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+    }
+
+    @Override
+    public void onReadTag(NdefMessage[] action) {
+        Log.d("have to come this method", "!!!!");
+        buildtagViews(action);
     }
 }

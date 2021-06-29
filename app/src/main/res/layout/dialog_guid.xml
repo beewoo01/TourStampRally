@@ -4,6 +4,12 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <data>
+        <variable
+            name="dialog"
+            type="com.sdin.tourstamprally.ui.dialog.GuidDialog" />
+    </data>
+
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -32,13 +38,15 @@
                 android:text="@string/more_tour"
                 android:textColor="@color/white"
                 android:textSize="@dimen/_13sdp"
-                app:layout_constraintBottom_toTopOf="@id/nfcscan_txv"
+                android:onClick="@{dialog::buttonClick}"
+                android:tag="0"
+                app:layout_constraintBottom_toTopOf="@id/nfc_txv"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/nfcscan_txv"
+                android:id="@+id/nfc_txv"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/_30sdp"
@@ -50,6 +58,8 @@
                 android:textColor="@color/black"
                 android:textSize="@dimen/_13sdp"
                 android:layout_marginTop="@dimen/_15sdp"
+                android:onClick="@{dialog::buttonClick}"
+                android:tag="1"
                 app:layout_constraintBottom_toTopOf="@id/qrscan_txv"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -69,10 +79,12 @@
                 android:layout_marginTop="@dimen/_15sdp"
                 android:textSize="@dimen/_13sdp"
                 android:textColor="@color/black"
+                android:onClick="@{dialog::buttonClick}"
+                android:tag="2"
                 app:layout_constraintBottom_toTopOf="@id/navi_txv"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/nfcscan_txv"
+                app:layout_constraintTop_toBottomOf="@id/nfc_txv"
                  />
 
 
@@ -89,6 +101,8 @@
                 android:textColor="@color/black"
                 android:textSize="@dimen/_13sdp"
                 android:layout_marginTop="@dimen/_15sdp"
+                android:onClick="@{dialog::buttonClick}"
+                android:tag="3"
                 app:layout_constraintTop_toBottomOf="@id/qrscan_txv"
                 app:layout_constraintBottom_toTopOf="@id/ch_txv"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -131,6 +145,7 @@
                 android:text="@string/cancle"
                 android:textColor="@color/mainColor"
                 android:textSize="@dimen/_13sdp"
+                android:onClick="@{dialog::result}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/confirm_txv"
                 app:layout_constraintStart_toStartOf="parent" />
@@ -144,6 +159,7 @@
                 android:text="@string/check"
                 android:textColor="@color/white"
                 android:textSize="@dimen/_13sdp"
+                android:onClick="@{dialog::result}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/cancle_txv"

@@ -7,7 +7,6 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
@@ -18,25 +17,17 @@ import android.view.ViewGroup;
 import com.sdin.tourstamprally.R;
 import com.sdin.tourstamprally.databinding.FragmentMainBinding;
 import com.sdin.tourstamprally.databinding.StepRallyLocationItemBinding;
-import com.sdin.tourstamprally.ui.dialog.BaseDialog;
-import com.sdin.tourstamprally.ui.dialog.DefaultDialog;
+import com.sdin.tourstamprally.ui.activity.MainActivity;
+import com.sdin.tourstamprally.ui.dialog.GuidDialog;
 import com.sdin.tourstamprally.utill.ItemOnClick;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link MainFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class MainFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
     private FragmentMainBinding binding;
 
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
@@ -44,15 +35,6 @@ public class MainFragment extends Fragment {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment MainFragment.
-     */
-    // TODO: Rename and change types and number of parameters
     public static MainFragment newInstance(String param1, String param2) {
         MainFragment fragment = new MainFragment();
         Bundle args = new Bundle();
@@ -85,7 +67,7 @@ public class MainFragment extends Fragment {
         return binding.getRoot();
     }
 
-    public class RallyRecyclerviewAdapterDeco extends RecyclerView.ItemDecoration{
+    private class RallyRecyclerviewAdapterDeco extends RecyclerView.ItemDecoration{
         private int spanCount;
         private int spacing;
         private boolean includeEdge;
@@ -122,8 +104,38 @@ public class MainFragment extends Fragment {
 
     private class RallyRecyclerviewAdapter extends RecyclerView.Adapter<RallyRecyclerviewAdapter.ViewHolder> {
 
-        private DefaultDialog dialog;
+        private GuidDialog guidDialog;
+        //private DefaultDialog dialog;
         private Context context;
+        private ItemOnClick listener;
+
+        private ItemOnClick itemOnClick = new ItemOnClick() {
+            @Override
+            public void onClick(int position) {
+
+            }
+
+            @Override
+            public void ItemGuid(int position) {
+                Log.d("dialog Onclick Listener", String.valueOf(position));
+                switch (position){
+                    case 0 :
+                        listener.ItemGuid(0);
+                        break;
+                    case 1 :
+                        listener.ItemGuid(1);
+                        //NFC
+                        break;
+                    case 2 :
+                        listener.ItemGuid(2);
+                        //QR
+                        break;
+                    case 3 :
+                        listener.ItemGuid(3);
+                        break;
+                }
+            }
+        };
 
         public RallyRecyclerviewAdapter(Context context){
             this.context = context;
@@ -143,19 +155,10 @@ public class MainFragment extends Fragment {
         @Override
         public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
             holder.binding.stepRallyBg.setOnClickListener(v -> {
-                dialog = new DefaultDialog(context);
-                dialog.show();
-                dialog.setClickListener( getDialogPosition -> {
-                    Log.d("dialog Onclick Listener", String.valueOf(getDialogPosition));
-                    if (getDialogPosition == 0){
-                        Log.d("dialog Onclick Listener", String.valueOf(0));
-                    }else {
-                        Log.d("dialog Onclick Listener", String.valueOf(getDialogPosition));
-                    }
-                    dialog.dismiss();
-                });
-
-
+                listener = (MainActivity) context;
+                guidDialog = new GuidDialog(context);
+                guidDialog.show();
+                guidDialog.setClickListener(itemOnClick);
             });
         }
 

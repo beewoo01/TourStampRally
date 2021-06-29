@@ -43,7 +43,7 @@
 
             </RelativeLayout>
 
-            <RelativeLayout
+            <!--<RelativeLayout
                 android:id="@+id/toolbar_layout"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
@@ -72,7 +72,14 @@
                     android:src="@drawable/hamberger_menu_resize" />
 
 
-            </RelativeLayout>
+            </RelativeLayout>-->
+
+            <include android:id="@+id/toolbar_layout"
+                layout="@layout/toolbar_layout"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:layout_below="@+id/webView_layout"
+                />
 
             <FrameLayout
                 android:id="@+id/framelayout"

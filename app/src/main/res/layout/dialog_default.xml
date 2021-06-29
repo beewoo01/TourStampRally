@@ -20,7 +20,7 @@
 
 
             <TextView
-                android:id="@+id/more_txv"
+                android:id="@+id/touristGuidTxv"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/_30sdp"
@@ -32,13 +32,13 @@
                 android:text="@string/tourist_guid"
                 android:textSize="@dimen/_13sdp"
                 android:textColor="@color/black"
-                app:layout_constraintBottom_toTopOf="@id/nfcscan_txv"
+                app:layout_constraintBottom_toTopOf="@id/shopGuidTxv"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/nfcscan_txv"
+                android:id="@+id/shopGuidTxv"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/_30sdp"
@@ -54,7 +54,7 @@
                 app:layout_constraintBottom_toTopOf="@id/ch_txv"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/more_txv" />
+                app:layout_constraintTop_toBottomOf="@id/touristGuidTxv" />
 
 
             <TextView
@@ -68,7 +68,7 @@
                 app:layout_constraintBottom_toTopOf="@id/gull_imv"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/nfcscan_txv"
+                app:layout_constraintTop_toBottomOf="@id/shopGuidTxv"
                 />
 
 

@@ -20,7 +20,7 @@ import com.sdin.tourstamprally.databinding.DialogDefaultBinding;
 import com.sdin.tourstamprally.utill.ItemOnClick;
 
 public class DefaultDialog extends Dialog{
-    private View.OnClickListener clickListener;
+
     private Context context;
     private DialogDefaultBinding binding;
     private ItemOnClick itemOnClick;

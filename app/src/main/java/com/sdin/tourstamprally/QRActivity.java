@@ -28,7 +28,7 @@ public class QRActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        Toast.makeText(this, "Camera", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "Camera", Toast.LENGTH_SHORT).show();
         IntentIntegrator integrator = new IntentIntegrator(this);
         integrator.setBeepEnabled(false);
         integrator.setCaptureActivity(CustomScannerActivity.class);

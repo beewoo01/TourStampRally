@@ -80,6 +80,13 @@ public class BaseFragment extends Fragment {
         snackbar.getView().bringToFront();
         snackbar.show();
     }
+
+
+    public void ShowToast(){
+
+    }
+
+
     public void showSnackbar(View parent, String msg){
         Snackbar snackbar = Snackbar.make(parent, msg, Snackbar.LENGTH_SHORT);
 

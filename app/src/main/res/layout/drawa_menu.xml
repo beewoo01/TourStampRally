@@ -3,7 +3,7 @@
     <data>
         <variable
             name="adapter"
-            type="com.sdin.tourstamprally.ui.activity.MainActivity.DrawaRecyclerViewAdapter" />
+            type="com.sdin.tourstamprally.adapter.DrawaRecyclerViewAdapter" />
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/drawa_menu_layout"

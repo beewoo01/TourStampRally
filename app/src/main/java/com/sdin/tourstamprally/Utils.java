@@ -42,6 +42,8 @@ import java.util.Locale;
 
 public class Utils {
 
+    public static String UserPhone;
+    public static String UserPassword;
 
     public static boolean getGPSState(Context context){
 

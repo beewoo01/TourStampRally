@@ -5,6 +5,10 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.NFC" />
+    <uses-feature
+        android:name="android.hardware.nfc"
+        android:required="true" />
 
     <application
         android:allowBackup="true"
@@ -16,7 +20,16 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity android:name=".CustomScannerActivity"></activity>
-        <activity android:name=".ui.activity.MainActivity" />
+
+        <activity android:name=".ui.activity.MainActivity" >
+            <intent-filter> <!-- 추가할 intent-filter -->
+                <action android:name="android.nfc.action.NDEF_DISCOVERED"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data android:mimeType="text/plain" />
+                <action android:name="android.nfc.action.TECH_DISCOVERED"/>
+            </intent-filter>
+        </activity>
+
         <activity android:name=".FindPasswordActivity" />
         <activity android:name=".SplashActivity" />
         <activity android:name=".ui.activity.TermsOfConditionsActivity" />
