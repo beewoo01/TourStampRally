@@ -18,7 +18,7 @@
 
         <View
             android:id="@+id/top_line"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="@dimen/_15sdp"
             app:layout_constraintStart_toStartOf="@id/location_imv"
             app:layout_constraintEnd_toEndOf="@id/location_imv"
@@ -30,7 +30,7 @@
 
         <View
             android:id="@+id/bottom_line"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="0dp"
             app:layout_constraintStart_toStartOf="@id/location_imv"
             app:layout_constraintEnd_toEndOf="@id/location_imv"
@@ -101,7 +101,7 @@
 
         <View
             android:id="@+id/bottom_line_admin"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/dotted_line_vertical"
 
