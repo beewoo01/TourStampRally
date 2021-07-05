@@ -30,7 +30,7 @@ public class LoginActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_login);
         binding.setActivity(this);
-        isAutoLogin();
+        //isAutoLogin();
 
     }
 
@@ -83,9 +83,9 @@ public class LoginActivity extends BaseActivity {
                 Log.d("result JOIN", result);
                 if (result.equals("true")){
                     saveInfo();
-                    Toast.makeText(LoginActivity.this, "로그인 성공!!" + result, Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(LoginActivity.this, "로그인 성공!!" + result, Toast.LENGTH_SHORT).show();
                 }else {
-                    Toast.makeText(LoginActivity.this, "로그인 실패!!" + result, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, "로그인에 실패하셨습니다." + result, Toast.LENGTH_SHORT).show();
                 }
             }
 

@@ -37,8 +37,8 @@
     <string name="name">이름</string>
     <string name="input_name">이름을 입력해 주세요</string>
 
-    <string name="email">E-main</string>
-    <string name="input_email">E-main을 입력해주세요</string>
+    <string name="email">E-mail</string>
+    <string name="input_email">E-mail을 입력해주세요</string>
 
     <string name="location">지역</string>
     <string name="busan">부산광역시</string>

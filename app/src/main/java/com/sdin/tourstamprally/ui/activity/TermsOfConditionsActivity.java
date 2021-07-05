@@ -3,6 +3,7 @@ package com.sdin.tourstamprally.ui.activity;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,12 +17,14 @@ public class TermsOfConditionsActivity extends AppCompatActivity {
 
     private ActivityTermsOfConditionsBinding binding;
     boolean isAllCheck = false;
+    public static Activity activity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_terms_of_conditions);
         binding.setActivity(this);
+        activity = this;
     }
 
     public void chackBoxClick(){

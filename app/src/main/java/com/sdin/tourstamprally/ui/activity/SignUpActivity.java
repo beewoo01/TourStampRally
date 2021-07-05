@@ -150,10 +150,9 @@ public class SignUpActivity extends BaseActivity {
             return;
         }
 
-        if (TextUtils.isEmpty(binding.editPassword.getText())) {
+        if (TextUtils.isEmpty(binding.editPassword.getText()) || binding.editPassword.getText().toString().length() > 8) {
 
-            // TODO: 6/10/21 패스워드 체크
-            showToast("비밀번호를 입력해 주세요.");
+            showToast("비밀번호는 8자 이상입니다.");
 
         } else if (TextUtils.isEmpty(binding.editPasswordConfirm.getText())
                 && binding.editPassword.getText().equals(binding.editPasswordConfirm.getText())) {
@@ -186,19 +185,27 @@ public class SignUpActivity extends BaseActivity {
                 , userModel.getEmail(), userModel.getLocation(), 1, 1).enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
+
                 String result1 = String.valueOf(response.body());
                 String result = response.body();
-                if (response.equals("1")) {
+                Log.d("result", result);
+                Log.d("result1", result1);
+                Log.d("response", response.toString());
+
+                if (result.equals("1")) {
                     showToast("회원가입 성공");
+                    TermsOfConditionsActivity activity = (TermsOfConditionsActivity) TermsOfConditionsActivity.activity;
+                    activity.finish();
                     finish();
                 } else {
-                    showToast("서버에 문제가 있습니다.");
+                    showToast("회원가입에 실패하였습니다.");
                 }
             }
 
             @Override
             public void onFailure(Call<String> call, Throwable t) {
                 t.printStackTrace();
+                showToast("서버에 문제가 있습니다.");
             }
         });
 

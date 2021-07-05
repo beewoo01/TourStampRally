@@ -16,6 +16,9 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.budiyev.android.codescanner.CodeScanner;
+import com.budiyev.android.codescanner.DecodeCallback;
+import com.google.zxing.Result;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.journeyapps.barcodescanner.CaptureManager;
@@ -29,41 +32,19 @@ import com.sdin.tourstamprally.ui.activity.MainActivity;
 
 import java.lang.reflect.Field;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link QRscanFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class QRscanFragment extends Fragment implements DecoratedBarcodeView.TorchListener{
+public class QRscanFragment extends Fragment {
 
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    private String mParam1;
-    private String mParam2;
 
     private String toast;
 
     private FragmentQrScanBinding binding;
 
-    private CaptureManager capture;
-    private DecoratedBarcodeView barcodeScannerView;
-    private BackPressCloseHandler backPressCloseHandler;
-    private ImageButton setting_btn,switchFlashlightButton;
-    private Boolean switchFlashlightButtonCheck;
+    private CodeScanner codeScanner;
 
     public QRscanFragment() {
 
     }
 
-    public static QRscanFragment newInstance(String param1, String param2) {
-        QRscanFragment fragment = new QRscanFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
 
 
     @Override
@@ -77,46 +58,26 @@ public class QRscanFragment extends Fragment implements DecoratedBarcodeView.Tor
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        switchFlashlightButtonCheck = true;
-
-        backPressCloseHandler = new BackPressCloseHandler(getActivity());
-
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        capture.onResume();
+        //capture.onResume();
+        codeScanner.startPreview();
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        capture.onPause();
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        capture.onDestroy();
+        //capture.onPause();
+        codeScanner.releaseResources();
     }
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        capture.onSaveInstanceState(outState);
-    }
-
-    public void onBackPressed() {
-        backPressCloseHandler.onBackPressed();
-    }
-
-    public void switchFlashlight(View view) {
-        if (switchFlashlightButtonCheck) {
-            barcodeScannerView.setTorchOn();
-        } else {
-            barcodeScannerView.setTorchOff();
-        }
+        //capture.onSaveInstanceState(outState);
     }
 
     @Override
@@ -124,28 +85,15 @@ public class QRscanFragment extends Fragment implements DecoratedBarcodeView.Tor
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_qr_scan, container, false);
-        binding.zxingBarcodeScanner.setTorchListener(this);
-        IntentIntegrator.forSupportFragment(this).initiateScan();
-        /*capture = new CaptureManager2(this, binding.zxingBarcodeScanner);
+        codeScanner = new CodeScanner(getActivity(), binding.scannerView);
+        codeScanner.setDecodeCallback(result -> getActivity().runOnUiThread(()
+                -> Toast.makeText(getActivity(), result.getText(), Toast.LENGTH_SHORT).show()));
 
-        IntentIntegrator integrator = new IntentIntegrator(getActivity());
-        integrator.setBeepEnabled(false);
-        capture.initializeFromIntent(integrator.createScanIntent(), savedInstanceState);
-        capture.decode();
-
-
-
-
-        capture.initializeFromIntent(getActivity().getIntent(), savedInstanceState);
-        capture.decode();*/
-
+        binding.scannerView.setOnClickListener( v -> codeScanner.startPreview());
 
         return binding.getRoot();
     }
 
-    public void scanFromFragment() {
-
-    }
 
     private void displayToast() {
         if(getActivity() != null && toast != null) {
@@ -170,16 +118,5 @@ public class QRscanFragment extends Fragment implements DecoratedBarcodeView.Tor
     }
 
 
-    @Override
-    public void onTorchOn() {
-        switchFlashlightButton.setImageResource(R.drawable.ic_flash_on_white_36dp);
-        switchFlashlightButtonCheck = false;
-    }
-
-    @Override
-    public void onTorchOff() {
-        switchFlashlightButton.setImageResource(R.drawable.ic_flash_off_white_36dp);
-        switchFlashlightButtonCheck = true;
-    }
 }
 

@@ -11,6 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,6 +25,7 @@ import com.sdin.tourstamprally.ui.activity.MainActivity;
 import com.sdin.tourstamprally.utill.NFCListener;
 
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
 
 
 public class NFCFragment extends Fragment implements NFCListener {
@@ -66,20 +68,21 @@ public class NFCFragment extends Fragment implements NFCListener {
         if (msgs == null || msgs.length == 0) return;
 
         String text = "";
+        String text2 = "";
         byte[] payload = msgs[0].getRecords()[0].getPayload();
         String textEncoding = ((payload[0] & 128) == 0) ? "UTF-8" : "UTF-16";
         int languageCodeLength = payload[0] & 0063;
 
         try {
             text = new String(payload, languageCodeLength + 1, payload.length - languageCodeLength - 1, textEncoding);
+            String[] strs = text.split("\\|");
+            text2 = strs[1];
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
 
-        Toast.makeText(getContext(), text, Toast.LENGTH_SHORT).show();
-        Log.d("buildtagViews ", text);
 
-        //binding.nfContents.setText("NFC Content: " + text);
+        Toast.makeText(getContext(), text2 == null? text : text2, Toast.LENGTH_SHORT).show();
 
     }
 

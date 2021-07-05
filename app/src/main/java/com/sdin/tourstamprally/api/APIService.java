@@ -89,6 +89,16 @@ public interface APIService {
                                   @Query("agree2") int agree2
     );
 
+
+    //유저 회원가입
+    //@FormUrlEncoded
+    @GET("bsr_find_password")
+    Call<String> find_Password(@Query("user_name") String phone,
+                            @Query("user_phone") String password,
+                            @Query("user_email") String name
+    );
+
+
     //비밀번호 업데이트
     @FormUrlEncoded
     @POST("change_password")

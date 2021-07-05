@@ -64,15 +64,17 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
 
     }
 
-    private void setToolbar() {
+    private void setToolbar(int pos) {
         int gg = getSupportFragmentManager().getBackStackEntryCount();
         Log.d("gg =", String.valueOf(gg));
-        String name = getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount()-1).getName();
+        String name = getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount()- pos).getName();
         Log.d("name", name);
-        if (name.equals("NFC")){
+        if (name.equals("NFC") || name.equals("QR")){
+            String title = name.equals("QR")? name + "코드" : name;
             binding.toolbarLayout.toolbarLayout.setBackgroundColor(ContextCompat.getColor(this, R.color.popup_buttonColor));
             binding.toolbarLayout.backBtn.setVisibility(View.VISIBLE);
             binding.toolbarLayout.titleTxv.setVisibility(View.VISIBLE);
+            binding.toolbarLayout.titleTxv.setText(title+ " 스캔");
             binding.toolbarLayout.logoMainToolbar.setVisibility(View.GONE);
             binding.toolbarLayout.tapImb.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_hamburger_white_24));
         }else if (name.equals("Main")){
@@ -118,7 +120,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
             } else {
                 Log.wtf("MainAct", String.valueOf(fragmentManager.getBackStackEntryCount()));
             }
-            setToolbar();
+            setToolbar(2);
         });
         binding.bottomNavigationView.setOnNavigationItemSelectedListener(this);
         setFragment("Main", new MainFragment().newInstance("",""));
@@ -159,6 +161,11 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
 
     private void setFragment(String tag, Fragment fragment) {
         this.fragment = fragment;
+        if (tag.equals("Main")){
+            binding.webViewLayout.setVisibility(View.VISIBLE);
+        }else {
+            binding.webViewLayout.setVisibility(View.GONE);
+        }
         fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(binding.framelayout.getId(), this.fragment, tag)
                 .addToBackStack(tag)
@@ -166,7 +173,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
         /*ft = fragmentManager.beginTransaction();
         ft.replace(binding.framelayout.getId(), fragment, tag).addToBackStack(null).commit();*/
         fragmentManager.executePendingTransactions();
-        setToolbar();
+        setToolbar(1);
     }
 
     @Override
@@ -285,10 +292,6 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
 
             case 2 :
                 //QR
-                //IntentIntegrator integrator = new IntentIntegrator(this);
-                //integrator.setBeepEnabled(false);
-                //integrator.forSupportFragment(qRscanFragment).initiateScan();
-                //integrator.initiateScan();
                 setFragment("QR", qRscanFragment);
                 break;
 
