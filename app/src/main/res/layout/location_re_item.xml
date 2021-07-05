@@ -18,65 +18,69 @@
 
         <View
             android:id="@+id/top_line"
-            android:layout_width="@dimen/_2sdp"
-            android:layout_height="@dimen/_5sdp"
-            app:layout_constraintStart_toStartOf="@id/number_imv"
-            app:layout_constraintEnd_toEndOf="@id/number_imv"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/_15sdp"
+            app:layout_constraintStart_toStartOf="@id/location_imv"
+            app:layout_constraintEnd_toEndOf="@id/location_imv"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/number_imv"
-            android:background="@color/loginBackgroundColor"
+            app:layout_constraintBottom_toTopOf="@id/location_imv"
+            android:background="@drawable/dotted_line_vertical"
 
             />
 
         <View
             android:id="@+id/bottom_line"
-            android:layout_width="@dimen/_2sdp"
+            android:layout_width="wrap_content"
             android:layout_height="0dp"
-            app:layout_constraintStart_toStartOf="@id/number_imv"
-            app:layout_constraintEnd_toEndOf="@id/number_imv"
-            app:layout_constraintTop_toBottomOf="@id/number_imv"
+            app:layout_constraintStart_toStartOf="@id/location_imv"
+            app:layout_constraintEnd_toEndOf="@id/location_imv"
+            app:layout_constraintTop_toBottomOf="@id/location_imv"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:background="@color/loginBackgroundColor"
+            android:background="@drawable/dotted_line_vertical"
+            android:layerType="software"
             />
 
 
         <ImageView
-            android:id="@+id/number_imv"
-            android:layout_width="@dimen/_30sdp"
-            android:layout_height="@dimen/_30sdp"
+            android:id="@+id/location_imv"
+            android:layout_width="@dimen/_40sdp"
+            android:layout_height="@dimen/_40sdp"
             android:layout_marginStart="@dimen/_10sdp"
-            android:src="@drawable/icon_3"
+            android:src="@drawable/icon_deep_blue"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
-            android:id="@+id/store_logo_imv"
-            android:layout_width="@dimen/_30sdp"
-            android:layout_height="@dimen/_30sdp"
+
+        <TextView
+            android:id="@+id/location_detail_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="해운대 해수욕장"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_15sdp"
             android:layout_marginStart="@dimen/_10sdp"
-            android:src="@drawable/gs25_icon"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@id/number_imv"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintStart_toEndOf="@id/location_imv"
+            app:layout_constraintTop_toTopOf="@id/location_imv"
+            />
 
         <TextView
             android:id="@+id/coupon_txv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_10sdp"
-            android:text="4천원 상당 편의점 상품권"
-            android:textColor="@color/black"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@id/store_logo_imv"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:text="부산 해운대구 중동 좌동 우동에 걸쳐 있는 해수욕장"
+            android:textColor="@color/gray"
+            android:maxLength="20"
+            app:layout_constraintStart_toStartOf="@id/location_detail_name"
+            app:layout_constraintTop_toBottomOf="@id/location_detail_name"
+             />
 
         <ImageView
-            android:id="@+id/gift_imv"
-            android:layout_width="@dimen/_15sdp"
-            android:layout_height="@dimen/_15sdp"
+            android:id="@+id/logo_imv"
+            android:layout_width="@dimen/_50sdp"
+            android:layout_height="@dimen/_50sdp"
             android:layout_marginEnd="@dimen/_10sdp"
-            android:src="@drawable/giftbox_icon"
+            android:src="@drawable/mainlogo"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -86,8 +90,8 @@
 
 
     <LinearLayout
-        android:layout_width="@dimen/_30sdp"
-        android:layout_height="@dimen/_10sdp"
+        android:layout_width="@dimen/_40sdp"
+        android:layout_height="@dimen/_30sdp"
         app:layout_constraintTop_toBottomOf="@id/top_layout"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@id/top_layout"
@@ -97,9 +101,9 @@
 
         <View
             android:id="@+id/bottom_line_admin"
-            android:layout_width="@dimen/_2sdp"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:background="@color/loginBackgroundColor"
+            android:background="@drawable/dotted_line_vertical"
 
             />
 
