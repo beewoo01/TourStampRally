@@ -12,45 +12,91 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <androidx.appcompat.widget.Toolbar
-                android:layout_width="0dp"
-                android:layout_height="?attr/actionBarSize"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
 
-                <ImageButton
-                    android:layout_width="@dimen/_30sdp"
-                    android:layout_height="@dimen/_30sdp"
-                    android:background="@null"
-                    android:src="@drawable/back_ic_resize" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/top_layout"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_200sdp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:background="@drawable/enjoy_busan"
+                >
+
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="해운대구 랠리 맵"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/_15sdp" />
+                    android:text="해운대구"
+                    android:textSize="@dimen/_15sdp"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="@dimen/_7sdp"
+                    app:layout_constraintStart_toStartOf="@id/progress_txv"
+                    app:layout_constraintBottom_toTopOf="@id/progress_txv"
+                    />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
+                <TextView
+                    android:id="@+id/progress_txv"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="end"
-                    >
+                    android:text="스탬프 랠리 진행도"
+                    android:textColor="@color/white"
+                    android:layout_marginBottom="10dp"
+                    app:layout_constraintStart_toStartOf="@id/seekBar_location"
+                    app:layout_constraintBottom_toTopOf="@id/seekBar_location"
+                    />
 
-                    <ImageButton
-                        android:id="@+id/hamburger_imv"
-                        android:layout_width="@dimen/_30sdp"
-                        android:layout_height="@dimen/_30sdp"
-                        android:background="@null"
-                        android:src="@drawable/hamberger_menu_resize"
-                        android:layout_marginEnd="@dimen/_10sdp"
-                        />
-                </LinearLayout>
+                <androidx.appcompat.widget.AppCompatSeekBar
+                    android:id="@+id/seekBar_location"
+                    android:layout_width="0dp"
+                    android:layout_height="4dp"
+                    android:max="100"
+                    android:progress="50"
+                    android:progressDrawable="@drawable/custom_seekbar"
+                    android:layout_marginStart="@dimen/_25sdp"
+                    android:layout_marginEnd="@dimen/_8sdp"
+                    android:layout_marginBottom="@dimen/_15sdp"
+                    android:thumbTint="@android:color/transparent"
+                    android:clickable="false"
+                    android:thumb="@color/gray"
+                    android:paddingStart="0dp"
+                    android:paddingEnd="0dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/seek_percent_txv"
 
-            </androidx.appcompat.widget.Toolbar>
+                    />
+
+                <TextView
+                    android:id="@+id/seek_percent_txv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="20%"
+                    android:textColor="@color/seekColor"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/_17sdp"
+                    android:layout_marginEnd="@dimen/_30sdp"
+                    app:layout_constraintStart_toEndOf="@id/seekBar_location"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/seekBar_location"
+                    app:layout_constraintBottom_toBottomOf="@id/seekBar_location"
+                    />
 
 
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginTop="@dimen/_20sdp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/top_layout"
+                app:layout_constraintBottom_toBottomOf="parent"
+                tools:listitem="@layout/location_re_item"
+                />
             <!--todo 배경사진 띄우고 퍼센테이지 띄우고 하단에 리싸이클러뷰 ㄱㄱ-->
 
         </androidx.constraintlayout.widget.ConstraintLayout>

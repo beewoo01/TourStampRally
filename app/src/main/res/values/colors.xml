@@ -19,6 +19,7 @@
     <color name="popupbackground">#EBEBEB</color>
 
     <color name="popupColor">#009EE2</color>
+    <color name="seekColor">#52BDFC</color>
 
     <color name="popup_buttonColor">#343B58</color>
     <color name="couponbuttonColor">#F5F6F8</color>
@@ -26,6 +27,8 @@
     <color name="scanAlram">#5683f6</color>
     <color name="couponColor">#F7F8F9</color>
     <color name="dialogbaColor">#E8E8E8</color>
+
+    <color name="tour_record_bg">#F3F4F7</color>
 
 
 

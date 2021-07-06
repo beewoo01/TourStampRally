@@ -41,7 +41,7 @@
             android:layout_width="130dp"
             android:layout_height="@dimen/_35sdp"
             android:layout_marginTop="@dimen/_40sdp"
-            android:background="@drawable/bg_rounded_10"
+            android:background="@drawable/bg_rounded_full_scanAlram"
             android:text="QR SCAN"
             android:textColor="@color/white"
             android:textSize="@dimen/_15sdp"

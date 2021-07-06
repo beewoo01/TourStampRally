@@ -1,116 +1,125 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+
     >
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/top_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:background="@drawable/bg_rounded_07"
-        >
+        android:layout_marginHorizontal="@dimen/_10sdp">
 
-        <View
-            android:id="@+id/top_line"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/_15sdp"
-            app:layout_constraintStart_toStartOf="@id/location_imv"
-            app:layout_constraintEnd_toEndOf="@id/location_imv"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/location_imv"
-            android:background="@drawable/dotted_line_vertical"
-
-            />
-
-        <View
-            android:id="@+id/bottom_line"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintStart_toStartOf="@id/location_imv"
-            app:layout_constraintEnd_toEndOf="@id/location_imv"
-            app:layout_constraintTop_toBottomOf="@id/location_imv"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:background="@drawable/dotted_line_vertical"
-            android:layerType="software"
-            />
-
-
-        <ImageView
-            android:id="@+id/location_imv"
-            android:layout_width="@dimen/_40sdp"
-            android:layout_height="@dimen/_40sdp"
-            android:layout_marginStart="@dimen/_10sdp"
-            android:src="@drawable/icon_deep_blue"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-
-        <TextView
-            android:id="@+id/location_detail_name"
-            android:layout_width="wrap_content"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/top_layout"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="해운대 해수욕장"
-            android:textColor="@color/black"
-            android:textSize="@dimen/_15sdp"
-            android:layout_marginStart="@dimen/_10sdp"
-            app:layout_constraintStart_toEndOf="@id/location_imv"
-            app:layout_constraintTop_toTopOf="@id/location_imv"
-            />
-
-        <TextView
-            android:id="@+id/coupon_txv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="부산 해운대구 중동 좌동 우동에 걸쳐 있는 해수욕장"
-            android:textColor="@color/gray"
-            android:maxLength="20"
-            app:layout_constraintStart_toStartOf="@id/location_detail_name"
-            app:layout_constraintTop_toBottomOf="@id/location_detail_name"
-             />
-
-        <ImageView
-            android:id="@+id/logo_imv"
-            android:layout_width="@dimen/_50sdp"
-            android:layout_height="@dimen/_50sdp"
-            android:layout_marginEnd="@dimen/_10sdp"
-            android:src="@drawable/mainlogo"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:background="@drawable/bg_rounded_07"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
 
+            <View
+                android:id="@+id/top_line"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_15sdp"
+                android:background="@drawable/dotted_line_vertical"
+                app:layout_constraintBottom_toTopOf="@id/location_imv"
+                app:layout_constraintEnd_toEndOf="@id/location_imv"
+                app:layout_constraintStart_toStartOf="@id/location_imv"
+                app:layout_constraintTop_toTopOf="parent"
+
+                />
+
+            <View
+                android:id="@+id/bottom_line"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="@drawable/dotted_line_vertical"
+                android:layerType="software"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@id/location_imv"
+                app:layout_constraintStart_toStartOf="@id/location_imv"
+                app:layout_constraintTop_toBottomOf="@id/location_imv" />
+
+
+            <ImageView
+                android:id="@+id/location_imv"
+                android:layout_width="@dimen/_30sdp"
+                android:layout_height="@dimen/_30sdp"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:src="@drawable/icon_deep_blue"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <TextView
+                android:id="@+id/location_detail_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:text="해운대 해수욕장"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_15sdp"
+                app:layout_constraintStart_toEndOf="@id/location_imv"
+                app:layout_constraintTop_toTopOf="@id/location_imv" />
+
+            <TextView
+                android:id="@+id/coupon_txv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxLength="20"
+                android:text="부산 해운대구 중동 좌동 우동에 걸쳐 있는 해수욕장"
+                android:textColor="@color/gray"
+                app:layout_constraintStart_toStartOf="@id/location_detail_name"
+                app:layout_constraintTop_toBottomOf="@id/location_detail_name" />
+
+            <ImageView
+                android:id="@+id/logo_imv"
+                android:layout_width="@dimen/_50sdp"
+                android:layout_height="@dimen/_50sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:src="@drawable/mainlogo"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:background="@drawable/shadow01"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@id/top_layout"
+            app:layout_constraintTop_toBottomOf="@id/top_layout"
+            >
+
+            <LinearLayout
+                android:layout_width="@dimen/_30sdp"
+                android:layout_height="@dimen/_20sdp"
+
+                android:gravity="center"
+                >
+
+                <View
+                    android:id="@+id/bottom_line_admin"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/dotted_line_vertical"
+
+                    />
+
+
+            </LinearLayout>
+        </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-    <LinearLayout
-        android:layout_width="@dimen/_40sdp"
-        android:layout_height="@dimen/_30sdp"
-        app:layout_constraintTop_toBottomOf="@id/top_layout"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@id/top_layout"
-        android:layout_marginStart="@dimen/_10sdp"
-        android:gravity="center"
-        >
-
-        <View
-            android:id="@+id/bottom_line_admin"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/dotted_line_vertical"
-
-            />
-
-
-    </LinearLayout>
-
-
-
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
