@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
 
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+    <androidx.cardview.widget.CardView
         android:id="@+id/step_rally_bg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/_10sdp"
-        android:background="@drawable/bg_rounded_03">
+        app:cardCornerRadius="@dimen/_5sdp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="@dimen/_120sdp"
@@ -65,9 +65,16 @@
             <androidx.appcompat.widget.AppCompatSeekBar
                 android:id="@+id/seekbar"
                 android:layout_width="0dp"
-                android:layout_height="@dimen/_5sdp"
+                android:layout_height="@dimen/_3sdp"
                 android:layout_marginEnd="@dimen/_5sdp"
+                android:clickable="false"
                 android:max="100"
+                android:paddingStart="0dp"
+                android:paddingEnd="0dp"
+                android:progress="50"
+                android:progressDrawable="@drawable/custom_seekbar"
+                android:thumb="@color/gray"
+                android:thumbTint="@android:color/transparent"
                 app:layout_constraintBottom_toBottomOf="@id/seekTxv"
                 app:layout_constraintEnd_toStartOf="@id/seekTxv"
                 app:layout_constraintStart_toStartOf="parent"
@@ -87,5 +94,5 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
 </layout>

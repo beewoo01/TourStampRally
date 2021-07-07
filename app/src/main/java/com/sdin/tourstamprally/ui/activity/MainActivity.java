@@ -33,6 +33,8 @@ import com.sdin.tourstamprally.databinding.ActivityMainBinding;
 import com.sdin.tourstamprally.ui.fragment.MainFragment;
 import com.sdin.tourstamprally.ui.fragment.NFCFragment;
 import com.sdin.tourstamprally.ui.fragment.QRscanFragment;
+import com.sdin.tourstamprally.ui.fragment.StoreListFragment;
+import com.sdin.tourstamprally.ui.fragment.TourRecordFragment;
 import com.sdin.tourstamprally.utill.ItemOnClick;
 import com.sdin.tourstamprally.utill.NFCListener;
 
@@ -144,15 +146,17 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
                 break;
 
             case R.id.page_store:
-                setFragment("NFC", nfcFragment);
+                setFragment("Store", new StoreListFragment());
+                //setFragment("NFC", nfcFragment);
                 break;
 
             case R.id.page_report:
-                setFragment("Main", new MainFragment().newInstance("", ""));
+                setFragment("Recode", new StoreListFragment());
                 break;
 
             case R.id.page_navi:
-                setFragment("Main", new MainFragment().newInstance("", ""));
+                // TODO: 7/7/21 navi popup
+                //setFragment("Tour", new TourRecordFragment());
                 break;
 
         }

@@ -9,15 +9,16 @@
         android:orientation="vertical"
         tools:context=".ui.fragment.DirectionGuidFragment">
 
-        <TextView
-            android:layout_width="wrap_content"
+        <EditText
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_20sdp"
+            android:layout_marginHorizontal="@dimen/_25sdp"
             android:background="@drawable/bg_rounded_full_white"
             android:drawableEnd="@drawable/heart_resize"
             android:drawablePadding="@dimen/_30sdp"
             android:padding="@dimen/_15sdp"
-            android:text="관광지를 검색해주세요." />
+            android:hint="관광지를 검색해주세요." />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -30,7 +31,6 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_marginStart="@dimen/_10sdp"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -42,6 +42,7 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:orientation="vertical"
+                tools:listitem="@layout/direction_guid_location_item"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

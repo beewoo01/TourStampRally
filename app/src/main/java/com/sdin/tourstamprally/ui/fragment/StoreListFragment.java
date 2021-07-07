@@ -2,6 +2,7 @@ package com.sdin.tourstamprally.ui.fragment;
 
 import android.os.Bundle;
 
+import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -9,58 +10,59 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.sdin.tourstamprally.R;
+import com.sdin.tourstamprally.adapter.LocationAdapter;
+import com.sdin.tourstamprally.databinding.FragmentStoreListBinding;
+import com.sdin.tourstamprally.model.Tour_Spot;
+import com.sdin.tourstamprally.utill.DecoRation;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link StoreListFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import java.util.ArrayList;
+
+
 public class StoreListFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private FragmentStoreListBinding binding;
+    private ArrayList<Tour_Spot> list;
 
     public StoreListFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment StoreListFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static StoreListFragment newInstance(String param1, String param2) {
-        StoreListFragment fragment = new StoreListFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_store_list, container, false);
+
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_store_list, container, false);
+        list = new ArrayList<>();
+        initData();
+
+        binding.recyclerviewTourRecord.setAdapter(new LocationAdapter(list, getContext()));
+        binding.recyclerviewTourRecord.addItemDecoration(new DecoRation(getContext()));
+
+        return binding.getRoot();
+    }
+
+
+    private void initData(){
+        Tour_Spot spot1, spot2, spot3, spot4, spot5, spot6;
+        spot1 = new Tour_Spot(0, 0, "해동용궁사", "213.1231", "213.321421", "", "", true, "2021.07.21", "2021.07.21");
+        spot2 = new Tour_Spot(1, 0, "해동용궁사", "213.1231", "213.321421", "", "", false);
+        spot3 = new Tour_Spot(2, 0, "해동용궁사", "213.1231", "213.321421", "", "", false);
+        spot4 = new Tour_Spot(3, 0, "해동용궁사", "213.1231", "213.321421", "", "", true, "2021.07.21", "2021.07.21");
+        spot5 = new Tour_Spot(4, 0, "해동용궁사", "213.1231", "213.321421", "", "", false);
+        spot6 = new Tour_Spot(5, 0, "해동용궁사", "213.1231", "213.321421", "", "", false);
+
+        list.add(spot1);
+        list.add(spot2);
+        list.add(spot3);
+        list.add(spot4);
+        list.add(spot5);
+        list.add(spot6);
     }
 }

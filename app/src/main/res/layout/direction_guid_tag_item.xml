@@ -11,7 +11,7 @@
         <TextView
             android:id="@+id/tag_item_txv"
             android:layout_width="wrap_content"
-            android:layout_height="@dimen/_40sdp"
+            android:layout_height="@dimen/_35sdp"
             android:text="#광안대교"
             android:textSize="@dimen/_13sdp"
             android:textColor="@color/white"
