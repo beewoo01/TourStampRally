@@ -9,4 +9,23 @@
         <item>김해시</item>
         <item>양산시</item>
     </string-array>
+
+    <string-array name="area">
+        <item>동구</item>
+        <item>영도구</item>
+        <item>부산진구</item>
+        <item>남구</item>
+        <item>북구</item>
+        <item>해운대구</item>
+        <item>사하구</item>
+        <item>금정구</item>
+        <item>강서구</item>
+        <item>연제구</item>
+        <item>수영구</item>
+        <item>사상구</item>
+        <item>기장군</item>
+        <item>기타</item>
+
+
+    </string-array>
 </resources>

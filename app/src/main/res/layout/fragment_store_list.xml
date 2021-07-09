@@ -7,54 +7,53 @@
         android:layout_height="match_parent"
         tools:context=".ui.fragment.StoreListFragment">
 
-        <TextView
-            android:id="@+id/store_txv"
+        <Button
+            android:id="@+id/store_btn"
             android:layout_width="@dimen/_75sdp"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/_30sdp"
             android:text="식당"
             android:textColor="@color/mainColor"
             android:paddingHorizontal="@dimen/_10sdp"
             android:paddingVertical="@dimen/_6sdp"
-            android:background="@drawable/testdrawable"
+            android:background="@drawable/bg_rounded_category"
             android:layout_marginTop="@dimen/_30sdp"
-            android:gravity="center"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/cafe_txv"
+            app:layout_constraintEnd_toStartOf="@id/cafe_btn"
             app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintTop_toTopOf="parent"
             android:layout_marginEnd="@dimen/_10sdp"
             />
 
-        <TextView
-            android:id="@+id/cafe_txv"
+        <Button
+            android:id="@+id/cafe_btn"
             android:layout_width="@dimen/_75sdp"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/_30sdp"
             android:text="카페"
             android:textColor="@color/mainColor"
             android:paddingHorizontal="@dimen/_10sdp"
             android:paddingVertical="@dimen/_6sdp"
-            android:background="@drawable/testdrawable"
+            android:background="@drawable/bg_rounded_category"
             android:layout_marginTop="@dimen/_30sdp"
             android:layout_marginEnd="@dimen/_10sdp"
             android:gravity="center"
-            app:layout_constraintStart_toEndOf="@id/store_txv"
-            app:layout_constraintEnd_toStartOf="@id/accommodation_txv"
+            app:layout_constraintStart_toEndOf="@id/store_btn"
+            app:layout_constraintEnd_toStartOf="@id/accommodation_btn"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintHorizontal_chainStyle="packed"
             />
 
-        <TextView
-            android:id="@+id/accommodation_txv"
+        <Button
+            android:id="@+id/accommodation_btn"
             android:layout_width="@dimen/_75sdp"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/_30sdp"
             android:text="숙박시설"
             android:gravity="center"
             android:textColor="@color/mainColor"
             android:paddingHorizontal="@dimen/_10sdp"
             android:paddingVertical="@dimen/_6sdp"
-            android:background="@drawable/testdrawable"
+            android:background="@drawable/bg_rounded_category"
             android:layout_marginTop="@dimen/_30sdp"
-            app:layout_constraintStart_toEndOf="@id/cafe_txv"
+            app:layout_constraintStart_toEndOf="@id/cafe_btn"
             app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -73,7 +72,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/cafe_txv"
+            app:layout_constraintTop_toBottomOf="@id/cafe_btn"
             >
 
             <ImageView

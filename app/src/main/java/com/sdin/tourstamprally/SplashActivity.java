@@ -4,11 +4,15 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -17,6 +21,7 @@ import android.widget.TextView;
 
 import com.sdin.tourstamprally.databinding.ActivitySplashBinding;
 import com.sdin.tourstamprally.ui.activity.LoginActivity;
+import com.sdin.tourstamprally.ui.activity.MainActivity;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -46,6 +51,7 @@ public class SplashActivity extends AppCompatActivity {
         @Override
         public void onAnimationStart(Animation animation) {
         }
+
         @Override
         public void onAnimationEnd(Animation animation) {
             binding.logo.setVisibility(View.GONE);
@@ -56,7 +62,6 @@ public class SplashActivity extends AppCompatActivity {
 
         @Override
         public void onAnimationRepeat(Animation animation) {
-
 
 
         }
@@ -82,9 +87,29 @@ public class SplashActivity extends AppCompatActivity {
     };
 
 
-
     /*체크 실행*/
     private void startLoading() {
-        startActivity(new Intent(this, LoginActivity.class));
+
+        SharedPreferences preferences = setSharedPref();
+        String phone = preferences.getString("phone", "");
+        String psw = preferences.getString("password", "");
+        Log.d("isAutoLogin phone", phone);
+        Log.d("isAutoLogin psw", psw);
+
+        if (!TextUtils.isEmpty(phone) && !TextUtils.isEmpty(psw)) {
+            Utils.UserPhone = phone;
+            Utils.UserPassword = psw;
+
+            startActivity(new Intent(this, MainActivity.class));
+        } else {
+
+            startActivity(new Intent(this, LoginActivity.class));
+        }
+
+
+    }
+
+    private SharedPreferences setSharedPref(){
+        return getSharedPreferences("rebuild_preference", Context.MODE_PRIVATE);
     }
 }

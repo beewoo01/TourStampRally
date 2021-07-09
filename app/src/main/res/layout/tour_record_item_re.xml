@@ -1,61 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/_20sdp"
+        >
 
-        <ImageView
-            android:id="@+id/tour_imv"
-            android:layout_width="@dimen/_130sdp"
-            android:layout_height="@dimen/_130sdp"
-            android:foreground="@drawable/forground_overlay"
-            android:scaleType="centerCrop"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="parent"
-            tools:src="@drawable/enjoy_busan" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            >
 
-        <ImageView
-            android:id="@+id/clear_title_imv"
-            android:layout_width="@dimen/_90sdp"
-            android:layout_height="@dimen/_90sdp"
-            android:src="@drawable/tour_record_logo"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="@id/tour_imv"
-            app:layout_constraintEnd_toEndOf="@id/tour_imv"
-            app:layout_constraintStart_toStartOf="@id/tour_imv"
-            app:layout_constraintTop_toTopOf="@id/tour_imv" />
 
-        <TextView
-            android:id="@+id/clear_title_txv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/bg_record_item_gettitle"
-            android:padding="@dimen/_5sdp"
-            android:text="21.07.21획득!"
-            android:textColor="@color/white"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="@id/tour_imv"
-            app:layout_constraintEnd_toEndOf="@id/tour_imv"
-            app:layout_constraintStart_toStartOf="@id/tour_imv"
-            app:layout_constraintTop_toBottomOf="@id/tour_imv" />
+            <ImageView
+                android:id="@+id/tour_imv"
+                android:layout_width="@dimen/_105sdp"
+                android:layout_height="@dimen/_105sdp"
+                android:background="@drawable/bg_rounded_circle_imageview"
+                android:scaleType="centerCrop"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:src="@drawable/enjoy_busan" />
 
-        <TextView
-            android:id="@+id/tour_name_txv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_8sdp"
-            android:text="해동용궁사"
-            android:textColor="@color/black"
-            android:textSize="@dimen/_15sdp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@id/tour_imv"
-            app:layout_constraintStart_toStartOf="@id/tour_imv"
-            app:layout_constraintTop_toBottomOf="@id/clear_title_txv" />
+            <ImageView
+                android:id="@+id/clear_title_imv"
+                android:layout_width="@dimen/_75sdp"
+                android:layout_height="@dimen/_75sdp"
+                android:src="@drawable/tour_record_logo"
+                app:layout_constraintBottom_toBottomOf="@id/tour_imv"
+                app:layout_constraintEnd_toEndOf="@id/tour_imv"
+                app:layout_constraintStart_toStartOf="@id/tour_imv"
+                app:layout_constraintTop_toTopOf="@id/tour_imv" />
+
+            <TextView
+                android:id="@+id/clear_title_txv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_record_item_gettitle"
+                android:gravity="center"
+                android:padding="@dimen/_5sdp"
+                android:text="21.07.21획득!"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_10sdp"
+                app:layout_constraintBottom_toBottomOf="@id/tour_imv"
+                app:layout_constraintEnd_toEndOf="@id/tour_imv"
+                app:layout_constraintStart_toStartOf="@id/tour_imv"
+                app:layout_constraintTop_toBottomOf="@id/tour_imv" />
+
+            <TextView
+                android:id="@+id/tour_name_txv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_3sdp"
+                android:text="해동용궁사"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_15sdp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@id/tour_imv"
+                app:layout_constraintStart_toStartOf="@id/tour_imv"
+                app:layout_constraintTop_toBottomOf="@id/clear_title_txv" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

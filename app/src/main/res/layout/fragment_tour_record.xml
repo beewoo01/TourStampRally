@@ -2,6 +2,7 @@
 <layout xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <variable
             name="fragment"
             type="com.sdin.tourstamprally.ui.fragment.TourRecordFragment" />
@@ -14,131 +15,120 @@
         tools:context=".ui.fragment.TourRecordFragment">
 
 
-
-        <TextView
-            android:id="@+id/popular_txv"
+        <Button
+            android:id="@+id/popular_btn"
             android:layout_width="@dimen/_75sdp"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/_30sdp"
+            android:layout_marginTop="@dimen/_30sdp"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:background="@drawable/bg_rounded_category"
+            android:gravity="center"
+            android:onClick="@{fragment::setSort}"
+            android:paddingHorizontal="@dimen/_10sdp"
+            android:paddingVertical="@dimen/_6sdp"
             android:text="인기많은순"
             android:textColor="@color/mainColor"
+            app:layout_constraintEnd_toStartOf="@id/recent_btn"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/recent_btn"
+            android:layout_width="@dimen/_75sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:layout_marginTop="@dimen/_30sdp"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:background="@drawable/bg_rounded_category"
+            android:gravity="center"
+            android:onClick="@{fragment::setSort}"
             android:paddingHorizontal="@dimen/_10sdp"
             android:paddingVertical="@dimen/_6sdp"
-            android:background="@drawable/testdrawable"
-            android:layout_marginTop="@dimen/_30sdp"
-            android:gravity="center"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/recent_txv"
-            app:layout_constraintHorizontal_chainStyle="packed"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginEnd="@dimen/_10sdp"
-            />
-
-        <TextView
-            android:id="@+id/recent_txv"
-            android:layout_width="@dimen/_75sdp"
-            android:layout_height="wrap_content"
             android:text="최신획득순"
             android:textColor="@color/mainColor"
-            android:paddingHorizontal="@dimen/_10sdp"
-            android:paddingVertical="@dimen/_6sdp"
-            android:background="@drawable/testdrawable"
-            android:layout_marginTop="@dimen/_30sdp"
-            android:layout_marginEnd="@dimen/_10sdp"
-            android:gravity="center"
-            app:layout_constraintStart_toEndOf="@id/popular_txv"
-            app:layout_constraintEnd_toStartOf="@id/near_txv"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/near_btn"
             app:layout_constraintHorizontal_chainStyle="packed"
-            />
+            app:layout_constraintStart_toEndOf="@id/popular_btn"
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/near_txv"
+        <Button
+            android:id="@+id/near_btn"
             android:layout_width="@dimen/_75sdp"
-            android:layout_height="wrap_content"
-            android:text="가까운순"
+            android:layout_height="@dimen/_30sdp"
+            android:layout_marginTop="@dimen/_30sdp"
+            android:background="@drawable/bg_rounded_category"
             android:gravity="center"
-            android:textColor="@color/mainColor"
+            android:onClick="@{fragment::setSort}"
             android:paddingHorizontal="@dimen/_10sdp"
             android:paddingVertical="@dimen/_6sdp"
-            android:background="@drawable/testdrawable"
-            android:layout_marginTop="@dimen/_30sdp"
-            app:layout_constraintStart_toEndOf="@id/recent_txv"
-            app:layout_constraintHorizontal_chainStyle="packed"
+            android:text="가까운순"
+            android:textColor="@color/mainColor"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            />
-
-
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toEndOf="@id/recent_btn"
+            app:layout_constraintTop_toTopOf="parent" />
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginTop="@dimen/_20sdp"
-            app:layout_goneMarginTop="@dimen/_30sdp"
             android:layout_marginHorizontal="@dimen/_30sdp"
+            android:layout_marginTop="@dimen/_20sdp"
             android:background="@drawable/bg_rounded_16"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/recent_txv"
-            >
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/recent_btn"
+            app:layout_goneMarginTop="@dimen/_30sdp">
 
             <ImageView
                 android:layout_width="@dimen/_200sdp"
                 android:layout_height="@dimen/_200sdp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
                 android:src="@drawable/logo_gray"
-                />
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <LinearLayout
                 android:id="@+id/spinner_layout"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/_30sdp"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
                 android:layout_marginHorizontal="@dimen/_20sdp"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:background="@drawable/bg_rounded_09"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
                 app:layout_constraintBottom_toTopOf="@id/recyclerview_tour_record"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                >
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="구 선택"
                     android:gravity="center"
-                    android:textStyle="bold"
+                    android:text="구 선택"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_13sdp"
-                    />
+                    android:textStyle="bold" />
 
                 <View
                     android:layout_width="1dp"
                     android:layout_height="match_parent"
-                    android:background="@color/gray"
                     android:layout_marginVertical="8dp"
-                    />
+                    android:background="@color/gray" />
 
                 <Spinner
                     android:id="@+id/spinner_tour_record"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/_5sdp"
                     android:layout_weight="2"
-                    android:layout_marginHorizontal="@dimen/_10sdp"
-                    tools:listitem="@android:layout/simple_spinner_item"
-                    />
+                    tools:listitem="@android:layout/simple_spinner_item" />
 
             </LinearLayout>
-
-
 
 
             <androidx.recyclerview.widget.RecyclerView
@@ -147,11 +137,11 @@
                 android:layout_height="0dp"
                 android:layout_marginTop="@dimen/_20sdp"
                 app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                app:spanCount="2"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/spinner_layout"
+                app:spanCount="2"
                 tools:listitem="@layout/tour_record_item_re"
 
                 />

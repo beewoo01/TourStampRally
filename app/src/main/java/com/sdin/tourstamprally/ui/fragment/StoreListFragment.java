@@ -43,7 +43,7 @@ public class StoreListFragment extends Fragment {
         initData();
 
         binding.recyclerviewTourRecord.setAdapter(new LocationAdapter(list, getContext()));
-        binding.recyclerviewTourRecord.addItemDecoration(new DecoRation(getContext()));
+        //binding.recyclerviewTourRecord.addItemDecoration(new DecoRation(30,30));
 
         return binding.getRoot();
     }
@@ -51,12 +51,12 @@ public class StoreListFragment extends Fragment {
 
     private void initData(){
         Tour_Spot spot1, spot2, spot3, spot4, spot5, spot6;
-        spot1 = new Tour_Spot(0, 0, "해동용궁사", "213.1231", "213.321421", "", "", true, "2021.07.21", "2021.07.21");
-        spot2 = new Tour_Spot(1, 0, "해동용궁사", "213.1231", "213.321421", "", "", false);
-        spot3 = new Tour_Spot(2, 0, "해동용궁사", "213.1231", "213.321421", "", "", false);
-        spot4 = new Tour_Spot(3, 0, "해동용궁사", "213.1231", "213.321421", "", "", true, "2021.07.21", "2021.07.21");
-        spot5 = new Tour_Spot(4, 0, "해동용궁사", "213.1231", "213.321421", "", "", false);
-        spot6 = new Tour_Spot(5, 0, "해동용궁사", "213.1231", "213.321421", "", "", false);
+        spot1 = new Tour_Spot(0, 0, "선창횟집", "213.1231", "213.321421", "", "", true, "2021.07.21", "21.07.21");
+        spot2 = new Tour_Spot(1, 0, "디에이블 관안점", "213.1231", "213.321421", "", "", false);
+        spot3 = new Tour_Spot(2, 0, "다리집", "213.1231", "213.321421", "", "", false);
+        spot4 = new Tour_Spot(3, 0, "초량밀면", "213.1231", "213.321421", "", "", true, "2021.07.21", "21.07.21");
+        spot5 = new Tour_Spot(4, 0, "돼지국밥", "213.1231", "213.321421", "", "", false);
+        spot6 = new Tour_Spot(5, 0, "원조전복죽", "213.1231", "213.321421", "", "", false);
 
         list.add(spot1);
         list.add(spot2);

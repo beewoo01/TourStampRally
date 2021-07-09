@@ -14,6 +14,15 @@ public class DecoRation extends RecyclerView.ItemDecoration {
     private int size10;
     private int size5;
 
+    private int spacing;
+    private int topSpacing;
+
+    public DecoRation(int spacing, int topSpacing) {
+        this.spacing = spacing;
+        this.topSpacing = topSpacing;
+    }
+
+
     public DecoRation(Context context){
         size10 =dpToPx(context, 10);
         size5 = dpToPx(context, 5);
@@ -30,32 +39,21 @@ public class DecoRation extends RecyclerView.ItemDecoration {
     public void getItemOffsets(@NonNull Rect outRect, @NonNull View view, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
         super.getItemOffsets(outRect, view, parent, state);
 
-        int position = parent.getChildAdapterPosition(view);
-        int itemCount = state.getItemCount();
-
-        //상하 설정
-        if(position == 0 || position == 1) {
-            // 첫번 째 줄 아이템
-            outRect.top = size10;
-            outRect.bottom = size10;
+        int index = ((GridLayoutManager.LayoutParams) view.getLayoutParams()).getSpanIndex();
+        // Item 포지션
+        int position = parent.getChildLayoutPosition(view);
+        if (index == 0) {
+            //좌측 Spacing 절반
+            outRect.right = spacing/ 2;
         } else {
-            outRect.bottom = size10;
+            //우측 Spacing 절반
+            outRect.left = spacing/ 2;
+        } // 상단 탑 Spacing 맨 위에 포지션 0, 1은 Spacing을 안 줍니다.
+        if (position < 2) {
+            outRect.top = 0;
+        } else {
+            outRect.top = topSpacing;
         }
 
-        // spanIndex = 0 -> 왼쪽
-        // spanIndex = 1 -> 오른쪽
-        GridLayoutManager.LayoutParams lp = (GridLayoutManager.LayoutParams) view.getLayoutParams();
-        int spanIndex = lp.getSpanIndex();
-
-        if(spanIndex == 0) {
-            //왼쪽 아이템
-            outRect.left = size10;
-            outRect.right = size5;
-
-        } else if(spanIndex == 1) {
-            //오른쪽 아이템
-            outRect.left = size5;
-            outRect.right = size10;
-        }
     }
 }

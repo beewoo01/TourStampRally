@@ -151,7 +151,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
                 break;
 
             case R.id.page_report:
-                setFragment("Recode", new StoreListFragment());
+                setFragment("Recode", new TourRecordFragment());
                 break;
 
             case R.id.page_navi:

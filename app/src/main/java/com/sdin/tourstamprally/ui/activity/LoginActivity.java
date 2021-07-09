@@ -30,7 +30,7 @@ public class LoginActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_login);
         binding.setActivity(this);
-        //isAutoLogin();
+        isAutoLogin();
 
     }
 
