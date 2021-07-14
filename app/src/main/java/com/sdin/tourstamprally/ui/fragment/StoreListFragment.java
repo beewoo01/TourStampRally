@@ -50,7 +50,7 @@ public class StoreListFragment extends Fragment {
 
 
     private void initData(){
-        Tour_Spot spot1, spot2, spot3, spot4, spot5, spot6;
+        /*Tour_Spot spot1, spot2, spot3, spot4, spot5, spot6;
         spot1 = new Tour_Spot(0, 0, "선창횟집", "213.1231", "213.321421", "", "", true, "2021.07.21", "21.07.21");
         spot2 = new Tour_Spot(1, 0, "디에이블 관안점", "213.1231", "213.321421", "", "", false);
         spot3 = new Tour_Spot(2, 0, "다리집", "213.1231", "213.321421", "", "", false);
@@ -63,6 +63,6 @@ public class StoreListFragment extends Fragment {
         list.add(spot3);
         list.add(spot4);
         list.add(spot5);
-        list.add(spot6);
+        list.add(spot6);*/
     }
 }

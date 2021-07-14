@@ -2,6 +2,7 @@ package com.sdin.tourstamprally.api;
 
 
 
+import com.google.gson.Gson;
 import com.sdin.tourstamprally.model.Tour_Spot;
 import com.sdin.tourstamprally.model.UserModel;
 
@@ -12,6 +13,7 @@ import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
 
@@ -126,8 +128,8 @@ public interface APIService {
 
     );*/
 
-    @GET("tour_refort")
-    Call<Tour_Spot> getTour(@Query("user_idx") int idx);
+    @GET("getTourist")
+    Call<List<Tour_Spot>> getTour(@Query("userIdx") int idx);
 
 
     @GET("gabia_token")

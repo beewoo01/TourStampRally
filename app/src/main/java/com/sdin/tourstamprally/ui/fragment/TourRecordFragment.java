@@ -13,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 
+import com.google.gson.Gson;
 import com.sdin.tourstamprally.R;
 import com.sdin.tourstamprally.Utils;
 import com.sdin.tourstamprally.adapter.LocationAdapter;
@@ -20,6 +21,7 @@ import com.sdin.tourstamprally.databinding.FragmentTourRecordBinding;
 import com.sdin.tourstamprally.model.Tour_Spot;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -90,33 +92,44 @@ public class TourRecordFragment extends BaseFragment {
 
 
     private void initData(){
-
-        apiService.getTour(Utils.User_Idx).enqueue(new Callback<Tour_Spot>() {
+        /*user_idx = Utils.User_Idx*/
+        apiService.getTour(21).enqueue(new Callback<List<Tour_Spot>>() {
             @Override
-            public void onResponse(Call<Tour_Spot> call, Response<Tour_Spot> response) {
+            public void onResponse(Call<List<Tour_Spot>> call, Response<List<Tour_Spot>> response) {
+                Log.d("result", "00000000000000000000000");
+                Log.d("onResponse", "onResponse");
+                if (response.isSuccessful()){
+                    Log.d("onResponse", "isSuccessful");
+                    Log.d("LocationName!!", response.body().get(0).getLocation_name());
+                    String result = response.body().toString();
 
+                    Log.d("result", result);
+
+                }else {
+                    Log.d("result", "111111111111111111111");
+                }
             }
 
             @Override
-            public void onFailure(Call<Tour_Spot> call, Throwable t) {
-
+            public void onFailure(Call<List<Tour_Spot>> call, Throwable t) {
+                t.printStackTrace();
             }
         });
 
-        Tour_Spot spot1, spot2, spot3, spot4, spot5, spot6;
+        /*Tour_Spot spot1, spot2, spot3, spot4, spot5, spot6;
         spot1 = new Tour_Spot(0, 0, "해동용궁사", "213.1231", "213.321421", "", "", true, "2021.01.01 15:11:15", "2021.01.01 15:11:15");
         spot2 = new Tour_Spot(1, 0, "광안리", "213.1231", "213.321421", "", "", false, "2021.01.02 11:11:13", "2021.01.02 11:11:13");
         spot3 = new Tour_Spot(2, 0, "해운대", "213.1231", "213.321421", "", "", false, "2021.01.03 15:21:31", "2021.01.03 15:21:31");
         spot4 = new Tour_Spot(3, 0, "용두산공원", "213.1231", "213.321421", "", "", true, "2021.01.04", "2021.01.04 16:41:00");
         spot5 = new Tour_Spot(4, 0, "감천문화마을", "213.1231", "213.321421", "", "", false, "2021.01.05", "2021.01.05 20:11:55");
-        spot6 = new Tour_Spot(5, 0, "이기대공원", "213.1231", "213.321421", "", "", false, "2021.01.06", "2021.01.06 21:11:15");
+        spot6 = new Tour_Spot(5, 0, "이기대공원", "213.1231", "213.321421", "", "", false, "2021.01.06", "2021.01.06 21:11:15");*/
 
-        list.add(spot1);
+        /*list.add(spot1);
         list.add(spot2);
         list.add(spot3);
         list.add(spot4);
         list.add(spot5);
-        list.add(spot6);
+        list.add(spot6);*/
     }
 
 

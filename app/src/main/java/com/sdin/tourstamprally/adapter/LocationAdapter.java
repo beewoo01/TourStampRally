@@ -61,8 +61,8 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHo
 
 
             try {
-                Date tempDate = sdf.parse(o1.getUpdateTime());
-                Date tempDate2 = sdf.parse(o2.getUpdateTime());
+                Date tempDate = sdf.parse(o1.getTouristspot_updatetime());
+                Date tempDate2 = sdf.parse(o2.getTouristspot_updatetime());
 
                 long currentLong = tempDate.getTime();
                 long currentLong2 = tempDate2.getTime();
@@ -105,7 +105,7 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.binding.tourNameTxv.setText(list.get(position).getSpotName());
+        holder.binding.tourNameTxv.setText(list.get(position).getTouristspot_name());
         //Glide.with(holder.itemView.getContext()).load(list.get(position).imgUrl).circleCrop().into(holder.binding.tourImv);
         holder.binding.tourImv.setBackground(new ShapeDrawable(new OvalShape()));
         holder.binding.tourImv.setClipToOutline(true);
@@ -115,7 +115,7 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHo
             //클리어시 적용될 코드
             holder.binding.tourImv.setColorFilter(Color.parseColor("#63000000"));
             holder.binding.clearTitleTxv.setVisibility(View.VISIBLE);
-            holder.binding.clearTitleTxv.setText(list.get(position).getUpdateTime() + " 획득!");
+            holder.binding.clearTitleTxv.setText(list.get(position).getTouristhistory_updatetime() + " 획득!");
             holder.binding.clearTitleImv.setVisibility(View.VISIBLE);
         }else {
             holder.binding.tourImv.setColorFilter(null);
