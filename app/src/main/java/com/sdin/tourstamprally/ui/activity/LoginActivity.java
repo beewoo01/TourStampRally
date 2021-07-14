@@ -17,6 +17,7 @@ import com.sdin.tourstamprally.RetrofitGenerator;
 import com.sdin.tourstamprally.Utils;
 import com.sdin.tourstamprally.api.APIService;
 import com.sdin.tourstamprally.databinding.ActivityLoginBinding;
+import com.sdin.tourstamprally.model.UserModel;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -25,31 +26,34 @@ import retrofit2.Response;
 public class LoginActivity extends BaseActivity {
 
     private ActivityLoginBinding binding;
+    private String phone, psw;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_login);
         binding.setActivity(this);
-        isAutoLogin();
+        //isAutoLogin();
 
     }
 
-    private void isAutoLogin(){
+    /*private void isAutoLogin(){
         // TODO: 6/29/21 SplashActivity로 이동해야함
         SharedPreferences preferences = setSharedPref();
-        String phone = preferences.getString("phone", "");
-        String psw = preferences.getString("password", "");
+        phone = preferences.getString("phone", "");
+        psw = preferences.getString("password", "");
         Log.d("isAutoLogin phone", phone);
         Log.d("isAutoLogin psw", psw);
         if (!TextUtils.isEmpty(phone) && !TextUtils.isEmpty(psw)){
-            Utils.UserPhone = phone;
-            Utils.UserPassword = psw;
-            movoToMain();
+            *//*Utils.UserPhone = phone;
+            Utils.UserPassword = psw;*//*
+            login();
+            //movoToMain();
         } else if (!TextUtils.isEmpty(phone) && TextUtils.isEmpty(psw)) {
             binding.editPhone.setText(phone);
         }
 
-    }
+    }*/
 
     public void autoSaveClick(View view){
         if (binding.autoLoginRbt.isChecked() && binding.saveIdRbt.isChecked()){
@@ -63,7 +67,9 @@ public class LoginActivity extends BaseActivity {
 
 
     public void validation(){
-        if (!TextUtils.isEmpty(binding.editPhone.getText()) || !TextUtils.isEmpty(binding.editPhone.getText())){
+        if (!TextUtils.isEmpty(binding.editPhone.getText()) || !TextUtils.isEmpty(binding.editPassword.getText())){
+            phone = binding.editPhone.getText().toString();
+            psw = binding.editPassword.getText().toString();
             login();
             
         }else {
@@ -73,10 +79,8 @@ public class LoginActivity extends BaseActivity {
     }
 
     private void login(){
-        RetrofitGenerator retrofitGenerator = new RetrofitGenerator();
-        APIService apiService = retrofitGenerator.getApiService();
 
-        apiService.userLogin(binding.editPhone.getText().toString(), binding.editPassword.getText().toString()).enqueue(new Callback<String>() {
+        apiService.userLoginExists(phone, psw).enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
                 String result = response.body();
@@ -98,15 +102,52 @@ public class LoginActivity extends BaseActivity {
 
     private void saveInfo(){
 
-        if (binding.autoLoginRbt.isChecked()){
-            setShearedString("phone", binding.editPhone.getText().toString());
-            setShearedString("password", binding.editPassword.getText().toString());
-        }else if (binding.saveIdRbt.isChecked()){
-            setShearedString("phone", binding.editPhone.getText().toString());
-        }
-        Utils.UserPhone = binding.editPhone.getText().toString();
-        Utils.UserPassword = binding.editPassword.getText().toString();
-        movoToMain();
+
+        apiService.userLogin(phone, psw).enqueue(new Callback<UserModel>() {
+            @Override
+            public void onResponse(Call<UserModel> call, Response<UserModel> response) {
+                UserModel result = response.body();
+                Log.d("result JOIN", result.toString());
+                if (result.equals("null") || result == null){
+                    Log.d("result", result.toString());
+                    Toast.makeText(LoginActivity.this, "로그인에 실패하셨습니다.", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(LoginActivity.this, "로그인 성공!!" + result, Toast.LENGTH_SHORT).show();
+                }else {
+                    Log.d("result!!", result.toString());
+                    if (result.getEnable().equals("0") ){
+                        if (binding.autoLoginRbt.isChecked()){
+                            setShearedString("phone", binding.editPhone.getText().toString());
+                            setShearedString("password", binding.editPassword.getText().toString());
+                        /*setShearedString("user_idx", String.valueOf(result.getUserIdx()));
+                        setShearedString("user_name", result.getName());
+                        setShearedString("user_email", result.getEmail());
+                        setShearedString("user_location", result.getLocation());*/
+                        }else if (binding.saveIdRbt.isChecked()){
+                            setShearedString("phone", binding.editPhone.getText().toString());
+                        }
+                        Utils.UserPhone = binding.editPhone.getText().toString();
+                        Utils.UserPassword = binding.editPassword.getText().toString();
+                        Utils.User_Idx = result.getUserIdx();
+                        Utils.User_Name = result.getName();
+                        Utils.User_Email = result.getEmail();
+                        Utils.User_Location = result.getLocation();
+
+                        movoToMain();
+                    }else {
+                        Toast.makeText(LoginActivity.this, "로그인에 실패하셨습니다.", Toast.LENGTH_SHORT).show();
+                    }
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<UserModel> call, Throwable t) {
+                t.printStackTrace();
+                Toast.makeText(LoginActivity.this, "로그인에 실패하셨습니다.", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
 
     }
 

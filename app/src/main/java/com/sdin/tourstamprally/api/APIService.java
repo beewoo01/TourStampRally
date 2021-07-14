@@ -2,6 +2,7 @@ package com.sdin.tourstamprally.api;
 
 
 
+import com.sdin.tourstamprally.model.Tour_Spot;
 import com.sdin.tourstamprally.model.UserModel;
 
 import java.util.List;
@@ -56,8 +57,13 @@ public interface APIService {
     );
 
     /*로그인*/
+    @GET("bsr_login")
+    Call<UserModel> userLogin(@Query("user_phone") String user_phone,
+                                 @Query("user_password") String user_password);
+
+    /*로그인*/
     @GET("bsr_login_Exists")
-    Call<String> userLogin(@Query("user_phone") String user_phone,
+    Call<String> userLoginExists(@Query("user_phone") String user_phone,
                                  @Query("user_password") String user_password);
 
 
@@ -99,7 +105,7 @@ public interface APIService {
     );
 
 
-    //비밀번호 업데이트
+    /*//비밀번호 업데이트
     @FormUrlEncoded
     @POST("change_password")
     Call<ResponseBody> change_password(@Field("id") String id,
@@ -118,7 +124,10 @@ public interface APIService {
                                      @Field("userid") String userid,
                                      @Field("colorcode") String colorcode
 
-    );
+    );*/
+
+    @GET("tour_refort")
+    Call<Tour_Spot> getTour(@Query("user_idx") int idx);
 
 
     @GET("gabia_token")

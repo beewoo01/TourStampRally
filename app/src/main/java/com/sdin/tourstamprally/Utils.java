@@ -44,6 +44,10 @@ public class Utils {
 
     public static String UserPhone;
     public static String UserPassword;
+    public static int User_Idx;
+    public static String User_Name;
+    public static String User_Email;
+    public static String User_Location;
 
     public static boolean getGPSState(Context context){
 

@@ -11,40 +11,44 @@ import lombok.Data;
 @Data
 public class UserModel implements Serializable {
 
-    @SerializedName("accountidx")
+    @SerializedName("user_idx")
     @Expose
-    public Integer accountIdx;
+    private int userIdx;
 
-    @SerializedName("phone")
+    @SerializedName("user_phone")
     @Expose
-    public String phone;
+    private String phone;
 
-    @SerializedName("name")
+    @SerializedName("user_name")
     @Expose
-    public String name;
+    private String name;
 
-    @SerializedName("password")
+    @SerializedName("user_password")
     @Expose
-    public String password;
+    private String password;
 
-    @SerializedName("email")
+    @SerializedName("user_email")
     @Expose
-    public String email;
+    private String email;
 
-    @SerializedName("location")
+    @SerializedName("user_location")
     @Expose
-    public String location;
-
-    @SerializedName("agree1")
-    @Expose
-    public boolean agree1;
+    private String location;
 
     @SerializedName("agree2")
     @Expose
-    public boolean agree2;
+    private boolean agree2;
+
+    @SerializedName("agree1")
+    @Expose
+    private boolean agree1;
+
+    @SerializedName("user_enable")
+    @Expose
+    private String enable;
 
 
-    @SerializedName("historyidx")
+    /*@SerializedName("historyidx")
     @Expose
     public Integer historyIdx;
 
@@ -60,9 +64,6 @@ public class UserModel implements Serializable {
     @Expose
     public String colorCode;
 
-    @SerializedName("useridx")
-    @Expose
-    public int userIdx;
 
     @SerializedName("userid")
     @Expose
@@ -78,6 +79,6 @@ public class UserModel implements Serializable {
 
     @SerializedName("updatedate")
     @Expose
-    public String updateDate;
+    public String updateDate;*/
 
 }

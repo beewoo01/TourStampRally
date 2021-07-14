@@ -1,14 +1,18 @@
 package com.sdin.tourstamprally.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Location_model {
 
-    public String name;
-    public String explan;
-    public String imgUrl;
-    public String createTime;
-    public String upDataTime;
+    private String name;
+    private String explan;
+    private String imgUrl;
+    private String createTime;
+    private String upDataTime;
 
 }

@@ -4,7 +4,6 @@ import android.os.Bundle;
 
 import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
-import androidx.fragment.app.Fragment;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,17 +14,18 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 
 import com.sdin.tourstamprally.R;
+import com.sdin.tourstamprally.Utils;
 import com.sdin.tourstamprally.adapter.LocationAdapter;
 import com.sdin.tourstamprally.databinding.FragmentTourRecordBinding;
 import com.sdin.tourstamprally.model.Tour_Spot;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.Date;
 
-public class TourRecordFragment extends Fragment {
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+public class TourRecordFragment extends BaseFragment {
 
 
     private FragmentTourRecordBinding binding;
@@ -55,8 +55,6 @@ public class TourRecordFragment extends Fragment {
         initView();
 
 
-
-        //binding.recyclerviewTourRecord.addItemDecoration(new DecoRation(getContext()));
         return binding.getRoot();
     }
 
@@ -71,24 +69,10 @@ public class TourRecordFragment extends Fragment {
         binding.spinnerTourRecord.setOnItemSelectedListener(selectedListener);
     }
 
+    //어댑터 리스트 정렬
     public void setSort(View view){
-
         setSortBtnBackground(view.getId());
         list = locationAdapter.sortList(view.getId());
-
-        /*switch (view.getId()){
-            case R.id.popular_btn:
-                list = locationAdapter.sortList(POPULARFORM);
-                break;
-
-            case R.id.recent_btn:
-                locationAdapter.sortList(DATEFORM);
-                break;
-
-            case R.id.near_btn:
-                locationAdapter.sortList(NEARFORM);
-                break;
-        }*/
     }
 
     private void setSortBtnBackground(int id){
@@ -104,42 +88,21 @@ public class TourRecordFragment extends Fragment {
         }
     }
 
-    private void setSortList(int form){
-
-        /*final SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss");
-
-
-        list.sort((o1, o2) -> {
-
-
-            try {
-                Date tempDate = sdf.parse(o1.getUpdateTime());
-                Date tempDate2 = sdf.parse(o2.getUpdateTime());
-
-                long currentLong = tempDate.getTime();
-                long currentLong2 = tempDate2.getTime();
-
-                if (currentLong == currentLong2)
-                    return 0;
-
-                else if (currentLong > currentLong2)
-                    return 1;
-
-                else
-                    return -1;
-
-
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-
-            return -1;
-        });*/
-    }
-
-
 
     private void initData(){
+
+        apiService.getTour(Utils.User_Idx).enqueue(new Callback<Tour_Spot>() {
+            @Override
+            public void onResponse(Call<Tour_Spot> call, Response<Tour_Spot> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<Tour_Spot> call, Throwable t) {
+
+            }
+        });
+
         Tour_Spot spot1, spot2, spot3, spot4, spot5, spot6;
         spot1 = new Tour_Spot(0, 0, "해동용궁사", "213.1231", "213.321421", "", "", true, "2021.01.01 15:11:15", "2021.01.01 15:11:15");
         spot2 = new Tour_Spot(1, 0, "광안리", "213.1231", "213.321421", "", "", false, "2021.01.02 11:11:13", "2021.01.02 11:11:13");

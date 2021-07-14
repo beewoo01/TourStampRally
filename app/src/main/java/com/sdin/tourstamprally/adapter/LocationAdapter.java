@@ -105,13 +105,13 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.binding.tourNameTxv.setText(list.get(position).spotName);
+        holder.binding.tourNameTxv.setText(list.get(position).getSpotName());
         //Glide.with(holder.itemView.getContext()).load(list.get(position).imgUrl).circleCrop().into(holder.binding.tourImv);
         holder.binding.tourImv.setBackground(new ShapeDrawable(new OvalShape()));
         holder.binding.tourImv.setClipToOutline(true);
         Glide.with(holder.itemView.getContext()).load(R.drawable.enjoy_busan).circleCrop().into(holder.binding.tourImv);
 
-        if (list.get(position).isClear){
+        if (list.get(position).isClear()){
             //클리어시 적용될 코드
             holder.binding.tourImv.setColorFilter(Color.parseColor("#63000000"));
             holder.binding.clearTitleTxv.setVisibility(View.VISIBLE);

@@ -18,12 +18,19 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.sdin.tourstamprally.databinding.ActivitySplashBinding;
+import com.sdin.tourstamprally.model.UserModel;
+import com.sdin.tourstamprally.ui.activity.BaseActivity;
 import com.sdin.tourstamprally.ui.activity.LoginActivity;
 import com.sdin.tourstamprally.ui.activity.MainActivity;
 
-public class SplashActivity extends AppCompatActivity {
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+public class SplashActivity extends BaseActivity {
 
     private ActivitySplashBinding binding;
     private Animation fadeOutAnimation, fadeInAnimation;
@@ -76,8 +83,6 @@ public class SplashActivity extends AppCompatActivity {
         @Override
         public void onAnimationEnd(Animation animation) {
             binding.logo.startAnimation(fadeOutAnimation);
-
-
         }
 
         @Override
@@ -90,22 +95,105 @@ public class SplashActivity extends AppCompatActivity {
     /*체크 실행*/
     private void startLoading() {
 
+        //startActivity(new Intent(this, LoginActivity.class));
+
+
+
         SharedPreferences preferences = setSharedPref();
-        String phone = preferences.getString("phone", "");
-        String psw = preferences.getString("password", "");
+        final String phone = preferences.getString("phone", "");
+        final String psw = preferences.getString("password", "");
         Log.d("isAutoLogin phone", phone);
         Log.d("isAutoLogin psw", psw);
 
         if (!TextUtils.isEmpty(phone) && !TextUtils.isEmpty(psw)) {
-            Utils.UserPhone = phone;
-            Utils.UserPassword = psw;
+            apiService.userLoginExists(phone, psw).enqueue(new Callback<String>() {
+                @Override
+                public void onResponse(Call<String> call, Response<String> response) {
 
-            startActivity(new Intent(this, MainActivity.class));
-        } else {
+                    login(phone, psw);
+                }
 
-            startActivity(new Intent(this, LoginActivity.class));
+                @Override
+                public void onFailure(Call<String> call, Throwable t) {
+                    moveActivity(LoginActivity.class, "로그인에 실패하셨습니다.");
+                }
+            });
+
+        }else {
+            moveActivity(LoginActivity.class, "로그인에 실패하셨습니다.");
         }
 
+
+    }
+
+    private void moveActivity(Class<?> Activity, String msg){
+        Toast.makeText(SplashActivity.this, msg, Toast.LENGTH_SHORT).show();
+        startActivity(new Intent(SplashActivity.this, Activity));
+    }
+
+    private void login(String phone, String psw){
+
+
+        apiService.userLogin(phone, psw).enqueue(new Callback<UserModel>() {
+            @Override
+            public void onResponse(Call<UserModel> call, Response<UserModel> response) {
+                UserModel result = response.body();
+                Log.d("result JOIN", result.toString());
+                if (result.equals("null") || result == null){
+                    Log.d("result", result.toString());
+                    moveActivity(LoginActivity.class, "로그인에 실패하셨습니다.");
+                    //Toast.makeText(LoginActivity.this, "로그인 성공!!" + result, Toast.LENGTH_SHORT).show();
+                }else {
+                    Log.d("result!!", result.toString());
+                    if (result.getEnable().equals("0") ){
+
+                        Utils.UserPhone = phone;
+                        Utils.UserPassword = psw;
+                        Utils.User_Idx = result.getUserIdx();
+                        Utils.User_Name = result.getName();
+                        Utils.User_Email = result.getEmail();
+                        Utils.User_Location = result.getLocation();
+
+                        startActivity(new Intent(SplashActivity.this, MainActivity.class));
+                    }else {
+                        moveActivity(LoginActivity.class, "로그인에 실패하셨습니다.");
+                    }
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<UserModel> call, Throwable t) {
+                t.printStackTrace();
+                moveActivity(LoginActivity.class, "로그인에 실패하셨습니다.");
+            }
+        });
+
+
+
+
+        /*apiService.userLogin(phone, psw).enqueue(new Callback<UserModel>() {
+            @Override
+            public void onResponse(Call<UserModel> call, Response<UserModel> response) {
+
+
+
+                if (!TextUtils.isEmpty(phone) && !TextUtils.isEmpty(psw)) {
+                    Utils.UserPhone = phone;
+                    Utils.UserPassword = psw;
+
+                    startActivity(new Intent(SplashActivity.this, MainActivity.class));
+                } else {
+
+                    startActivity(new Intent(SplashActivity.this, LoginActivity.class));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<UserModel> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });*/
 
     }
 
