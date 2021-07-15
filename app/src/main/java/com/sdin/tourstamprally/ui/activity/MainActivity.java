@@ -216,7 +216,13 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
 
     private void NfcModeOn() {
         NfcMode = true;
-        nfcAdapter.enableForegroundDispatch(this, pendingIntent, writingTagFilters, null);
+        if (nfcAdapter == null){
+            nfcAdapter = NfcAdapter.getDefaultAdapter(this);
+        }
+        if (ISNfcInable){
+            nfcAdapter.enableForegroundDispatch(this, pendingIntent, writingTagFilters, null);
+        }
+
     }
 
     private void NfcModeOff() {
@@ -291,7 +297,11 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
 
             case 1 :
                 //NFC
-                setFragment("NFC", nfcFragment);
+                if (ISNfcInable) {
+                    setFragment("NFC", nfcFragment);
+                }else {
+                    showToast("NFC를 지원하지 않는 단말기 입니다.");
+                }
                 break;
 
             case 2 :

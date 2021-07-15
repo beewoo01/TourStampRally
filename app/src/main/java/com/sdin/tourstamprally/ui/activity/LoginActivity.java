@@ -118,10 +118,7 @@ public class LoginActivity extends BaseActivity {
                         if (binding.autoLoginRbt.isChecked()){
                             setShearedString("phone", binding.editPhone.getText().toString());
                             setShearedString("password", binding.editPassword.getText().toString());
-                        /*setShearedString("user_idx", String.valueOf(result.getUserIdx()));
-                        setShearedString("user_name", result.getName());
-                        setShearedString("user_email", result.getEmail());
-                        setShearedString("user_location", result.getLocation());*/
+
                         }else if (binding.saveIdRbt.isChecked()){
                             setShearedString("phone", binding.editPhone.getText().toString());
                         }

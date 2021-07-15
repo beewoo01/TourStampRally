@@ -1,5 +1,6 @@
 package com.sdin.tourstamprally.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Rect;
@@ -25,71 +26,76 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import static com.sdin.tourstamprally.ui.fragment.TourRecordFragment.DATEFORM;
 
 public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHolder> {
 
-    private ArrayList<Tour_Spot> list;
+    private List<Tour_Spot> list;
     private Context context;
     public static final String TAG = LocationAdapter.class.getSimpleName();
+    private SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd");
 
 
-    public LocationAdapter(ArrayList<Tour_Spot> list, Context context){
+    public LocationAdapter(List<Tour_Spot> list, Context context){
         this.list = list;
         this.context = context;
     }
 
-    public ArrayList<Tour_Spot> sortList(int form){
+    public List<Tour_Spot> sortList(int form){
 
         switch (form){
             case R.id.popular_btn :
                 Log.d(TAG, "popular_btn");
+                list.sort((o1, o2) -> {
+
+                    if (o1.getTouristspot_checkin_count() == o2.getTouristspot_checkin_count()) return 0;
+                    else if (o1.getTouristspot_checkin_count() < o2.getTouristspot_checkin_count()) return 1;
+                    else return -1;
+                });
+
                 break;
+
             case R.id.recent_btn :
                 Log.d(TAG, "recent_btn");
+                list.sort((o1, o2) -> {
+
+                    long sortDate1 = o1.getTouristhistory_updatetime();
+                    long sortDate2 = o2.getTouristhistory_updatetime();
+                    //35.1554, 129.0638
+
+                    if (sortDate1 == sortDate2) return 0;
+                    else if (sortDate1 < sortDate2) return 1;
+                    else return -1;
+
+                });
                 break;
+
             case R.id.near_btn :
                 Log.d(TAG, "near_btn");
                 break;
         }
 
-        final SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss");
 
 
-        list.sort((o1, o2) -> {
+        /*   - spotpoint_idx
+        *       . 1 = 8
+        *       . 2 = 2
+        *       . 3 = 1
+        *
+        *    - touristspotpoint_touristspot_idx
+        *       . 1 = 21
+        *       . 2 = 33
+        *       . 3 = 36
+        *
+        *    - touristspot
+        *     21 =  부산 시민공원 8
+        *     33 =  비프광장 2
+        *     36 =  국제시장 1
+        * */
 
 
-            try {
-                Date tempDate = sdf.parse(o1.getTouristspot_updatetime());
-                Date tempDate2 = sdf.parse(o2.getTouristspot_updatetime());
-
-                long currentLong = tempDate.getTime();
-                long currentLong2 = tempDate2.getTime();
-
-                if (currentLong == currentLong2){
-                    Log.d(TAG, "0000");
-                    return 0;
-                }
-
-
-                else if (currentLong < currentLong2) {
-                    Log.d(TAG, "1111");
-                    return 1;
-                }
-
-                else {
-                    Log.d(TAG, "-1-1-1-1");
-                    return -1;
-                }
-
-            } catch (ParseException e) {
-                e.printStackTrace();
-                return -1;
-            }
-
-
-        });
 
         notifyDataSetChanged();
 
@@ -103,8 +109,14 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHo
         return new ViewHolder(binding);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        Log.d("??", list.get(position).toString());
+
+        if (list.get(position).getTouristhistory_idx() == null) list.get(position).setClear(false);
+        else list.get(position).setClear(true);
+
         holder.binding.tourNameTxv.setText(list.get(position).getTouristspot_name());
         //Glide.with(holder.itemView.getContext()).load(list.get(position).imgUrl).circleCrop().into(holder.binding.tourImv);
         holder.binding.tourImv.setBackground(new ShapeDrawable(new OvalShape()));
@@ -115,7 +127,8 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHo
             //클리어시 적용될 코드
             holder.binding.tourImv.setColorFilter(Color.parseColor("#63000000"));
             holder.binding.clearTitleTxv.setVisibility(View.VISIBLE);
-            holder.binding.clearTitleTxv.setText(list.get(position).getTouristhistory_updatetime() + " 획득!");
+            holder.binding.clearTitleTxv.setText(
+                    sdf.format(list.get(position).getTouristhistory_updatetime()) + " 획득!");
             holder.binding.clearTitleImv.setVisibility(View.VISIBLE);
         }else {
             holder.binding.tourImv.setColorFilter(null);

@@ -1,15 +1,19 @@
 package com.sdin.tourstamprally;
 
 import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.text.TextUtils;
 import android.util.Log;
@@ -20,11 +24,14 @@ import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.sdin.tourstamprally.data.Constant;
 import com.sdin.tourstamprally.databinding.ActivitySplashBinding;
 import com.sdin.tourstamprally.model.UserModel;
 import com.sdin.tourstamprally.ui.activity.BaseActivity;
 import com.sdin.tourstamprally.ui.activity.LoginActivity;
 import com.sdin.tourstamprally.ui.activity.MainActivity;
+import com.sdin.tourstamprally.ui.dialog.BsrDialog;
+import com.sdin.tourstamprally.ui.dialog.DefaultDialog;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -38,6 +45,7 @@ public class SplashActivity extends BaseActivity {
     private static int CHECKNUM = 0;
     Handler mHandler;
     int MY_PERMISSIONS_REQUEST_CONTACTS = 1;
+    private DefaultDialog defaultPopUpDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +58,33 @@ public class SplashActivity extends BaseActivity {
         fadeInAnimation = AnimationUtils.loadAnimation(this, R.anim.logo_fade_in);
         fadeInAnimation.setAnimationListener(fadeInAnimationListener);
         binding.logo.startAnimation(fadeInAnimation);
+
+        mHandler = new Handler(Looper.getMainLooper()) {
+            public void handleMessage(Message msg) {
+
+                if (!isErr) {
+
+
+                    SharedPreferences preferences = setSharedPref();
+                    final String phone = preferences.getString("phone", "");
+                    final String psw = preferences.getString("password", "");
+                    Log.d("isAutoLogin phone", phone);
+                    Log.d("isAutoLogin psw", psw);
+
+                    login(phone, psw);
+
+                    /*앱 관련 체크 하나라도 false면 처음부터 다시 체크*/
+                } else {
+
+                    startLoading();
+
+                }
+
+            }
+
+
+
+        };
     }
 
 
@@ -97,42 +132,84 @@ public class SplashActivity extends BaseActivity {
 
         //startActivity(new Intent(this, LoginActivity.class));
 
+        new Handler(Looper.getMainLooper()).postDelayed(() -> {
+            if (!isErr){
+                if (permission(CHECKNUM)){
+                    CHECKNUM++;
 
+                    Message msg = mHandler.obtainMessage();
+                    Bundle bd = new Bundle();
+                    bd.putString("fire", "fire");
+                    msg.setData(bd);
+                    mHandler.sendMessage(msg);    //메세지를 핸들러로 넘김
+                } else {
 
-        SharedPreferences preferences = setSharedPref();
-        final String phone = preferences.getString("phone", "");
-        final String psw = preferences.getString("password", "");
-        Log.d("isAutoLogin phone", phone);
-        Log.d("isAutoLogin psw", psw);
+                    isErr = true;
 
-        if (!TextUtils.isEmpty(phone) && !TextUtils.isEmpty(psw)) {
-            apiService.userLoginExists(phone, psw).enqueue(new Callback<String>() {
-                @Override
-                public void onResponse(Call<String> call, Response<String> response) {
+                    /*메시지 팝업*/
+                    ViewGroup permissionView = (ViewGroup) getLayoutInflater().inflate(R.layout.view_permission_meta, null, false);
 
-                    login(phone, psw);
+                    switch (CHECKNUM) {
+
+                        case 0:
+
+                            TextView permissionGpsErrText = permissionView.findViewById(R.id.tv_test);
+                            permissionGpsErrText.setText("어플 사용시 필요한 권한을 허용해 주세요.");
+                            defaultPopUpDialog = new DefaultDialog(mContext,  permissionErrPopUpCloseButtonListener, "어플 사용시 필요한 권한을 허용해 주세요.");
+                            defaultPopUpDialog.show();
+
+                            break;
+
+                        case 1:
+
+                            TextView gpsErrText = permissionView.findViewById(R.id.tv_test);
+                            gpsErrText.setText("GPS 기능이 꺼져 있습니다. GPS 기능을 켜주세요.");
+                            defaultPopUpDialog = new DefaultDialog(mContext,  gpsErrPopUpCloseButtonListener, "GPS 기능이 꺼져 있습니다. GPS 기능을 켜주세요.");
+                            defaultPopUpDialog.show();
+
+                            break;
+
+                        case 2:
+
+                            TextView networkErrText = permissionView.findViewById(R.id.tv_test);
+                            networkErrText.setText("네트워크 오류가 발생 하였습니다.");
+                            defaultPopUpDialog = new DefaultDialog(mContext,  networkErrPopUpCloseButtonListener, "네트워크 오류가 발생 하였습니다.");
+                            defaultPopUpDialog.show();
+
+                            break;
+
+                        case 3:
+
+                            break;
+
+                    }
                 }
+            }
+        },500);
 
-                @Override
-                public void onFailure(Call<String> call, Throwable t) {
-                    moveActivity(LoginActivity.class, "로그인에 실패하셨습니다.");
-                }
-            });
 
-        }else {
-            moveActivity(LoginActivity.class, "로그인에 실패하셨습니다.");
-        }
 
 
     }
 
     private void moveActivity(Class<?> Activity, String msg){
+        /*Intent intent = new Intent(mContext, LoginActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                    overridePendingTransition(R.anim.activity_fade_out, R.anim.activity_fade_in);
+                    finish();*/
+        Intent intent = new Intent(this, Activity);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+        overridePendingTransition(R.anim.activity_fade_out, R.anim.activity_fade_in);
         Toast.makeText(SplashActivity.this, msg, Toast.LENGTH_SHORT).show();
-        startActivity(new Intent(SplashActivity.this, Activity));
+        finish();
+        //startActivity(new Intent(SplashActivity.this, Activity));
     }
 
     private void login(String phone, String psw){
 
+        //permission();
 
         apiService.userLogin(phone, psw).enqueue(new Callback<UserModel>() {
             @Override
@@ -169,35 +246,84 @@ public class SplashActivity extends BaseActivity {
             }
         });
 
+    }
 
+    private boolean permission(int checkNum){
+        boolean check;
 
-
-        /*apiService.userLogin(phone, psw).enqueue(new Callback<UserModel>() {
-            @Override
-            public void onResponse(Call<UserModel> call, Response<UserModel> response) {
-
-
-
-                if (!TextUtils.isEmpty(phone) && !TextUtils.isEmpty(psw)) {
-                    Utils.UserPhone = phone;
-                    Utils.UserPassword = psw;
-
-                    startActivity(new Intent(SplashActivity.this, MainActivity.class));
-                } else {
-
-                    startActivity(new Intent(SplashActivity.this, LoginActivity.class));
+        switch (checkNum){
+            case 0:
+                Constant.ACCESS_CAMERA = ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA);
+                if (Constant.ACCESS_CAMERA == PackageManager.PERMISSION_GRANTED){
+                    check = true;
+                }else {
+                    check = false;
                 }
-            }
+                break;
 
-            @Override
-            public void onFailure(Call<UserModel> call, Throwable t) {
-                t.printStackTrace();
-            }
-        });*/
+            case 1 :
+                if (Utils.getGPSState(this)){
+                    check = true;
+                }else {
+                    check = false;
+                }
+                break;
 
+            case 2 :
+                if (Utils.getNetworkStatus(this) < 3){
+                    check = true;
+                }else {
+                    check = false;
+                }
+
+                break;
+
+            default:
+                check = false;
+        }
+        return check;
     }
 
     private SharedPreferences setSharedPref(){
         return getSharedPreferences("rebuild_preference", Context.MODE_PRIVATE);
     }
+
+
+    // 퍼미션 에러 팝업 닫기
+    private View.OnClickListener permissionErrPopUpCloseButtonListener = new View.OnClickListener() {
+        @RequiresApi(api = Build.VERSION_CODES.Q)
+        @Override
+        public void onClick(View v) {
+            defaultPopUpDialog.dismiss();
+            ActivityCompat.requestPermissions(SplashActivity.this,
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.CAMERA},
+                    MY_PERMISSIONS_REQUEST_CONTACTS);
+
+        }
+    };
+
+    // gps 에러 팝업 닫기
+    private View.OnClickListener gpsErrPopUpCloseButtonListener = new View.OnClickListener() {
+        @RequiresApi(api = Build.VERSION_CODES.Q)
+        @Override
+        public void onClick(View v) {
+            defaultPopUpDialog.dismiss();
+            CHECKNUM = 0;
+            isErr = false;
+            startLoading();
+
+        }
+    };
+
+    // 네트워크 에러 팝업 닫기
+    private View.OnClickListener networkErrPopUpCloseButtonListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            defaultPopUpDialog.dismiss();
+            CHECKNUM = 0;
+            isErr = false;
+            startLoading();
+
+        }
+    };
 }

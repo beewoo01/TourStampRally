@@ -1,120 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#99000000"
+        android:gravity="center"
+        android:orientation="vertical">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <LinearLayout
+
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:layout_marginHorizontal="@dimen/_50sdp"
-            android:background="@drawable/bg_rounded_12"
-            android:orientation="vertical">
+            android:layout_height="@dimen/_170sdp"
+            android:layout_marginHorizontal="@dimen/_30sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:background="@drawable/bg_rounded_01"
+            android:orientation="vertical"
+            android:gravity="center_horizontal">
 
 
-
-            <TextView
-                android:id="@+id/touristGuidTxv"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/_30sdp"
-                android:layout_marginTop="@dimen/_30sdp"
-                android:background="@drawable/bg_rounded_03"
-                android:elevation="@dimen/_3sdp"
-                android:gravity="center"
-                android:padding="@dimen/_10sdp"
-                android:text="@string/tourist_guid"
-                android:textSize="@dimen/_13sdp"
-                android:textColor="@color/black"
-                app:layout_constraintBottom_toTopOf="@id/shopGuidTxv"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/shopGuidTxv"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/_30sdp"
-                android:background="@drawable/bg_rounded_15"
-                android:elevation="@dimen/_3sdp"
-                android:gravity="center"
-                android:padding="@dimen/_10sdp"
-                android:layout_marginTop="@dimen/_20sdp"
-                android:text="@string/shop_guid"
-                android:textColor="@color/white"
-                android:textSize="@dimen/_13sdp"
-                android:contentDescription="null"
-                app:layout_constraintBottom_toTopOf="@id/ch_txv"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/touristGuidTxv" />
-
-
-            <TextView
-                android:id="@+id/ch_txv"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/select_service_dialog"
-                android:textSize="@dimen/_9sdp"
-                android:textColor="@color/mainColor"
-                android:layout_marginTop="@dimen/_5sdp"
-                app:layout_constraintBottom_toTopOf="@id/gull_imv"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/shopGuidTxv"
-                />
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/title"
+                    android:layout_marginVertical="@dimen/_45sdp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textSize="@dimen/_13sdp" />
+
+
+            </LinearLayout>
 
 
 
-            <ImageView
-                android:id="@+id/gull_imv"
-                android:layout_width="@dimen/_50sdp"
-                android:layout_height="@dimen/_30sdp"
-                android:layout_marginEnd="@dimen/_5sdp"
-                android:src="@drawable/gull"
-                app:layout_constraintBottom_toTopOf="@id/confirm_txv"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:contentDescription="@null" />
-
-
-            <TextView
-                android:id="@+id/cancle_txv"
-                android:layout_width="0dp"
+            <Button
+                android:id="@+id/btn_confirm"
+                android:layout_width="match_parent"
                 android:layout_height="@dimen/_40sdp"
-                android:background="@drawable/bg_rounded_13"
-                android:gravity="center"
-                android:text="@string/cancle"
-                android:textColor="@color/mainColor"
-                android:textSize="@dimen/_13sdp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/confirm_txv"
-                app:layout_constraintStart_toStartOf="parent" />
-
-            <TextView
-                android:id="@+id/confirm_txv"
-                android:layout_width="0dp"
-                android:layout_height="@dimen/_40sdp"
-                android:background="@drawable/bg_rounded_14"
-                android:gravity="center"
-                android:text="@string/check"
+                android:layout_marginHorizontal="@dimen/_20sdp"
+                android:background="@drawable/bg_rounded_04"
+                android:text="확인"
                 android:textColor="@color/white"
-                android:textSize="@dimen/_13sdp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/cancle_txv"
-
-                />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </RelativeLayout>
+                android:textSize="@dimen/_13sdp" />
+        </LinearLayout>
+    </LinearLayout>
 
 
 </layout>

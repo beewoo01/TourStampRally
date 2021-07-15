@@ -31,7 +31,7 @@ public class TourRecordFragment extends BaseFragment {
 
 
     private FragmentTourRecordBinding binding;
-    private ArrayList<Tour_Spot> list = new ArrayList<>();
+    private List<Tour_Spot> list = new ArrayList<>();
     private Button[] buttons;
     public static final int POPULARFORM = 0;
     public static final int DATEFORM = 1;
@@ -64,8 +64,8 @@ public class TourRecordFragment extends BaseFragment {
     private void initView(){
         buttons = new Button[]{binding.popularBtn , binding.recentBtn ,binding.nearBtn};
 
-        locationAdapter = new LocationAdapter(list, requireContext());
-        binding.recyclerviewTourRecord.setAdapter(locationAdapter);
+        /*locationAdapter = new LocationAdapter(list, requireContext());*/
+
         ArrayAdapter spinnerAdapter = new ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item,requireContext().getResources().getStringArray(R.array.area));
         binding.spinnerTourRecord.setAdapter(spinnerAdapter);
         binding.spinnerTourRecord.setOnItemSelectedListener(selectedListener);
@@ -96,14 +96,16 @@ public class TourRecordFragment extends BaseFragment {
         apiService.getTour(21).enqueue(new Callback<List<Tour_Spot>>() {
             @Override
             public void onResponse(Call<List<Tour_Spot>> call, Response<List<Tour_Spot>> response) {
-                Log.d("result", "00000000000000000000000");
-                Log.d("onResponse", "onResponse");
                 if (response.isSuccessful()){
+                    list = response.body();
+                    Log.d("?????", list.get(0).toString());
+                    locationAdapter = new LocationAdapter(list, requireContext());
+                    binding.recyclerviewTourRecord.setAdapter(locationAdapter);
                     Log.d("onResponse", "isSuccessful");
                     Log.d("LocationName!!", response.body().get(0).getLocation_name());
-                    String result = response.body().toString();
+                    //String result = response.body().toString();
 
-                    Log.d("result", result);
+                    //Log.d("result", result);
 
                 }else {
                     Log.d("result", "111111111111111111111");
