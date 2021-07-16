@@ -19,8 +19,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.sdin.tourstamprally.R;
+import com.sdin.tourstamprally.Utils;
 import com.sdin.tourstamprally.databinding.TourRecordItemReBinding;
+import com.sdin.tourstamprally.model.Location;
 import com.sdin.tourstamprally.model.Tour_Spot;
+import com.sdin.tourstamprally.utill.GpsTracker;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -33,14 +36,26 @@ import static com.sdin.tourstamprally.ui.fragment.TourRecordFragment.DATEFORM;
 public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHolder> {
 
     private List<Tour_Spot> list;
-    private Context context;
     public static final String TAG = LocationAdapter.class.getSimpleName();
     private SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd");
+    private GpsTracker gpsTracker;
 
 
     public LocationAdapter(List<Tour_Spot> list, Context context){
         this.list = list;
-        this.context = context;
+        gpsTracker = new GpsTracker(context);
+
+    }
+
+    public List<Tour_Spot> locaitonSort(List<Tour_Spot> list, int category){
+        this.list = list;
+        for (Tour_Spot model : this.list){
+            Log.d("locaitonSort!!!!!", model.getLocation_name());
+            Log.d("locaitonSort!!!!!", model.getTouristspot_name());
+        }
+        notifyDataSetChanged();
+        sortList(category);
+        return list;
     }
 
     public List<Tour_Spot> sortList(int form){
@@ -74,10 +89,21 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHo
 
             case R.id.near_btn :
                 Log.d(TAG, "near_btn");
+                list.sort((o1, o2) -> {
+
+                    double o1_distance = distance(Double.parseDouble(o1.getTouristspot_latitude()), Double.parseDouble(o1.getTouristspot_longitude()));
+                    double o2_distance = distance(Double.parseDouble(o2.getTouristspot_latitude()), Double.parseDouble(o2.getTouristspot_longitude()));
+
+                    if (o1_distance == o2_distance) return 0;
+                    else if (o1_distance > o2_distance) return 1;
+                    else return -1;
+
+                });
+
+
+
                 break;
         }
-
-
 
         /*   - spotpoint_idx
         *       . 1 = 8
@@ -101,6 +127,16 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHo
 
         return list;
     }
+
+
+    private double distance(double latitude, double longitute){
+        double userLatitude = gpsTracker.getLatitude();
+        double userLongitude = gpsTracker.getLongitude();
+
+        return Utils.distance(latitude, longitute, userLatitude, userLongitude);
+    }
+
+
 
     @NonNull
     @Override

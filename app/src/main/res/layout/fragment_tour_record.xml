@@ -124,9 +124,11 @@
                     android:id="@+id/spinner_tour_record"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="@dimen/_5sdp"
+                    android:layout_marginStart="@dimen/_15sdp"
                     android:layout_weight="2"
-                    tools:listitem="@android:layout/simple_spinner_item" />
+                    android:background="@null"
+                    android:spinnerMode="dropdown"
+                    />
 
             </LinearLayout>
 

@@ -17,10 +17,12 @@ import com.google.gson.Gson;
 import com.sdin.tourstamprally.R;
 import com.sdin.tourstamprally.Utils;
 import com.sdin.tourstamprally.adapter.LocationAdapter;
+import com.sdin.tourstamprally.adapter.SelectLocationAdapter;
 import com.sdin.tourstamprally.databinding.FragmentTourRecordBinding;
 import com.sdin.tourstamprally.model.Tour_Spot;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import retrofit2.Call;
@@ -32,10 +34,12 @@ public class TourRecordFragment extends BaseFragment {
 
     private FragmentTourRecordBinding binding;
     private List<Tour_Spot> list = new ArrayList<>();
+    private List<Tour_Spot> adpaterList = new ArrayList<>();
     private Button[] buttons;
     public static final int POPULARFORM = 0;
     public static final int DATEFORM = 1;
     public static final int NEARFORM = 2;
+    private Button selectedCateGory;
 
     private LocationAdapter locationAdapter;
 
@@ -53,6 +57,7 @@ public class TourRecordFragment extends BaseFragment {
                              Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_tour_record, container, false);
         binding.setFragment(this);
+
         initData();
         initView();
 
@@ -66,15 +71,20 @@ public class TourRecordFragment extends BaseFragment {
 
         /*locationAdapter = new LocationAdapter(list, requireContext());*/
 
-        ArrayAdapter spinnerAdapter = new ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item,requireContext().getResources().getStringArray(R.array.area));
+        SelectLocationAdapter spinnerAdapter = new SelectLocationAdapter(requireContext(), Arrays.asList(requireContext().getResources().getStringArray(R.array.area)));
+        //ArrayAdapter spinnerAdapter = new ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item,requireContext().getResources().getStringArray(R.array.area));
         binding.spinnerTourRecord.setAdapter(spinnerAdapter);
         binding.spinnerTourRecord.setOnItemSelectedListener(selectedListener);
+        selectedCateGory = binding.popularBtn;
+
     }
 
     //어댑터 리스트 정렬
     public void setSort(View view){
+        selectedCateGory = (Button) view;
         setSortBtnBackground(view.getId());
-        list = locationAdapter.sortList(view.getId());
+        adpaterList = locationAdapter.sortList(view.getId());
+        //list = locationAdapter.sortList(view.getId());
     }
 
     private void setSortBtnBackground(int id){
@@ -93,22 +103,23 @@ public class TourRecordFragment extends BaseFragment {
 
     private void initData(){
         /*user_idx = Utils.User_Idx*/
+        locationAdapter = new LocationAdapter(adpaterList, requireContext());
         apiService.getTour(21).enqueue(new Callback<List<Tour_Spot>>() {
             @Override
             public void onResponse(Call<List<Tour_Spot>> call, Response<List<Tour_Spot>> response) {
                 if (response.isSuccessful()){
                     list = response.body();
                     Log.d("?????", list.get(0).toString());
-                    locationAdapter = new LocationAdapter(list, requireContext());
+                    //locationAdapter = new LocationAdapter(list, requireContext());
                     binding.recyclerviewTourRecord.setAdapter(locationAdapter);
-                    Log.d("onResponse", "isSuccessful");
-                    Log.d("LocationName!!", response.body().get(0).getLocation_name());
-                    //String result = response.body().toString();
+                    locationSort(binding.spinnerTourRecord.getSelectedItem().toString());
+                    //setSort(binding.popularBtn);
 
-                    //Log.d("result", result);
+                    /*Log.d("onResponse", "isSuccessful");
+                    Log.d("LocationName!!", response.body().get(0).getLocation_name());*/
 
                 }else {
-                    Log.d("result", "111111111111111111111");
+
                 }
             }
 
@@ -117,21 +128,20 @@ public class TourRecordFragment extends BaseFragment {
                 t.printStackTrace();
             }
         });
+    }
 
-        /*Tour_Spot spot1, spot2, spot3, spot4, spot5, spot6;
-        spot1 = new Tour_Spot(0, 0, "해동용궁사", "213.1231", "213.321421", "", "", true, "2021.01.01 15:11:15", "2021.01.01 15:11:15");
-        spot2 = new Tour_Spot(1, 0, "광안리", "213.1231", "213.321421", "", "", false, "2021.01.02 11:11:13", "2021.01.02 11:11:13");
-        spot3 = new Tour_Spot(2, 0, "해운대", "213.1231", "213.321421", "", "", false, "2021.01.03 15:21:31", "2021.01.03 15:21:31");
-        spot4 = new Tour_Spot(3, 0, "용두산공원", "213.1231", "213.321421", "", "", true, "2021.01.04", "2021.01.04 16:41:00");
-        spot5 = new Tour_Spot(4, 0, "감천문화마을", "213.1231", "213.321421", "", "", false, "2021.01.05", "2021.01.05 20:11:55");
-        spot6 = new Tour_Spot(5, 0, "이기대공원", "213.1231", "213.321421", "", "", false, "2021.01.06", "2021.01.06 21:11:15");*/
-
-        /*list.add(spot1);
-        list.add(spot2);
-        list.add(spot3);
-        list.add(spot4);
-        list.add(spot5);
-        list.add(spot6);*/
+    private void locationSort(String location){
+        adpaterList.clear();
+        for (Tour_Spot model : list){
+            if (model.getLocation_name().equals(location)){
+                adpaterList.add(model);
+                Log.d("locationSort" , model.getLocation_name());
+            }
+        }
+        locationAdapter.locaitonSort(adpaterList, selectedCateGory.getId());
+        setSortBtnBackground(selectedCateGory.getId());
+        //locationAdapter = new LocationAdapter(adpaterList, requireContext());
+        //setSort(selectedCateGory);
     }
 
 
@@ -139,9 +149,12 @@ public class TourRecordFragment extends BaseFragment {
         @Override
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
             Log.d("getSelectedItem", parent.getSelectedItem().toString());
+
+            locationSort(parent.getSelectedItem().toString());
             switch (parent.getSelectedItem().toString()){
                 case "동구" :
                     Log.d("getSelectedItem", "동구옴");
+
                     break;
 
                 case "영도구" :
