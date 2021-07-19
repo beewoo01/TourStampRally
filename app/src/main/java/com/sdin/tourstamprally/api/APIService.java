@@ -131,6 +131,12 @@ public interface APIService {
     @GET("getTourist")
     Call<List<Tour_Spot>> getTour(@Query("userIdx") int idx);
 
+    //메인 시작시 가져오는 Location 등 데이터
+    //@FormUrlEncoded
+    @GET("getTourist_OrderBy")
+    Call<List<Tour_Spot>> getTourOrderBy(@Query("userIdx") int idx);
+
+
 
     @GET("gabia_token")
     Call<String> getToken();

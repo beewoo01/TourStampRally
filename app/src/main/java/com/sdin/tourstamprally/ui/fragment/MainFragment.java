@@ -7,6 +7,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
@@ -14,19 +16,34 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.bumptech.glide.Glide;
 import com.sdin.tourstamprally.R;
+import com.sdin.tourstamprally.Utils;
 import com.sdin.tourstamprally.databinding.FragmentMainBinding;
 import com.sdin.tourstamprally.databinding.StepRallyLocationItemBinding;
+import com.sdin.tourstamprally.model.Tour_Spot;
 import com.sdin.tourstamprally.ui.activity.MainActivity;
 import com.sdin.tourstamprally.ui.dialog.GuidDialog;
 import com.sdin.tourstamprally.utill.ItemOnClick;
+import com.sdin.tourstamprally.utill.ItemOnClickAb;
 
-public class MainFragment extends Fragment {
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+public class MainFragment extends BaseFragment {
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
     private FragmentMainBinding binding;
+    private List<Tour_Spot> tourList;
 
     private String mParam1;
     private String mParam2;
@@ -61,10 +78,48 @@ public class MainFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_main, container, false);
-        RallyRecyclerviewAdapter adapter = new RallyRecyclerviewAdapter(getContext());
+        binding.tourRallyPgb.setVisibility(View.VISIBLE);
+        binding.rallyRecyclerview.setLayoutManager(new GridLayoutManager(requireContext(), 2){
+
+            @Override
+            public boolean canScrollVertically() {
+                return false;
+            }
+        });
+        getTop4Location();
+        /*RallyRecyclerviewAdapter adapter = new RallyRecyclerviewAdapter(requireContext());
         binding.rallyRecyclerview.setAdapter(adapter);
-        binding.rallyRecyclerview.addItemDecoration(new RallyRecyclerviewAdapterDeco(2, 50, true));
+        binding.rallyRecyclerview.addItemDecoration(new RallyRecyclerviewAdapterDeco(2, 50, true));*/
         return binding.getRoot();
+    }
+
+    private void getTop4Location(){
+        apiService.getTour(Utils.User_Idx).enqueue(new Callback<List<Tour_Spot>>() {
+            @Override
+            public void onResponse(Call<List<Tour_Spot>> call, Response<List<Tour_Spot>> response) {
+                if (response.isSuccessful()){
+                    tourList = response.body();
+                    binding.tourRallyPgb.setVisibility(View.GONE);
+                    Log.d("?????", tourList.get(0).toString());
+                    List<Tour_Spot> paramlist = new ArrayList<>();
+                    paramlist.add(tourList.get(0));
+                    paramlist.add(tourList.get(2));
+                    paramlist.add(tourList.get(4));
+                    paramlist.add(tourList.get(6));
+                    RallyRecyclerviewAdapter adapter = new RallyRecyclerviewAdapter(requireContext(), paramlist);
+                    binding.rallyRecyclerview.setAdapter(adapter);
+                    binding.rallyRecyclerview.addItemDecoration(new RallyRecyclerviewAdapterDeco(2, 50, true));
+
+                }else {
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Tour_Spot>> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
     }
 
     private class RallyRecyclerviewAdapterDeco extends RecyclerView.ItemDecoration{
@@ -102,19 +157,15 @@ public class MainFragment extends Fragment {
     }
 
 
-    private class RallyRecyclerviewAdapter extends RecyclerView.Adapter<RallyRecyclerviewAdapter.ViewHolder> {
+    private class RallyRecyclerviewAdapter extends RecyclerView.Adapter<RallyRecyclerviewAdapter.ViewHolder>{
 
         private GuidDialog guidDialog;
         //private DefaultDialog dialog;
         private Context context;
         private ItemOnClick listener;
+        private List<Tour_Spot> list;
 
-        private ItemOnClick itemOnClick = new ItemOnClick() {
-            @Override
-            public void onClick(int position) {
-
-            }
-
+        private ItemOnClick itemOnClick = new ItemOnClickAb() {
             @Override
             public void ItemGuid(int position) {
                 Log.d("dialog Onclick Listener", String.valueOf(position));
@@ -137,8 +188,28 @@ public class MainFragment extends Fragment {
             }
         };
 
-        public RallyRecyclerviewAdapter(Context context){
+        public RallyRecyclerviewAdapter(Context context, List<Tour_Spot> list){
             this.context = context;
+            this.list = list;
+        }
+
+
+        public void sortList(){
+            list.sort((o1, o2) -> {
+                /*if (o1.getTouristspot_createtime() > o2.getTouristspot_createtime()){
+
+                }*/
+                return 0;
+            });
+        }
+
+        private int average(){
+            int sum = 0;
+            for (int i = 0; i < list.size(); i++){
+                sum += list.get(i).getTouristspot_checkin_count();
+            }
+
+            return sum / list.size();
         }
 
         @NonNull
@@ -146,7 +217,7 @@ public class MainFragment extends Fragment {
         public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             return new ViewHolder(
                     StepRallyLocationItemBinding.inflate(
-                            LayoutInflater.from(context),
+                            LayoutInflater.from(requireContext()),
                             parent,
                             false)
             );
@@ -155,11 +226,33 @@ public class MainFragment extends Fragment {
         @Override
         public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
             holder.binding.stepRallyBg.setOnClickListener(v -> {
-                listener = (MainActivity) context;
-                guidDialog = new GuidDialog(context);
+                listener = (MainActivity) requireActivity();
+                guidDialog = new GuidDialog(requireContext());
                 guidDialog.show();
                 guidDialog.setClickListener(itemOnClick);
             });
+
+            /*long today = System.currentTimeMillis();
+            long diff = today - list.get(position).getTouristspot_createtime();*/
+
+            Log.d("DiffTime", String.valueOf((((System.currentTimeMillis() - list.get(position).getTouristspot_createtime()) / 1000 ) / (24 * 60 * 60))));
+            Log.d("AVERAGE", String.valueOf(average()));
+
+
+            holder.binding.location.setText(list.get(position).getLocation_name());
+
+            if (list.get(position).getTouristspot_checkin_count() > average()) {
+                //list 내 CheckCount 의 평균값을 구한 뒤 평균 이상이면 HOT 띄우기
+                holder.binding.newsImv.setVisibility(View.VISIBLE);
+                Glide.with(holder.binding.newsImv.getContext()).load(R.drawable.hot_icon).into(holder.binding.newsImv);
+            }else if (((System.currentTimeMillis() - list.get(position).getTouristspot_createtime()) / 10000 ) / (24 * 60 * 60) < 8){
+                //현재 시간과 관광지 등록시간이 7일 이하면 NEW 띄우기
+                holder.binding.newsImv.setVisibility(View.VISIBLE);
+                Glide.with(holder.binding.newsImv.getContext()).load(R.drawable.new_icon).into(holder.binding.newsImv);
+            }else {
+                holder.binding.newsImv.setVisibility(View.GONE);
+            }
+
         }
 
         @Override
@@ -171,7 +264,7 @@ public class MainFragment extends Fragment {
 
         public class ViewHolder extends RecyclerView.ViewHolder{
 
-            StepRallyLocationItemBinding binding;
+            public StepRallyLocationItemBinding binding;
 
             public ViewHolder(@NonNull StepRallyLocationItemBinding binding) {
                 super(binding.getRoot());

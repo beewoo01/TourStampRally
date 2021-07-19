@@ -22,7 +22,7 @@ public class BsrDialog extends Dialog{
     private Context context;
     private DialogBsrBinding binding;
     private ItemOnClick itemOnClick;
-    private int position = 0;
+    //private int position = 0;
 
     public void setClickListener(ItemOnClick itemOnClick){
         this.itemOnClick = itemOnClick;
@@ -45,22 +45,27 @@ public class BsrDialog extends Dialog{
         getWindow().getAttributes().windowAnimations = R.style.AnimationPopupStyle;
 
         binding.touristGuidTxv.setOnClickListener( v -> {
-            position = 0;
+            //position = 0;
             binding.touristGuidTxv.setBackground(ContextCompat.getDrawable(context, R.drawable.bg_rounded_15));
             binding.touristGuidTxv.setTextColor(Color.WHITE);
             binding.shopGuidTxv.setBackground(ContextCompat.getDrawable(context, R.drawable.bg_rounded_03));
             binding.shopGuidTxv.setTextColor(Color.BLACK);
+            itemOnClick.onClick(0);
 
         });
         binding.shopGuidTxv.setOnClickListener( v -> {
-            position = 1;
+            //position = 1;
             binding.touristGuidTxv.setBackground(ContextCompat.getDrawable(context, R.drawable.bg_rounded_03));
             binding.touristGuidTxv.setTextColor(Color.BLACK);
             binding.shopGuidTxv.setBackground(ContextCompat.getDrawable(context, R.drawable.bg_rounded_15));
             binding.shopGuidTxv.setTextColor(Color.WHITE);
+            itemOnClick.onClick(1);
         });
-        binding.cancleTxv.setOnClickListener(v -> dismiss());
-        binding.confirmTxv.setOnClickListener(v -> itemOnClick.onClick(position));
+
+        binding.closeBtn.setOnClickListener(v -> dismiss());
+
+        /*binding.cancleTxv.setOnClickListener(v -> dismiss());
+        binding.confirmTxv.setOnClickListener(v -> itemOnClick.onClick(position));*/
 
     }
 

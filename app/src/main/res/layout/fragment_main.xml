@@ -102,18 +102,35 @@
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/rally_recyclerview"
+                    <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/_300sdp"
-                        android:overScrollMode="never"
-                        android:background="@drawable/bg_rounded_08"
-                        android:layout_gravity="center_horizontal"
-                        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                        app:spanCount="2"
-                        tools:itemCount="4"
-                        tools:listitem="@layout/step_rally_location_item" />
+                        >
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/rally_recyclerview"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/_300sdp"
+                            android:overScrollMode="never"
+                            android:background="@drawable/bg_rounded_08"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_centerInParent="true"
+                            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                            app:spanCount="2"
+                            tools:itemCount="4"
+                            tools:listitem="@layout/step_rally_location_item"
+                            />
+
+
+                        <ProgressBar
+                            android:id="@+id/tour_rally_pgb"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            />
+
+                    </RelativeLayout>
+
 
 
 

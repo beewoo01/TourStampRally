@@ -30,7 +30,6 @@ import com.sdin.tourstamprally.model.UserModel;
 import com.sdin.tourstamprally.ui.activity.BaseActivity;
 import com.sdin.tourstamprally.ui.activity.LoginActivity;
 import com.sdin.tourstamprally.ui.activity.MainActivity;
-import com.sdin.tourstamprally.ui.dialog.BsrDialog;
 import com.sdin.tourstamprally.ui.dialog.DefaultDialog;
 
 import retrofit2.Call;
