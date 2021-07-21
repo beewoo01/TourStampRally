@@ -44,6 +44,7 @@ public class MainFragment extends BaseFragment {
 
     private FragmentMainBinding binding;
     private List<Tour_Spot> tourList;
+    private ItemOnClick listener;
 
     private String mParam1;
     private String mParam2;
@@ -78,7 +79,9 @@ public class MainFragment extends BaseFragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_main, container, false);
+        binding.setFragment(this);
         binding.tourRallyPgb.setVisibility(View.VISIBLE);
+
         binding.rallyRecyclerview.setLayoutManager(new GridLayoutManager(requireContext(), 2){
 
             @Override
@@ -86,11 +89,15 @@ public class MainFragment extends BaseFragment {
                 return false;
             }
         });
+
         getTop4Location();
-        /*RallyRecyclerviewAdapter adapter = new RallyRecyclerviewAdapter(requireContext());
-        binding.rallyRecyclerview.setAdapter(adapter);
-        binding.rallyRecyclerview.addItemDecoration(new RallyRecyclerviewAdapterDeco(2, 50, true));*/
+
         return binding.getRoot();
+    }
+
+    public void moreClick(){
+        listener = (MainActivity) requireActivity();
+        listener.SetFragment("direction_guid");
     }
 
     private void getTop4Location(){

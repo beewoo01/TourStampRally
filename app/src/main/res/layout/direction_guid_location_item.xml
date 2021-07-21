@@ -34,7 +34,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_6sdp"
                 android:layout_marginBottom="@dimen/_10sdp"
-                android:text="인기 관광지를 만나보세요!"
+                android:text="@string/explain_guid_location"
                 android:textColor="@color/white"
                 android:textSize="@dimen/_13sdp"
                 app:layout_constraintBottom_toTopOf="@id/direction_from_stemp_txv"

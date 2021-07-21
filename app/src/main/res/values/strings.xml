@@ -76,5 +76,6 @@
     <string name="nfcscan">NFC 스캔</string>
     <string name="qrscan">QR코드 스캔</string>
     <string name="navi">내비</string>
+    <string name="explain_guid_location">인기 관광지를 만나보세요!</string>
 
 </resources>

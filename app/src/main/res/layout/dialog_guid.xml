@@ -5,24 +5,41 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <variable
             name="dialog"
             type="com.sdin.tourstamprally.ui.dialog.GuidDialog" />
     </data>
 
-    <RelativeLayout
-        android:layout_width="wrap_content"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:padding="@dimen/_4sdp"
         >
 
+        <Button
+            android:id="@+id/close_btn"
+            android:layout_width="@dimen/_40sdp"
+            android:layout_height="@dimen/_40sdp"
+            android:background="@drawable/test"
+            android:onClick="@{dialog::result}"
+            app:layout_constraintBottom_toTopOf="@id/content_layout"
+            app:layout_constraintEnd_toEndOf="@id/content_layout"
+            app:layout_constraintStart_toEndOf="@id/content_layout"
+            app:layout_constraintTop_toTopOf="@id/content_layout" />
+
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
+            android:id="@+id/content_layout"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:layout_marginHorizontal="@dimen/_50sdp"
             android:background="@drawable/bg_rounded_12"
-            android:orientation="vertical">
-
+            android:orientation="vertical"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
 
 
             <TextView
@@ -31,15 +48,15 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/_30sdp"
                 android:layout_marginTop="@dimen/_30sdp"
-                android:background="@drawable/bg_rounded_15"
+                android:background="@drawable/button_selector_drawable"
                 android:elevation="@dimen/_3sdp"
                 android:gravity="center"
-                android:padding="@dimen/_10sdp"
-                android:text="@string/more_tour"
-                android:textColor="@color/white"
-                android:textSize="@dimen/_13sdp"
                 android:onClick="@{dialog::buttonClick}"
+                android:padding="@dimen/_10sdp"
                 android:tag="0"
+                android:text="@string/more_tour"
+                android:textColor="@drawable/button_selector_text_color"
+                android:textSize="@dimen/_13sdp"
                 app:layout_constraintBottom_toTopOf="@id/nfc_txv"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -50,16 +67,16 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/_30sdp"
-                android:background="@drawable/bg_rounded_03"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:background="@drawable/button_selector_drawable"
                 android:elevation="@dimen/_3sdp"
                 android:gravity="center"
-                android:padding="@dimen/_10sdp"
-                android:text="@string/nfcscan"
-                android:textColor="@color/black"
-                android:textSize="@dimen/_13sdp"
-                android:layout_marginTop="@dimen/_15sdp"
                 android:onClick="@{dialog::buttonClick}"
+                android:padding="@dimen/_10sdp"
                 android:tag="1"
+                android:text="@string/nfcscan"
+                android:textColor="@drawable/button_selector_text_color"
+                android:textSize="@dimen/_13sdp"
                 app:layout_constraintBottom_toTopOf="@id/qrscan_txv"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -71,21 +88,20 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/_30sdp"
-                android:background="@drawable/bg_rounded_03"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:background="@drawable/button_selector_drawable"
                 android:elevation="@dimen/_3sdp"
                 android:gravity="center"
-                android:padding="@dimen/_10sdp"
-                android:text="@string/qrscan"
-                android:layout_marginTop="@dimen/_15sdp"
-                android:textSize="@dimen/_13sdp"
-                android:textColor="@color/black"
                 android:onClick="@{dialog::buttonClick}"
+                android:padding="@dimen/_10sdp"
                 android:tag="2"
+                android:text="@string/qrscan"
+                android:textColor="@drawable/button_selector_text_color"
+                android:textSize="@dimen/_13sdp"
                 app:layout_constraintBottom_toTopOf="@id/navi_txv"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/nfc_txv"
-                 />
+                app:layout_constraintTop_toBottomOf="@id/nfc_txv" />
 
 
             <TextView
@@ -93,36 +109,34 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/_30sdp"
-                android:background="@drawable/bg_rounded_03"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:background="@drawable/button_selector_drawable"
                 android:elevation="@dimen/_3sdp"
                 android:gravity="center"
-                android:padding="@dimen/_10sdp"
-                android:text="@string/navi"
-                android:textColor="@color/black"
-                android:textSize="@dimen/_13sdp"
-                android:layout_marginTop="@dimen/_15sdp"
                 android:onClick="@{dialog::buttonClick}"
+                android:padding="@dimen/_10sdp"
                 android:tag="3"
-                app:layout_constraintTop_toBottomOf="@id/qrscan_txv"
+                android:text="@string/navi"
+                android:textColor="@drawable/button_selector_text_color"
+                android:textSize="@dimen/_13sdp"
                 app:layout_constraintBottom_toTopOf="@id/ch_txv"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"/>
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/qrscan_txv" />
 
 
             <TextView
                 android:id="@+id/ch_txv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/select_service_dialog"
-                android:textSize="@dimen/_9sdp"
-                android:textColor="@color/mainColor"
                 android:layout_marginTop="@dimen/_5sdp"
+                android:text="@string/select_service_dialog"
+                android:textColor="@color/mainColor"
+                android:textSize="@dimen/_9sdp"
                 app:layout_constraintBottom_toTopOf="@id/gull_imv"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/navi_txv"
-                />
-
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/navi_txv" />
 
 
             <ImageView
@@ -130,13 +144,14 @@
                 android:layout_width="@dimen/_50sdp"
                 android:layout_height="@dimen/_30sdp"
                 android:layout_marginEnd="@dimen/_5sdp"
+                android:contentDescription="@null"
                 android:src="@drawable/gull"
-                app:layout_constraintBottom_toTopOf="@id/confirm_txv"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:contentDescription="@null" />
+                app:layout_constraintTop_toBottomOf="@id/ch_txv" />
 
 
-            <TextView
+            <!--<TextView
                 android:id="@+id/cancle_txv"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/_40sdp"
@@ -164,11 +179,11 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/cancle_txv"
 
-                />
+                />-->
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </RelativeLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 </layout>

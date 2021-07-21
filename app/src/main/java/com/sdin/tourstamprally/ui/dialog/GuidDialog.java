@@ -28,7 +28,6 @@ public class GuidDialog extends Dialog {
     //private ItemOnClick itemOnClick;
     private ItemOnClick itemOnClick;
     private int position = 0;
-    private TextView[] buttons;
 
     public GuidDialog(@NonNull Context context) {
         super(context, R.style.FullScreenDialogStyle);
@@ -51,29 +50,17 @@ public class GuidDialog extends Dialog {
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING);
         getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         getWindow().getAttributes().windowAnimations = R.style.AnimationPopupStyle;
-        buttons = new TextView[]{ binding.moreTxv, binding.nfcTxv, binding.qrscanTxv, binding.naviTxv};
 
 
     }
 
     public void buttonClick(View view){
-        for (TextView textView : buttons){
-            if (view.getId() == textView.getId()){
-                position = Integer.parseInt(String.valueOf(view.getTag()));
-                Log.d("GuidDialog position", String.valueOf(position));
-                textView.setBackground(ContextCompat.getDrawable(context, R.drawable.bg_rounded_15));
-                textView.setTextColor(Color.WHITE);
-            }else {
-                textView.setBackground(ContextCompat.getDrawable(context, R.drawable.bg_rounded_03));
-                textView.setTextColor(Color.BLACK);
-            }
-        }
+        position = Integer.parseInt(String.valueOf(view.getTag()));
+        itemOnClick.ItemGuid(position);
+        dismiss();
     }
 
     public void result(View view){
-        if (view.getId() == binding.confirmTxv.getId()){
-            itemOnClick.ItemGuid(position);
-        }
         dismiss();
 
     }

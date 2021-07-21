@@ -30,6 +30,7 @@ import com.sdin.tourstamprally.R;
 import com.sdin.tourstamprally.Utils;
 import com.sdin.tourstamprally.adapter.DrawaRecyclerViewAdapter;
 import com.sdin.tourstamprally.databinding.ActivityMainBinding;
+import com.sdin.tourstamprally.ui.fragment.DirectionGuidFragment;
 import com.sdin.tourstamprally.ui.fragment.MainFragment;
 import com.sdin.tourstamprally.ui.fragment.NFCFragment;
 import com.sdin.tourstamprally.ui.fragment.QRscanFragment;
@@ -53,6 +54,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
     private Fragment fragment;
     private NFCFragment nfcFragment = new NFCFragment();
     private QRscanFragment qRscanFragment = new QRscanFragment();
+    private DirectionGuidFragment directionGuidFragment;
 
 
     @Override
@@ -312,6 +314,14 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
             case 3 :
 
                 break;
+        }
+    }
+
+    @Override
+    public void SetFragment(String tag) {
+        if (tag.equals("direction_guid")){
+            directionGuidFragment = new DirectionGuidFragment().newInstance();
+            setFragment("direction_guid", directionGuidFragment);
         }
     }
 

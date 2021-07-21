@@ -4,6 +4,12 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <data>
+        <variable
+            name="dialog"
+            type="com.sdin.tourstamprally.ui.dialog.BsrDialog" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -42,13 +48,15 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/_30sdp"
                 android:layout_marginTop="@dimen/_30sdp"
-                android:background="@drawable/bg_rounded_03"
+                android:background="@drawable/button_selector_drawable"
                 android:elevation="@dimen/_3sdp"
                 android:gravity="center"
                 android:padding="@dimen/_10sdp"
                 android:text="@string/tourist_guid"
                 android:textSize="@dimen/_13sdp"
-                android:textColor="@color/black"
+                android:textColor="@drawable/button_selector_text_color"
+                android:tag="0"
+                android:onClick="@{dialog::itemClick}"
                 app:layout_constraintBottom_toTopOf="@id/shopGuidTxv"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -59,15 +67,17 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/_30sdp"
-                android:background="@drawable/bg_rounded_15"
+                android:background="@drawable/button_selector_drawable"
                 android:elevation="@dimen/_3sdp"
                 android:gravity="center"
                 android:padding="@dimen/_10sdp"
                 android:layout_marginTop="@dimen/_20sdp"
                 android:text="@string/shop_guid"
-                android:textColor="@color/white"
+                android:textColor="@drawable/button_selector_text_color"
                 android:textSize="@dimen/_13sdp"
                 android:contentDescription="null"
+                android:tag="1"
+                android:onClick="@{dialog::itemClick}"
                 app:layout_constraintBottom_toTopOf="@id/ch_txv"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
