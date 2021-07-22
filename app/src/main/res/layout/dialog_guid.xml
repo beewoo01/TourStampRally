@@ -21,7 +21,7 @@
             android:id="@+id/close_btn"
             android:layout_width="@dimen/_40sdp"
             android:layout_height="@dimen/_40sdp"
-            android:background="@drawable/test"
+            android:background="@drawable/quit_icon"
             android:onClick="@{dialog::result}"
             app:layout_constraintBottom_toTopOf="@id/content_layout"
             app:layout_constraintEnd_toEndOf="@id/content_layout"

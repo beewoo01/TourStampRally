@@ -17,7 +17,7 @@
             android:layout_marginHorizontal="@dimen/_25sdp"
             android:layout_marginTop="@dimen/_20sdp"
             android:background="@drawable/bg_rounded_full_white"
-            android:drawableEnd="@drawable/heart_resize"
+            android:drawableEnd="@drawable/search_ic_resize"
             android:drawablePadding="@dimen/_30sdp"
             android:hint="매장을 검색해주세요."
             android:padding="@dimen/_15sdp" />

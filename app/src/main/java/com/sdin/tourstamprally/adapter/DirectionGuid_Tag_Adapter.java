@@ -10,34 +10,29 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.sdin.tourstamprally.databinding.DirectionGuidLocationItemBinding;
 import com.sdin.tourstamprally.databinding.DirectionGuidTagItemBinding;
 import com.sdin.tourstamprally.model.Tour_Spot;
-import com.sdin.tourstamprally.ui.fragment.DirectionGuidFragment;
 
 import java.util.ArrayList;
-import java.util.List;
 
-public class DirectionGuid_Adapter extends RecyclerView.Adapter<DirectionGuid_Adapter.ViewHolder> {
+public class DirectionGuid_Tag_Adapter extends RecyclerView.Adapter<DirectionGuid_Tag_Adapter.ViewHolder> {
 
-    private ArrayList<Tour_Spot> list;
+    private ArrayList<Tour_Spot> arrayList;
 
-    public DirectionGuid_Adapter(ArrayList<Tour_Spot> list) {
-        this.list = list;
+
+    public DirectionGuid_Tag_Adapter(ArrayList<Tour_Spot> arrayList) {
+        this.arrayList = arrayList;
     }
 
-    public void setList(ArrayList<Tour_Spot> list){
+    public void setList(ArrayList<Tour_Spot> arrayList){
         //this.list.clear();
-        this.list = list;
+        this.arrayList = arrayList;
         notifyDataSetChanged();
-    }
-
-    public int getListSize(){
-        return list.size();
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new ViewHolder(
-                DirectionGuidLocationItemBinding.inflate(LayoutInflater.from(parent.getContext()),
+                DirectionGuidTagItemBinding.inflate(LayoutInflater.from(parent.getContext()),
                         parent,
                         false)
         );
@@ -45,17 +40,18 @@ public class DirectionGuid_Adapter extends RecyclerView.Adapter<DirectionGuid_Ad
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.binding.locationSpotTxv.setText(list.get(position).getLocation_name());
+        holder.binding.tagItemTxv.setText(arrayList.get(position).getTouristspot_tag());
     }
 
     @Override
     public int getItemCount() {
-        return list.size();
+        return arrayList.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
-        DirectionGuidLocationItemBinding binding;
-        public ViewHolder(@NonNull DirectionGuidLocationItemBinding binding) {
+        DirectionGuidTagItemBinding binding;
+
+        public ViewHolder(@NonNull DirectionGuidTagItemBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
         }
