@@ -4,11 +4,16 @@ import android.app.Activity;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
+import android.net.Uri;
 import android.nfc.NdefMessage;
 import android.nfc.NfcAdapter;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.text.TextUtils;
+import android.util.Base64;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,6 +30,11 @@ import androidx.fragment.app.FragmentTransaction;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
+import com.kakao.sdk.common.util.KakaoCustomTabsClient;
+import com.kakao.sdk.navi.NaviClient;
+import com.kakao.sdk.navi.model.CoordType;
+import com.kakao.sdk.navi.model.Location;
+import com.kakao.sdk.navi.model.NaviOption;
 import com.sdin.tourstamprally.CustomScannerActivity;
 import com.sdin.tourstamprally.R;
 import com.sdin.tourstamprally.Utils;
@@ -36,8 +46,13 @@ import com.sdin.tourstamprally.ui.fragment.NFCFragment;
 import com.sdin.tourstamprally.ui.fragment.QRscanFragment;
 import com.sdin.tourstamprally.ui.fragment.StoreListFragment;
 import com.sdin.tourstamprally.ui.fragment.TourRecordFragment;
+import com.sdin.tourstamprally.ui.fragment.TourSpotPointFragment;
 import com.sdin.tourstamprally.utill.ItemOnClick;
 import com.sdin.tourstamprally.utill.NFCListener;
+
+import java.net.URI;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 
 public class MainActivity extends BaseActivity implements BottomNavigationView.OnNavigationItemSelectedListener, ItemOnClick {
@@ -157,6 +172,8 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
                 break;
 
             case R.id.page_navi:
+                setKaKaoNavi();
+                //setFragment("Navi", new TourSpotPointFragment());
                 // TODO: 7/7/21 navi popup
                 //setFragment("Tour", new TourRecordFragment());
                 break;
@@ -322,6 +339,25 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
         if (tag.equals("direction_guid")){
             directionGuidFragment = new DirectionGuidFragment().newInstance();
             setFragment("direction_guid", directionGuidFragment);
+        }
+    }
+
+    private void setKaKaoNavi(){
+        if (NaviClient.getInstance().isKakaoNaviInstalled(this)){
+            Log.wtf(TAG, "카카오내비 앱으로 길안내 가능");
+            startActivity(NaviClient.getInstance().navigateIntent(
+                    new Location("카카오 판교오피스", "127.108640", "37.402111"),
+                    new NaviOption(CoordType.WGS84)
+                    )
+            );
+        }else {
+            Log.wtf(TAG, "카카오내비 미설치 : 웹 길안내 사용 권장");
+            Uri uri = NaviClient.getInstance().navigateWebUrl(
+                    new Location("카카오 판교오피스", "127.108640", "37.402111"),
+                    new NaviOption(CoordType.WGS84)
+            );
+
+            KakaoCustomTabsClient.INSTANCE.openWithDefault(this, uri);
         }
     }
 

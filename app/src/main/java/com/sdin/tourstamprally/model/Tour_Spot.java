@@ -36,6 +36,9 @@ public class Tour_Spot implements Comparable<Tour_Spot>{
     @SerializedName("touristspot_name")
     private String touristspot_name;
 
+    @SerializedName("touristspot_explan")
+    private String touristspot_explan;
+
     @SerializedName("touristspot_latitude")
     private String touristspot_latitude;
 
@@ -60,6 +63,12 @@ public class Tour_Spot implements Comparable<Tour_Spot>{
 
     @SerializedName("touristspotpoint_touristspot_idx")
     private int touristspotpoint_touristspot_idx;
+
+    @SerializedName("touristspotpoint_name")
+    private int touristspotpoint_name;
+
+    @SerializedName("touristspotpoint_explan")
+    private int touristspotpoint_explan;
 
     @SerializedName("touristspotpoint_latitude")
     private String touristspotpoint_latitude;

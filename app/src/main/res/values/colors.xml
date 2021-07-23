@@ -31,6 +31,8 @@
 
     <color name="tour_record_bg">#F3F4F7</color>
 
+    <color name="scan_dialog_text_color">#005454</color>
+
 
 
     <color name="typeSelectOffBgColor">#E5E5E5</color>

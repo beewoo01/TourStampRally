@@ -82,6 +82,8 @@ dependencies {
 
     implementation 'com.budiyev.android:code-scanner:2.1.0'
 
+    implementation "com.kakao.sdk:v2-navi:2.5.2" // 카카오내비
+
     //Pull Refresh(RecyclerView)
 //    implementation 'com.lcodecorex:tkrefreshlayout:1.0.7'
 

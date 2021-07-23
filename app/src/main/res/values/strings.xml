@@ -78,4 +78,6 @@
     <string name="navi">내비</string>
     <string name="explain_guid_location">인기 관광지를 만나보세요!</string>
 
+    <string name="kakaoNativeAppKey">e8301ff2af31ff1516d8e761cbcadd1b</string>
+
 </resources>
