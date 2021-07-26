@@ -136,6 +136,8 @@ public interface APIService {
     @GET("getTourist_OrderBy")
     Call<List<Tour_Spot>> getTourOrderBy(@Query("userIdx") int idx);
 
+    @GET("getTourist_sortTag")
+    Call<List<Tour_Spot>> getTourSortHashTag(@Query("userIdx") int idx);
 
 
     @GET("gabia_token")

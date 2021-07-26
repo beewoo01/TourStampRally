@@ -46,6 +46,14 @@ public class DirectionGuid_Adapter extends RecyclerView.Adapter<DirectionGuid_Ad
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.binding.locationSpotTxv.setText(list.get(position).getLocation_name());
+        setPercent(position);
+        //holder.binding.seekBarDirectionItem.setProgress();
+    }
+
+    private int setPercent(int position){
+        list.get(position).getLocation_percentage();
+
+        return 0;
     }
 
     @Override

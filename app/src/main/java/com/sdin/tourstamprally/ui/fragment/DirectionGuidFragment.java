@@ -2,14 +2,9 @@ package com.sdin.tourstamprally.ui.fragment;
 
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.text.Editable;
-import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,18 +15,20 @@ import com.sdin.tourstamprally.R;
 import com.sdin.tourstamprally.Utils;
 import com.sdin.tourstamprally.adapter.DirectionGuid_Adapter;
 import com.sdin.tourstamprally.adapter.DirectionGuid_Tag_Adapter;
-import com.sdin.tourstamprally.databinding.DirectionGuidLocationItemBinding;
-import com.sdin.tourstamprally.databinding.DirectionGuidTagItemBinding;
 import com.sdin.tourstamprally.databinding.FragmentDirectionGuidBinding;
-import com.sdin.tourstamprally.databinding.StepRallyLocationItemBinding;
 import com.sdin.tourstamprally.model.HashTagModel;
 import com.sdin.tourstamprally.model.Tour_Spot;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
-
+import java.util.Map;
+import java.util.Set;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -44,6 +41,7 @@ public class DirectionGuidFragment extends BaseFragment {
     //private RallyRecyclerviewAdapter adapter;
     private DirectionGuid_Adapter adapter;
     private DirectionGuid_Tag_Adapter tagAdpater;
+    private Map<Integer, Integer> map;
 
     public DirectionGuidFragment() {
 
@@ -63,41 +61,48 @@ public class DirectionGuidFragment extends BaseFragment {
     }
 
     private void getData(){
-        apiService.getTour(Utils.User_Idx).enqueue(new Callback<List<Tour_Spot>>() {
+        apiService.getTourSortHashTag(Utils.User_Idx).enqueue(new Callback<List<Tour_Spot>>() {
             @Override
             public void onResponse(Call<List<Tour_Spot>> call, Response<List<Tour_Spot>> response) {
                 if (response.isSuccessful()){
                     tourList = new ArrayList<>();
                     tourList = response.body();
-                    ArrayList<Tour_Spot> arrayList = new ArrayList<>();
+
+
+                    for (int i = 0; i < tourList.size(); i++){
+                        for (int j = 0; j < tourList.size(); j++){
+                            if (tourList.get(i).getLocation_idx() == tourList.get(j).getLocation_idx()){
+                                tourList.get(i).setLocation_percentage(tourList.get(i).getLocation_percentage() + 1);
+
+
+                            }
+
+                            if (tourList.get(i).getTouristspot_idx() == tourList.get(j).getTouristspot_idx()){
+                                tourList.get(i).setTourspot_percentage(tourList.get(i).getTourspot_percentage() + 1);
+
+
+                            }
+
+                            if (tourList.get(i).getTouristhistory_touristspotpoint_idx() == tourList.get(i).getTouristspotpoint_idx()){
+
+                            }
+                        }
+                    }
+
+
+
+                    /*for (Tour_Spot model : tourList){
+
+                        model.setLocation_percentage();
+                    }*/
+                    /*ArrayList<Tour_Spot> arrayList = new ArrayList<>();
                     arrayList.addAll(tourList);
                     adapter = new DirectionGuid_Adapter(arrayList);
-
-                    hashTagModelList = new ArrayList<>();
-                    for (int i = 0; i < tourList.size(); i++){
-                        String hash = tourList.get(i).getTouristspot_tag();
-                        //if (tourList.get(i).getTouristspot_idx() )
-                        String[] array = hash.split("#");
-                        for (int j = 0; j < array.length; j++){
-                            if (!TextUtils.isEmpty(array[j].trim())){
-                                hashTagModelList.add(
-                                        new HashTagModel(
-                                                tourList.get(i).getTouristspot_location_location_idx(), tourList.get(i).getTouristspot_idx(), "#"+array[j]
-                                        )
-                                );
-                            }
-                            //Log.wtf("ArrayString: ", array[j]);
-
-                        }
-
-                    }
-                    ArrayList<HashTagModel> tagModels = new ArrayList<>();
-                    tagModels.addAll(hashTagModelList);
-                    tagAdpater = new DirectionGuid_Tag_Adapter(tagModels);
                     binding.locationRe.setAdapter(adapter);
-                    binding.locationRe.setHasFixedSize(true);
-                    binding.tagRe.setAdapter(tagAdpater);
-                    binding.tagRe.setHasFixedSize(true);
+                    binding.locationRe.setHasFixedSize(true);*/
+                    setTourSpotList();
+                    setHashTag();
+
 
                 }else {
 
@@ -110,6 +115,47 @@ public class DirectionGuidFragment extends BaseFragment {
             }
         });
     }
+
+    private void setTourSpotList(){
+
+        Map<Integer, Tour_Spot> hashMap = new HashMap<>();
+        for (Tour_Spot model : tourList){
+            hashMap.put(model.getLocation_idx(), model);
+        }
+
+        Collection<Tour_Spot> collection = hashMap.values();
+        ArrayList<Tour_Spot> arrayList = new ArrayList(collection);
+        adapter = new DirectionGuid_Adapter(arrayList);
+        binding.locationRe.setAdapter(adapter);
+        binding.locationRe.setHasFixedSize(true);
+    }
+
+    private void setHashTag(){
+
+        Set<String> hashSet = new HashSet<>();
+        for (int i = 0; i < tourList.size(); i++){
+            String hash = tourList.get(i).getTouristspot_tag();
+            String[] array = Arrays.stream(hash.split("#")).map(String::trim).toArray(String[]::new);
+            array = Arrays.stream(array)
+                    .filter(s -> (s != null && s.length() > 0))
+                    .toArray(String[]::new);
+
+            hashSet.addAll(Arrays.asList(array));
+        }
+
+        ArrayList<String> list = new ArrayList<>(hashSet);
+
+
+        tagAdpater = new DirectionGuid_Tag_Adapter(list);
+        tagAdpater.setOnItemClickListener(param -> {
+            Log.wtf("setOnItemClickListener", "param = " + param +"1");
+            //tagAdpater.notifyDataSetChanged();
+            search(param);
+        });
+        binding.tagRe.setAdapter(tagAdpater);
+        binding.tagRe.setHasFixedSize(true);
+    }
+
 
 
     @Override
@@ -159,59 +205,31 @@ public class DirectionGuidFragment extends BaseFragment {
             for (int i = 0; i < tourList.size(); i++){
                 if (tourList.get(i).getLocation_name().toLowerCase().contains(searchData)){
                     arrayList.add(tourList.get(i));
-
                 }
 
                 if (tourList.get(i).getTouristspot_name().toLowerCase().contains(searchData)){
                     arrayList.add(tourList.get(i));
+                }
 
+                if (tourList.get(i).getTouristspot_tag().contains(searchData)){
+                    arrayList.add(tourList.get(i));
                 }
             }
         }
+
+        Map<Integer, Tour_Spot> hashMap = new HashMap<>();
+        for (Tour_Spot model : arrayList){
+            hashMap.put(model.getLocation_idx(), model);
+        }
+
+
+        Collection<Tour_Spot> collection = hashMap.values();
+        arrayList = new ArrayList(collection);
+
+
         adapter.setList(arrayList);
-        //tagAdpater.setList(arrayList);
         adapter.notifyDataSetChanged();
-        //tagAdpater.notifyDataSetChanged();
     }
-
-
-    /*private class TagAdpater extends RecyclerView.Adapter<TagAdpater.Viewholder>{
-
-        private List<Tour_Spot> list;
-
-        public TagAdpater(List<Tour_Spot> list) {
-            this.list = list;
-        }
-
-        @NonNull
-        @Override
-        public Viewholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            return new Viewholder(
-                    DirectionGuidTagItemBinding.inflate(
-                            LayoutInflater.from(requireContext()), parent, false)
-            );
-        }
-
-        @Override
-        public void onBindViewHolder(@NonNull Viewholder holder, int position) {
-            holder.binding.tagItemTxv.setText(list.get(position).getTouristspot_tag());
-        }
-
-        @Override
-        public int getItemCount() {
-            return list.size();
-        }
-
-        public class Viewholder extends RecyclerView.ViewHolder{
-            DirectionGuidTagItemBinding binding;
-
-            public Viewholder(@NonNull DirectionGuidTagItemBinding binding) {
-                super(binding.getRoot());
-                this.binding = binding;
-            }
-        }
-    }*/
-
 
 
 }
