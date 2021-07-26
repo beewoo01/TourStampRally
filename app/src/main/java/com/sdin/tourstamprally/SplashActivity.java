@@ -192,18 +192,13 @@ public class SplashActivity extends BaseActivity {
     }
 
     private void moveActivity(Class<?> Activity, String msg){
-        /*Intent intent = new Intent(mContext, LoginActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(intent);
-                    overridePendingTransition(R.anim.activity_fade_out, R.anim.activity_fade_in);
-                    finish();*/
+
         Intent intent = new Intent(this, Activity);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
         overridePendingTransition(R.anim.activity_fade_out, R.anim.activity_fade_in);
         Toast.makeText(SplashActivity.this, msg, Toast.LENGTH_SHORT).show();
         finish();
-        //startActivity(new Intent(SplashActivity.this, Activity));
     }
 
     private void login(String phone, String psw){
@@ -230,7 +225,7 @@ public class SplashActivity extends BaseActivity {
                         Utils.User_Email = result.getEmail();
                         Utils.User_Location = result.getLocation();
 
-                        startActivity(new Intent(SplashActivity.this, MainActivity.class));
+                        moveActivity(MainActivity.class, "로그인에 성공하셨습니다.");
                     }else {
                         moveActivity(LoginActivity.class, "로그인에 실패하셨습니다.");
                     }

@@ -9,6 +9,7 @@ import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,6 +30,7 @@ import com.sdin.tourstamprally.CustomScannerActivity;
 import com.sdin.tourstamprally.R;
 import com.sdin.tourstamprally.databinding.FragmentQrScanBinding;
 import com.sdin.tourstamprally.ui.activity.MainActivity;
+import com.sdin.tourstamprally.ui.dialog.ScanResultDialog;
 
 import java.lang.reflect.Field;
 
@@ -87,7 +89,10 @@ public class QRscanFragment extends Fragment {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_qr_scan, container, false);
         codeScanner = new CodeScanner(getActivity(), binding.scannerView);
         codeScanner.setDecodeCallback(result -> getActivity().runOnUiThread(()
-                -> Toast.makeText(getActivity(), result.getText(), Toast.LENGTH_SHORT).show()));
+                -> {
+            showDialog(result == null? false : true);
+            Toast.makeText(getActivity(), result.getText(), Toast.LENGTH_SHORT).show();
+        }));
 
         binding.scannerView.setOnClickListener( v -> codeScanner.startPreview());
 
@@ -96,24 +101,32 @@ public class QRscanFragment extends Fragment {
 
 
     private void displayToast() {
+
         if(getActivity() != null && toast != null) {
             Toast.makeText(getActivity(), toast, Toast.LENGTH_LONG).show();
             toast = null;
         }
     }
 
+    private void showDialog(boolean isSucess){
+        Log.wtf("displayToast", String.valueOf(isSucess));
+        new ScanResultDialog(requireContext(), isSucess, "QR").show();
+    }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.wtf("QRSCAN", "onActivityResult");
         IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
         if(result != null) {
             if(result.getContents() == null) {
                 toast = "Cancelled from fragment";
             } else {
                 toast = "Scanned from fragment: " + result.getContents();
-            }
 
-            // At this point we may or may not have a reference to the activity
+            }
             displayToast();
+            // At this point we may or may not have a reference to the activity
+
         }
     }
 

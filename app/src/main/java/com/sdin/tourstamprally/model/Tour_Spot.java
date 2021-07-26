@@ -65,10 +65,10 @@ public class Tour_Spot implements Comparable<Tour_Spot>{
     private int touristspotpoint_touristspot_idx;
 
     @SerializedName("touristspotpoint_name")
-    private int touristspotpoint_name;
+    private String touristspotpoint_name;
 
     @SerializedName("touristspotpoint_explan")
-    private int touristspotpoint_explan;
+    private String touristspotpoint_explan;
 
     @SerializedName("touristspotpoint_latitude")
     private String touristspotpoint_latitude;

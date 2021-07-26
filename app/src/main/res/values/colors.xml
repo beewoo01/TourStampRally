@@ -7,6 +7,7 @@
     <color name="mainColor">#005CAA</color>
     <color name="background">#F4F3F4</color>
     <color name="boldColor">#CC000000</color>
+    <color name="scan_fail_btn_Color">#2E334D</color>
     <color name="boldColorInvert">#C07678</color>
     <color name="middleLightColor2">#D0E4E4</color>
     <color name="middleLightColor">#F3FAFA</color>

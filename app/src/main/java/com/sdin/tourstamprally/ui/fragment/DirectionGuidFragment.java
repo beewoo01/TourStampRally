@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -23,6 +24,7 @@ import com.sdin.tourstamprally.databinding.DirectionGuidLocationItemBinding;
 import com.sdin.tourstamprally.databinding.DirectionGuidTagItemBinding;
 import com.sdin.tourstamprally.databinding.FragmentDirectionGuidBinding;
 import com.sdin.tourstamprally.databinding.StepRallyLocationItemBinding;
+import com.sdin.tourstamprally.model.HashTagModel;
 import com.sdin.tourstamprally.model.Tour_Spot;
 
 import java.util.ArrayList;
@@ -34,22 +36,17 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link DirectionGuidFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class DirectionGuidFragment extends BaseFragment {
     //길안내 관광지
     private FragmentDirectionGuidBinding binding;
     private List<Tour_Spot> tourList;
-    private List<Tour_Spot> adapterList;
+    private List<HashTagModel> hashTagModelList;
     //private RallyRecyclerviewAdapter adapter;
     private DirectionGuid_Adapter adapter;
     private DirectionGuid_Tag_Adapter tagAdpater;
 
     public DirectionGuidFragment() {
-        // Required empty public constructor
+
     }
 
     public static DirectionGuidFragment newInstance() {
@@ -75,7 +72,28 @@ public class DirectionGuidFragment extends BaseFragment {
                     ArrayList<Tour_Spot> arrayList = new ArrayList<>();
                     arrayList.addAll(tourList);
                     adapter = new DirectionGuid_Adapter(arrayList);
-                    tagAdpater = new DirectionGuid_Tag_Adapter(arrayList);
+
+                    hashTagModelList = new ArrayList<>();
+                    for (int i = 0; i < tourList.size(); i++){
+                        String hash = tourList.get(i).getTouristspot_tag();
+                        //if (tourList.get(i).getTouristspot_idx() )
+                        String[] array = hash.split("#");
+                        for (int j = 0; j < array.length; j++){
+                            if (!TextUtils.isEmpty(array[j].trim())){
+                                hashTagModelList.add(
+                                        new HashTagModel(
+                                                tourList.get(i).getTouristspot_location_location_idx(), tourList.get(i).getTouristspot_idx(), "#"+array[j]
+                                        )
+                                );
+                            }
+                            //Log.wtf("ArrayString: ", array[j]);
+
+                        }
+
+                    }
+                    ArrayList<HashTagModel> tagModels = new ArrayList<>();
+                    tagModels.addAll(hashTagModelList);
+                    tagAdpater = new DirectionGuid_Tag_Adapter(tagModels);
                     binding.locationRe.setAdapter(adapter);
                     binding.locationRe.setHasFixedSize(true);
                     binding.tagRe.setAdapter(tagAdpater);
@@ -95,13 +113,13 @@ public class DirectionGuidFragment extends BaseFragment {
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_direction_guid, container, false);
 
         getData();
         binding.searchEdt.addTextChangedListener(new TextWatcher() {
+
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -109,12 +127,14 @@ public class DirectionGuidFragment extends BaseFragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+
             }
 
             @Override
             public void afterTextChanged(Editable s) {
                 search(binding.searchEdt.getText().toString());
             }
+
         });
 
         binding.searchBtn.setOnClickListener(v -> {
@@ -132,7 +152,7 @@ public class DirectionGuidFragment extends BaseFragment {
 
             arrayList.addAll(tourList);
             adapter.setList(arrayList);
-            tagAdpater.setList(arrayList);
+            //tagAdpater.setList(arrayList);
 
         }else {
 
@@ -149,9 +169,9 @@ public class DirectionGuidFragment extends BaseFragment {
             }
         }
         adapter.setList(arrayList);
-        tagAdpater.setList(arrayList);
+        //tagAdpater.setList(arrayList);
         adapter.notifyDataSetChanged();
-        tagAdpater.notifyDataSetChanged();
+        //tagAdpater.notifyDataSetChanged();
     }
 
 

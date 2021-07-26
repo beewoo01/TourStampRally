@@ -9,20 +9,21 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.sdin.tourstamprally.databinding.DirectionGuidLocationItemBinding;
 import com.sdin.tourstamprally.databinding.DirectionGuidTagItemBinding;
+import com.sdin.tourstamprally.model.HashTagModel;
 import com.sdin.tourstamprally.model.Tour_Spot;
 
 import java.util.ArrayList;
 
 public class DirectionGuid_Tag_Adapter extends RecyclerView.Adapter<DirectionGuid_Tag_Adapter.ViewHolder> {
 
-    private ArrayList<Tour_Spot> arrayList;
+    private ArrayList<HashTagModel> arrayList;
 
 
-    public DirectionGuid_Tag_Adapter(ArrayList<Tour_Spot> arrayList) {
+    public DirectionGuid_Tag_Adapter(ArrayList<HashTagModel> arrayList) {
         this.arrayList = arrayList;
     }
 
-    public void setList(ArrayList<Tour_Spot> arrayList){
+    public void setList(ArrayList<HashTagModel> arrayList){
         //this.list.clear();
         this.arrayList = arrayList;
         notifyDataSetChanged();

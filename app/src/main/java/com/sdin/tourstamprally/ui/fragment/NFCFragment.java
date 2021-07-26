@@ -12,6 +12,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 
 import android.os.Parcelable;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +23,7 @@ import android.widget.Toast;
 import com.sdin.tourstamprally.R;
 import com.sdin.tourstamprally.databinding.FragmentNfcBinding;
 import com.sdin.tourstamprally.ui.activity.MainActivity;
+import com.sdin.tourstamprally.ui.dialog.ScanResultDialog;
 import com.sdin.tourstamprally.utill.NFCListener;
 
 import java.io.UnsupportedEncodingException;
@@ -81,8 +83,13 @@ public class NFCFragment extends Fragment implements NFCListener {
             e.printStackTrace();
         }
 
-
         Toast.makeText(getContext(), text2 == null? text : text2, Toast.LENGTH_SHORT).show();
+        if (TextUtils.isEmpty(text) && TextUtils.isEmpty(text2)){
+            new ScanResultDialog(requireContext(), false, "NFC").show();
+        }else {
+            new ScanResultDialog(requireContext(), true, "NFC").show();
+        }
+
 
     }
 
@@ -112,6 +119,7 @@ public class NFCFragment extends Fragment implements NFCListener {
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        Log.wtf("NFCFragment","onActivityResult");
 
     }
 

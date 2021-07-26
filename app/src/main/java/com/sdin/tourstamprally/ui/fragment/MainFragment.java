@@ -80,7 +80,7 @@ public class MainFragment extends BaseFragment {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_main, container, false);
         binding.setFragment(this);
-        binding.tourRallyPgb.setVisibility(View.VISIBLE);
+        //binding.tourRallyPgb.setVisibility(View.VISIBLE);
 
         binding.rallyRecyclerview.setLayoutManager(new GridLayoutManager(requireContext(), 2){
 
@@ -118,7 +118,7 @@ public class MainFragment extends BaseFragment {
                     binding.rallyRecyclerview.addItemDecoration(new RallyRecyclerviewAdapterDeco(2, 50, true));
 
                 }else {
-
+                    Log.wtf("getTour fail", response.toString());
                 }
             }
 
