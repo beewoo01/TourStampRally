@@ -33,6 +33,7 @@ public class BaseActivity extends AppCompatActivity {
     public final long FINISH_INTERVAL_TIME = 2000;
     public long backPressedTime = 0;
     public View mainLayout;
+    private long backKeyPressedTime = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +55,15 @@ public class BaseActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        finish();
+        if (System.currentTimeMillis() > backKeyPressedTime + 2000){
+            backKeyPressedTime = System.currentTimeMillis();
+            Toast.makeText(this, "\'뒤로\' 버튼을 한번 더 누르시면 종료됩니다.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (System.currentTimeMillis() <= backKeyPressedTime + 2000){
+            finish();
+        }
     }
 
     @Override

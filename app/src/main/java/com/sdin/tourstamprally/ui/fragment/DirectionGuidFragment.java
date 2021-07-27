@@ -72,23 +72,15 @@ public class DirectionGuidFragment extends BaseFragment {
                     tourList = response.body();
 
 
-                    for(Tour_Spot tour_spot : tourList){
-                        Log.wtf("HIHIHIHrfqwIHIHI", String.valueOf(1111));
-                        Log.wtf("HIHIHIHIHIHI", tour_spot.getTouristhistory_idx());
-                    }
-
-
                     for (int i = 0; i < tourList.size(); i++){
                         for (int j = 0; j < tourList.size(); j++){
                             if (tourList.get(i).getLocation_idx() == tourList.get(j).getLocation_idx()){
                                 tourList.get(i).setLocation_percentage(tourList.get(i).getLocation_percentage() + 1);
 
-
                             }
 
                             if (tourList.get(i).getTouristspot_idx() == tourList.get(j).getTouristspot_idx()){
                                 tourList.get(i).setTourspot_percentage(tourList.get(i).getTourspot_percentage() + 1);
-
 
                             }
 
@@ -100,7 +92,6 @@ public class DirectionGuidFragment extends BaseFragment {
 
                     setTourSpotList();
                     setHashTag();
-
 
                 }else {
 
@@ -128,9 +119,10 @@ public class DirectionGuidFragment extends BaseFragment {
         binding.locationRe.setHasFixedSize(true);
     }
 
-    private void setHashTag(){
+    private void setHashTag() {
 
         Set<String> hashSet = new HashSet<>();
+
         for (int i = 0; i < tourList.size(); i++){
             String hash = tourList.get(i).getTouristspot_tag();
             String[] array = Arrays.stream(hash.split("#")).map(String::trim).toArray(String[]::new);

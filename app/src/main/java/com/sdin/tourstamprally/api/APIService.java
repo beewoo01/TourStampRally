@@ -17,6 +17,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
+import retrofit2.http.QueryMap;
 
 
 public interface APIService {
@@ -138,7 +139,7 @@ public interface APIService {
     Call<List<Tour_Spot>> getTourOrderBy(@Query("userIdx") int idx);
 
     @GET("getTourist_location_for_spot")
-    Call<List<Tour_Spot>> getTourLocation_for_spot(@Query("dataMap") Map<String, Integer> map);
+    Call<List<Tour_Spot>> getTourLocation_for_spot(@QueryMap Map<String, Integer> map);
 
     @GET("getTourist_sortTag")
     Call<List<Tour_Spot>> getTourSortHashTag(@Query("userIdx") int idx);

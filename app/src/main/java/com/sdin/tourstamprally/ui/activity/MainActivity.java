@@ -22,6 +22,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import com.bumptech.glide.Glide;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
@@ -62,7 +63,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
     private QRscanFragment QRscanFragment = new QRscanFragment();
     private DirectionGuidFragment directionGuidFragment;
 
-    private long backKeyPressedTime = 0;
+
 
 
     @Override
@@ -79,7 +80,11 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
     private void setToolbar(int pos) {
         int gg = getSupportFragmentManager().getBackStackEntryCount();
         Log.d("gg =", String.valueOf(gg));
-        String name = getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount()- pos).getName();
+        for (int i = 0; i <= gg; i++){
+            String name = getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount()- 1).getName();
+            Log.wtf("name!!!!", name);
+        }
+        String name = getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount()- 1).getName();
         Log.d("name", name);
         if (name.equals("NFC") || name.equals("QR")){
             String title = name.equals("QR")? name + "코드" : name;
@@ -94,6 +99,21 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
             binding.toolbarLayout.backBtn.setVisibility(View.GONE);
             binding.toolbarLayout.titleTxv.setVisibility(View.GONE);
             binding.toolbarLayout.logoMainToolbar.setVisibility(View.VISIBLE);
+            binding.toolbarLayout.tapImb.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.hamberger_menu_resize));
+        }else {
+            if (name.equals("direction_guid")){
+                name = "길안내 관광지";
+            }else if (name.equals("location_fragment")){
+
+            }
+            Log.wtf("setToolbar","else");
+            binding.toolbarLayout.toolbarLayout.setBackgroundColor(ContextCompat.getColor(this, R.color.White));
+            binding.toolbarLayout.backBtn.setVisibility(View.VISIBLE);
+            Glide.with(this).load(ContextCompat.getDrawable(this, R.drawable.back_ic_resize)).into(binding.toolbarLayout.backBtn);
+            binding.toolbarLayout.titleTxv.setVisibility(View.VISIBLE);
+            binding.toolbarLayout.titleTxv.setTextColor(ContextCompat.getColor(this, R.color.Black));
+            binding.toolbarLayout.titleTxv.setText(name);
+            binding.toolbarLayout.logoMainToolbar.setVisibility(View.GONE);
             binding.toolbarLayout.tapImb.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.hamberger_menu_resize));
         }
 
@@ -328,21 +348,6 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
     }
 
     @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-
-        if (System.currentTimeMillis() > backKeyPressedTime + 2000){
-            backKeyPressedTime = System.currentTimeMillis();
-            Toast.makeText(this, "\'뒤로\' 버튼을 한번 더 누르시면 종료됩니다.", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        if (System.currentTimeMillis() <= backKeyPressedTime + 2000){
-            finish();
-        }
-    }
-
-    @Override
     public void SetFragment(String tag) {
         if (tag.equals("direction_guid")){
             directionGuidFragment = new DirectionGuidFragment().newInstance();
@@ -354,6 +359,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
     public void onItemClick(Tour_Spot tour_spot) {
         Log.wtf("onItemClick", tour_spot.toString());
         setFragment("location_fragment", new LocationFragment().newInstance(tour_spot));
+        setToolbar(3);
     }
 
     private void setKaKaoNavi(){

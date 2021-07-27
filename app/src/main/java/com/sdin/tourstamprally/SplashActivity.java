@@ -231,6 +231,8 @@ public class SplashActivity extends BaseActivity {
                         Utils.User_Email = result.getEmail();
                         Utils.User_Location = result.getLocation();
 
+                        Log.wtf("UserIDX!!", String.valueOf(Utils.User_Idx));
+
                         moveActivity(MainActivity.class, "로그인에 성공하셨습니다.");
                     }else {
                         moveActivity(LoginActivity.class, "로그인에 실패하셨습니다.");

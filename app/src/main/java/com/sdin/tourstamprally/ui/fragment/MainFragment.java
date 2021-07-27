@@ -53,6 +53,7 @@ public class MainFragment extends BaseFragment {
         // Required empty public constructor
     }
 
+
     public static MainFragment newInstance(String param1, String param2) {
         MainFragment fragment = new MainFragment();
         Bundle args = new Bundle();

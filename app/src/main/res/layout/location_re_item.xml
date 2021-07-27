@@ -91,9 +91,8 @@
 
 
         <LinearLayout
-            android:id="@+id/bottom_layout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/_20sdp"
             android:layout_marginStart="@dimen/_10sdp"
             android:layout_marginEnd="@dimen/_10sdp"
             android:background="@drawable/shadow01"
@@ -103,9 +102,9 @@
             >
 
             <LinearLayout
+                android:id="@+id/bottom_layout"
                 android:layout_width="@dimen/_30sdp"
-                android:layout_height="@dimen/_20sdp"
-
+                android:layout_height="match_parent"
                 android:gravity="center"
                 >
 

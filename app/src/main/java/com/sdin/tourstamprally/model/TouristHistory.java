@@ -26,4 +26,12 @@ public class TouristHistory implements Serializable {
     @Expose
     private int touristhistory_user_idx;
 
+    @SerializedName("touristhistory_createtime")
+    @Expose
+    private int touristhistory_createtime;
+
+    @SerializedName("touristhistory_updatetime")
+    @Expose
+    private int touristhistory_updatetime;
+
 }
