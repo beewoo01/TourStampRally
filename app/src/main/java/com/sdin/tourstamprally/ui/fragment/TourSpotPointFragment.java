@@ -168,7 +168,7 @@ public class TourSpotPointFragment extends BaseFragment {
             Glide.with(holder.itemView.getContext()).load(position % 2 == 0 ? R.drawable.icon_sky_blue : R.drawable.icon_deep_blue).into(holder.binding.locationImv);
 
             Glide.with(holder.itemView.getContext()).load(
-                    Integer.parseInt(arrayList.get(position).getTouristhistory_touristspotpoint_idx()) == arrayList.get(position).getTouristspot_idx() ?
+                    arrayList.get(position).getTouristhistory_touristspotpoint_idx().equals(arrayList.get(position).getTouristspot_idx()) ?
                             R.drawable.mainlogo : R.drawable.logo_gray
                     ).into(holder.binding.locationImv);
 

@@ -1,15 +1,19 @@
 package com.sdin.tourstamprally.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.security.identity.EphemeralPublicKeyNotFoundException;
 
 import com.google.gson.annotations.SerializedName;
+
+import java.io.Serializable;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class Tour_Spot implements Comparable<Tour_Spot>{
+public class Tour_Spot implements Comparable<Tour_Spot>, Serializable {
 
     @SerializedName("location_idx")
     private int location_idx;
@@ -59,10 +63,10 @@ public class Tour_Spot implements Comparable<Tour_Spot>{
 
 
     @SerializedName("touristspotpoint_idx")
-    private int touristspotpoint_idx;
+    private String touristspotpoint_idx;
 
     @SerializedName("touristspotpoint_touristspot_idx")
-    private int touristspotpoint_touristspot_idx;
+    private String touristspotpoint_touristspot_idx;
 
     @SerializedName("touristspotpoint_name")
     private String touristspotpoint_name;
@@ -78,13 +82,13 @@ public class Tour_Spot implements Comparable<Tour_Spot>{
 
 
     @SerializedName("touristhistory_idx")
-    private int touristhistory_idx;
+    private String touristhistory_idx;
 
     @SerializedName("touristhistory_touristspotpoint_idx")
-    private int touristhistory_touristspotpoint_idx;
+    private String touristhistory_touristspotpoint_idx;
 
     @SerializedName("touristhistory_user_idx")
-    private int touristhistory_user_idx;
+    private String touristhistory_user_idx;
 
     @SerializedName("touristhistory_createtime")
     private long touristhistory_createtime;
@@ -103,6 +107,32 @@ public class Tour_Spot implements Comparable<Tour_Spot>{
 
     private boolean clear;
 
+
+
+
+    /*public static final Creator<Item2> CREATOR = new Creator<Item2>() {
+        @Override
+        public Item2 createFromParcel(Parcel in) {
+            return new Item2(in);
+        }
+
+        @Override
+        public Item2[] newArray(int size) {
+            return new Item2[size];
+        }
+    };
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(index);
+        dest.writeString(address);
+        dest.writeString(title);
+    }*/
 
 
     @Override

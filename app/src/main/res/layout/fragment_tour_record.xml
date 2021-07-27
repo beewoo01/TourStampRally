@@ -131,7 +131,7 @@
                     />
 
             </LinearLayout>
-
+q
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerview_tour_record"

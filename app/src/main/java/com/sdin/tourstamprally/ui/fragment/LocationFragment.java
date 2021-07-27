@@ -13,23 +13,35 @@ import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
 import com.sdin.tourstamprally.R;
+import com.sdin.tourstamprally.Utils;
 import com.sdin.tourstamprally.databinding.FragmentLocationBinding;
 import com.sdin.tourstamprally.databinding.LocationReItemBinding;
 import com.sdin.tourstamprally.model.Tour_Spot;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
-public class LocationFragment extends Fragment {
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+public class LocationFragment extends BaseFragment {
 
     private FragmentLocationBinding binding;
     private String location_name;
+    private Tour_Spot tour_spot;
+    private List<Tour_Spot> list;
 
-    public static LocationFragment newInstance(String location_name) {
+    public static LocationFragment newInstance(Tour_Spot tour_spot) {
 
         Bundle args = new Bundle();
 
         LocationFragment fragment = new LocationFragment();
-        args.putString("", location_name);
+        args.putSerializable("model", tour_spot);
         fragment.setArguments(args);
         return fragment;
     }
@@ -38,7 +50,7 @@ public class LocationFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-
+            tour_spot = (Tour_Spot) getArguments().getSerializable("model");
         }
     }
 
@@ -47,7 +59,47 @@ public class LocationFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_location, container, false);
+        getData();
         return binding.getRoot();
+    }
+
+    private void getData(){
+
+        Map<String, Integer> dataMap = new HashMap<>();
+        dataMap.put("touristhistory_user_idx", Utils.User_Idx);
+        dataMap.put("location_idx", tour_spot.getLocation_idx());
+        apiService.getTourLocation_for_spot(dataMap).enqueue(new Callback<List<Tour_Spot>>() {
+            @Override
+            public void onResponse(Call<List<Tour_Spot>> call, Response<List<Tour_Spot>> response) {
+                list = response.body();
+                ArrayList<Tour_Spot> arrayList = new ArrayList<>();
+                Set<Integer> set = new HashSet<>();
+                for (Tour_Spot tour_spot : list){
+                    set.add(tour_spot.getTouristspot_idx());
+                }
+
+
+
+
+            }
+
+            @Override
+            public void onFailure(Call<List<Tour_Spot>> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
+
+        /*apiService.getTourOrderBy(Utils.User_Idx).enqueue(new Callback<List<Tour_Spot>>() {
+            @Override
+            public void onResponse(Call<List<Tour_Spot>> call, Response<List<Tour_Spot>> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<List<Tour_Spot>> call, Throwable t) {
+
+            }
+        });*/
     }
 
 

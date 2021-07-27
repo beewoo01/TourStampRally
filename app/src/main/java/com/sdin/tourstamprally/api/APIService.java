@@ -7,6 +7,7 @@ import com.sdin.tourstamprally.model.Tour_Spot;
 import com.sdin.tourstamprally.model.UserModel;
 
 import java.util.List;
+import java.util.Map;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -135,6 +136,9 @@ public interface APIService {
     //@FormUrlEncoded
     @GET("getTourist_OrderBy")
     Call<List<Tour_Spot>> getTourOrderBy(@Query("userIdx") int idx);
+
+    @GET("getTourist_location_for_spot")
+    Call<List<Tour_Spot>> getTourLocation_for_spot(@Query("dataMap") Map<String, Integer> map);
 
     @GET("getTourist_sortTag")
     Call<List<Tour_Spot>> getTourSortHashTag(@Query("userIdx") int idx);

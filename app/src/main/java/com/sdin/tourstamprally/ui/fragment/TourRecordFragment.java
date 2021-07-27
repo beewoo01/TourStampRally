@@ -23,7 +23,10 @@ import com.sdin.tourstamprally.model.Tour_Spot;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -104,6 +107,19 @@ public class TourRecordFragment extends BaseFragment {
     private void initData(){
         /*user_idx = Utils.User_Idx*/
         locationAdapter = new LocationAdapter(adpaterList, requireContext());
+
+        /*apiService.getTourLocation_for_spot().enqueue(new Callback<List<Tour_Spot>>() {
+            @Override
+            public void onResponse(Call<List<Tour_Spot>> call, Response<List<Tour_Spot>> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<List<Tour_Spot>> call, Throwable t) {
+
+            }
+        });*/
+
         apiService.getTour(21).enqueue(new Callback<List<Tour_Spot>>() {
             @Override
             public void onResponse(Call<List<Tour_Spot>> call, Response<List<Tour_Spot>> response) {
@@ -111,6 +127,7 @@ public class TourRecordFragment extends BaseFragment {
                     list = response.body();
                     Log.d("?????", list.get(0).toString());
                     //locationAdapter = new LocationAdapter(list, requireContext());
+                    sortData(new ArrayList(list));
                     binding.recyclerviewTourRecord.setAdapter(locationAdapter);
                     locationSort(binding.spinnerTourRecord.getSelectedItem().toString());
                     //setSort(binding.popularBtn);
@@ -128,6 +145,11 @@ public class TourRecordFragment extends BaseFragment {
                 t.printStackTrace();
             }
         });
+    }
+
+    private void sortData(ArrayList list){
+        Set<Integer> set = new HashSet<>();
+
     }
 
     private void locationSort(String location){

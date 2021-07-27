@@ -1,20 +1,25 @@
 package com.sdin.tourstamprally;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.provider.Settings;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -63,7 +68,6 @@ public class SplashActivity extends BaseActivity {
 
                 if (!isErr) {
 
-
                     SharedPreferences preferences = setSharedPref();
                     final String phone = preferences.getString("phone", "");
                     final String psw = preferences.getString("password", "");
@@ -80,8 +84,6 @@ public class SplashActivity extends BaseActivity {
                 }
 
             }
-
-
 
         };
     }
@@ -140,7 +142,9 @@ public class SplashActivity extends BaseActivity {
                     Bundle bd = new Bundle();
                     bd.putString("fire", "fire");
                     msg.setData(bd);
+                    isErr = false;
                     mHandler.sendMessage(msg);    //메세지를 핸들러로 넘김
+
                 } else {
 
                     isErr = true;
@@ -191,13 +195,15 @@ public class SplashActivity extends BaseActivity {
 
     }
 
-    private void moveActivity(Class<?> Activity, String msg){
+    private void moveActivity(Class<?> Activity, String msg) {
 
         Intent intent = new Intent(this, Activity);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
         overridePendingTransition(R.anim.activity_fade_out, R.anim.activity_fade_in);
-        Toast.makeText(SplashActivity.this, msg, Toast.LENGTH_SHORT).show();
+        if (!TextUtils.isEmpty(msg)){
+            Toast.makeText(SplashActivity.this, msg, Toast.LENGTH_SHORT).show();
+        }
         finish();
     }
 
@@ -229,7 +235,6 @@ public class SplashActivity extends BaseActivity {
                     }else {
                         moveActivity(LoginActivity.class, "로그인에 실패하셨습니다.");
                     }
-
                 }
             }
 
@@ -258,7 +263,7 @@ public class SplashActivity extends BaseActivity {
             case 1 :
                 if (Utils.getGPSState(this)){
                     check = true;
-                }else {
+                } else {
                     check = false;
                 }
                 break;
@@ -266,7 +271,7 @@ public class SplashActivity extends BaseActivity {
             case 2 :
                 if (Utils.getNetworkStatus(this) < 3){
                     check = true;
-                }else {
+                } else {
                     check = false;
                 }
 
@@ -276,6 +281,43 @@ public class SplashActivity extends BaseActivity {
                 check = false;
         }
         return check;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+            Log.wtf("onRequestPermissionsResult ", "1111111111");
+            SharedPreferences preferences = setSharedPref();
+            String phone = preferences.getString("phone", "");
+            String psw = preferences.getString("password", "");
+            if (!TextUtils.isEmpty(phone) && !TextUtils.isEmpty(psw)){
+                Utils.UserPhone = phone;
+                Utils.UserPassword = psw;
+                login(phone, psw);
+                //movoToMain();
+            }else {
+                moveActivity(LoginActivity.class, null);
+            }
+
+        }else {
+            AlertDialog.Builder di = new AlertDialog.Builder(this);
+            di.setTitle("앱 권한");
+            di.setMessage("해당 앱의 원할한 기능을 이용하시려면 애플리케이션 정보> 권한> 에서 모든 권한을 허용해 주십시오");
+            di.setPositiveButton("권한설정", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).setData(Uri.parse("package:" + getApplicationContext().getPackageName()));
+                    startActivity(intent);
+                    dialog.cancel();
+                }
+            });
+            di.show();
+        }
+
+        return;
+
     }
 
     private SharedPreferences setSharedPref(){

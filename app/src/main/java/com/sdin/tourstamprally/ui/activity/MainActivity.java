@@ -34,7 +34,9 @@ import com.sdin.tourstamprally.R;
 import com.sdin.tourstamprally.Utils;
 import com.sdin.tourstamprally.adapter.DrawaRecyclerViewAdapter;
 import com.sdin.tourstamprally.databinding.ActivityMainBinding;
+import com.sdin.tourstamprally.model.Tour_Spot;
 import com.sdin.tourstamprally.ui.fragment.DirectionGuidFragment;
+import com.sdin.tourstamprally.ui.fragment.LocationFragment;
 import com.sdin.tourstamprally.ui.fragment.MainFragment;
 import com.sdin.tourstamprally.ui.fragment.NFCFragment;
 import com.sdin.tourstamprally.ui.fragment.QRscanFragment;
@@ -59,6 +61,8 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
     private NFCFragment nfcFragment = new NFCFragment();
     private QRscanFragment QRscanFragment = new QRscanFragment();
     private DirectionGuidFragment directionGuidFragment;
+
+    private long backKeyPressedTime = 0;
 
 
     @Override
@@ -324,11 +328,32 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
     }
 
     @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
+        if (System.currentTimeMillis() > backKeyPressedTime + 2000){
+            backKeyPressedTime = System.currentTimeMillis();
+            Toast.makeText(this, "\'뒤로\' 버튼을 한번 더 누르시면 종료됩니다.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (System.currentTimeMillis() <= backKeyPressedTime + 2000){
+            finish();
+        }
+    }
+
+    @Override
     public void SetFragment(String tag) {
         if (tag.equals("direction_guid")){
             directionGuidFragment = new DirectionGuidFragment().newInstance();
             setFragment("direction_guid", directionGuidFragment);
         }
+    }
+
+    @Override
+    public void onItemClick(Tour_Spot tour_spot) {
+        Log.wtf("onItemClick", tour_spot.toString());
+        setFragment("location_fragment", new LocationFragment().newInstance(tour_spot));
     }
 
     private void setKaKaoNavi(){

@@ -1,5 +1,7 @@
 package com.sdin.tourstamprally.adapter;
 
+import android.app.Activity;
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +12,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.sdin.tourstamprally.databinding.DirectionGuidLocationItemBinding;
 import com.sdin.tourstamprally.databinding.DirectionGuidTagItemBinding;
 import com.sdin.tourstamprally.model.Tour_Spot;
+import com.sdin.tourstamprally.ui.activity.MainActivity;
 import com.sdin.tourstamprally.ui.fragment.DirectionGuidFragment;
+import com.sdin.tourstamprally.utill.ItemOnClick;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,8 +23,16 @@ public class DirectionGuid_Adapter extends RecyclerView.Adapter<DirectionGuid_Ad
 
     private ArrayList<Tour_Spot> list;
 
-    public DirectionGuid_Adapter(ArrayList<Tour_Spot> list) {
+    /*public interface ItemOnClick{
+        void onClick(Tour_Spot tour_spot);
+    } */
+
+    private ItemOnClick itemOnClick = null;
+    private Context context;
+
+    public DirectionGuid_Adapter(ArrayList<Tour_Spot> list, Activity activity) {
         this.list = list;
+        this.itemOnClick = (ItemOnClick) activity;
     }
 
     public void setList(ArrayList<Tour_Spot> list){
@@ -66,6 +78,9 @@ public class DirectionGuid_Adapter extends RecyclerView.Adapter<DirectionGuid_Ad
         public ViewHolder(@NonNull DirectionGuidLocationItemBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
+            binding.locationBg.setOnClickListener( v-> {
+                itemOnClick.onItemClick(list.get(getAdapterPosition()));
+            });
         }
     }
 }

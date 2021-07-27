@@ -1,5 +1,7 @@
 package com.sdin.tourstamprally.utill;
 
+import com.sdin.tourstamprally.model.Tour_Spot;
+
 public abstract class ItemOnClickAb implements ItemOnClick{
 
     @Override
@@ -16,4 +18,9 @@ public abstract class ItemOnClickAb implements ItemOnClick{
     public void SetFragment(String tag){
 
     };
+
+    @Override
+    public void onItemClick(Tour_Spot tour_spot) {
+
+    }
 }

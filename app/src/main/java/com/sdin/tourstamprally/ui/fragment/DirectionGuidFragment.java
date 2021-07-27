@@ -10,11 +10,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 
 import com.sdin.tourstamprally.R;
 import com.sdin.tourstamprally.Utils;
 import com.sdin.tourstamprally.adapter.DirectionGuid_Adapter;
 import com.sdin.tourstamprally.adapter.DirectionGuid_Tag_Adapter;
+import com.sdin.tourstamprally.adapter.SelectLocationAdapter;
 import com.sdin.tourstamprally.databinding.FragmentDirectionGuidBinding;
 import com.sdin.tourstamprally.model.HashTagModel;
 import com.sdin.tourstamprally.model.Tour_Spot;
@@ -61,12 +63,19 @@ public class DirectionGuidFragment extends BaseFragment {
     }
 
     private void getData(){
+        binding.directionGuidPgb.setVisibility(View.VISIBLE);
         apiService.getTourSortHashTag(Utils.User_Idx).enqueue(new Callback<List<Tour_Spot>>() {
             @Override
             public void onResponse(Call<List<Tour_Spot>> call, Response<List<Tour_Spot>> response) {
                 if (response.isSuccessful()){
                     tourList = new ArrayList<>();
                     tourList = response.body();
+
+
+                    for(Tour_Spot tour_spot : tourList){
+                        Log.wtf("HIHIHIHrfqwIHIHI", String.valueOf(1111));
+                        Log.wtf("HIHIHIHIHIHI", tour_spot.getTouristhistory_idx());
+                    }
 
 
                     for (int i = 0; i < tourList.size(); i++){
@@ -89,17 +98,6 @@ public class DirectionGuidFragment extends BaseFragment {
                         }
                     }
 
-
-
-                    /*for (Tour_Spot model : tourList){
-
-                        model.setLocation_percentage();
-                    }*/
-                    /*ArrayList<Tour_Spot> arrayList = new ArrayList<>();
-                    arrayList.addAll(tourList);
-                    adapter = new DirectionGuid_Adapter(arrayList);
-                    binding.locationRe.setAdapter(adapter);
-                    binding.locationRe.setHasFixedSize(true);*/
                     setTourSpotList();
                     setHashTag();
 
@@ -125,7 +123,7 @@ public class DirectionGuidFragment extends BaseFragment {
 
         Collection<Tour_Spot> collection = hashMap.values();
         ArrayList<Tour_Spot> arrayList = new ArrayList(collection);
-        adapter = new DirectionGuid_Adapter(arrayList);
+        adapter = new DirectionGuid_Adapter(arrayList, requireActivity());
         binding.locationRe.setAdapter(adapter);
         binding.locationRe.setHasFixedSize(true);
     }
@@ -154,6 +152,7 @@ public class DirectionGuidFragment extends BaseFragment {
         });
         binding.tagRe.setAdapter(tagAdpater);
         binding.tagRe.setHasFixedSize(true);
+        binding.directionGuidPgb.setVisibility(View.GONE);
     }
 
 
@@ -162,6 +161,9 @@ public class DirectionGuidFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_direction_guid, container, false);
+        SelectLocationAdapter spinnerAdapter = new SelectLocationAdapter(requireContext(), Arrays.asList(requireContext().getResources().getStringArray(R.array.area)));
+        binding.spinnerTourRecord.setAdapter(spinnerAdapter);
+        binding.spinnerTourRecord.setOnItemSelectedListener(selectedListener);
 
         getData();
         binding.searchEdt.addTextChangedListener(new TextWatcher() {
@@ -230,6 +232,24 @@ public class DirectionGuidFragment extends BaseFragment {
         adapter.setList(arrayList);
         adapter.notifyDataSetChanged();
     }
+
+
+    private AdapterView.OnItemSelectedListener selectedListener = new AdapterView.OnItemSelectedListener() {
+        @Override
+        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            Log.d("getSelectedItem", parent.getSelectedItem().toString());
+
+            if (tourList != null){
+                search(parent.getSelectedItem().toString());
+            }
+
+        }
+
+        @Override
+        public void onNothingSelected(AdapterView<?> parent) {
+
+        }
+    };
 
 
 }
