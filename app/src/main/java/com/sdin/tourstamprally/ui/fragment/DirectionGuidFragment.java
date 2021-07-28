@@ -24,8 +24,6 @@ import com.sdin.tourstamprally.model.Tour_Spot;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -43,7 +41,8 @@ public class DirectionGuidFragment extends BaseFragment {
     //private RallyRecyclerviewAdapter adapter;
     private DirectionGuid_Adapter adapter;
     private DirectionGuid_Tag_Adapter tagAdpater;
-    private Map<Integer, Integer> map;
+    private Map<Integer, Integer> location_Progress_Map;
+    private Map<Integer, Integer> location_history_Map;
 
     public DirectionGuidFragment() {
 
@@ -72,24 +71,8 @@ public class DirectionGuidFragment extends BaseFragment {
                     tourList = response.body();
 
 
-                    for (int i = 0; i < tourList.size(); i++){
-                        for (int j = 0; j < tourList.size(); j++){
-                            if (tourList.get(i).getLocation_idx() == tourList.get(j).getLocation_idx()){
-                                tourList.get(i).setLocation_percentage(tourList.get(i).getLocation_percentage() + 1);
 
-                            }
-
-                            if (tourList.get(i).getTouristspot_idx() == tourList.get(j).getTouristspot_idx()){
-                                tourList.get(i).setTourspot_percentage(tourList.get(i).getTourspot_percentage() + 1);
-
-                            }
-
-                            if (tourList.get(i).getTouristhistory_touristspotpoint_idx() == tourList.get(i).getTouristspotpoint_idx()){
-
-                            }
-                        }
-                    }
-
+                    setProgress();
                     setTourSpotList();
                     setHashTag();
 
@@ -105,7 +88,41 @@ public class DirectionGuidFragment extends BaseFragment {
         });
     }
 
+    private void setProgress(){
+
+    }
+
     private void setTourSpotList(){
+
+        location_Progress_Map = new HashMap<>();
+        location_history_Map = new HashMap<>();
+
+        for (Tour_Spot tour_spot : tourList) {
+
+            location_Progress_Map.put(tour_spot.getLocation_idx(),
+                    location_Progress_Map.get(tour_spot.getLocation_idx()) == null ?
+                            1 : location_Progress_Map.get(tour_spot.getLocation_idx()) +1);
+
+
+            if (tour_spot.getTouristhistory_idx() != null){
+                location_history_Map.put(tour_spot.getLocation_idx(),
+                        location_history_Map.get(tour_spot.getLocation_idx()) == null?
+                                1 : location_history_Map.get(tour_spot.getLocation_idx()) +1);
+            }
+
+        }
+
+        for(int key : location_Progress_Map.keySet()) {
+            int value = location_Progress_Map.get(key);
+            System.out.println("spot_poinMap , " + key + " : " + value);
+
+        }
+
+        for(int key : location_history_Map.keySet()) {
+            int value = location_history_Map.get(key);
+            System.out.println("spot_HistoryMap , " + key + " : " + value);
+
+        }
 
         Map<Integer, Tour_Spot> hashMap = new HashMap<>();
         for (Tour_Spot model : tourList){
@@ -114,7 +131,7 @@ public class DirectionGuidFragment extends BaseFragment {
 
         Collection<Tour_Spot> collection = hashMap.values();
         ArrayList<Tour_Spot> arrayList = new ArrayList(collection);
-        adapter = new DirectionGuid_Adapter(arrayList, requireActivity());
+        adapter = new DirectionGuid_Adapter(arrayList, requireActivity(), location_Progress_Map, location_history_Map);
         binding.locationRe.setAdapter(adapter);
         binding.locationRe.setHasFixedSize(true);
     }
@@ -139,7 +156,6 @@ public class DirectionGuidFragment extends BaseFragment {
         tagAdpater = new DirectionGuid_Tag_Adapter(list);
         tagAdpater.setOnItemClickListener(param -> {
             Log.wtf("setOnItemClickListener", "param = " + param +"1");
-            //tagAdpater.notifyDataSetChanged();
             search(param);
         });
         binding.tagRe.setAdapter(tagAdpater);
