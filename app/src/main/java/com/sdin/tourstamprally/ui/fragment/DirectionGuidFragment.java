@@ -70,8 +70,6 @@ public class DirectionGuidFragment extends BaseFragment {
                     tourList = new ArrayList<>();
                     tourList = response.body();
 
-
-
                     setProgress();
                     setTourSpotList();
                     setHashTag();
@@ -169,7 +167,7 @@ public class DirectionGuidFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_direction_guid, container, false);
-        SelectLocationAdapter spinnerAdapter = new SelectLocationAdapter(requireContext(), Arrays.asList(requireContext().getResources().getStringArray(R.array.area)));
+        SelectLocationAdapter spinnerAdapter = new SelectLocationAdapter(requireContext(), Arrays.asList(requireContext().getResources().getStringArray(R.array.area_direction)));
         binding.spinnerTourRecord.setAdapter(spinnerAdapter);
         binding.spinnerTourRecord.setOnItemSelectedListener(selectedListener);
 
@@ -248,7 +246,10 @@ public class DirectionGuidFragment extends BaseFragment {
             Log.d("getSelectedItem", parent.getSelectedItem().toString());
 
             if (tourList != null){
-                search(parent.getSelectedItem().toString());
+                String searchData = parent.getSelectedItem().toString();
+                if (searchData.equals("전체"))
+                    searchData = "";
+                search(searchData);
             }
 
         }

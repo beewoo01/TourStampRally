@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.sdin.tourstamprally.R;
@@ -51,6 +52,8 @@ public class SelectLocationAdapter extends BaseAdapter {
                 String text = data.get(position);
                 TextView textView = convertView.findViewById(R.id.spinnerTitleText);
                 textView.setText(text);
+                ImageButton imageButton = convertView.findViewById(R.id.imagebtn);
+                imageButton.setEnabled(false);
             }
         }
         return convertView;
