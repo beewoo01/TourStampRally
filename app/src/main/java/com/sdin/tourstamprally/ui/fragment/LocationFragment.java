@@ -24,6 +24,10 @@ import com.sdin.tourstamprally.databinding.LocationReItemBinding;
 import com.sdin.tourstamprally.model.Tour_Spot;
 import com.sdin.tourstamprally.model.TouristSpot;
 import com.sdin.tourstamprally.model.TouristSpotPoint;
+import com.sdin.tourstamprally.ui.activity.MainActivity;
+import com.sdin.tourstamprally.ui.dialog.GuidDialog;
+import com.sdin.tourstamprally.utill.ItemOnClick;
+import com.sdin.tourstamprally.utill.ItemOnClickAb;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -182,6 +186,8 @@ public class LocationFragment extends BaseFragment {
         private ArrayList<Tour_Spot> arrayList;
         private Map<Integer, Integer> spotPoint_map;
         private Map<Integer, Integer> history_map;
+        private ItemOnClick listener;
+        private Tour_Spot send_model;
 
 
 
@@ -190,6 +196,7 @@ public class LocationFragment extends BaseFragment {
             this.arrayList = arrayList;
             this.spotPoint_map = spotPoint_map;
             this.history_map = history_map;
+            listener = (MainActivity) requireActivity();
         }
 
         @NonNull
@@ -239,8 +246,27 @@ public class LocationFragment extends BaseFragment {
             public ViewHolder(@NonNull LocationReItemBinding binding) {
                 super(binding.getRoot());
                 this.binding = binding;
+
+                binding.topLayout.setOnClickListener( v -> {
+                    send_model = arrayList.get(getAdapterPosition());
+                    GuidDialog guidDialog = new GuidDialog(requireContext());
+                    guidDialog.show();
+                    guidDialog.setClickListener(itemOnClick);
+                });
             }
         }
+
+        private ItemOnClick itemOnClick = new ItemOnClickAb() {
+            @Override
+            public void ItemGuid(int position) {
+                Log.d("dialog Onclick Listener", String.valueOf(position));
+                if (position == 1 || position == 2){
+                    listener.ItemGuid(position);
+                }else {
+                    listener.ItemGuid(position, send_model);
+                }
+            }
+        };
     }
 
 

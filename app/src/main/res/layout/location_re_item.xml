@@ -8,6 +8,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/white"
         android:layout_marginHorizontal="@dimen/_10sdp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -59,10 +60,11 @@
                 android:id="@+id/spot_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginStart="@dimen/_8sdp"
                 android:text="해운대 해수욕장"
                 android:textColor="@color/black"
                 android:textSize="@dimen/_15sdp"
+                android:maxLength="10"
                 app:layout_constraintStart_toEndOf="@id/location_imv"
                 app:layout_constraintTop_toTopOf="@id/location_imv" />
 
@@ -72,6 +74,7 @@
                 android:layout_height="wrap_content"
                 android:maxLength="20"
                 android:text="부산 해운대구 중동 좌동 우동에 걸쳐 있는 해수욕장"
+                android:textSize="@dimen/_7sdp"
                 android:textColor="@color/gray"
                 app:layout_constraintStart_toStartOf="@id/spot_name"
                 app:layout_constraintTop_toBottomOf="@id/spot_name" />

@@ -170,10 +170,10 @@ public class MainFragment extends BaseFragment {
         private GuidDialog guidDialog;
         //private DefaultDialog dialog;
         private Context context;
-        private ItemOnClick listener;
+        //private ItemOnClick listener;
         private List<Tour_Spot> list;
 
-        private ItemOnClick itemOnClick = new ItemOnClickAb() {
+        /*private ItemOnClick itemOnClick = new ItemOnClickAb() {
             @Override
             public void ItemGuid(int position) {
                 Log.d("dialog Onclick Listener", String.valueOf(position));
@@ -194,7 +194,7 @@ public class MainFragment extends BaseFragment {
                         break;
                 }
             }
-        };
+        };*/
 
         public RallyRecyclerviewAdapter(Context context, List<Tour_Spot> list){
             this.context = context;
@@ -233,12 +233,12 @@ public class MainFragment extends BaseFragment {
 
         @Override
         public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-            holder.binding.stepRallyBg.setOnClickListener(v -> {
+            /*holder.binding.stepRallyBg.setOnClickListener(v -> {
                 listener = (MainActivity) requireActivity();
                 guidDialog = new GuidDialog(requireContext());
                 guidDialog.show();
                 guidDialog.setClickListener(itemOnClick);
-            });
+            });*/
 
             /*long today = System.currentTimeMillis();
             long diff = today - list.get(position).getTouristspot_createtime();*/

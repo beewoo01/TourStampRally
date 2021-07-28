@@ -92,8 +92,8 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHo
                 Log.d(TAG, "near_btn");
                 list.sort((o1, o2) -> {
 
-                    double o1_distance = distance(Double.parseDouble(o1.getTouristspot_latitude()), Double.parseDouble(o1.getTouristspot_longitude()));
-                    double o2_distance = distance(Double.parseDouble(o2.getTouristspot_latitude()), Double.parseDouble(o2.getTouristspot_longitude()));
+                    double o1_distance = distance(o1.getTouristspot_latitude(), o1.getTouristspot_longitude());
+                    double o2_distance = distance(o2.getTouristspot_latitude(), o2.getTouristspot_longitude());
 
                     if (o1_distance == o2_distance) return 0;
                     else if (o1_distance > o2_distance) return 1;
@@ -130,11 +130,11 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHo
     }
 
 
-    private double distance(double latitude, double longitute){
+    private double distance(double latitude, double longitude){
         double userLatitude = gpsTracker.getLatitude();
         double userLongitude = gpsTracker.getLongitude();
 
-        return Utils.distance(latitude, longitute, userLatitude, userLongitude);
+        return Utils.distance(latitude, longitude, userLatitude, userLongitude);
     }
 
 

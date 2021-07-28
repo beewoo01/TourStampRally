@@ -134,6 +134,8 @@ public class DirectionGuidFragment extends BaseFragment {
         binding.locationRe.setHasFixedSize(true);
     }
 
+
+
     private void setHashTag() {
 
         Set<String> hashSet = new HashSet<>();

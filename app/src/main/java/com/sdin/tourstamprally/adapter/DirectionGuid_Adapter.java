@@ -12,11 +12,13 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.sdin.tourstamprally.Utils;
 import com.sdin.tourstamprally.databinding.DirectionGuidLocationItemBinding;
 import com.sdin.tourstamprally.databinding.DirectionGuidTagItemBinding;
 import com.sdin.tourstamprally.model.Tour_Spot;
 import com.sdin.tourstamprally.ui.activity.MainActivity;
 import com.sdin.tourstamprally.ui.fragment.DirectionGuidFragment;
+import com.sdin.tourstamprally.utill.GpsTracker;
 import com.sdin.tourstamprally.utill.ItemOnClick;
 
 import org.jetbrains.annotations.NotNull;
@@ -33,6 +35,7 @@ public class DirectionGuid_Adapter extends RecyclerView.Adapter<DirectionGuid_Ad
     private ArrayList<Tour_Spot> list;
     private final Map<Integer, Integer> location_Progress_Map;
     private final Map<Integer, Integer> location_history_Map;
+    private double latitude, longitude;
 
     /*public interface ItemOnClick{
         void onClick(Tour_Spot tour_spot);
@@ -46,8 +49,17 @@ public class DirectionGuid_Adapter extends RecyclerView.Adapter<DirectionGuid_Ad
                                  Map<Integer, Integer> location_history_Map) {
         this.list = list;
         this.itemOnClick = (ItemOnClick) activity;
+        this.context = activity.getApplicationContext();
         this.location_history_Map = location_history_Map;
         this.location_Progress_Map = location_Progress_Map;
+        getGps();
+    }
+
+    private void getGps(){
+        GpsTracker gpsTracker = new GpsTracker(context);
+
+        latitude = gpsTracker.getLatitude();
+        longitude = gpsTracker.getLongitude();
     }
 
 
@@ -77,6 +89,18 @@ public class DirectionGuid_Adapter extends RecyclerView.Adapter<DirectionGuid_Ad
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.binding.locationSpotTxv.setText(list.get(position).getLocation_name());
         holder.binding.seekBarDirectionItem.setMax(100);
+        double meter = Utils.distance(latitude, longitude, list.get(position).getTouristspot_latitude(), list.get(position).getTouristspot_longitude());
+        String meterStr;
+        if (meter < 1000){
+            meterStr = (Math.floor(meter*10)/10.0) + "m";
+        }else {
+            meter = meter / 1000;
+            meterStr = (Math.floor(meter*10)/10.0) + "km";
+        }
+
+
+        holder.binding.directionFromStempTxv.setText(meterStr);
+
         if (location_Progress_Map.get(list.get(position).getLocation_idx()) != null
                 &&  location_history_Map.get(list.get(position).getLocation_idx()) != null) {
 

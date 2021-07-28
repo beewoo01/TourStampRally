@@ -4,6 +4,7 @@ package com.sdin.tourstamprally.api;
 
 import com.google.gson.Gson;
 import com.sdin.tourstamprally.model.Tour_Spot;
+import com.sdin.tourstamprally.model.TouristSpotPoint;
 import com.sdin.tourstamprally.model.UserModel;
 
 import java.util.List;
@@ -141,9 +142,11 @@ public interface APIService {
     @GET("getTourist_location_for_spot")
     Call<List<Tour_Spot>> getTourLocation_for_spot(@QueryMap Map<String, Integer> map);
 
+    @GET("getTourist_spotpoint")
+    Call<List<TouristSpotPoint>> getTourLocation_spotpoint(@QueryMap Map<String, Integer> map);
+
     @GET("getTourist_sortTag")
     Call<List<Tour_Spot>> getTourSortHashTag(@Query("userIdx") int idx);
-
 
     @GET("gabia_token")
     Call<String> getToken();

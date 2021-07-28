@@ -253,6 +253,7 @@ public class Utils {
                 * (c40 + c50 * c33 * (-1 + 2 * c40 * c40)));
         double c54 = c16 * c43 * (Math.atan(c35) - c47);
         // return distance in meter
+
         return c54;
     }
 

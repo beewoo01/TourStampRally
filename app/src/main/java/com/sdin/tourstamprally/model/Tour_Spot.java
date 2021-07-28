@@ -44,10 +44,10 @@ public class Tour_Spot implements Comparable<Tour_Spot>, Serializable {
     private String touristspot_explan;
 
     @SerializedName("touristspot_latitude")
-    private String touristspot_latitude;
+    private double touristspot_latitude;
 
     @SerializedName("touristspot_longitude")
-    private String touristspot_longitude;
+    private double touristspot_longitude;
 
     @SerializedName("touristspot_tag")
     private String touristspot_tag;

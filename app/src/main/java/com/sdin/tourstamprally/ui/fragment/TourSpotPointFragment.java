@@ -22,13 +22,16 @@ import com.sdin.tourstamprally.databinding.DirectionGuidLocationItemBinding;
 import com.sdin.tourstamprally.databinding.FragmentTourSpotPointBinding;
 import com.sdin.tourstamprally.databinding.LocationReItemBinding;
 import com.sdin.tourstamprally.model.Tour_Spot;
+import com.sdin.tourstamprally.model.TouristSpotPoint;
 
 import net.daum.mf.map.api.MapPOIItem;
 import net.daum.mf.map.api.MapPoint;
 import net.daum.mf.map.api.MapView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -43,7 +46,8 @@ public class TourSpotPointFragment extends BaseFragment {
 
 
     private FragmentTourSpotPointBinding binding;
-    private List<Tour_Spot> list;
+    private List<TouristSpotPoint> list;
+    private Tour_Spot tour_spot;
 
     // 상세 랠리 맵
     // 구글맵 이나 카카오맵 구현 하자
@@ -52,8 +56,11 @@ public class TourSpotPointFragment extends BaseFragment {
         // Required empty public constructor
     }
 
-    public static TourSpotPointFragment newInstance() {
+    public static TourSpotPointFragment newInstance(Tour_Spot tour_spot) {
         TourSpotPointFragment fragment = new TourSpotPointFragment();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("model", tour_spot);
+        fragment.setArguments(bundle);
         return fragment;
     }
 
@@ -61,7 +68,7 @@ public class TourSpotPointFragment extends BaseFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-
+            tour_spot = (Tour_Spot) getArguments().getSerializable("model");
         }
     }
 
@@ -70,22 +77,29 @@ public class TourSpotPointFragment extends BaseFragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_tour_spot_point, container,false);
-        setMap();
+        binding.tourSpotPointPgb.setVisibility(View.VISIBLE);
+
         getData();
 
         return binding.getRoot();
     }
 
     private void getData(){
-        apiService.getTourOrderBy(Utils.User_Idx).enqueue(new Callback<List<Tour_Spot>>() {
+        Map<String, Integer> map = new HashMap<>();
+        map.put("user_idx", Utils.User_Idx);
+        map.put("touristspot_idx", Integer.valueOf(tour_spot.getTouristspotpoint_touristspot_idx()));
+        apiService.getTourLocation_spotpoint(map).enqueue(new Callback<List<TouristSpotPoint>>() {
             @Override
-            public void onResponse(Call<List<Tour_Spot>> call, Response<List<Tour_Spot>> response) {
+            public void onResponse(Call<List<TouristSpotPoint>> call, Response<List<TouristSpotPoint>> response) {
                 if (response.isSuccessful()){
                     list = new ArrayList<>();
                     list = response.body();
-                    ArrayList<Tour_Spot> arrayList = new ArrayList<>();
+                    ArrayList<TouristSpotPoint> arrayList = new ArrayList<>();
                     arrayList.addAll(list);
                     binding.recyclerviewLocationRe.setAdapter(new TourSpotPointAdapter(arrayList));
+                    binding.recyclerviewLocationRe.setLayoutManager(new LinearLayoutManager(requireContext()));
+                    binding.recyclerviewLocationRe.setHasFixedSize(true);
+                    setMap(arrayList);
 
                 }else {
 
@@ -93,62 +107,46 @@ public class TourSpotPointFragment extends BaseFragment {
             }
 
             @Override
-            public void onFailure(Call<List<Tour_Spot>> call, Throwable t) {
+            public void onFailure(Call<List<TouristSpotPoint>> call, Throwable t) {
                 t.printStackTrace();
             }
         });
     }
 
-    private void setMap(){
+    private void setMap(ArrayList<TouristSpotPoint> arrayList){
         MapView mapView = new MapView(requireActivity());
-        ViewGroup mapViewContainer = (ViewGroup) binding.mapView;
+        ViewGroup mapViewContainer = binding.mapView;
 
-        //mapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(35.1017, 129.0282), true);
-        //mapView.setZoomLevel(7, true);
-        mapView.setMapCenterPointAndZoomLevel(MapPoint.mapPointWithGeoCoord(35.1017, 129.0282), 2, true);
+        mapView.setMapCenterPointAndZoomLevel(MapPoint.mapPointWithGeoCoord(tour_spot.getTouristspot_latitude(), tour_spot.getTouristspot_longitude()), 2, true);
         mapView.zoomIn(true);
         mapView.zoomOut(true);
 
         mapViewContainer.addView(mapView);
-        MapPoint point = MapPoint.mapPointWithGeoCoord(35.1012, 129.0257);
-        ArrayList<MapPoint> arrayList = new ArrayList<>();
-        arrayList.add(MapPoint.mapPointWithGeoCoord(35.1012, 129.0323));
-        arrayList.add(MapPoint.mapPointWithGeoCoord(35.1017, 129.0282));
-        arrayList.add(MapPoint.mapPointWithGeoCoord(35.1092, 128.9427));
-        arrayList.add(MapPoint.mapPointWithGeoCoord(35.1150, 129.0387));
-        mapView.setMapCenterPoint(point, true);
 
 
-
-        MapPOIItem marker = new MapPOIItem();
-        marker.setMapPoint(point);
-        marker.setMarkerType(MapPOIItem.MarkerType.CustomImage);
-        marker.setCustomImageResourceId(R.drawable.marker_icon);
-        marker.setCustomImageAutoscale(true);
-        //marker.setCustomImageAnchor(0.5f, 1.0f);
-        marker.setCustomImageAnchor(0.5f, 1.0f);
-
-        mapView.addPOIItem(marker);
-
+        ArrayList<MapPoint> pointArrayList = new ArrayList<>();
         MapPOIItem[] markers = new MapPOIItem[arrayList.size()];
-        for (int i = 0; i < arrayList.size(); i++){
+        for (int i = 0; i < arrayList.size(); i ++){
+            pointArrayList.add(MapPoint.mapPointWithGeoCoord(arrayList.get(i).getTouristspotpoint_latitude(), arrayList.get(i).getTouristspotpoint_longitude()));
             markers[i] = new MapPOIItem();
-            markers[i].setMapPoint(arrayList.get(i));
-            markers[i].setItemName("연습용 마커");
+            markers[i].setMapPoint(pointArrayList.get(i));
+            markers[i].setItemName(arrayList.get(i).getTouristspotpoint_name());
             markers[i].setMarkerType(MapPOIItem.MarkerType.CustomImage);
             markers[i].setCustomImageResourceId(R.drawable.marker_icon);
             markers[i].setCustomImageAutoscale(true);
         }
+
         mapView.addPOIItems(markers);
-        // TODO: 7/23/21 데이터 적용해야함
+
+        binding.tourSpotPointPgb.setVisibility(View.GONE);
 
     }
 
     class TourSpotPointAdapter extends RecyclerView.Adapter<TourSpotPointAdapter.ViewHolder>{
 
-        private ArrayList<Tour_Spot> arrayList;
+        private ArrayList<TouristSpotPoint> arrayList;
 
-        public TourSpotPointAdapter(ArrayList<Tour_Spot> arrayList) {
+        public TourSpotPointAdapter(ArrayList<TouristSpotPoint> arrayList) {
             this.arrayList = arrayList;
         }
 
@@ -162,18 +160,16 @@ public class TourSpotPointFragment extends BaseFragment {
 
         @Override
         public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-            holder.binding.topLine.setVisibility(position == 0 ? View.INVISIBLE : View.VISIBLE);
-            holder.binding.bottomLine.setVisibility(position == arrayList.size() - 1 ?  View.VISIBLE : View.INVISIBLE);
-            holder.binding.bottomLayout.setVisibility(position == arrayList.size() - 1 ?  View.VISIBLE : View.INVISIBLE);
-            Glide.with(holder.itemView.getContext()).load(position % 2 == 0 ? R.drawable.icon_sky_blue : R.drawable.icon_deep_blue).into(holder.binding.locationImv);
+            holder.binding.topLine.setVisibility(position == 0 ? View.INVISIBLE : View.VISIBLE );
+            holder.binding.bottomLine.setVisibility(position == arrayList.size() -1 ? View.GONE : View.VISIBLE);
+            holder.binding.bottomLayout.setVisibility(position == arrayList.size() -1 ? View.GONE : View.VISIBLE);
 
-            Glide.with(holder.itemView.getContext()).load(
-                    arrayList.get(position).getTouristhistory_touristspotpoint_idx().equals(arrayList.get(position).getTouristspot_idx()) ?
-                            R.drawable.mainlogo : R.drawable.logo_gray
-                    ).into(holder.binding.locationImv);
+            Glide.with(holder.itemView.getContext()).load(position % 2 == 0 ? R.drawable.icon_deep_blue : R.drawable.icon_sky_blue).into(holder.binding.locationImv);
 
+
+            Glide.with(holder.itemView.getContext()).load(list.get(position).getTouristhistory_idx() != null ? R.drawable.mainlogo : R.drawable.logo_gray).into(holder.binding.logoImv);
             holder.binding.spotName.setText(arrayList.get(position).getTouristspotpoint_name());
-            holder.binding.spotName.setText(arrayList.get(position).getTouristspotpoint_explan());
+            holder.binding.explanTxv.setText(arrayList.get(position).getTouristspotpoint_explan());
         }
 
         @Override

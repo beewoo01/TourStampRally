@@ -24,11 +24,11 @@ public class TouristSpotPoint implements Serializable {
 
     @SerializedName("touristspotpoint_latitude")
     @Expose
-    private String touristspotpoint_latitude;
+    private double touristspotpoint_latitude;
 
     @SerializedName("touristspotpoint_longitude")
     @Expose
-    private String touristspotpoint_longitude;
+    private double touristspotpoint_longitude;
 
     @SerializedName("touristspotpoint_name")
     @Expose

@@ -10,7 +10,12 @@ public abstract class ItemOnClickAb implements ItemOnClick{
     }
 
     @Override
-    public void ItemGuid(int position){
+    public void ItemGuid(int position) {
+
+    }
+
+    @Override
+    public void ItemGuid(int position, Tour_Spot model){
 
     };
 

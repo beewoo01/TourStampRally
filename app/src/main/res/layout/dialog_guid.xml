@@ -98,11 +98,31 @@
                 android:text="@string/qrscan"
                 android:textColor="@drawable/button_selector_text_color"
                 android:textSize="@dimen/_13sdp"
-                app:layout_constraintBottom_toTopOf="@id/navi_txv"
+                app:layout_constraintBottom_toTopOf="@id/view_spotpoint_txv"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/nfc_txv" />
 
+
+            <TextView
+                android:id="@+id/view_spotpoint_txv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_30sdp"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:background="@drawable/button_selector_drawable"
+                android:elevation="@dimen/_3sdp"
+                android:gravity="center"
+                android:onClick="@{dialog::buttonClick}"
+                android:padding="@dimen/_10sdp"
+                android:tag="3"
+                android:text="@string/view_spotpoint"
+                android:textColor="@drawable/button_selector_text_color"
+                android:textSize="@dimen/_13sdp"
+                app:layout_constraintBottom_toTopOf="@id/navi_txv"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/qrscan_txv" />
 
             <TextView
                 android:id="@+id/navi_txv"
@@ -115,14 +135,15 @@
                 android:gravity="center"
                 android:onClick="@{dialog::buttonClick}"
                 android:padding="@dimen/_10sdp"
-                android:tag="3"
+                android:tag="4"
                 android:text="@string/navi"
                 android:textColor="@drawable/button_selector_text_color"
                 android:textSize="@dimen/_13sdp"
                 app:layout_constraintBottom_toTopOf="@id/ch_txv"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/qrscan_txv" />
+                app:layout_constraintTop_toBottomOf="@id/view_spotpoint_txv" />
+
 
 
             <TextView

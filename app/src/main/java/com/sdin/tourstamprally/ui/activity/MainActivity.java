@@ -19,6 +19,7 @@ import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.databinding.DataBindingUtil;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
@@ -43,6 +44,7 @@ import com.sdin.tourstamprally.ui.fragment.NFCFragment;
 import com.sdin.tourstamprally.ui.fragment.QRscanFragment;
 import com.sdin.tourstamprally.ui.fragment.StoreListFragment;
 import com.sdin.tourstamprally.ui.fragment.TourRecordFragment;
+import com.sdin.tourstamprally.ui.fragment.TourSpotPointFragment;
 import com.sdin.tourstamprally.utill.ItemOnClick;
 import com.sdin.tourstamprally.utill.NFCListener;
 
@@ -140,6 +142,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
         binding.navigationLayout.setActivity(this);
         binding.navigationLayout.drawaRecyclerview.setHasFixedSize(true);
         binding.navigationLayout.drawaRecyclerview.setAdapter(adapter);
+        binding.drawaLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
         fragmentManager = getSupportFragmentManager();
 
 
@@ -321,30 +324,29 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
 
     @Override
     public void ItemGuid(int position) {
-        Log.d("ItemGuid_MainAct", String.valueOf(position));
-        switch (position){
-            case 0 :
-
-                break;
-
-            case 1 :
-                //NFC
-                if (ISNfcInable) {
-                    setFragment("NFC", nfcFragment);
-                }else {
-                    showToast("NFC를 지원하지 않는 단말기 입니다.");
-                }
-                break;
-
-            case 2 :
-                //QR
-                setFragment("QR", QRscanFragment);
-                break;
-
-            case 3 :
-
-                break;
+        Log.d("ItemGuid_MainAct111", String.valueOf(position));
+        if (position == 1){
+            if (ISNfcInable) {
+                setFragment("NFC", nfcFragment);
+            }else {
+                showToast("NFC를 지원하지 않는 단말기 입니다.");
+            }
+        }else if (position == 2){
+            setFragment("QR", QRscanFragment);
         }
+
+    }
+
+    @Override
+    public void ItemGuid(int position, Tour_Spot model) {
+        Log.d("ItemGuid_MainAct222", String.valueOf(position));
+
+        if (position == 0){
+
+        }else if (position == 3){
+            setFragment("TourSpotPoint", new TourSpotPointFragment().newInstance(model));
+        }
+
     }
 
     @Override
