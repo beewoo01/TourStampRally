@@ -85,13 +85,10 @@ public class LocationFragment extends BaseFragment {
     private void getData(){
         binding.locationPgb.setVisibility(View.VISIBLE);
         Map<String, Integer> dataMap = new HashMap<>();
-        dataMap.put("user_idx", Utils.User_Idx);
-        dataMap.put("location_idx", tour_spot.getLocation_idx());
         apiService.getTourLocation_for_spot(dataMap).enqueue(new Callback<List<Tour_Spot>>() {
             @Override
             public void onResponse(Call<List<Tour_Spot>> call, Response<List<Tour_Spot>> response) {
                 list = response.body();
-                Log.wtf("result? ", list.toString());
                 setRecylcerviewAdapter();
 
             }
@@ -132,7 +129,7 @@ public class LocationFragment extends BaseFragment {
 
         }
 
-        for(int key : spot_poinMap.keySet()) {
+        /*for(int key : spot_poinMap.keySet()) {
             int value = spot_poinMap.get(key);
             System.out.println("spot_poinMap , " + key + " : " + value);
 
@@ -142,7 +139,7 @@ public class LocationFragment extends BaseFragment {
             int value = spot_HistoryMap.get(key);
             System.out.println("spot_HistoryMap , " + key + " : " + value);
 
-        }
+        }*/
 
         adapter = new LocationFragAdapter(
                 map.values().stream().collect(Collectors.toCollection(ArrayList::new)),
@@ -164,16 +161,13 @@ public class LocationFragment extends BaseFragment {
                 int clearCount = spot_HistoryMap.get(key);
                 if (value == clearCount){
                     clear++;
-                    Log.wtf("setProgress 완료", "왔음");
                 }
             }
         }
 
         double percent = spot_poinMap.size() * 100 / 100;
         binding.seekBarLocation.setMax(100);
-        Log.wtf("전체값?", String.valueOf(  (int) ((double) spot_poinMap.size() * 100.0)));
         binding.seekBarLocation.setProgress( (int)((double) clear /  (double) spot_poinMap.size() * 100.0), true);
-        Log.wtf("전체값 퍼센트?", String.valueOf( (int)((double) clear /  (double) spot_poinMap.size() * 100.0)));
 
         binding.seekPercentTxv.setText(((int) (clear / percent * 100)) +"%");
         binding.locationPgb.setVisibility(View.GONE);

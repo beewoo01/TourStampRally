@@ -148,6 +148,9 @@ public interface APIService {
     @GET("getTourist_sortTag")
     Call<List<Tour_Spot>> getTourSortHashTag(@Query("userIdx") int idx);
 
+    @GET("getTour_participants")
+    Call<List<Map<Integer, Integer>>> getTourParticipants();
+
     @GET("gabia_token")
     Call<String> getToken();
 

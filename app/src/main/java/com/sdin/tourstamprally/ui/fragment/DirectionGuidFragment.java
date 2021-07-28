@@ -1,3 +1,4 @@
+
 package com.sdin.tourstamprally.ui.fragment;
 
 import android.os.Bundle;
@@ -21,6 +22,9 @@ import com.sdin.tourstamprally.databinding.FragmentDirectionGuidBinding;
 import com.sdin.tourstamprally.model.HashTagModel;
 import com.sdin.tourstamprally.model.Tour_Spot;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -37,12 +41,13 @@ public class DirectionGuidFragment extends BaseFragment {
     //길안내 관광지
     private FragmentDirectionGuidBinding binding;
     private List<Tour_Spot> tourList;
-    private List<HashTagModel> hashTagModelList;
-    //private RallyRecyclerviewAdapter adapter;
+
     private DirectionGuid_Adapter adapter;
     private DirectionGuid_Tag_Adapter tagAdpater;
     private Map<Integer, Integer> location_Progress_Map;
     private Map<Integer, Integer> location_history_Map;
+    private Map<Integer, Integer> particiMap;
+    // 총 참여자
 
     public DirectionGuidFragment() {
 
@@ -63,6 +68,28 @@ public class DirectionGuidFragment extends BaseFragment {
 
     private void getData(){
         binding.directionGuidPgb.setVisibility(View.VISIBLE);
+
+        //참여자 데이터 받아오는 부분
+        apiService.getTourParticipants().enqueue(new Callback<List<Map<Integer, Integer>>>() {
+            @Override
+            public void onResponse(Call<List<Map<Integer, Integer>>> call, Response<List<Map<Integer, Integer>>> response) {
+                if (response.isSuccessful()){
+                    List<Map<Integer, Integer>> list = response.body();
+                    particiMap = new HashMap<>(list.get(0));
+                    getAllData();
+                }else {
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Map<Integer, Integer>>> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
+    }
+
+    private void getAllData(){
         apiService.getTourSortHashTag(Utils.User_Idx).enqueue(new Callback<List<Tour_Spot>>() {
             @Override
             public void onResponse(Call<List<Tour_Spot>> call, Response<List<Tour_Spot>> response) {
@@ -70,7 +97,6 @@ public class DirectionGuidFragment extends BaseFragment {
                     tourList = new ArrayList<>();
                     tourList = response.body();
 
-                    setProgress();
                     setTourSpotList();
                     setHashTag();
 
@@ -86,9 +112,6 @@ public class DirectionGuidFragment extends BaseFragment {
         });
     }
 
-    private void setProgress(){
-
-    }
 
     private void setTourSpotList(){
 
@@ -110,7 +133,7 @@ public class DirectionGuidFragment extends BaseFragment {
 
         }
 
-        for(int key : location_Progress_Map.keySet()) {
+        /*for(int key : location_Progress_Map.keySet()) {
             int value = location_Progress_Map.get(key);
             System.out.println("spot_poinMap , " + key + " : " + value);
 
@@ -120,7 +143,7 @@ public class DirectionGuidFragment extends BaseFragment {
             int value = location_history_Map.get(key);
             System.out.println("spot_HistoryMap , " + key + " : " + value);
 
-        }
+        }*/
 
         Map<Integer, Tour_Spot> hashMap = new HashMap<>();
         for (Tour_Spot model : tourList){
@@ -129,7 +152,13 @@ public class DirectionGuidFragment extends BaseFragment {
 
         Collection<Tour_Spot> collection = hashMap.values();
         ArrayList<Tour_Spot> arrayList = new ArrayList(collection);
-        adapter = new DirectionGuid_Adapter(arrayList, requireActivity(), location_Progress_Map, location_history_Map);
+        adapter = new DirectionGuid_Adapter(
+                arrayList,
+                requireActivity(),
+                location_Progress_Map,
+                location_history_Map,
+                particiMap);
+
         binding.locationRe.setAdapter(adapter);
         binding.locationRe.setHasFixedSize(true);
     }

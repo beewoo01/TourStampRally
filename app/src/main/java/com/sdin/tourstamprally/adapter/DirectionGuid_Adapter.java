@@ -36,6 +36,8 @@ public class DirectionGuid_Adapter extends RecyclerView.Adapter<DirectionGuid_Ad
     private final Map<Integer, Integer> location_Progress_Map;
     private final Map<Integer, Integer> location_history_Map;
     private double latitude, longitude;
+    private final Map<Integer, Integer> particiMap;
+    // 총 참여자
 
     /*public interface ItemOnClick{
         void onClick(Tour_Spot tour_spot);
@@ -46,12 +48,14 @@ public class DirectionGuid_Adapter extends RecyclerView.Adapter<DirectionGuid_Ad
 
     public DirectionGuid_Adapter(ArrayList<Tour_Spot> list, Activity activity,
                                  Map<Integer, Integer> location_Progress_Map,
-                                 Map<Integer, Integer> location_history_Map) {
+                                 Map<Integer, Integer> location_history_Map,
+                                 Map<Integer, Integer> particiMap) {
         this.list = list;
         this.itemOnClick = (ItemOnClick) activity;
         this.context = activity.getApplicationContext();
         this.location_history_Map = location_history_Map;
         this.location_Progress_Map = location_Progress_Map;
+        this.particiMap = particiMap;
         getGps();
     }
 
@@ -118,6 +122,13 @@ public class DirectionGuid_Adapter extends RecyclerView.Adapter<DirectionGuid_Ad
             holder.binding.seekBarDirectionItem.setProgress(0);
             holder.binding.seekPercentTxv.setText(0 + "%");
         }
+
+
+        //참여자 데이터 적용
+        if (particiMap.get(list.get(position).getLocation_idx()) != null){
+            holder.binding.joinnerNumberTxv.setText(particiMap.get(list.get(position).getLocation_idx()));
+        }
+
 
         //setProgress(holder, position);
     }
