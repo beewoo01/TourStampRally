@@ -85,6 +85,8 @@ public class LocationFragment extends BaseFragment {
     private void getData(){
         binding.locationPgb.setVisibility(View.VISIBLE);
         Map<String, Integer> dataMap = new HashMap<>();
+        dataMap.put("user_idx", Utils.User_Idx);
+        dataMap.put("location_idx", tour_spot.getLocation_idx());
         apiService.getTourLocation_for_spot(dataMap).enqueue(new Callback<List<Tour_Spot>>() {
             @Override
             public void onResponse(Call<List<Tour_Spot>> call, Response<List<Tour_Spot>> response) {
@@ -128,18 +130,6 @@ public class LocationFragment extends BaseFragment {
             }
 
         }
-
-        /*for(int key : spot_poinMap.keySet()) {
-            int value = spot_poinMap.get(key);
-            System.out.println("spot_poinMap , " + key + " : " + value);
-
-        }
-
-        for(int key : spot_HistoryMap.keySet()) {
-            int value = spot_HistoryMap.get(key);
-            System.out.println("spot_HistoryMap , " + key + " : " + value);
-
-        }*/
 
         adapter = new LocationFragAdapter(
                 map.values().stream().collect(Collectors.toCollection(ArrayList::new)),

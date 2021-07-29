@@ -126,32 +126,13 @@ public class DirectionGuid_Adapter extends RecyclerView.Adapter<DirectionGuid_Ad
 
         //참여자 데이터 적용
         if (particiMap.get(list.get(position).getLocation_idx()) != null){
-            holder.binding.joinnerNumberTxv.setText(particiMap.get(list.get(position).getLocation_idx()));
-        }
-
-
-        //setProgress(holder, position);
-    }
-
-   /* private void setProgress(@NonNull ViewHolder holder, int position){
-
-        if (location_Progress_Map.get(list.get(position).getLocation_idx()) != null
-                &&  location_history_Map.get(list.get(position).getLocation_idx()) != null) {
-
-            int allContents = location_Progress_Map.get(list.get(position).getLocation_idx());
-            int clearCount = location_history_Map.get(list.get(position).getLocation_idx());
-
-            holder.binding.seekBarDirectionItem.setMax(allContents);
-            holder.binding.seekBarDirectionItem.setProgress(clearCount);
-            int allCountd = (int) ((double) clearCount /  (double) allContents * 100);
-            holder.binding.seekPercentTxv.setText(String.valueOf(allCountd) + "%");
-            Log.wtf("persentage", String.valueOf(allCountd));
-
+            holder.binding.joinnerNumberTxv.setText(particiMap.get(list.get(position).getLocation_idx()).toString());
         }else {
-
-
+            holder.binding.joinnerNumberTxv.setText("0");
         }
-    }*/
+
+
+    }
 
 
     @Override

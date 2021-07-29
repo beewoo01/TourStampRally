@@ -43,6 +43,7 @@ import com.sdin.tourstamprally.ui.fragment.MainFragment;
 import com.sdin.tourstamprally.ui.fragment.NFCFragment;
 import com.sdin.tourstamprally.ui.fragment.QRscanFragment;
 import com.sdin.tourstamprally.ui.fragment.StoreListFragment;
+import com.sdin.tourstamprally.ui.fragment.TourDetailFragment;
 import com.sdin.tourstamprally.ui.fragment.TourRecordFragment;
 import com.sdin.tourstamprally.ui.fragment.TourSpotPointFragment;
 import com.sdin.tourstamprally.utill.ItemOnClick;
@@ -66,8 +67,6 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
     private DirectionGuidFragment directionGuidFragment;
 
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,6 +79,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
     }
 
     private void setToolbar(int pos) {
+
         int gg = getSupportFragmentManager().getBackStackEntryCount();
         Log.d("gg =", String.valueOf(gg));
         for (int i = 0; i <= gg; i++){
@@ -342,7 +342,8 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
         Log.d("ItemGuid_MainAct222", String.valueOf(position));
 
         if (position == 0){
-
+            //관광지 자세히 보기
+            setFragment("TourDetail", new TourDetailFragment().newInstance(model));
         }else if (position == 3){
             setFragment("TourSpotPoint", new TourSpotPointFragment().newInstance(model));
         }

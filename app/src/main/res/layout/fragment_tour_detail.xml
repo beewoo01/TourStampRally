@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".ui.fragment.TourDetailFragment">
+
+    <!--관광지 상세 xml-->
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/bg_imv"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_180sdp"
+            android:src="@color/black"
+            android:scaleType="centerCrop"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.internal.BaselineLayout
+            android:id="@+id/baseline"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginBottom="@dimen/_10sdp"
+            app:layout_constraintBottom_toBottomOf="@id/bg_imv"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+
+        <ScrollView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:fillViewport="true"
+            android:overScrollMode="never"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/baseline">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/transparent"
+                >
+
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/top_contentLayout"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_200sdp"
+                    android:background="@drawable/bg_rounded_05"
+                    app:layout_constraintVertical_chainStyle="spread_inside"
+                    app:layout_constraintBottom_toTopOf="@id/mapLayout"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <ImageView
+                        android:id="@+id/location_ic_imv"
+                        android:layout_width="@dimen/_15sdp"
+                        android:layout_height="@dimen/_15sdp"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:src="@drawable/location_big"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tour_name_txv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:text="흰여울문화마을"
+                        android:textColor="@color/mainColor"
+                        android:textSize="@dimen/_15sdp"
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/location_ic_imv" />
+
+                    <TextView
+                        android:id="@+id/tour_content_txv"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:gravity="center"
+                        android:maxLines="4"
+                        android:text="흰여울길은 예전에 봉래산 기슭에서 여러 갈래의 물줄기가\n 바다로 \n fkoepw \n fjewpjgejwogewjp
+                    \n 럳제ㅐㅓ허ㅔㅈ대ㅓㅔㅐㅎ덪 \n fjewpoj \n gjweiohffjieowㄷㅈ허ㅓㅎㄷㅈ"
+                        android:textColor="@color/gray"
+                        android:textSize="@dimen/_10sdp"
+                        app:layout_constraintBottom_toTopOf="@id/baseline2"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tour_name_txv" />
+
+                    <View
+                        android:id="@+id/baseline2"
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:layout_marginHorizontal="@dimen/_20sdp"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:background="@color/gray"
+                        app:layout_constraintBottom_toTopOf="@id/phone_txv"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tour_content_txv"
+
+                        />
+
+
+                    <TextView
+                        android:id="@+id/phone_txv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableTop="@drawable/phone_icon_resize"
+                        android:drawablePadding="@dimen/_5sdp"
+                        android:gravity="center"
+                        android:text="전화"
+                        android:textSize="@dimen/_12sdp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/save_txv"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/baseline2" />
+
+                    <TextView
+                        android:id="@+id/save_txv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableTop="@drawable/storage_icon_resize"
+                        android:drawablePadding="@dimen/_5sdp"
+                        android:gravity="center"
+                        android:text="저장"
+                        android:textSize="@dimen/_10sdp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/share_txv"
+                        app:layout_constraintStart_toEndOf="@id/phone_txv"
+                        app:layout_constraintTop_toBottomOf="@id/baseline2" />
+
+                    <TextView
+                        android:id="@+id/share_txv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableTop="@drawable/sharing_icon_resize"
+                        android:drawablePadding="@dimen/_5sdp"
+                        android:gravity="center"
+                        android:text="공유"
+                        android:textSize="@dimen/_10sdp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/detail_txv"
+                        app:layout_constraintStart_toEndOf="@id/save_txv"
+                        app:layout_constraintTop_toBottomOf="@id/baseline2" />
+
+                    <TextView
+                        android:id="@+id/detail_txv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableTop="@drawable/readmore_icon_resize"
+                        android:drawablePadding="@dimen/_5sdp"
+                        android:gravity="center"
+                        android:text="자세히보기"
+                        android:textSize="@dimen/_10sdp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/share_txv"
+                        app:layout_constraintTop_toBottomOf="@id/baseline2" />
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/mapLayout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_rounded_05"
+                    android:orientation="vertical"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/top_contentLayout">
+
+                    <RelativeLayout
+                        android:id="@+id/map_view"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/_140sdp"
+                        android:layout_marginHorizontal="@dimen/_30sdp"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        app:layout_constraintBottom_toTopOf="@id/location_address_txv"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/location_address_txv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/map_view"
+                        android:layout_centerHorizontal="true"
+                        android:layout_gravity="center"
+                        android:layout_marginVertical="@dimen/_15sdp"
+                        android:drawableStart="@drawable/location_small_resize"
+                        android:drawablePadding="@dimen/_10sdp"
+                        android:paddingHorizontal="@dimen/_40sdp"
+                        android:maxLines="2"
+                        android:ellipsize="end"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/map_view" />
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </ScrollView>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</layout>

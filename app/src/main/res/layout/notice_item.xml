@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingVertical="@dimen/_10sdp"
+        >
+
+        <TextView
+
+            android:id="@+id/notice_kind_of_txv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_rounded_category_selected"
+            android:paddingHorizontal="@dimen/_13sdp"
+            android:paddingVertical="@dimen/_5sdp"
+            android:text="공지사항"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_10sdp"
+            android:textStyle="bold"
+            android:layout_marginStart="@dimen/_10sdp"
+            app:layout_constraintEnd_toStartOf="@id/title_txv"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <TextView
+            android:id="@+id/date_txv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:text="2021-07-20"
+            android:layout_marginBottom="@dimen/_7sdp"
+            app:layout_constraintBottom_toTopOf="@id/bottom_line"
+            app:layout_constraintEnd_toEndOf="@id/notice_kind_of_txv"
+            app:layout_constraintStart_toStartOf="@id/notice_kind_of_txv"
+            app:layout_constraintTop_toBottomOf="@id/notice_kind_of_txv" />
+
+
+        <TextView
+            android:id="@+id/title_txv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:text="생일축하쿠폰 지급"
+            android:textSize="@dimen/_12sdp"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:maxLines="1"
+            android:maxLength="10"
+            android:ellipsize="end"
+            app:layout_constraintEnd_toStartOf="@id/newIc_imv"
+            app:layout_constraintStart_toEndOf="@id/notice_kind_of_txv"
+            app:layout_constraintTop_toTopOf="@id/notice_kind_of_txv"
+            app:layout_constraintBottom_toBottomOf="@id/notice_kind_of_txv"
+            />
+
+        <ImageView
+            android:id="@+id/arrow_imv"
+            android:layout_width="@dimen/_15sdp"
+            android:layout_height="@dimen/_15sdp"
+            android:src="@drawable/arrow_down_notice_item"
+            android:layout_marginEnd="@dimen/_10sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            />
+
+        <ImageView
+            android:id="@+id/newIc_imv"
+            android:layout_width="@dimen/_13sdp"
+            android:layout_height="@dimen/_13sdp"
+            android:src="@drawable/n_icon"
+            android:layout_marginStart="@dimen/_5sdp"
+            app:layout_constraintStart_toEndOf="@id/title_txv"
+            app:layout_constraintTop_toTopOf="@id/title_txv"
+            app:layout_constraintBottom_toBottomOf="@id/title_txv"
+            />
+
+        <View
+            android:id="@+id/bottom_line"
+            android:layout_width="0dp"
+            android:layout_height="0.5dp"
+            android:background="@color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

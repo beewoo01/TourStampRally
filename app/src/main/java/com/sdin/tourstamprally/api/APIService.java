@@ -100,7 +100,6 @@ public interface APIService {
                                   @Query("agree2") int agree2
     );
 
-
     //유저 회원가입
     //@FormUrlEncoded
     @GET("bsr_find_password")
@@ -109,6 +108,15 @@ public interface APIService {
                             @Query("user_email") String name
     );
 
+
+    @GET("user_update")
+    Call<String> user_update(@Query("user_phone") String phone,
+                             @Query("user_password") String password,
+                             @Query("user_name") String name,
+                             @Query("user_email") String email,
+                             @Query("user_location") String location,
+                             @Query("user_profile") String profile
+    );
 
     /*//비밀번호 업데이트
     @FormUrlEncoded
@@ -149,7 +157,7 @@ public interface APIService {
     Call<List<Tour_Spot>> getTourSortHashTag(@Query("userIdx") int idx);
 
     @GET("getTour_participants")
-    Call<List<Map<Integer, Integer>>> getTourParticipants();
+    Call<List<Map<String, Integer>>> getTourParticipants();
 
     @GET("gabia_token")
     Call<String> getToken();

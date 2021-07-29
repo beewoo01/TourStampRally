@@ -5,6 +5,7 @@ import android.graphics.Rect;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -29,9 +30,12 @@ import com.sdin.tourstamprally.utill.ItemOnClickAb;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -106,17 +110,11 @@ public class MainFragment extends BaseFragment {
             @Override
             public void onResponse(Call<List<Tour_Spot>> call, Response<List<Tour_Spot>> response) {
                 if (response.isSuccessful()){
+
                     tourList = response.body();
                     binding.tourRallyPgb.setVisibility(View.GONE);
                     Log.d("?????", tourList.get(0).toString());
-                    List<Tour_Spot> paramlist = new ArrayList<>();
-                    paramlist.add(tourList.get(0));
-                    paramlist.add(tourList.get(2));
-                    paramlist.add(tourList.get(4));
-                    paramlist.add(tourList.get(6));
-                    RallyRecyclerviewAdapter adapter = new RallyRecyclerviewAdapter(requireContext(), paramlist);
-                    binding.rallyRecyclerview.setAdapter(adapter);
-                    binding.rallyRecyclerview.addItemDecoration(new RallyRecyclerviewAdapterDeco(2, 50, true));
+                    setData();
 
                 }else {
                     Log.wtf("getTour fail", response.toString());
@@ -128,6 +126,40 @@ public class MainFragment extends BaseFragment {
                 t.printStackTrace();
             }
         });
+    }
+
+
+    private void setData(){
+
+        Map<Integer, Tour_Spot> hashMap = new HashMap<>();
+        for (Tour_Spot model : tourList){
+            hashMap.put(model.getLocation_idx(), model);
+        }
+
+        Collection<Tour_Spot> collection = hashMap.values();
+        ArrayList<Tour_Spot> arrayList = new ArrayList(collection);
+
+        Map<Integer, Integer> progress_Map = new HashMap<>();
+        Map<Integer, Integer> history_Map = new HashMap<>();
+
+        for (Tour_Spot tour_spot : tourList) {
+
+            progress_Map.put(tour_spot.getLocation_idx(),
+                    progress_Map.get(tour_spot.getLocation_idx()) == null ?
+                            1 : progress_Map.get(tour_spot.getLocation_idx()) +1);
+
+
+            if (tour_spot.getTouristhistory_idx() != null){
+                history_Map.put(tour_spot.getLocation_idx(),
+                        history_Map.get(tour_spot.getLocation_idx()) == null?
+                                1 : history_Map.get(tour_spot.getLocation_idx()) +1);
+            }
+
+        }
+
+        RallyRecyclerviewAdapter adapter = new RallyRecyclerviewAdapter(requireContext(), arrayList, progress_Map, history_Map);
+        binding.rallyRecyclerview.setAdapter(adapter);
+        binding.rallyRecyclerview.addItemDecoration(new RallyRecyclerviewAdapterDeco(2, 50, true));
     }
 
     private class RallyRecyclerviewAdapterDeco extends RecyclerView.ItemDecoration{
@@ -168,37 +200,19 @@ public class MainFragment extends BaseFragment {
     private class RallyRecyclerviewAdapter extends RecyclerView.Adapter<RallyRecyclerviewAdapter.ViewHolder>{
 
         private GuidDialog guidDialog;
-        //private DefaultDialog dialog;
         private Context context;
-        //private ItemOnClick listener;
-        private List<Tour_Spot> list;
+        private ArrayList<Tour_Spot> list;
+        private final Map<Integer, Integer> progress_Map;
+        private final Map<Integer, Integer> history_Map;
+        private final ItemOnClick itemOnClick;
 
-        /*private ItemOnClick itemOnClick = new ItemOnClickAb() {
-            @Override
-            public void ItemGuid(int position) {
-                Log.d("dialog Onclick Listener", String.valueOf(position));
-                switch (position){
-                    case 0 :
-                        listener.ItemGuid(0);
-                        break;
-                    case 1 :
-                        listener.ItemGuid(1);
-                        //NFC
-                        break;
-                    case 2 :
-                        listener.ItemGuid(2);
-                        //QR
-                        break;
-                    case 3 :
-                        listener.ItemGuid(3);
-                        break;
-                }
-            }
-        };*/
 
-        public RallyRecyclerviewAdapter(Context context, List<Tour_Spot> list){
+        public RallyRecyclerviewAdapter(Context context, ArrayList<Tour_Spot> list, Map<Integer, Integer> progress_Map, Map<Integer, Integer> history_Map){
             this.context = context;
             this.list = list;
+            this.progress_Map = progress_Map;
+            this.history_Map = history_Map;
+            this.itemOnClick = (ItemOnClick) requireActivity();
         }
 
 
@@ -233,18 +247,7 @@ public class MainFragment extends BaseFragment {
 
         @Override
         public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-            /*holder.binding.stepRallyBg.setOnClickListener(v -> {
-                listener = (MainActivity) requireActivity();
-                guidDialog = new GuidDialog(requireContext());
-                guidDialog.show();
-                guidDialog.setClickListener(itemOnClick);
-            });*/
 
-            /*long today = System.currentTimeMillis();
-            long diff = today - list.get(position).getTouristspot_createtime();*/
-
-            Log.d("DiffTime", String.valueOf((((System.currentTimeMillis() - list.get(position).getTouristspot_createtime()) / 1000 ) / (24 * 60 * 60))));
-            Log.d("AVERAGE", String.valueOf(average()));
 
 
             holder.binding.location.setText(list.get(position).getLocation_name());
@@ -260,6 +263,43 @@ public class MainFragment extends BaseFragment {
             }else {
                 holder.binding.newsImv.setVisibility(View.GONE);
             }
+
+            if (progress_Map.get(list.get(position).getLocation_idx()) != null
+                    &&  history_Map.get(list.get(position).getLocation_idx()) != null) {
+
+
+                int allContents = progress_Map.get(list.get(position).getLocation_idx());
+                int clearCount = history_Map.get(list.get(position).getLocation_idx());
+
+                holder.binding.seekbar.setMax(allContents);
+                holder.binding.seekbar.setProgress(clearCount);
+                int allCountd = (int) ((double) clearCount /  (double) allContents * 100);
+                holder.binding.seekTxv.setText(allCountd + "%");
+
+            }else {
+                holder.binding.seekbar.setProgress(0);
+                holder.binding.seekTxv.setText(0 + "%");
+            }
+
+
+            Glide.with(holder.binding.dibsImv.getContext()).load(ContextCompat.getDrawable(requireContext(),
+                     Integer.parseInt(holder.binding.dibsImv.getTag().toString()) == 0?
+                    R.drawable.heart_resize : R.drawable.full_heart_resize)
+            ).into(holder.binding.dibsImv);
+
+            holder.binding.dibsImv.setOnClickListener( v -> {
+
+                if (Integer.parseInt(holder.binding.dibsImv.getTag().toString()) == 0) {
+                    holder.binding.dibsImv.setTag(1);
+                    Glide.with(holder.binding.dibsImv.getContext()).load(ContextCompat.getDrawable(requireContext(), R.drawable.full_heart_resize)).into(holder.binding.dibsImv);
+                } else {
+                    holder.binding.dibsImv.setTag(0);
+                    Glide.with(holder.binding.dibsImv.getContext()).load(ContextCompat.getDrawable(requireContext(), R.drawable.heart_resize)).into(holder.binding.dibsImv);
+                }
+
+            });
+
+
 
         }
 
@@ -278,6 +318,8 @@ public class MainFragment extends BaseFragment {
                 super(binding.getRoot());
 
                 this.binding = binding;
+
+                binding.stepRallyBg.setOnClickListener( v -> itemOnClick.onItemClick(list.get(getAdapterPosition())));
             }
         }
     }

@@ -62,6 +62,8 @@
     <string name="tourist_guid">관광지 길안내</string>
     <string name="shop_guid">매장 길안내</string>
 
+    <string name="change"><u>회원탈퇴</u></string>
+
 
     <string name="account_admin">계정관리</string>
     <string name="notice">공지사항</string>

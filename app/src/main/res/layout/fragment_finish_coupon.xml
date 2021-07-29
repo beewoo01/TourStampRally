@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".ui.fragment.FinishCouponFragment">
+
+
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:overScrollMode="never"
+        >
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+
+            android:id="@+id/top_lyaout"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_50sdp"
+            android:background="@color/light_goldenrod_yellow"
+            android:paddingStart="@dimen/_15sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/base_finish_coupon_txv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="사용완료 쿠폰"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_14sdp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/finish_coupon_count_txv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="@dimen/_4sdp"
+                android:text="2"
+                android:textColor="@color/orange"
+                android:textSize="@dimen/_14sdp"
+                android:textStyle="bold" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="@dimen/_2sdp"
+                android:text="장"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_14sdp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <View
+            android:id="@+id/line1"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="@color/Gray"
+            app:layout_constraintBottom_toBottomOf="@id/top_lyaout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/finish_coupon_list_txv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:drawableStart="@drawable/coupon_icon_resize"
+            android:drawablePadding="@dimen/_4sdp"
+            android:gravity="center"
+            android:text="쿠폰 목록"
+            android:textColor="@color/mainColor"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/line1" />
+
+        <ImageView
+            android:id="@+id/more_finish_coupon_imv"
+            android:layout_width="@dimen/_20sdp"
+            android:layout_height="@dimen/_20sdp"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:src="@drawable/ic_arrow_down"
+            app:layout_constraintBottom_toBottomOf="@id/finish_coupon_list_txv"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/finish_coupon_list_txv" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/finish_coupon_re"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10sdp"
+            app:layout_constraintBottom_toTopOf="@id/bottom_lyaout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/finish_coupon_list_txv" />
+
+
+        <LinearLayout
+            android:id="@+id/bottom_lyaout"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_50sdp"
+            android:background="@color/light_goldenrod_yellow"
+            android:paddingStart="@dimen/_15sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/finish_coupon_re">
+
+            <TextView
+                android:id="@+id/base_pool_coupon_txv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="기간만료 쿠폰"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_14sdp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/fpool_coupon_count_txv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="@dimen/_4sdp"
+                android:text="2"
+                android:textColor="@color/orange"
+                android:textSize="@dimen/_14sdp"
+                android:textStyle="bold" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="@dimen/_2sdp"
+                android:text="장"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_14sdp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+
+        <View
+            android:id="@+id/line2"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="@color/Gray"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/bottom_lyaout" />
+
+
+        <TextView
+            android:id="@+id/pool_coupon_list_txv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:drawableStart="@drawable/coupon_icon_resize"
+            android:drawablePadding="@dimen/_4sdp"
+            android:gravity="center"
+            android:text="쿠폰 목록"
+            android:textColor="@color/mainColor"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/line2" />
+
+        <ImageView
+            android:id="@+id/more_pool_coupon_imv"
+            android:layout_width="@dimen/_20sdp"
+            android:layout_height="@dimen/_20sdp"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:src="@drawable/ic_arrow_down"
+            app:layout_constraintBottom_toBottomOf="@id/pool_coupon_list_txv"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/pool_coupon_list_txv" />
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/pool_coupon_re"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/pool_coupon_list_txv"
+            />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+</layout>

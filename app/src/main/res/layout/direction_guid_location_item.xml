@@ -84,7 +84,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_3sdp"
-                android:text="250"
+                android:text="0"
                 android:textColor="@color/peachColor"
                 android:textSize="@dimen/_12sdp"
                 app:layout_constraintBottom_toBottomOf="@id/direction_from_stemp_txv"

@@ -35,6 +35,10 @@ public class UserModel implements Serializable {
     @Expose
     private String location;
 
+    @SerializedName("user_profile")
+    @Expose
+    private String user_profile;
+
     @SerializedName("agree2")
     @Expose
     private boolean agree2;

@@ -48,6 +48,7 @@ public class Utils {
     public static String User_Name;
     public static String User_Email;
     public static String User_Location;
+    public static String User_Profile;
 
     public static boolean getGPSState(Context context){
 

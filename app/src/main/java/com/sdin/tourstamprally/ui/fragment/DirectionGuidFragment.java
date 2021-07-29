@@ -70,12 +70,16 @@ public class DirectionGuidFragment extends BaseFragment {
         binding.directionGuidPgb.setVisibility(View.VISIBLE);
 
         //참여자 데이터 받아오는 부분
-        apiService.getTourParticipants().enqueue(new Callback<List<Map<Integer, Integer>>>() {
+        apiService.getTourParticipants().enqueue(new Callback<List<Map<String, Integer>>>() {
             @Override
-            public void onResponse(Call<List<Map<Integer, Integer>>> call, Response<List<Map<Integer, Integer>>> response) {
+            public void onResponse(Call<List<Map<String, Integer>>> call, Response<List<Map<String, Integer>>> response) {
                 if (response.isSuccessful()){
-                    List<Map<Integer, Integer>> list = response.body();
-                    particiMap = new HashMap<>(list.get(0));
+                    Log.wtf("getTourParticipants", "1111111111");
+                    List<Map<String, Integer>> list = response.body();
+                    particiMap = new HashMap<>();
+                    for (Map hashMap : list){
+                        particiMap.put((int) hashMap.get("location_idx"), (int) hashMap.get("cnt"));
+                    }
                     getAllData();
                 }else {
 
@@ -83,7 +87,7 @@ public class DirectionGuidFragment extends BaseFragment {
             }
 
             @Override
-            public void onFailure(Call<List<Map<Integer, Integer>>> call, Throwable t) {
+            public void onFailure(Call<List<Map<String, Integer>>> call, Throwable t) {
                 t.printStackTrace();
             }
         });

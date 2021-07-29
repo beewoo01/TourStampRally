@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".ui.fragment.CouponMainFragment">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
+
+        <com.google.android.material.tabs.TabLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+
+
+            <com.google.android.material.tabs.TabItem
+                android:text="보유"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                />
+
+            <com.google.android.material.tabs.TabItem
+                android:text="완료-만료"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                />
+        </com.google.android.material.tabs.TabLayout>
+
+
+        <FrameLayout
+            android:id="@+id/framelayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </LinearLayout>
+
+</layout>

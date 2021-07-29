@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".ui.fragment.DeabsFragment">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/location_re"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_30sdp"
+            android:orientation="horizontal"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:listitem="@layout/deabs_location_item" />
+
+        <View
+            android:id="@+id/line1"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/black"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/location_re" />
+
+        <RelativeLayout
+            android:id="@+id/all_txv_bg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:background="@drawable/icon_bg_blue_resize"
+            app:layout_constraintEnd_toStartOf="@id/store_txv_bg"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/line1">
+
+
+            <TextView
+                android:id="@+id/all_txv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:drawableTop="@drawable/folder_icon_white_resize"
+                android:gravity="center"
+                android:text="전체"
+                android:textColor="@color/white" />
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/store_txv_bg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/icon_bg_gray_resize"
+            app:layout_constraintBottom_toBottomOf="@id/all_txv_bg"
+            app:layout_constraintEnd_toStartOf="@id/tour_txv_bg"
+            app:layout_constraintStart_toEndOf="@id/all_txv_bg"
+            app:layout_constraintTop_toTopOf="@id/all_txv_bg">
+
+
+            <TextView
+                android:id="@+id/store_txv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:drawableTop="@drawable/store_icon_resize"
+                android:gravity="center"
+                android:text="매장"
+                android:textColor="@color/black" />
+
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/tour_txv_bg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/icon_bg_gray_resize"
+            app:layout_constraintBottom_toBottomOf="@id/all_txv_bg"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/store_txv_bg"
+            app:layout_constraintTop_toTopOf="@id/all_txv_bg">
+
+            <TextView
+                android:id="@+id/tour_txv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:drawableTop="@drawable/map_icon_resize"
+                android:gravity="center"
+                android:text="관광지"
+                android:textColor="@color/black" />
+
+        </RelativeLayout>
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/_10sdp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tour_txv_bg">
+
+            <TextView
+                android:id="@+id/coupon_list_txv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:drawableStart="@drawable/maincolor_heart_resize"
+                android:drawablePadding="@dimen/_4sdp"
+                android:gravity="center"
+                android:text="찜한 목록"
+                android:textColor="@color/mainColor"
+                android:textSize="@dimen/_10sdp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/sort_txv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:drawableEnd="@drawable/ic_arrow_down"
+                android:gravity="center"
+                android:text="정렬순"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_10sdp"
+                app:layout_constraintBottom_toBottomOf="@id/coupon_list_txv"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/coupon_list_txv" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/deabs_re"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginTop="@dimen/_10sdp"
+                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/sort_txv"
+                app:spanCount="2"
+                tools:listitem="@layout/deabs_item" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</layout>

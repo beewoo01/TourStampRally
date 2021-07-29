@@ -44,13 +44,7 @@ public class NFCFragment extends Fragment implements NFCListener {
 
     }
 
-    public static NFCFragment newInstance(NdefMessage[] dataArray, NFCListener listener) {
-        NFCFragment fragment = new NFCFragment();
-        Bundle args = new Bundle();
-        args.putParcelableArray(DataArray, dataArray);
-        fragment.setArguments(args);
-        return fragment;
-    }
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

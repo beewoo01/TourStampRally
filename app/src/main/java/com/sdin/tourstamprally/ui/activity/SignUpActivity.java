@@ -159,6 +159,10 @@ public class SignUpActivity extends BaseActivity {
 
             showToast("비밀번호가 일치하지 않습니다.");
 
+        } else if (binding.editPasswordConfirm.getText().equals(binding.editPassword.getText().equals(binding.editPasswordConfirm.getText()))){
+
+            showToast("비밀번호가 일치하지 않습니다.");
+
         } else if (TextUtils.isEmpty(binding.editName.getText())) {
 
             showToast("이름을 입력해 주세요.");
