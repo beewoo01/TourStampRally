@@ -8,9 +8,9 @@ public class Constant {
 
     /*FirstCare Server URL*/
     //public static final String SERVER_URL = "http://raon-soft.com/palette/";
-    public static final String SERVER_URL = "http://192.168.1.18:8080/project/";
+    //public static final String SERVER_URL = "http://192.168.1.18:8080/project/";
     /*로컬 용*/
-    //public static final String SERVER_URL = "http://192.168.219.111:8005/project/";
+    public static final String SERVER_URL = "http://192.168.219.111:8005/project/";
     /*우리 집*/
     //public static final String SERVER_URL = "http://raon-soft.com/base_project_brs/";
     /*실제 업로드용*/
@@ -29,6 +29,8 @@ public class Constant {
     public static int ACCESS_FINE_LOCATION_STAT = 1;
     public static int ACCESS_BACKGROUND_LOCATION_STAT = 1;
     public static int ACCESS_CAMERA = 1;
+    public static int ACCESS_LOCATION = 1;
+    public static int ACCESS_STOREGE = 1;
 
     public static final int PROGRESS_COUNT = 3;
 

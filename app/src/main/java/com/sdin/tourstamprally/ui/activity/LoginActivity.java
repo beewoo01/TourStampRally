@@ -128,6 +128,7 @@ public class LoginActivity extends BaseActivity {
                         Utils.User_Name = result.getName();
                         Utils.User_Email = result.getEmail();
                         Utils.User_Location = result.getLocation();
+                        Utils.User_Profile = result.getUser_profile();
 
                         movoToMain();
                     }else {

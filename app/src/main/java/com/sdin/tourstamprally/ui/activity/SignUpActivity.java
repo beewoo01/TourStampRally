@@ -154,9 +154,9 @@ public class SignUpActivity extends BaseActivity {
 
             showToast("비밀번호는 8자 이상입니다.");
 
-        } else if (TextUtils.isEmpty(binding.editPasswordConfirm.getText())
+        }else if (TextUtils.isEmpty(binding.editPasswordConfirm.getText()) && TextUtils.isEmpty(binding.editPasswordConfirm.getText())
                 && binding.editPassword.getText().equals(binding.editPasswordConfirm.getText())) {
-
+            Log.wtf("22222222222222222", "22222222222");
             showToast("비밀번호가 일치하지 않습니다.");
 
         } else if (binding.editPasswordConfirm.getText().equals(binding.editPassword.getText().equals(binding.editPasswordConfirm.getText()))){

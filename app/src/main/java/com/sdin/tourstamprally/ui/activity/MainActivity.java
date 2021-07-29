@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.nfc.NdefMessage;
 import android.nfc.NfcAdapter;
@@ -37,11 +38,17 @@ import com.sdin.tourstamprally.Utils;
 import com.sdin.tourstamprally.adapter.DrawaRecyclerViewAdapter;
 import com.sdin.tourstamprally.databinding.ActivityMainBinding;
 import com.sdin.tourstamprally.model.Tour_Spot;
+import com.sdin.tourstamprally.model.UserModel;
+import com.sdin.tourstamprally.ui.fragment.AccountFragment;
+import com.sdin.tourstamprally.ui.fragment.CouponMainFragment;
+import com.sdin.tourstamprally.ui.fragment.DeabsFragment;
 import com.sdin.tourstamprally.ui.fragment.DirectionGuidFragment;
 import com.sdin.tourstamprally.ui.fragment.LocationFragment;
 import com.sdin.tourstamprally.ui.fragment.MainFragment;
 import com.sdin.tourstamprally.ui.fragment.NFCFragment;
+import com.sdin.tourstamprally.ui.fragment.NoticeFragment;
 import com.sdin.tourstamprally.ui.fragment.QRscanFragment;
+import com.sdin.tourstamprally.ui.fragment.SetAlarmFragment;
 import com.sdin.tourstamprally.ui.fragment.StoreListFragment;
 import com.sdin.tourstamprally.ui.fragment.TourDetailFragment;
 import com.sdin.tourstamprally.ui.fragment.TourRecordFragment;
@@ -145,7 +152,12 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
         binding.drawaLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
         fragmentManager = getSupportFragmentManager();
 
+        Glide.with(this).load("http://zzipbbong.cafe24.com/imagefile/bsr/" + Utils.User_Profile)
+                .error(ContextCompat.getDrawable(this, R.drawable.sample_profile_image)).circleCrop()
+                .into(binding.navigationLayout.profileIcon);
 
+
+        binding.navigationLayout.userNameTxv.setText(Utils.User_Name);
         binding.toolbarLayout.backBtn.setOnClickListener(v -> {
             Log.wtf("MainAct FCount", String.valueOf(fragmentManager.getBackStackEntryCount()));
             if (fragmentManager.getBackStackEntryCount() > 0) {
@@ -168,6 +180,16 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
 
     public void logout() {
         Log.d(TAG, "logout");
+        SharedPreferences pref = getSharedPreferences("rebuild_preference", MODE_PRIVATE);
+        SharedPreferences.Editor editor = pref.edit();
+        editor.remove("phone");
+        editor.remove("password");
+        editor.commit();
+
+        startActivity(new Intent(this, LoginActivity.class));
+        finish();
+
+
     }
 
     @Override
@@ -175,6 +197,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
 
         switch (item.getItemId()) {
             case R.id.page_home:
+
                 setFragment("Main", new MainFragment().newInstance("", ""));
                 break;
 
@@ -317,7 +340,33 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
     public void onClick(int position) {
         //ItemOnClcik Listener
         Log.d("onClick", String.valueOf(position));
+
         switch (position){
+            case 0 :
+                UserModel userModel = new UserModel(Utils.User_Idx, Utils.UserPhone, Utils.User_Name, Utils.User_Email, Utils.User_Location, Utils.User_Profile);
+                setFragment("accontfragment", new AccountFragment().newInstance(userModel));
+                break;
+
+            case 1 :
+                setFragment("noticefragment", new NoticeFragment());
+                //공지
+                break;
+
+            case 2 :
+                setFragment("couponmainfragment", new CouponMainFragment());
+                //쿠폰현황
+                break;
+
+            case 3 :
+                setFragment("setAlarmfragment", new SetAlarmFragment());
+                //알림설정
+                break;
+
+            case 4 :
+                setFragment("Deabsfragment", new DeabsFragment());
+                //찜한목록
+                break;
+
 
         }
     }
@@ -386,9 +435,9 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-
+        super.onActivityResult(requestCode, resultCode, intent);
         Log.d("onActivityResult Main", "onActivityResult Main: .");
-        if (resultCode == Activity.RESULT_OK) {
+        /*if (resultCode == Activity.RESULT_OK) {
             IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
             String re = scanResult.getContents();
             String message = re;
@@ -396,6 +445,6 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
             Toast.makeText(this, re, Toast.LENGTH_LONG).show();
         }else {
             super.onActivityResult(requestCode, resultCode, intent);
-        }
+        }*/
     }
 }

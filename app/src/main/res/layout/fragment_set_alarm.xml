@@ -98,7 +98,7 @@
                 android:thumb="@drawable/switch_thumb"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                android:checked="true"
+                android:checked="false"
                 android:layout_marginEnd="@dimen/_10sdp"
                 />
 

@@ -3,6 +3,7 @@ package com.sdin.tourstamprally.api;
 
 
 import com.google.gson.Gson;
+import com.sdin.tourstamprally.model.Notice;
 import com.sdin.tourstamprally.model.Tour_Spot;
 import com.sdin.tourstamprally.model.TouristSpotPoint;
 import com.sdin.tourstamprally.model.UserModel;
@@ -110,7 +111,8 @@ public interface APIService {
 
 
     @GET("user_update")
-    Call<String> user_update(@Query("user_phone") String phone,
+    Call<String> user_update(@Query("user_idx") int user_idx,
+                             @Query("user_phone") String phone,
                              @Query("user_password") String password,
                              @Query("user_name") String name,
                              @Query("user_email") String email,
@@ -158,6 +160,9 @@ public interface APIService {
 
     @GET("getTour_participants")
     Call<List<Map<String, Integer>>> getTourParticipants();
+
+    @GET("getNotice")
+    Call<List<Notice>> getNotice();
 
     @GET("gabia_token")
     Call<String> getToken();

@@ -2,7 +2,10 @@ package com.sdin.tourstamprally.ui.fragment;
 
 import android.Manifest;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -29,10 +32,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.sdin.tourstamprally.R;
 import com.sdin.tourstamprally.Utils;
 import com.sdin.tourstamprally.databinding.FragmentAccountBinding;
 import com.sdin.tourstamprally.model.UserModel;
+import com.sdin.tourstamprally.ui.activity.LoginActivity;
+import com.sdin.tourstamprally.utill.FtpThread;
 
 import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
@@ -41,6 +47,7 @@ import org.apache.commons.net.ftp.FTPReply;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.SocketException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -52,18 +59,22 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static android.app.Activity.RESULT_CANCELED;
+import static android.app.Activity.RESULT_OK;
+import static android.content.Context.MODE_PRIVATE;
+
 public class AccountFragment extends BaseFragment {
 
     private static final String ARG_PARAM = "model";
 
-    // TODO: Rename and change types of parameters
     private UserModel model;
     private String auth = null;
     private boolean isAuth = false;
 
     private Uri imgeUri;
-    private String fileName;
-    boolean isSuccess = false;
+    private boolean isChange = false;
+
+    private static final int REQUEST_CODE = 1000;
 
     private FragmentAccountBinding binding;
 
@@ -98,14 +109,40 @@ public class AccountFragment extends BaseFragment {
         return binding.getRoot();
     }
 
+
+    public void logout() {
+        Log.d(TAG, "logout");
+        SharedPreferences pref = requireContext().getSharedPreferences("rebuild_preference", MODE_PRIVATE);
+        SharedPreferences.Editor editor = pref.edit();
+        editor.remove("phone");
+        editor.remove("password");
+        editor.commit();
+
+        startActivity(new Intent(requireActivity(), LoginActivity.class));
+        requireActivity().finish();
+
+
+    }
+
     private void setData(){
         String[] arr = getResources().getStringArray(R.array.location);
         SpinnerAdapter spinnerAdapter = new SpinnerAdapter(new ArrayList(Arrays.asList(arr)));
         binding.spinnerLocation.setAdapter(spinnerAdapter);
         binding.editPhone.addTextChangedListener(textWatcher);
-        Glide.with(binding.profileImb.getContext()).load(TextUtils.isEmpty(model.getUser_profile())? ContextCompat.getDrawable(requireContext(), R.drawable.sample_profile_image) : model.getUser_profile()).into(binding.profileImb);
+
         binding.editName.setText(Utils.User_Name);
         binding.editEmail.setText(Utils.User_Email);
+
+        Glide.with(requireContext()).load("http://zzipbbong.cafe24.com/imagefile/bsr/" + Utils.User_Profile)
+                .error(ContextCompat.getDrawable(requireContext(), R.drawable.sample_profile_image)).circleCrop()
+                .into(binding.profileImb);
+    }
+
+    public void profileSetOnClick(){
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(intent, REQUEST_CODE);
     }
 
     private final TextWatcher textWatcher = new TextWatcher() {
@@ -183,31 +220,27 @@ public class AccountFragment extends BaseFragment {
     public void signUp() {
 
         Pattern pattern = Patterns.EMAIL_ADDRESS;
+        Log.wtf("signUp", "signUp");
 
-        if (!isAuth){
-            showToast("전화번호를 인증해 주세요");
-            return;
-        }
-
-        if (TextUtils.isEmpty(binding.editPassword.getText()) || binding.editPassword.getText().toString().length() > 8) {
+        /*if (TextUtils.isEmpty(binding.editPassword.getText()) || binding.editPassword.getText().toString().length() > 8) {
 
             showToast("비밀번호는 8자 이상입니다.");
 
-        } else if (TextUtils.isEmpty(binding.editPasswordConfirm.getText())
+        }*/
+
+        if (false){
+            Log.wtf("1111111111111111", "11111111111111111");
+        } else if (TextUtils.isEmpty(binding.editPasswordConfirm.getText()) && TextUtils.isEmpty(binding.editPasswordConfirm.getText())
                 && binding.editPassword.getText().equals(binding.editPasswordConfirm.getText())) {
-
-            showToast("비밀번호가 일치하지 않습니다.");
-
-        } else if (binding.editPasswordConfirm.getText().equals(binding.editPassword.getText().equals(binding.editPasswordConfirm.getText()))){
-
+            Log.wtf("22222222222222222", "22222222222");
             showToast("비밀번호가 일치하지 않습니다.");
 
         } else if (TextUtils.isEmpty(binding.editName.getText())) {
-
+            Log.wtf("signUp", "signUp");
             showToast("이름을 입력해 주세요.");
 
         } else if (TextUtils.isEmpty(binding.editEmail.getText()) && !pattern.matcher(binding.editEmail.getText().toString()).matches()) {
-
+            Log.wtf("signUp", "signUp");
             showToast("이메일을 입력해 주세요.");
 
         } else {
@@ -230,7 +263,7 @@ public class AccountFragment extends BaseFragment {
 
 
     private void update() {
-
+        Log.wtf("update", "update");
         //uploadProfile();
 
         UserModel userModel = new UserModel();
@@ -240,10 +273,21 @@ public class AccountFragment extends BaseFragment {
         userModel.setEmail(binding.editEmail.getText().toString());
         userModel.setLocation(binding.spinnerLocation.getSelectedItem().toString());
 
+        if (isChange){
+            Date date = new Date(System.currentTimeMillis());
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddhhmmss");
+            String getTime = sdf.format(date);
+            String fileName = getTime + ".jpg";
+            userModel.setUser_profile(fileName);
+            uploadProfile(fileName);
+        }else {
+            userModel.setUser_profile(Utils.User_Profile);
+        }
 
 
-        apiService.user_update(userModel.getPhone(), userModel.getPassword(), userModel.getName(), userModel.getEmail(), userModel.getLocation(), userModel.getUser_profile()).enqueue(new Callback<String>() {
 
+        apiService.user_update( Utils.User_Idx,userModel.getPhone(), userModel.getPassword(), userModel.getName(), userModel.getEmail(), userModel.getLocation(), userModel.getUser_profile()).enqueue(
+                new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
 
@@ -254,9 +298,9 @@ public class AccountFragment extends BaseFragment {
                 Log.d("response", response.toString());
 
                 if (result.equals("1")) {
-                    showToast("회원가입 성공");
+                    showToast("업데이트 성공");
                 } else {
-                    showToast("회원가입에 실패하였습니다.");
+                    showToast("업데이트에 실패하였습니다.");
                 }
             }
 
@@ -266,6 +310,12 @@ public class AccountFragment extends BaseFragment {
                 showToast("서버에 문제가 있습니다.");
             }
         });
+
+    }
+
+    private void uploadProfile(String fileName){
+
+        new FtpThread(imgeUri, requireContext(), fileName).start();
 
     }
 
@@ -290,111 +340,21 @@ public class AccountFragment extends BaseFragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-    }
 
-    public void startGallery() {
-
-        /*if (PermissionUtils.requestPermission(this, GALLERY_PERMISSIONS_REQUEST, Manifest.permission.READ_EXTERNAL_STORAGE)) {
-
-            Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-            intent.addCategory(Intent.CATEGORY_OPENABLE);
-            intent.setType("image/*");
-
-            photoFile = createImageFile();
-
-            requestGallery.launch(intent);
-
-        }*/
-
-    }
-
-
-    private File createImageFile() {
-
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String imageFileName = "JPEG_" + timeStamp + ".jpg";
-        File imageFile = null;
-        File storageDir = requireContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        if (!storageDir.exists()) {
-            Log.d("main", storageDir.toString());
-            storageDir.mkdirs();
-        }
-        imageFile = new File(storageDir, imageFileName);
-        return imageFile;
-    }
-
-    private void uploadProfile(){
-
-        FTPClient ftpClient = new FTPClient();
-
-        try {
-            ftpClient.setControlEncoding("UTF-8");
-
-            ftpClient.connect("corarh.com", 21);
-            ftpClient.login("corarh01", "assa4554!");
-            ftpClient.setFileType(FTP.BINARY_FILE_TYPE);
-            ftpClient.enterLocalPassiveMode();
-            int reply = ftpClient.getReplyCode();
-
-
-            //세팅후에 서버로부터 연결 여부를 받아와 전송 할 것인지를 판단 한다.
-            if (!FTPReply.isPositiveCompletion(reply)) {
-                Log.e("FTP 접속 실패 ", "asdfa");
-                ftpClient.disconnect();
-
-            } else {
-                Log.e("FTP 접속 성공 ", "asdfa");
-                ftpClient.enterLocalPassiveMode(); // important!
-                ftpClient.setFileType(FTP.BINARY_FILE_TYPE);
-                ftpClient.changeWorkingDirectory("/tomcat/webapps/image/bsr");
-
-                // Will return "image:x*"
-                String wholeID = DocumentsContract.getDocumentId(imgeUri);
-                String id = wholeID.split(":")[1];
-                String[] column = {MediaStore.Images.Media.DATA};
-                String sel = MediaStore.Images.Media._ID + "=?";
-
-                Cursor cursor = requireContext().getContentResolver().
-                        query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                                column, sel, new String[]{id}, null);
-
-                String filePath = "";
-
-                int columnIndex = cursor.getColumnIndex(column[0]);
-
-                if (cursor.moveToFirst()) {
-                    filePath = cursor.getString(columnIndex);
-                }
-
-                cursor.close();
-
-                File uploadFile = new File(filePath);
-                FileInputStream fis;
-
-                fis = new FileInputStream(uploadFile);
-
-                Date date = new Date(System.currentTimeMillis());
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddhhmmss");
-                String getTime = sdf.format(date);
-                fileName = getTime + ".jpg";
-
-                isSuccess = ftpClient.storeFile(fileName, fis);
-
-                if (isSuccess) {
-
-
-                    Log.d("FTP 파일 업로드 성공", "성공 성공!!");
-                } else {
-                    Log.e("FTP 파일 업로드 실패", "실패ㅜㅜ");
-                }
-
-                ftpClient.logout();
-                ftpClient.disconnect();
+        if (requestCode == REQUEST_CODE){
+            if(resultCode == RESULT_OK)
+            {
+                Glide.with(requireContext()).load(data.getData()).circleCrop().error(ContextCompat.getDrawable(requireContext(), R.drawable.sample_profile_image))
+                        .into(binding.profileImb);
+                imgeUri = data.getData();
+                isChange = true;
+                //new FtpThread(imgeUri.toString());
+                //uploadProfile();
             }
-        } catch (SocketException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+            else if(resultCode == RESULT_CANCELED)
+            {
+                Toast.makeText(requireContext(), "사진 선택 취소", Toast.LENGTH_LONG).show();
+            }
         }
     }
 

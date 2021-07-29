@@ -5,10 +5,14 @@ import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class UserModel implements Serializable {
 
     @SerializedName("user_idx")
@@ -51,6 +55,24 @@ public class UserModel implements Serializable {
     @Expose
     private String enable;
 
+    public UserModel(int userIdx, String phone, String name, String password, String email, String location, String user_profile) {
+        this.userIdx = userIdx;
+        this.phone = phone;
+        this.name = name;
+        this.password = password;
+        this.email = email;
+        this.location = location;
+        this.user_profile = user_profile;
+    }
+
+    public UserModel(int userIdx, String phone, String name, String email, String location, String user_profile) {
+        this.userIdx = userIdx;
+        this.phone = phone;
+        this.name = name;
+        this.email = email;
+        this.location = location;
+        this.user_profile = user_profile;
+    }
 
     /*@SerializedName("historyidx")
     @Expose

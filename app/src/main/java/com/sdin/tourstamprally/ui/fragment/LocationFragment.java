@@ -240,6 +240,7 @@ public class LocationFragment extends BaseFragment {
             }
         }
 
+
         private ItemOnClick itemOnClick = new ItemOnClickAb() {
             @Override
             public void ItemGuid(int position) {
