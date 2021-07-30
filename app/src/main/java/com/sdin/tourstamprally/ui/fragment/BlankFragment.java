@@ -4,9 +4,7 @@ import android.os.Bundle;
 
 import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
-import androidx.fragment.app.Fragment;
 
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,18 +20,12 @@ import com.sdin.tourstamprally.databinding.FragmentTourRecordBinding;
 import com.sdin.tourstamprally.model.Tour_Spot;
 import com.sdin.tourstamprally.utill.GpsTracker;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -68,7 +60,7 @@ public class BlankFragment extends BaseFragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_tour_record, container, false);
-        binding.setFragment(this);
+        //binding.setFragment(this);
         getData();
         initData();
         return binding.getRoot();
@@ -101,7 +93,8 @@ public class BlankFragment extends BaseFragment {
 
                     binding.recyclerviewTourRecord.setAdapter(locationAdapter);
                     binding.spinnerTourRecord.setOnItemSelectedListener(selectedListener);
-                    locationSort2(binding.spinnerTourRecord.getSelectedItem().toString());
+                    locationSort(binding.spinnerTourRecord.getSelectedItem().toString());
+                    selectedCateGory = binding.popularBtn;
 
                 } else {
 
@@ -125,7 +118,9 @@ public class BlankFragment extends BaseFragment {
         selectedCateGory = binding.popularBtn;
     }
 
-    private void locationSort2(String location) {
+    private void locationSort(String location) {
+
+        //spinner 클릭시 오는 부분
 
         Log.wtf("arrayList.size()", String.valueOf(arrayList.size()));
         ArrayList<Tour_Spot> samplArray = new ArrayList<>();
@@ -143,6 +138,7 @@ public class BlankFragment extends BaseFragment {
         }
 
         locationAdapter.locationlistSet(new ArrayList<>(map.values()));
+        setSort(selectedCateGory);
     }
 
     private void myList() {
@@ -236,7 +232,7 @@ public class BlankFragment extends BaseFragment {
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
             Log.d("getSelectedItem", parent.getSelectedItem().toString());
 
-            locationSort2(parent.getSelectedItem().toString());
+            locationSort(parent.getSelectedItem().toString());
         }
 
         @Override

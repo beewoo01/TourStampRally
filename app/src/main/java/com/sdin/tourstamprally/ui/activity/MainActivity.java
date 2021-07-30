@@ -41,7 +41,6 @@ import com.sdin.tourstamprally.databinding.ActivityMainBinding;
 import com.sdin.tourstamprally.model.Tour_Spot;
 import com.sdin.tourstamprally.model.UserModel;
 import com.sdin.tourstamprally.ui.fragment.AccountFragment;
-import com.sdin.tourstamprally.ui.fragment.BlankFragment;
 import com.sdin.tourstamprally.ui.fragment.CouponMainFragment;
 import com.sdin.tourstamprally.ui.fragment.DeabsFragment;
 import com.sdin.tourstamprally.ui.fragment.DirectionGuidFragment;
@@ -116,13 +115,16 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
         name = hashMap.get(fragmentcount);
 
         Log.d("name", name);
+        Log.wtf("name11111111111111111", name);
         if (name.equals("NFC") || name.equals("QR")){
             String title = name.equals("QR")? name + "코드" : name;
             binding.toolbarLayout.toolbarLayout.setBackgroundColor(ContextCompat.getColor(this, R.color.popup_buttonColor));
             binding.toolbarLayout.backBtn.setVisibility(View.VISIBLE);
             binding.toolbarLayout.titleTxv.setVisibility(View.VISIBLE);
             binding.toolbarLayout.titleTxv.setText(title+ " 스캔");
+            binding.toolbarLayout.titleTxv.setTextColor(ContextCompat.getColor(this, R.color.White));
             binding.toolbarLayout.logoMainToolbar.setVisibility(View.GONE);
+            Glide.with(this).load(ContextCompat.getDrawable(this, R.drawable.ic_backspace_white_24)).into(binding.toolbarLayout.backBtn);
             binding.toolbarLayout.tapImb.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_hamburger_white_24));
         }else if (name.equals("Main")){
             binding.toolbarLayout.toolbarLayout.setBackgroundColor(ContextCompat.getColor(this, R.color.White));
@@ -221,6 +223,12 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
 
     public void openDrawa() {
         binding.drawaLayout.openDrawer(GravityCompat.END);
+        Glide.with(this).load("http://zzipbbong.cafe24.com/imagefile/bsr/" + Utils.User_Profile)
+                .error(ContextCompat.getDrawable(this, R.drawable.sample_profile_image)).circleCrop()
+                .into(binding.navigationLayout.profileIcon);
+
+        binding.navigationLayout.userNameTxv.setText(Utils.User_Name);
+
     }
 
 
@@ -253,7 +261,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
                 break;
 
             case R.id.page_report:
-                setFragment("관광지 기록", new BlankFragment());
+                setFragment("관광지 기록", new TourRecordFragment());
                 break;
 
             case R.id.page_navi:

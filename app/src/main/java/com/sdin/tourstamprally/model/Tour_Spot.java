@@ -94,11 +94,11 @@ public class Tour_Spot implements Comparable<Tour_Spot>, Serializable {
     private String touristhistory_user_idx;
 
     @SerializedName("touristhistory_createtime")
-    private String touristhistory_createtime;
+    private long touristhistory_createtime;
 
 
     @SerializedName("touristhistory_updatetime")
-    private String touristhistory_updatetime;
+    private long touristhistory_updatetime;
 
     private int location_percentage;
 

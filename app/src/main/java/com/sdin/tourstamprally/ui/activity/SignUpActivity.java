@@ -150,7 +150,7 @@ public class SignUpActivity extends BaseActivity {
             return;
         }
 
-        if (TextUtils.isEmpty(binding.editPassword.getText()) || binding.editPassword.getText().toString().length() > 8) {
+        if (TextUtils.isEmpty(binding.editPassword.getText()) || binding.editPassword.getText().toString().length() < 8) {
 
             showToast("비밀번호는 8자 이상입니다.");
 
@@ -183,12 +183,34 @@ public class SignUpActivity extends BaseActivity {
         userModel.setEmail(binding.editEmail.getText().toString());
         userModel.setLocation(binding.spinnerLocation.getSelectedItem().toString());
 
+        apiService.userPhoneExists(userModel.getPhone()).enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                String result = response.body();
+                Log.d("result JOIN", result);
+                if (result.equals("true")){
+                    userSignUp(userModel);
+                }else {
+                    Toast.makeText(SignUpActivity.this, "이미 등록된 번호 입니다.", Toast.LENGTH_SHORT).show();
+                }
+            }
 
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+
+            }
+        });
+
+
+
+    }
+
+    private void userSignUp(UserModel userModel){
         apiService.userSignUp(userModel.getPhone(), userModel.getPassword(), userModel.getName()
                 , userModel.getEmail(), userModel.getLocation(), 1, 1).enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
-                
+
                 String result = response.body();
 
                 if (result.equals("1")) {
@@ -207,7 +229,6 @@ public class SignUpActivity extends BaseActivity {
                 showToast("서버에 문제가 있습니다.");
             }
         });
-
     }
 
 

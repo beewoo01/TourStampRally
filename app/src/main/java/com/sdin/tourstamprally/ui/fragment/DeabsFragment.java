@@ -1,5 +1,6 @@
 package com.sdin.tourstamprally.ui.fragment;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -14,6 +15,8 @@ import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -44,6 +47,7 @@ public class DeabsFragment extends BaseFragment {
     private Map<Integer, String> location_map;
     private DeabsApdater deabsApdater;
     private LocaAdapter locaAdapter;
+    private Map<Integer, Pair<RelativeLayout, TextView>> map;
 
     public DeabsFragment() {
         // Required empty public constructor
@@ -62,6 +66,7 @@ public class DeabsFragment extends BaseFragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_deabs, container, false);
+        binding.setFragment(this);
         initView();
         return binding.getRoot();
     }
@@ -69,6 +74,11 @@ public class DeabsFragment extends BaseFragment {
     private void initView(){
         //binding.locationRe.setLayoutManager(new LinearLayoutManager(requireContext()));
         list = new ArrayList<>();
+        map = new HashMap<>();
+        map.put(binding.storeTxvBg.getId(), new Pair<>(binding.storeTxvBg, binding.storeTxv));
+        map.put(binding.allTxvBg.getId(), new Pair<>(binding.allTxvBg, binding.allTxv));
+        map.put(binding.tourTxvBg.getId(), new Pair<>(binding.tourTxvBg, binding.tourTxv));
+        binding.fragmentDeabsPgb.setVisibility(View.VISIBLE);
         getData();
     }
 
@@ -88,6 +98,50 @@ public class DeabsFragment extends BaseFragment {
         deabsApdater.changeList(arrayList);
     }
 
+    public void buttonClick(View view){
+        for ( Integer key : map.keySet() ) {
+            int txvId = map.get(key).second.getId();
+            Drawable img;
+            if (key == view.getId()){
+                map.get(key).first.setBackground(ContextCompat.getDrawable(requireContext(), R.drawable.icon_bg_blue_resize));
+                map.get(key).second.setTextColor(ContextCompat.getColor(requireContext(), R.color.white));
+
+                if (txvId == binding.allTxv.getId()){
+                    img = ContextCompat.getDrawable(requireContext(), R.drawable.folder_icon_white_resize);
+
+                }else if (txvId == binding.storeTxv.getId()){
+                    img = ContextCompat.getDrawable(requireContext(), R.drawable.store_icon_white_resize);
+
+                }else {
+                    img = ContextCompat.getDrawable(requireContext(), R.drawable.map_icon_white_resize);
+                }
+
+                map.get(key).second.setCompoundDrawablesWithIntrinsicBounds(null, img, null, null);
+
+
+            }else {
+                map.get(key).first.setBackground(ContextCompat.getDrawable(requireContext(), R.drawable.icon_bg_gray_resize));
+                map.get(key).second.setTextColor(ContextCompat.getColor(requireContext(), R.color.black));
+
+                if (txvId == binding.allTxv.getId()){
+                    img = ContextCompat.getDrawable(requireContext(), R.drawable.folder_icon_black_resize);
+
+                }else if (txvId == binding.storeTxv.getId()){
+                    img = ContextCompat.getDrawable(requireContext(), R.drawable.store_icon_resize);
+
+                }else {
+                    img = ContextCompat.getDrawable(requireContext(), R.drawable.map_icon_resize);
+
+                }
+
+                map.get(key).second.setCompoundDrawablesWithIntrinsicBounds(null, img, null, null);
+            }
+
+        }
+
+
+    }
+
     private void getData(){
 
         apiService.getLocations().enqueue(new Callback<List<Location>>() {
@@ -98,6 +152,7 @@ public class DeabsFragment extends BaseFragment {
                     location_list.add(0, new Location(0, "전체", "null", "null", "null"));
                     locaAdapter = new LocaAdapter(new ArrayList(location_list));
                     binding.locationRe.setAdapter(locaAdapter);
+                    binding.fragmentDeabsPgb.setVisibility(View.GONE);
 
                     locaAdapter.itemOnclickLo = location -> {
                         sort(location);

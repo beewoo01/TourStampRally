@@ -4,6 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".ui.fragment.DeabsFragment">
 
+    <data>
+        <variable
+            name="fragment"
+            type="com.sdin.tourstamprally.ui.fragment.DeabsFragment" />
+    </data>
+
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -14,6 +20,7 @@
             android:layout_width="0dp"
             android:layout_height="@dimen/_30sdp"
             android:orientation="horizontal"
+            android:overScrollMode="never"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -48,6 +55,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_10sdp"
             android:background="@drawable/icon_bg_blue_resize"
+            android:onClick="@{fragment::buttonClick}"
             app:layout_constraintEnd_toStartOf="@id/store_txv_bg"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/line1">
@@ -70,6 +78,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/icon_bg_gray_resize"
+            android:onClick="@{fragment::buttonClick}"
             app:layout_constraintBottom_toBottomOf="@id/all_txv_bg"
             app:layout_constraintEnd_toStartOf="@id/tour_txv_bg"
             app:layout_constraintStart_toEndOf="@id/all_txv_bg"
@@ -94,6 +103,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/icon_bg_gray_resize"
+            android:onClick="@{fragment::buttonClick}"
             app:layout_constraintBottom_toBottomOf="@id/all_txv_bg"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/store_txv_bg"
@@ -155,6 +165,7 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_marginTop="@dimen/_10sdp"
+                android:overScrollMode="never"
                 app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -164,6 +175,17 @@
                 tools:listitem="@layout/deabs_item" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+        store_txv_bg<ProgressBar
+            android:id="@+id/fragment_deabs_pgb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

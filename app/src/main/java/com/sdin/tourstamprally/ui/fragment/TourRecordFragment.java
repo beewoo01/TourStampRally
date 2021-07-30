@@ -26,6 +26,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -37,118 +38,74 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static java.util.stream.Collectors.toList;
+
 public class TourRecordFragment extends BaseFragment {
 
 
     private FragmentTourRecordBinding binding;
-    private List<Tour_Spot> list = new ArrayList<>();
-    //private List<Tour_Spot> adpaterList = new ArrayList<>();
     private Button[] buttons;
-    public static final int POPULARFORM = 0;
-    public static final int DATEFORM = 1;
-    public static final int NEARFORM = 2;
-    private Button selectedCateGory;
     private GpsTracker gpsTracker;
-
     private LocationAdapter locationAdapter;
-
-    private ArrayList<Tour_Spot> Adapterlist = new ArrayList();
+    private Button selectedCateGory;
+    private List<Tour_Spot> list;
+    private ArrayList<Tour_Spot> arrayList;
 
     public TourRecordFragment() {
         // Required empty public constructor
     }
 
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_tour_record, container, false);
-       // binding.setFragment(this);
-
+        binding.setFragment(this);
+        binding.fragmentTourPgb.setVisibility(View.VISIBLE);
+        getData();
         initData();
-        initView();
-
-
         return binding.getRoot();
     }
 
-
-    private void initView(){
-        buttons = new Button[]{binding.popularBtn , binding.recentBtn ,binding.nearBtn};
-        gpsTracker = new GpsTracker(requireContext());
+    private void initData() {
 
 
-        SelectLocationAdapter spinnerAdapter = new SelectLocationAdapter(requireContext(), Arrays.asList(requireContext().getResources().getStringArray(R.array.area)));
-        binding.spinnerTourRecord.setAdapter(spinnerAdapter);
-        binding.spinnerTourRecord.setOnItemSelectedListener(selectedListener);
-        selectedCateGory = binding.popularBtn;
-
-
-
-    }
-
-
-
-    //어댑터 리스트 정렬
-    public void setSort(View view){
-        selectedCateGory = (Button) view;
-        setSortBtnBackground(view.getId());
-        Adapterlist = new ArrayList<>(sortList(view.getId()));
-        //list = locationAdapter.sortList(view.getId());
-    }
-
-    private void setSortBtnBackground(int id){
-
-        for (Button button :buttons){
-            if (button.getId() == id){
-                button.setBackground(ContextCompat.getDrawable(getActivity(), R.drawable.bg_rounded_category_selected));
-                button.setTextColor(ContextCompat.getColor(requireContext(), R.color.white));
-            }else {
-                button.setBackground(ContextCompat.getDrawable(getActivity(), R.drawable.bg_rounded_category));
-                button.setTextColor(ContextCompat.getColor(requireContext(), R.color.mainColor));
-            }
-        }
-    }
-
-
-    private void initData(){
-
-
-        /*apiService.getTourLocation_for_spot().enqueue(new Callback<List<Tour_Spot>>() {
-            @Override
-            public void onResponse(Call<List<Tour_Spot>> call, Response<List<Tour_Spot>> response) {
-
-            }
-
-            @Override
-            public void onFailure(Call<List<Tour_Spot>> call, Throwable t) {
-
-            }
-        });*/
+        list = new ArrayList<>();
 
         apiService.getTour(Utils.User_Idx).enqueue(new Callback<List<Tour_Spot>>() {
             @Override
             public void onResponse(Call<List<Tour_Spot>> call, Response<List<Tour_Spot>> response) {
-                if (response.isSuccessful()){
+                if (response.isSuccessful()) {
                     list = response.body();
                     HashMap<Integer, Tour_Spot> hashMap = new HashMap<>();
-                    for (int i = 0; i < list.size(); i++){
+
+                    list = list.stream()
+                            .sorted(Comparator.comparing(Tour_Spot::getTouristhistory_idx, Comparator.nullsFirst(Comparator.naturalOrder())))
+                            .collect(toList());
+
+                    for (int i = 0; i < list.size(); i++) {
                         hashMap.put(list.get(i).getTouristspot_idx(), list.get(i));
                     }
-                    Adapterlist = new ArrayList(hashMap.values());
-
-                    locationAdapter = new LocationAdapter(Adapterlist, requireContext());
 
 
-                    //locationSort(binding.spinnerTourRecord.getSelectedItem().toString());
-                    Adapterlist = locationSort2(binding.spinnerTourRecord.getSelectedItem().toString());
+                    arrayList = new ArrayList(hashMap.values());
+
+                    locationAdapter = new LocationAdapter(arrayList, requireContext());
+
                     binding.recyclerviewTourRecord.setAdapter(locationAdapter);
+                    binding.spinnerTourRecord.setOnItemSelectedListener(selectedListener);
+                    locationSort(binding.spinnerTourRecord.getSelectedItem().toString());
+                    selectedCateGory = binding.popularBtn;
 
-                }else {
+                } else {
 
                 }
             }
@@ -160,109 +117,98 @@ public class TourRecordFragment extends BaseFragment {
         });
     }
 
-    private ArrayList locationSort2(String location){
-        ArrayList<Tour_Spot> arrayList = new ArrayList();
-        for (int i = 0; i < Adapterlist.size(); i++){
-            if (Adapterlist.get(i).getLocation_name().equals(location)){
-                arrayList.add(Adapterlist.get(i));
+    private void getData() {
+        buttons = new Button[]{binding.popularBtn, binding.recentBtn, binding.nearBtn};
+        gpsTracker = new GpsTracker(requireContext());
+
+        SelectLocationAdapter spinnerAdapter = new SelectLocationAdapter(requireContext(), Arrays.asList(requireContext().getResources().getStringArray(R.array.area)));
+        binding.spinnerTourRecord.setAdapter(spinnerAdapter);
+
+        selectedCateGory = binding.popularBtn;
+    }
+
+    private void locationSort(String location) {
+
+        //spinner 클릭시 오는 부분
+
+        Log.wtf("arrayList.size()", String.valueOf(arrayList.size()));
+        ArrayList<Tour_Spot> samplArray = new ArrayList<>();
+        for (int i = 0; i < list.size(); i++) {
+            //Log.wtf("map for i 라라라 " + i, String.valueOf(arrayList.get(i).getTouristspot_idx()));
+            if (list.get(i).getLocation_name().equals(location)) {
+                samplArray.add(list.get(i));
             }
         }
 
         Map<Integer, Tour_Spot> map = new HashMap<>();
-        for (int i = 0; i < arrayList.size(); i++){
-            map.put(arrayList.get(i).getTouristspot_idx(), arrayList.get(i));
+        for (int i = 0; i < samplArray.size(); i++) {
+            map.put(samplArray.get(i).getTouristspot_idx(), samplArray.get(i));
+            //Log.wtf("map for i " + i, String.valueOf(arrayList.get(i).getTouristspot_idx()));
         }
 
-        return new ArrayList(map.values());
+        locationAdapter.locationlistSet(new ArrayList<>(map.values()));
+        setSort(selectedCateGory);
     }
 
-    private void locationSort(String location){
-        Adapterlist.clear();
-        for (Tour_Spot model : list){
-            if (model.getLocation_name().equals(location)){
-                Adapterlist.add(model);
-                Log.d("locationSort" , model.getLocation_name());
+    private void myList() {
+        //최신 획득순
+
+    }
+
+
+    //어댑터 리스트 정렬
+    public void setSort(View view) {
+        selectedCateGory = (Button) view;
+        setSortBtnBackground(view.getId());
+        sortList(view.getId());
+
+        //Adapterlist = new ArrayList<>(sortList(view.getId()));
+        //list = locationAdapter.sortList(view.getId());
+    }
+
+    private void setSortBtnBackground(int id) {
+
+        for (Button button : buttons) {
+            if (button.getId() == id) {
+                button.setBackground(ContextCompat.getDrawable(getActivity(), R.drawable.bg_rounded_category_selected));
+                button.setTextColor(ContextCompat.getColor(requireContext(), R.color.white));
+            } else {
+                button.setBackground(ContextCompat.getDrawable(getActivity(), R.drawable.bg_rounded_category));
+                button.setTextColor(ContextCompat.getColor(requireContext(), R.color.mainColor));
             }
         }
-
-        Map<Integer, Tour_Spot> hashMap = new HashMap<>();
-        for (int i = 0; i < Adapterlist.size(); i++){
-            hashMap.put(Adapterlist.get(i).getTouristspot_idx(), list.get(i));
-        }
-
-        Adapterlist.clear();
-        for ( Map.Entry<Integer, Tour_Spot> entry : hashMap.entrySet() ) {
-            Adapterlist.add(entry.getValue());
-            Log.wtf("locationSort" , String.valueOf(entry.getValue()));
-        }
-
-        /*HashMap<Integer, Tour_Spot> hashMap = new HashMap<>();
-        for (int i = 0; i < Adapterlist.size(); i++){
-            hashMap.put(Adapterlist.get(i).getTouristspot_idx(), list.get(i));
-            Log.d("locationSort222" , Adapterlist.get(i).getLocation_name());
-            Log.d("locationSort222" , String.valueOf(Adapterlist.get(i).getTouristspot_idx()));
-            Log.d("locationSort222" , String.valueOf(Adapterlist.get(i).getTouristspot_name()));
-        }
-        Adapterlist = new ArrayList(hashMap.values());*/
-
-
-        if (locationAdapter != null){
-            locationAdapter.locaitonSort(Adapterlist, selectedCateGory.getId());
-            setSortBtnBackground(selectedCateGory.getId());
-        }
-
-
-        //locationAdapter = new LocationAdapter(adpaterList, requireContext());
-        //setSort(selectedCateGory);
     }
 
-    public List<Tour_Spot> sortList(int form){
 
-        switch (form){
-            case R.id.popular_btn :
+    public void sortList(int form) {
+        arrayList = locationAdapter.getList();
+
+        switch (form) {
+            case R.id.popular_btn:
                 Log.d(TAG, "popular_btn");
-                list.sort((o1, o2) -> {
+                arrayList.sort((o1, o2) -> {
 
-                    if (o1.getTouristspot_checkin_count() == o2.getTouristspot_checkin_count()) return 0;
-                    else if (o1.getTouristspot_checkin_count() < o2.getTouristspot_checkin_count()) return 1;
+                    if (o1.getTouristspot_checkin_count() == o2.getTouristspot_checkin_count())
+                        return 0;
+                    else if (o1.getTouristspot_checkin_count() < o2.getTouristspot_checkin_count())
+                        return 1;
                     else return -1;
                 });
 
                 break;
 
-            case R.id.recent_btn :
+            case R.id.recent_btn:
                 Log.d(TAG, "recent_btn");
-                list.sort((o1, o2) -> {
+                //myList();
 
-
-
-
-                    try {
-                        SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                        Date to1 = transFormat.parse(o1.getTouristhistory_updatetime());
-                        Date to2 = transFormat.parse(o2.getTouristhistory_updatetime());
-                        long time1 = to1.getTime();
-                        long time2 = to2.getTime();
-
-                        if (time1 == time2) return 0;
-                        else if (time1 < time2) return 1;
-                        else return -1;
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                        return 0;
-                    }
-
-                    /*long sortDate1 = o1.getTouristhistory_updatetime();
-                    long sortDate2 = o2.getTouristhistory_updatetime();*/
-
-
-
-                });
+                arrayList = (ArrayList<Tour_Spot>) arrayList.stream()
+                        .sorted(Comparator.comparing(Tour_Spot::getTouristhistory_idx, Comparator.nullsLast(Comparator.naturalOrder())))
+                        .collect(toList());
                 break;
 
-            case R.id.near_btn :
+            case R.id.near_btn:
                 Log.d(TAG, "near_btn");
-                list.sort((o1, o2) -> {
+                arrayList.sort((o1, o2) -> {
 
                     double o1_distance = distance(o1.getTouristspot_latitude(), o1.getTouristspot_longitude());
                     double o2_distance = distance(o2.getTouristspot_latitude(), o2.getTouristspot_longitude());
@@ -274,18 +220,16 @@ public class TourRecordFragment extends BaseFragment {
                 });
 
 
-
                 break;
         }
 
 
-
-        locationAdapter.notifyDataSetChanged();
-
-        return list;
+        locationAdapter.locationlistSet(arrayList);
+        binding.fragmentTourPgb.setVisibility(View.GONE);
     }
 
-    private double distance(double latitude, double longitude){
+
+    private double distance(double latitude, double longitude) {
         double userLatitude = gpsTracker.getLatitude();
         double userLongitude = gpsTracker.getLongitude();
 
@@ -298,79 +242,7 @@ public class TourRecordFragment extends BaseFragment {
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
             Log.d("getSelectedItem", parent.getSelectedItem().toString());
 
-            locationSort2(parent.getSelectedItem().toString());
-            switch (parent.getSelectedItem().toString()){
-                case "동구" :
-                    Log.d("getSelectedItem", "동구옴");
-
-                    break;
-
-                case "영도구" :
-
-                    Log.d("getSelectedItem", "영도구옴");
-                    break;
-
-                case "부산진구" :
-
-                    Log.d("getSelectedItem", "부산진구옴");
-                    break;
-
-                case "남구" :
-
-                    Log.d("getSelectedItem", "남구옴");
-                    break;
-
-                case "북구" :
-
-                    Log.d("getSelectedItem", "북구옴");
-                    break;
-
-                case "해운대구" :
-
-                    Log.d("getSelectedItem", "해운대구옴");
-                    break;
-
-                case "사하구" :
-
-                    Log.d("getSelectedItem", "사하구옴");
-                    break;
-
-                case "금정구" :
-
-                    Log.d("getSelectedItem", "금정구옴");
-                    break;
-
-                case "강서구" :
-
-                    Log.d("getSelectedItem", "강서구옴");
-                    break;
-
-                case "연제구" :
-
-                    Log.d("getSelectedItem", "연재구옴");
-                    break;
-
-
-                case "수영구" :
-
-                    Log.d("getSelectedItem", "수영구옴");
-                    break;
-
-                case "사상구" :
-
-                    Log.d("getSelectedItem", "사상구옴");
-                    break;
-
-
-                case "기장군" :
-
-                    Log.d("getSelectedItem", "기장군옴");
-                    break;
-
-
-                case "기타" :
-                    break;
-            }
+            locationSort(parent.getSelectedItem().toString());
         }
 
         @Override

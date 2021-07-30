@@ -1,6 +1,7 @@
 package com.sdin.tourstamprally.ui.fragment;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -26,6 +27,7 @@ import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -125,9 +127,19 @@ public class AccountFragment extends BaseFragment {
     }
 
     private void setData(){
-        String[] arr = getResources().getStringArray(R.array.location);
+        /*String[] arr = getResources().getStringArray(R.array.location);
         SpinnerAdapter spinnerAdapter = new SpinnerAdapter(new ArrayList(Arrays.asList(arr)));
-        binding.spinnerLocation.setAdapter(spinnerAdapter);
+        binding.spinnerLocation.setAdapter(spinnerAdapter);*/
+
+        ArrayAdapter adapter = ArrayAdapter.createFromResource(requireContext(),
+                R.array.location, android.R.layout.simple_spinner_dropdown_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        binding.spinnerLocation.setAdapter(adapter);
+
+        binding.spinnerLocation.setSelection(adapter.getPosition(Utils.User_Location));
+        binding.spinnerLocation.getSelectedItem().toString();
+
+
 
 
         binding.editName.setText(Utils.User_Name);
@@ -226,11 +238,12 @@ public class AccountFragment extends BaseFragment {
         Pattern pattern = Patterns.EMAIL_ADDRESS;
         Log.wtf("signUp", "signUp");
 
-        /*if (TextUtils.isEmpty(binding.editPassword.getText()) || binding.editPassword.getText().toString().length() > 8) {
+        if (TextUtils.isEmpty(binding.editPassword.getText()) || binding.editPassword.getText().toString().length() < 8) {
+
 
             showToast("비밀번호는 8자 이상입니다.");
-
-        }*/
+            return;
+        }
 
         if (!Utils.UserPhone.equals(binding.editPhone.getText().toString())){
             if (!isAuth){
@@ -294,7 +307,7 @@ public class AccountFragment extends BaseFragment {
 
 
 
-        apiService.user_update( Utils.User_Idx,userModel.getPhone(), userModel.getPassword(), userModel.getName(), userModel.getEmail(), userModel.getLocation(), userModel.getUser_profile()).enqueue(
+        apiService.user_update( Utils.User_Idx, userModel.getPhone(), userModel.getPassword(), userModel.getName(), userModel.getEmail(), userModel.getLocation(), userModel.getUser_profile()).enqueue(
                 new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
@@ -306,7 +319,19 @@ public class AccountFragment extends BaseFragment {
                 Log.d("response", response.toString());
 
                 if (result.equals("1")) {
+
+                    Utils.UserPhone = userModel.getPhone();
+                    Utils.User_Email = userModel.getEmail();
+                    Utils.User_Location = userModel.getLocation();
+                    Utils.User_Name = userModel.getName();
+                    Utils.User_Profile = userModel.getUser_profile();
+                    Utils.UserPassword = userModel.getPassword();
+
+                    setShearedString("phone", binding.editPhone.getText().toString());
+                    setShearedString("password", binding.editPassword.getText().toString());
+
                     showToast("업데이트 성공");
+
                 } else {
                     showToast("업데이트에 실패하였습니다.");
                 }
@@ -319,6 +344,19 @@ public class AccountFragment extends BaseFragment {
             }
         });
 
+    }
+
+
+    private void setShearedString(String key, String value){
+        SharedPreferences preferences = setSharedPref();
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString(key, value);
+        editor.commit();
+
+    }
+
+    private SharedPreferences setSharedPref(){
+        return requireContext().getSharedPreferences("rebuild_preference", Context.MODE_PRIVATE);
     }
 
     private void uploadProfile(String fileName){

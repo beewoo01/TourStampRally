@@ -71,6 +71,7 @@ public class TermsOfConditionsActivity extends AppCompatActivity {
     public void nextBtnClick(){
         if (binding.serviceTermRdb.isChecked() && binding.personalTermsRdb.isChecked()){
             startActivity(new Intent(this, SignUpActivity.class));
+            finish();
         }else {
             Toast.makeText(this, "약관에 동의가 필요합니다.", Toast.LENGTH_SHORT).show();
         }

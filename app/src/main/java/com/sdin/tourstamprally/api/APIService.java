@@ -74,6 +74,10 @@ public interface APIService {
     Call<String> userLoginExists(@Query("user_phone") String user_phone,
                                  @Query("user_password") String user_password);
 
+    /*로그인*/
+    @GET("bsr_phone_Exists")
+    Call<String> userPhoneExists(@Query("user_phone") String user_phone);
+
 
     /*비번찾기 조회*/
     @GET("search_pw")

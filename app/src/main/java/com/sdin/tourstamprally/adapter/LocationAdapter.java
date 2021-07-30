@@ -27,25 +27,24 @@ import com.sdin.tourstamprally.model.Tour_Spot;
 import com.sdin.tourstamprally.utill.GpsTracker;
 
 import java.text.ParseException;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
-import static com.sdin.tourstamprally.ui.fragment.TourRecordFragment.DATEFORM;
+import java.util.Locale;
 
 public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHolder> {
 
     private ArrayList<Tour_Spot> list;
     public static final String TAG = LocationAdapter.class.getSimpleName();
     private SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd");
+    //private SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd 'T' HH:mm:ss.SSSX " , Locale.US);
 
 
 
     public LocationAdapter(ArrayList<Tour_Spot> list, Context context){
         this.list = list;
-
-        sdf = new SimpleDateFormat("yyyy.MM.dd");
 
     }
 
@@ -60,20 +59,10 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHo
 
     public List<Tour_Spot> locaitonSort(ArrayList<Tour_Spot> list, int category){
         this.list = list;
-        /*for (Tour_Spot model : this.list){
-            Log.d("locaitonSort!!!!!", model.getLocation_name());
-            Log.d("locaitonSort!!!!!", model.getTouristspot_name());
-        }*/
         notifyDataSetChanged();
         //sortList(category);
         return list;
     }
-
-
-
-
-
-
 
 
     @NonNull
@@ -91,6 +80,8 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHo
         if (TextUtils.isEmpty(list.get(position).getTouristhistory_idx())) list.get(position).setClear(false);
         else list.get(position).setClear(true);
 
+
+
         holder.binding.tourNameTxv.setText(list.get(position).getTouristspot_name());
         //Glide.with(holder.itemView.getContext()).load(list.get(position).imgUrl).circleCrop().into(holder.binding.tourImv);
         holder.binding.tourImv.setBackground(new ShapeDrawable(new OvalShape()));
@@ -104,7 +95,9 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHo
 
 
             try{
-                Log.wtf("날짜?", list.get(position).getTouristhistory_updatetime());
+
+                long dateL = list.get(position).getTouristhistory_updatetime();
+                String date = sdf.format(dateL);
                 holder.binding.clearTitleTxv.setText(
                         sdf.format(list.get(position).getTouristhistory_updatetime()) + " 획득!");
             }catch (Exception e){
