@@ -3,8 +3,10 @@ package com.sdin.tourstamprally.api;
 
 
 import com.google.gson.Gson;
+import com.sdin.tourstamprally.model.Location;
 import com.sdin.tourstamprally.model.Notice;
 import com.sdin.tourstamprally.model.Tour_Spot;
+import com.sdin.tourstamprally.model.Tour_Spot2;
 import com.sdin.tourstamprally.model.TouristSpotPoint;
 import com.sdin.tourstamprally.model.UserModel;
 
@@ -163,6 +165,13 @@ public interface APIService {
 
     @GET("getNotice")
     Call<List<Notice>> getNotice();
+
+    @GET("select_interest")
+    Call<List<Tour_Spot2>> getSelect_interest(@Query("user_idx") int user_idx);
+
+    @GET("getLocations")
+    Call<List<Location>> getLocations();
+
 
     @GET("gabia_token")
     Call<String> getToken();

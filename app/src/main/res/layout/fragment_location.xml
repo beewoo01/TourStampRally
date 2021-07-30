@@ -18,10 +18,10 @@
                 android:id="@+id/top_layout"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/_150sdp"
+                android:background="@color/black"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:background="@drawable/enjoy_busan"
                 >
 
 

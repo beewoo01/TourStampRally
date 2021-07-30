@@ -11,14 +11,27 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/location_re"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="@dimen/_30sdp"
             android:orientation="horizontal"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/slide_imv"
             tools:listitem="@layout/deabs_location_item" />
+
+        <ImageButton
+            android:id="@+id/slide_imv"
+            android:layout_width="@dimen/_20sdp"
+            android:layout_height="@dimen/_20sdp"
+            android:background="@null"
+            android:src="@drawable/ic_arrow_right_24"
+            android:layout_marginEnd="@dimen/_5sdp"
+            app:layout_constraintTop_toTopOf="@id/location_re"
+            app:layout_constraintBottom_toBottomOf="@id/location_re"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/location_re"
+            />
 
         <View
             android:id="@+id/line1"

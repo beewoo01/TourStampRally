@@ -3,6 +3,8 @@ package com.sdin.tourstamprally.adapter;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,8 +12,12 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.CustomTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.sdin.tourstamprally.Utils;
 import com.sdin.tourstamprally.databinding.DirectionGuidLocationItemBinding;
 import com.sdin.tourstamprally.databinding.DirectionGuidTagItemBinding;
@@ -104,6 +110,22 @@ public class DirectionGuid_Adapter extends RecyclerView.Adapter<DirectionGuid_Ad
 
 
         holder.binding.directionFromStempTxv.setText(meterStr);
+
+        if (!TextUtils.isEmpty(list.get(position).getLocation_img())){
+            Glide.with(context).load("http://zzipbbong.cafe24.com/imagefile/bsr/" + list.get(position).getLocation_img()).into(new CustomTarget<Drawable>() {
+                @Override
+                public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
+                    holder.binding.locationBg.setBackground(resource);
+
+                }
+
+                @Override
+                public void onLoadCleared(@Nullable Drawable placeholder) {
+
+                }
+            });
+        }
+
 
         if (location_Progress_Map.get(list.get(position).getLocation_idx()) != null
                 &&  location_history_Map.get(list.get(position).getLocation_idx()) != null) {

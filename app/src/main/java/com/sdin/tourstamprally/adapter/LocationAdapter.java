@@ -36,106 +36,43 @@ import static com.sdin.tourstamprally.ui.fragment.TourRecordFragment.DATEFORM;
 
 public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHolder> {
 
-    private List<Tour_Spot> list;
+    private ArrayList<Tour_Spot> list;
     public static final String TAG = LocationAdapter.class.getSimpleName();
     private SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd");
-    private GpsTracker gpsTracker;
 
 
-    public LocationAdapter(List<Tour_Spot> list, Context context){
+
+    public LocationAdapter(ArrayList<Tour_Spot> list, Context context){
         this.list = list;
-        gpsTracker = new GpsTracker(context);
+
+        sdf = new SimpleDateFormat("yyyy.MM.dd");
 
     }
 
-    public List<Tour_Spot> locaitonSort(List<Tour_Spot> list, int category){
+    public void locationlistSet(ArrayList<Tour_Spot> list){
         this.list = list;
-        for (Tour_Spot model : this.list){
+        notifyDataSetChanged();
+    }
+
+    public ArrayList getList(){
+        return list;
+    }
+
+    public List<Tour_Spot> locaitonSort(ArrayList<Tour_Spot> list, int category){
+        this.list = list;
+        /*for (Tour_Spot model : this.list){
             Log.d("locaitonSort!!!!!", model.getLocation_name());
             Log.d("locaitonSort!!!!!", model.getTouristspot_name());
-        }
+        }*/
         notifyDataSetChanged();
-        sortList(category);
-        return list;
-    }
-
-    public List<Tour_Spot> sortList(int form){
-
-        switch (form){
-            case R.id.popular_btn :
-                Log.d(TAG, "popular_btn");
-                list.sort((o1, o2) -> {
-
-                    if (o1.getTouristspot_checkin_count() == o2.getTouristspot_checkin_count()) return 0;
-                    else if (o1.getTouristspot_checkin_count() < o2.getTouristspot_checkin_count()) return 1;
-                    else return -1;
-                });
-
-                break;
-
-            case R.id.recent_btn :
-                Log.d(TAG, "recent_btn");
-                list.sort((o1, o2) -> {
-
-                    long sortDate1 = o1.getTouristhistory_updatetime();
-                    long sortDate2 = o2.getTouristhistory_updatetime();
-                    //35.1554, 129.0638
-
-                    if (sortDate1 == sortDate2) return 0;
-                    else if (sortDate1 < sortDate2) return 1;
-                    else return -1;
-
-                });
-                break;
-
-            case R.id.near_btn :
-                Log.d(TAG, "near_btn");
-                list.sort((o1, o2) -> {
-
-                    double o1_distance = distance(o1.getTouristspot_latitude(), o1.getTouristspot_longitude());
-                    double o2_distance = distance(o2.getTouristspot_latitude(), o2.getTouristspot_longitude());
-
-                    if (o1_distance == o2_distance) return 0;
-                    else if (o1_distance > o2_distance) return 1;
-                    else return -1;
-
-                });
-
-
-
-                break;
-        }
-
-        /*   - spotpoint_idx
-        *       . 1 = 8
-        *       . 2 = 2
-        *       . 3 = 1
-        *
-        *    - touristspotpoint_touristspot_idx
-        *       . 1 = 21
-        *       . 2 = 33
-        *       . 3 = 36
-        *
-        *    - touristspot
-        *     21 =  부산 시민공원 8
-        *     33 =  비프광장 2
-        *     36 =  국제시장 1
-        * */
-
-
-
-        notifyDataSetChanged();
-
+        //sortList(category);
         return list;
     }
 
 
-    private double distance(double latitude, double longitude){
-        double userLatitude = gpsTracker.getLatitude();
-        double userLongitude = gpsTracker.getLongitude();
 
-        return Utils.distance(latitude, longitude, userLatitude, userLongitude);
-    }
+
+
 
 
 
@@ -158,14 +95,21 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHo
         //Glide.with(holder.itemView.getContext()).load(list.get(position).imgUrl).circleCrop().into(holder.binding.tourImv);
         holder.binding.tourImv.setBackground(new ShapeDrawable(new OvalShape()));
         holder.binding.tourImv.setClipToOutline(true);
-        Glide.with(holder.itemView.getContext()).load(R.drawable.enjoy_busan).circleCrop().into(holder.binding.tourImv);
+        Glide.with(holder.itemView.getContext()).load("http://zzipbbong.cafe24.com/imagefile/bsr/" + list.get(position).getTouristspot_img()).circleCrop().into(holder.binding.tourImv);
 
         if (list.get(position).isClear()){
             //클리어시 적용될 코드
             holder.binding.tourImv.setColorFilter(Color.parseColor("#63000000"));
             holder.binding.clearTitleTxv.setVisibility(View.VISIBLE);
-            holder.binding.clearTitleTxv.setText(
-                    sdf.format(list.get(position).getTouristhistory_updatetime()) + " 획득!");
+
+
+            try{
+                holder.binding.clearTitleTxv.setText(
+                        sdf.format(list.get(position).getTouristhistory_updatetime()) + " 획득!");
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+
             holder.binding.clearTitleImv.setVisibility(View.VISIBLE);
         }else {
             holder.binding.tourImv.setColorFilter(null);

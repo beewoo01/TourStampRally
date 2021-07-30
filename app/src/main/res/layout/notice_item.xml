@@ -60,9 +60,9 @@
 
         <ImageView
             android:id="@+id/arrow_imv"
-            android:layout_width="@dimen/_15sdp"
-            android:layout_height="@dimen/_15sdp"
-            android:src="@drawable/arrow_down_notice_item"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_arrow_down_24"
             android:layout_marginEnd="@dimen/_10sdp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -83,10 +83,10 @@
 
         <TextView
             android:id="@+id/content_txv"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="어어어어어어어어ㅓ어ㅓ어어어ㅓ어\n ㄹ더재ㅑㅓㅐㄷ쟈ㅓㅐ댜ㅐㅓ\n다ㅑ러도여뇨\n"
             android:visibility="gone"
+            android:layout_marginHorizontal="@dimen/_10sdp"
             app:layout_constraintTop_toBottomOf="@id/notice_kind_of_txv"
             app:layout_constraintStart_toEndOf="@id/date_txv"
             app:layout_constraintEnd_toStartOf="@id/arrow_imv"

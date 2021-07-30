@@ -137,18 +137,6 @@ public class DirectionGuidFragment extends BaseFragment {
 
         }
 
-        /*for(int key : location_Progress_Map.keySet()) {
-            int value = location_Progress_Map.get(key);
-            System.out.println("spot_poinMap , " + key + " : " + value);
-
-        }
-
-        for(int key : location_history_Map.keySet()) {
-            int value = location_history_Map.get(key);
-            System.out.println("spot_HistoryMap , " + key + " : " + value);
-
-        }*/
-
         Map<Integer, Tour_Spot> hashMap = new HashMap<>();
         for (Tour_Spot model : tourList){
             hashMap.put(model.getLocation_idx(), model);

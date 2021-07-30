@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
@@ -40,6 +41,7 @@ import com.sdin.tourstamprally.databinding.ActivityMainBinding;
 import com.sdin.tourstamprally.model.Tour_Spot;
 import com.sdin.tourstamprally.model.UserModel;
 import com.sdin.tourstamprally.ui.fragment.AccountFragment;
+import com.sdin.tourstamprally.ui.fragment.BlankFragment;
 import com.sdin.tourstamprally.ui.fragment.CouponMainFragment;
 import com.sdin.tourstamprally.ui.fragment.DeabsFragment;
 import com.sdin.tourstamprally.ui.fragment.DirectionGuidFragment;
@@ -55,6 +57,10 @@ import com.sdin.tourstamprally.ui.fragment.TourRecordFragment;
 import com.sdin.tourstamprally.ui.fragment.TourSpotPointFragment;
 import com.sdin.tourstamprally.utill.ItemOnClick;
 import com.sdin.tourstamprally.utill.NFCListener;
+
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 
 public class MainActivity extends BaseActivity implements BottomNavigationView.OnNavigationItemSelectedListener, ItemOnClick {
@@ -72,6 +78,15 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
     private NFCFragment nfcFragment = new NFCFragment();
     private QRscanFragment QRscanFragment = new QRscanFragment();
     private DirectionGuidFragment directionGuidFragment;
+    private CouponMainFragment couponMainFragment = new CouponMainFragment();
+    private DeabsFragment deabsFragment = new DeabsFragment();
+    private SetAlarmFragment setAlarmFragment=new SetAlarmFragment();
+    private long backKeyPressedTime = 0;
+
+
+    private Map<Integer, String> hashMap = new HashMap<>();
+    private int fragmentcount = 0;
+
 
 
     @Override
@@ -87,13 +102,19 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
 
     private void setToolbar(int pos) {
 
-        int gg = getSupportFragmentManager().getBackStackEntryCount();
+        Log.wtf("ggggghash", hashMap.get(fragmentcount));
+        Log.wtf("getBackStackEntryCount", String.valueOf(fragmentManager.getBackStackEntryCount()));
+        Log.wtf("getBackStackEntryCount", String.valueOf(fragmentManager.getBackStackEntryCount()));
+        Log.wtf("getBackStackEntryCount", String.valueOf(fragmentManager.getBackStackEntryCount()));
+        /*int gg = getSupportFragmentManager().getBackStackEntryCount();
         Log.d("gg =", String.valueOf(gg));
         for (int i = 0; i <= gg; i++){
             String name = getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount()- 1).getName();
-            Log.wtf("name!!!!", name);
-        }
+            //Log.wtf("name!!!!", name);
+        }*/
         String name = getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount()- 1).getName();
+        name = hashMap.get(fragmentcount);
+
         Log.d("name", name);
         if (name.equals("NFC") || name.equals("QR")){
             String title = name.equals("QR")? name + "코드" : name;
@@ -109,7 +130,18 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
             binding.toolbarLayout.titleTxv.setVisibility(View.GONE);
             binding.toolbarLayout.logoMainToolbar.setVisibility(View.VISIBLE);
             binding.toolbarLayout.tapImb.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.hamberger_menu_resize));
-        }else {
+        }else if (name.equals("계정수정") || name.equals("공지사항") || name.equals("쿠폰현황") || name.equals("찜한목록") || name.equals("알림설정")){
+
+            binding.toolbarLayout.toolbarLayout.setBackgroundColor(ContextCompat.getColor(this, R.color.mainColor));
+            binding.toolbarLayout.backBtn.setVisibility(View.VISIBLE);
+            Glide.with(this).load(ContextCompat.getDrawable(this, R.drawable.ic_backspace_white_24)).into(binding.toolbarLayout.backBtn);
+            binding.toolbarLayout.titleTxv.setVisibility(View.VISIBLE);
+            binding.toolbarLayout.titleTxv.setText(name);
+            binding.toolbarLayout.titleTxv.setTextColor(ContextCompat.getColor(this, R.color.White));
+            binding.toolbarLayout.logoMainToolbar.setVisibility(View.GONE);
+            binding.toolbarLayout.tapImb.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_hamburger_white_24));
+
+        } else {
             if (name.equals("direction_guid")){
                 name = "길안내 관광지";
             }else if (name.equals("location_fragment")){
@@ -159,11 +191,25 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
 
         binding.navigationLayout.userNameTxv.setText(Utils.User_Name);
         binding.toolbarLayout.backBtn.setOnClickListener(v -> {
+
+
             Log.wtf("MainAct FCount", String.valueOf(fragmentManager.getBackStackEntryCount()));
             if (fragmentManager.getBackStackEntryCount() > 0) {
                 Log.wtf("MainAct", "if");
-                fragmentManager.beginTransaction().remove(fragment).commit();
                 fragmentManager.popBackStack();
+                fragmentManager.beginTransaction().remove(fragment).commit();
+                for(Iterator<Map.Entry<Integer, String>> it = hashMap.entrySet().iterator(); it.hasNext(); ) {
+                    Map.Entry<Integer, String> entry = it.next();
+                    if(entry.getKey().equals("test")) {
+                        it.remove();
+                    }
+                }
+                fragmentcount--;
+                hashMap.get(fragmentcount);
+                Log.wtf("Id,@@ ", String.valueOf(getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount()-1).getId()));
+                Log.wtf("name!@#@!#@!#!@", getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount()-1).getName());
+
+
             } else {
                 Log.wtf("MainAct", String.valueOf(fragmentManager.getBackStackEntryCount()));
             }
@@ -207,7 +253,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
                 break;
 
             case R.id.page_report:
-                setFragment("Recode", new TourRecordFragment());
+                setFragment("Recode", new BlankFragment());
                 break;
 
             case R.id.page_navi:
@@ -221,20 +267,49 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
         return true;
     }
 
+
+
+    @Override
+    public void onBackPressed() {
+        if (System.currentTimeMillis() > backKeyPressedTime + 2000){
+            backKeyPressedTime = System.currentTimeMillis();
+            Toast.makeText(this, "\'뒤로\' 버튼을 한번 더 누르시면 종료됩니다.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (System.currentTimeMillis() <= backKeyPressedTime + 2000){
+            finish();
+        }
+    }
+
     private void setFragment(String tag, Fragment fragment) {
         this.fragment = fragment;
+
+
+        //hashMap.put();
         if (tag.equals("Main")){
             binding.webViewLayout.setVisibility(View.VISIBLE);
         }else {
             binding.webViewLayout.setVisibility(View.GONE);
         }
         fragmentManager = getSupportFragmentManager();
+
         fragmentManager.beginTransaction().replace(binding.framelayout.getId(), this.fragment, tag)
                 .addToBackStack(tag)
                 .commit();
+
+
         /*ft = fragmentManager.beginTransaction();
         ft.replace(binding.framelayout.getId(), fragment, tag).addToBackStack(null).commit();*/
         fragmentManager.executePendingTransactions();
+        fragmentcount++;
+        hashMap.put(fragmentcount, getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount()-1).getName());
+
+
+
+        Log.wtf("Id,@@ ", String.valueOf(getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount()-1).getId()));
+        Log.wtf("name!@#@!#@!#!@", getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount()-1).getName());
+
         setToolbar(1);
     }
 
@@ -300,6 +375,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
 
     private void readfromIntent(Intent intent) {
         // intent action을 리드 한다.
+
         String action = intent.getAction();
         if (NfcAdapter.ACTION_TAG_DISCOVERED.equals(action) // NFC TAG가 발견되었을때
                 || NfcAdapter.ACTION_TECH_DISCOVERED.equals(action) //번역상으로 NFC action 기술이 발견된게 intent에서 받아온 값이랑 같을때
@@ -340,30 +416,31 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
     public void onClick(int position) {
         //ItemOnClcik Listener
         Log.d("onClick", String.valueOf(position));
+        binding.drawaLayout.closeDrawer(Gravity.RIGHT);
 
         switch (position){
             case 0 :
                 UserModel userModel = new UserModel(Utils.User_Idx, Utils.UserPhone, Utils.User_Name, Utils.User_Email, Utils.User_Location, Utils.User_Profile);
-                setFragment("accontfragment", new AccountFragment().newInstance(userModel));
+                setFragment("계정수정", new AccountFragment().newInstance(userModel));
                 break;
 
             case 1 :
-                setFragment("noticefragment", new NoticeFragment());
+                setFragment("공지사항", new NoticeFragment());
                 //공지
                 break;
 
             case 2 :
-                setFragment("couponmainfragment", new CouponMainFragment());
+                setFragment("쿠폰현황", couponMainFragment);
                 //쿠폰현황
                 break;
 
             case 3 :
-                setFragment("setAlarmfragment", new SetAlarmFragment());
+                setFragment("알림설정", setAlarmFragment);
                 //알림설정
                 break;
 
             case 4 :
-                setFragment("Deabsfragment", new DeabsFragment());
+                setFragment("찜한목록", deabsFragment);
                 //찜한목록
                 break;
 

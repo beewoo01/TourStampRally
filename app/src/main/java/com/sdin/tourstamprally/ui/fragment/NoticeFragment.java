@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
@@ -14,13 +15,17 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 
+import com.bumptech.glide.Glide;
 import com.google.gson.internal.$Gson$Types;
 import com.sdin.tourstamprally.R;
 import com.sdin.tourstamprally.databinding.FragmentNoticeBinding;
 import com.sdin.tourstamprally.databinding.NoticeItemBinding;
 import com.sdin.tourstamprally.model.Notice;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import retrofit2.Call;
@@ -69,10 +74,31 @@ public class NoticeFragment extends BaseFragment {
         //selectedSpinnerItem = binding.spinner.getSelectedItem().toString();
         binding.spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                selectedSpinnerItem = strings[i];
+            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
+                selectedSpinnerItem = strings[position];
+                Log.wtf("onItemSelected", String.valueOf(position));
                 if (noticeAdapter != null){
-                    noticeAdapter.setNoticeList(i);
+                    // 0 - 공지 1 - 이벤트
+                    // 0 - 전체 1 - 공지 - 2 이벤트
+                    ArrayList arrayList = new ArrayList();
+                    if (position == 0){
+                        arrayList = new ArrayList(list);
+
+                    }else if (position == 1){
+                        for (int i = 0; i < list.size(); i++){
+                            if (list.get(i).getNotice_type() == 0){
+                                arrayList.add(list.get(i));
+                            }
+                        }
+                    }else if (position == 2){
+                        for (int i = 0; i < list.size(); i++){
+                            if (list.get(i).getNotice_type() == 1){
+                                arrayList.add(list.get(i));
+                            }
+                        }
+                    }
+
+                    noticeAdapter.setNoticeList(arrayList);
                 }
             }
 
@@ -93,6 +119,7 @@ public class NoticeFragment extends BaseFragment {
                     ArrayList arrayList = new ArrayList(list);
                     noticeAdapter = new NoticeAdapter(arrayList);
                     binding.noticeRe.setAdapter(noticeAdapter);
+                    binding.noticeRe.setLayoutManager(new LinearLayoutManager(requireContext()));
                     Log.wtf("onResponse", "Success");
                 }else {
                     Log.wtf("onResponse", "notSuccess");
@@ -121,8 +148,8 @@ public class NoticeFragment extends BaseFragment {
 
         }
 
-        public void setNoticeList(int type){
-            this.type = type;
+        public void setNoticeList(ArrayList arrayList){
+            this.arrayList = arrayList;
             notifyDataSetChanged();
         }
 
@@ -145,7 +172,8 @@ public class NoticeFragment extends BaseFragment {
                 holder.itemView.setVisibility(list.get(position).getNotice_type() == type ? View.VISIBLE : View.GONE);
             }
 
-            if (arrayList.get(position).getNotice_type() == 1){
+            // 0 - 공지 1 - 이벤트
+            if (arrayList.get(position).getNotice_type() == 0){
                 holder.binding.noticeKindOfTxv.setText("공지사항");
                 holder.binding.noticeKindOfTxv.setBackground(ContextCompat.getDrawable(requireContext(), R.drawable.bg_rounded_category_selected));
                 holder.binding.noticeKindOfTxv.setTextColor(ContextCompat.getColor(requireContext(), R.color.white));
@@ -155,7 +183,17 @@ public class NoticeFragment extends BaseFragment {
                 holder.binding.noticeKindOfTxv.setBackground(ContextCompat.getDrawable(requireContext(), R.drawable.bg_rounded_category));
                 holder.binding.noticeKindOfTxv.setTextColor(ContextCompat.getColor(requireContext(), R.color.mainColor));
             }
-            holder.binding.dateTxv.setText(arrayList.get(position).getNotice_updatetime());
+
+            String oriDate = arrayList.get(position).getNotice_updatetime();
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+            try {
+                Date date = format.parse(oriDate);
+                String viewDate = format.format(date);
+                holder.binding.dateTxv.setText(viewDate);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
             holder.binding.titleTxv.setText(arrayList.get(position).getNotice_title());
 
             holder.binding.arrowImv.setOnClickListener( v -> {
@@ -163,22 +201,27 @@ public class NoticeFragment extends BaseFragment {
             });
             holder.binding.newIcImv.setVisibility(View.INVISIBLE);
             holder.binding.contentTxv.setText(arrayList.get(position).getNotice_content());
-            holder.itemView.setOnClickListener( v -> {
-                holder.binding.contentTxv.setVisibility(holder.binding.contentTxv.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
-               /* if (selectedItems.get(position)){
-                    // 펼쳐진 Item을 클릭 시
-                    selectedItems.delete(position);
+
+            holder.binding.arrowImv.setOnClickListener( v -> {
+                if (holder.binding.contentTxv.getVisibility() == View.VISIBLE ){
+                    holder.binding.contentTxv.setVisibility(View.GONE);
+                    Glide.with(requireContext()).load(ContextCompat.getDrawable(requireContext(), R.drawable.ic_arrow_down_24)).into(holder.binding.arrowImv);
+                    //holder.binding.arrowImv.setBackground(ContextCompat.getDrawable(requireContext(), R.drawable.ic_arrow_down_24));
                 }else {
-                    // 직전의 클릭됐던 Item의 클릭상태를 지움
-                    selectedItems.delete(prePosition);
-                    // 클릭한 Item의 position을 저장
-                    selectedItems.put(position, true);
+                    holder.binding.contentTxv.setVisibility(View.VISIBLE);
+                    Glide.with(requireContext()).load(ContextCompat.getDrawable(requireContext(), R.drawable.ic_arrow_up_24)).into(holder.binding.arrowImv);
                 }
-                // 해당 포지션의 변화를 알림
-                if (prePosition != -1) notifyItemChanged(prePosition);
-                notifyItemChanged(position);
-                // 클릭된 position 저장
-                prePosition = position;*/
+
+            });
+            holder.itemView.setOnClickListener( v -> {
+                if (holder.binding.contentTxv.getVisibility() == View.VISIBLE ){
+                    holder.binding.contentTxv.setVisibility(View.GONE);
+                    Glide.with(requireContext()).load(ContextCompat.getDrawable(requireContext(), R.drawable.ic_arrow_down_24)).into(holder.binding.arrowImv);
+                }else {
+                    holder.binding.contentTxv.setVisibility(View.VISIBLE);
+                    Glide.with(requireContext()).load(ContextCompat.getDrawable(requireContext(), R.drawable.ic_arrow_up_24)).into(holder.binding.arrowImv);
+                }
+
             });
         }
 

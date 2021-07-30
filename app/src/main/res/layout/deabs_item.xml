@@ -18,18 +18,20 @@
                 android:layout_width="0dp"
                 android:layout_height="@dimen/_90sdp"
                 android:src="@color/black"
+                android:scaleType="centerCrop"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
 
             <ImageButton
+                android:id="@+id/deab_imv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
-                android:layout_marginEnd="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_20sdp"
                 android:background="@null"
-                android:src="@drawable/heart_resize"
+                android:src="@drawable/full_heart_resize"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintEnd_toEndOf="parent" />
 
@@ -44,19 +46,25 @@
                 app:layout_constraintTop_toBottomOf="@id/tour_image_imv">
 
                 <TextView
+                    android:id="@+id/title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_5sdp"
                     android:text="흰여울문화마을"
+                    android:maxLength="9"
+                    android:ellipsize="end"
                     android:textColor="@color/black"
                     android:textStyle="bold" />
 
                 <TextView
+                    android:id="@+id/tag"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_5sdp"
                     android:layout_marginTop="@dimen/_5sdp"
                     android:text="# 흰여울길 #영도관광"
+                    android:maxLength="12"
+                    android:ellipsize="end"
                     android:textSize="@dimen/_10sdp" />
 
             </LinearLayout>

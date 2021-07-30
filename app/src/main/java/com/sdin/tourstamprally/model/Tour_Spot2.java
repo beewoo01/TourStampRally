@@ -1,9 +1,5 @@
 package com.sdin.tourstamprally.model;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-import android.security.identity.EphemeralPublicKeyNotFoundException;
-
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
@@ -13,7 +9,7 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class Tour_Spot implements Comparable<Tour_Spot>, Serializable {
+public class Tour_Spot2 implements Comparable<Tour_Spot>, Serializable {
 
     @SerializedName("location_idx")
     private int location_idx;
@@ -59,10 +55,10 @@ public class Tour_Spot implements Comparable<Tour_Spot>, Serializable {
     private int touristspot_checkin_count;
 
     @SerializedName("touristspot_createtime")
-    private long touristspot_createtime;
+    private String touristspot_createtime;
 
     @SerializedName("touristspot_updatetime")
-    private long touristspot_updatetime;
+    private String touristspot_updatetime;
 
 
     @SerializedName("touristspotpoint_idx")
@@ -127,38 +123,8 @@ public class Tour_Spot implements Comparable<Tour_Spot>, Serializable {
     @SerializedName("interest_updatetime")
     private String interest_updatetime;
 
-
-
-
-    /*public static final Creator<Item2> CREATOR = new Creator<Item2>() {
-        @Override
-        public Item2 createFromParcel(Parcel in) {
-            return new Item2(in);
-        }
-
-        @Override
-        public Item2[] newArray(int size) {
-            return new Item2[size];
-        }
-    };
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(index);
-        dest.writeString(address);
-        dest.writeString(title);
-    }*/
-
-
     @Override
     public int compareTo(Tour_Spot o) {
         return 0;
     }
-
-
 }

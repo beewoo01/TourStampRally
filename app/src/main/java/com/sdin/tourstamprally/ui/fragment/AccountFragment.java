@@ -128,10 +128,13 @@ public class AccountFragment extends BaseFragment {
         String[] arr = getResources().getStringArray(R.array.location);
         SpinnerAdapter spinnerAdapter = new SpinnerAdapter(new ArrayList(Arrays.asList(arr)));
         binding.spinnerLocation.setAdapter(spinnerAdapter);
-        binding.editPhone.addTextChangedListener(textWatcher);
+
 
         binding.editName.setText(Utils.User_Name);
         binding.editEmail.setText(Utils.User_Email);
+        binding.editPhone.setText(Utils.UserPhone);
+        binding.editPhone.addTextChangedListener(textWatcher);
+
 
         Glide.with(requireContext()).load("http://zzipbbong.cafe24.com/imagefile/bsr/" + Utils.User_Profile)
                 .error(ContextCompat.getDrawable(requireContext(), R.drawable.sample_profile_image)).circleCrop()
@@ -146,6 +149,7 @@ public class AccountFragment extends BaseFragment {
     }
 
     private final TextWatcher textWatcher = new TextWatcher() {
+
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -228,11 +232,15 @@ public class AccountFragment extends BaseFragment {
 
         }*/
 
-        if (false){
-            Log.wtf("1111111111111111", "11111111111111111");
-        } else if (TextUtils.isEmpty(binding.editPasswordConfirm.getText()) && TextUtils.isEmpty(binding.editPasswordConfirm.getText())
+        if (!Utils.UserPhone.equals(binding.editPhone.getText().toString())){
+            if (!isAuth){
+                showToast("휴대폰 번호를 인증해 주세요");
+                return;
+            }
+        }
+
+        if (TextUtils.isEmpty(binding.editPasswordConfirm.getText()) && TextUtils.isEmpty(binding.editPasswordConfirm.getText())
                 && binding.editPassword.getText().equals(binding.editPasswordConfirm.getText())) {
-            Log.wtf("22222222222222222", "22222222222");
             showToast("비밀번호가 일치하지 않습니다.");
 
         } else if (TextUtils.isEmpty(binding.editName.getText())) {

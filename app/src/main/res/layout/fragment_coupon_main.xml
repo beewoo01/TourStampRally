@@ -11,18 +11,21 @@
         >
 
         <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tab_CouponTabMenu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             >
 
 
             <com.google.android.material.tabs.TabItem
+                android:id="@+id/coupon_have"
                 android:text="보유"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
                 />
 
             <com.google.android.material.tabs.TabItem
+                android:id="@+id/coupon_fin"
                 android:text="완료-만료"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
@@ -30,10 +33,12 @@
         </com.google.android.material.tabs.TabLayout>
 
 
-        <FrameLayout
-            android:id="@+id/framelayout"
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/vp_Pager"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+
+            />
     </LinearLayout>
 
 </layout>

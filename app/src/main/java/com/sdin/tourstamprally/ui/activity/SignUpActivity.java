@@ -156,7 +156,6 @@ public class SignUpActivity extends BaseActivity {
 
         }else if (TextUtils.isEmpty(binding.editPasswordConfirm.getText()) && TextUtils.isEmpty(binding.editPasswordConfirm.getText())
                 && binding.editPassword.getText().equals(binding.editPasswordConfirm.getText())) {
-            Log.wtf("22222222222222222", "22222222222");
             showToast("비밀번호가 일치하지 않습니다.");
 
         } else if (binding.editPasswordConfirm.getText().equals(binding.editPassword.getText().equals(binding.editPasswordConfirm.getText()))){
@@ -189,12 +188,8 @@ public class SignUpActivity extends BaseActivity {
                 , userModel.getEmail(), userModel.getLocation(), 1, 1).enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
-
-                String result1 = String.valueOf(response.body());
+                
                 String result = response.body();
-                Log.d("result", result);
-                Log.d("result1", result1);
-                Log.d("response", response.toString());
 
                 if (result.equals("1")) {
                     showToast("회원가입 성공");

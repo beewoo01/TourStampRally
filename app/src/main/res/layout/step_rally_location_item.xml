@@ -12,9 +12,9 @@
         app:cardCornerRadius="@dimen/_5sdp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/mainLayout"
             android:layout_width="@dimen/_120sdp"
             android:layout_height="@dimen/_120sdp"
-            android:background="@drawable/haeundaegu"
             android:paddingHorizontal="@dimen/_10sdp"
             android:paddingTop="@dimen/_3sdp"
             android:paddingBottom="@dimen/_12sdp"

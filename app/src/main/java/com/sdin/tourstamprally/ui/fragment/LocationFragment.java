@@ -1,8 +1,10 @@
 package com.sdin.tourstamprally.ui.fragment;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -15,6 +17,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.CustomTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.sdin.tourstamprally.R;
@@ -69,6 +73,7 @@ public class LocationFragment extends BaseFragment {
         if (getArguments() != null) {
             tour_spot = (Tour_Spot) getArguments().getSerializable("model");
             location_name = tour_spot.getLocation_name();
+
         }
     }
 
@@ -78,6 +83,22 @@ public class LocationFragment extends BaseFragment {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_location, container, false);
         binding.locationTxv.setText(location_name);
+
+        if (!TextUtils.isEmpty(tour_spot.getLocation_img())){
+            Glide.with(requireContext()).load("http://zzipbbong.cafe24.com/imagefile/bsr/" + tour_spot.getLocation_img()).into(new CustomTarget<Drawable>() {
+                @Override
+                public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
+                    binding.topLayout.setBackground(resource);
+
+                }
+
+                @Override
+                public void onLoadCleared(@Nullable Drawable placeholder) {
+
+                }
+            });
+        }
+
         getData();
         return binding.getRoot();
     }

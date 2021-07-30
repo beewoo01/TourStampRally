@@ -2,9 +2,11 @@ package com.sdin.tourstamprally.ui.fragment;
 
 import android.content.Context;
 import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
@@ -12,12 +14,15 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.CustomTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.sdin.tourstamprally.R;
 import com.sdin.tourstamprally.Utils;
 import com.sdin.tourstamprally.databinding.FragmentMainBinding;
@@ -28,6 +33,7 @@ import com.sdin.tourstamprally.ui.dialog.GuidDialog;
 import com.sdin.tourstamprally.utill.ItemOnClick;
 import com.sdin.tourstamprally.utill.ItemOnClickAb;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -251,6 +257,42 @@ public class MainFragment extends BaseFragment {
 
 
             holder.binding.location.setText(list.get(position).getLocation_name());
+            /*SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            sdf.format(list.get(position).getTouristspot_createtime());
+            try {
+                Date date = sdf.parse(list.get(position).getTouristspot_createtime());
+                long time = date.getTime();
+
+                if (list.get(position).getTouristspot_checkin_count() > average()) {
+                    //list 내 CheckCount 의 평균값을 구한 뒤 평균 이상이면 HOT 띄우기
+                    holder.binding.newsImv.setVisibility(View.VISIBLE);
+                    Glide.with(holder.binding.newsImv.getContext()).load(R.drawable.hot_icon).into(holder.binding.newsImv);
+                }else if (((System.currentTimeMillis() - time) / 10000 ) / (24 * 60 * 60) < 8){
+                    //현재 시간과 관광지 등록시간이 7일 이하면 NEW 띄우기
+                    holder.binding.newsImv.setVisibility(View.VISIBLE);
+                    Glide.with(holder.binding.newsImv.getContext()).load(R.drawable.new_icon).into(holder.binding.newsImv);
+                }else {
+                    holder.binding.newsImv.setVisibility(View.GONE);
+                }
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }*/
+
+
+            if (!TextUtils.isEmpty(list.get(position).getLocation_img())){
+                Glide.with(context).load("http://zzipbbong.cafe24.com/imagefile/bsr/" + list.get(position).getLocation_img()).into(new CustomTarget<Drawable>() {
+                    @Override
+                    public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
+                        holder.binding.mainLayout.setBackground(resource);
+
+                    }
+
+                    @Override
+                    public void onLoadCleared(@Nullable Drawable placeholder) {
+
+                    }
+                });
+            }
 
             if (list.get(position).getTouristspot_checkin_count() > average()) {
                 //list 내 CheckCount 의 평균값을 구한 뒤 평균 이상이면 HOT 띄우기
