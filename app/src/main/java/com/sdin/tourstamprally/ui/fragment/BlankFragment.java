@@ -136,6 +136,18 @@ public class BlankFragment extends BaseFragment {
         locationAdapter.locationlistSet(new ArrayList<>(map.values()));
     }
 
+    private void myList(){
+        //최신 획득순
+
+        ArrayList<Tour_Spot> arrayList = locationAdapter.getList();
+        for (Tour_Spot tour_spot : arrayList){
+            Log.wtf("historyIDX", tour_spot.getTouristhistory_idx());
+            if (tour_spot.getTouristhistory_idx() != null){
+
+            }
+        }
+    }
+
 
     //어댑터 리스트 정렬
     public void setSort(View view){
@@ -177,7 +189,8 @@ public class BlankFragment extends BaseFragment {
 
             case R.id.recent_btn :
                 Log.d(TAG, "recent_btn");
-                arrayList.sort((o1, o2) -> {
+                myList();
+                /*arrayList.sort((o1, o2) -> {
 
                     if (!TextUtils.isEmpty(o1.getTouristhistory_updatetime()) && !TextUtils.isEmpty(o2.getTouristhistory_updatetime())){
                             //SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -197,7 +210,7 @@ public class BlankFragment extends BaseFragment {
                     }
 
 
-                });
+                });*/
                 break;
 
             case R.id.near_btn :
