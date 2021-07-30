@@ -54,7 +54,7 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHo
         notifyDataSetChanged();
     }
 
-    public ArrayList getList(){
+    public ArrayList<Tour_Spot> getList(){
         return list;
     }
 
@@ -104,6 +104,7 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHo
 
 
             try{
+                Log.wtf("날짜?", list.get(position).getTouristhistory_updatetime());
                 holder.binding.clearTitleTxv.setText(
                         sdf.format(list.get(position).getTouristhistory_updatetime()) + " 획득!");
             }catch (Exception e){

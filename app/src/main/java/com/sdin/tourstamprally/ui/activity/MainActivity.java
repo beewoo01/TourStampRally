@@ -248,12 +248,12 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
                 break;
 
             case R.id.page_store:
-                setFragment("Store", new StoreListFragment());
+                setFragment("매장 리스트", new StoreListFragment());
                 //setFragment("NFC", nfcFragment);
                 break;
 
             case R.id.page_report:
-                setFragment("Recode", new BlankFragment());
+                setFragment("관광지 기록", new BlankFragment());
                 break;
 
             case R.id.page_navi:
@@ -469,9 +469,9 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
 
         if (position == 0){
             //관광지 자세히 보기
-            setFragment("TourDetail", new TourDetailFragment().newInstance(model));
+            setFragment(model.getTouristspot_name(), new TourDetailFragment().newInstance(model));
         }else if (position == 3){
-            setFragment("TourSpotPoint", new TourSpotPointFragment().newInstance(model));
+            setFragment(model.getTouristspot_name(), new TourSpotPointFragment().newInstance(model));
         }
 
     }
@@ -487,7 +487,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
     @Override
     public void onItemClick(Tour_Spot tour_spot) {
         Log.wtf("onItemClick", tour_spot.toString());
-        setFragment("location_fragment", new LocationFragment().newInstance(tour_spot));
+        setFragment(tour_spot.getLocation_name() + " 랠리 맵", new LocationFragment().newInstance(tour_spot));
         setToolbar(3);
     }
 

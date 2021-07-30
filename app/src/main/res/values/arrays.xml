@@ -11,6 +11,8 @@
     </string-array>
 
     <string-array name="area">
+        <item>중구</item>
+        <item>서구</item>
         <item>동구</item>
         <item>영도구</item>
         <item>부산진구</item>
@@ -30,6 +32,8 @@
 
     <string-array name="area_direction">
         <item>전체</item>
+        <item>중구</item>
+        <item>서구</item>
         <item>동구</item>
         <item>영도구</item>
         <item>부산진구</item>
@@ -43,6 +47,7 @@
         <item>수영구</item>
         <item>사상구</item>
         <item>기장군</item>
+        <item>기타</item>
     </string-array>
 
 
