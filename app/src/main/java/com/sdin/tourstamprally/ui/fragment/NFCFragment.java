@@ -77,13 +77,23 @@ public class NFCFragment extends Fragment implements NFCListener {
             e.printStackTrace();
         }
 
+        Log.wtf("NFC 정보 text!", text);
+        Log.wtf("NFC 정보 text22!", text2);
+
         Toast.makeText(getContext(), text2 == null? text : text2, Toast.LENGTH_SHORT).show();
+
+
+
         if (TextUtils.isEmpty(text) && TextUtils.isEmpty(text2)){
             new ScanResultDialog(requireContext(), false, "NFC").show();
         }else {
             new ScanResultDialog(requireContext(), true, "NFC").show();
         }
 
+
+    }
+
+    private void sendTagging(String text){
 
     }
 
