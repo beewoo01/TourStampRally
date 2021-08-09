@@ -61,8 +61,7 @@ public interface APIService {
 
     /*로그인*/
     @GET("id_check")
-    Call<ResponseBody> id_check(@Query("id") String id
-    );
+    Call<ResponseBody> id_check(@Query("id") String id);
 
     /*로그인*/
     @GET("bsr_login")
@@ -182,5 +181,8 @@ public interface APIService {
 
     @GET("phonenum_authorization")
     Call<String> getAutoNumber( @Query("user_phone") String phone, @Query("access_token") String token);
+
+    @GET("check_in")
+    Call<Integer> check_in( @Query("taggin_info") String taggin_info, @Query("userIdx") String userIdx );
 
 }
