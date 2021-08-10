@@ -188,4 +188,7 @@ public interface APIService {
     @GET("check_in")
     Call<Integer> check_in( @Query("taggin_info") String taggin_info, @Query("userIdx") String userIdx );
 
+    @GET("select_success_data")
+    Call<Tour_Spot> select_success_data( @Query("touristspotpoint_idx") String touristspotpoint_idx);
+
 }

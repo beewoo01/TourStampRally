@@ -73,6 +73,8 @@ public class NFCFragment extends BaseFragment implements NFCListener {
 
     private void buildtagViews(NdefMessage[] msgs) {
 
+        // TODO: 8/10/21 progressbar on
+
         if (msgs == null || msgs.length == 0) return;
 
         String text = "";
@@ -108,7 +110,7 @@ public class NFCFragment extends BaseFragment implements NFCListener {
 
     }
 
-    private void isAvailable(String text){
+    private void isAvailable(final String text){
         final String finalText = "T05100AA028";
         apiService.getDistance(finalText).enqueue(new Callback<TouristSpotPoint>() {
             @Override
@@ -117,11 +119,14 @@ public class NFCFragment extends BaseFragment implements NFCListener {
                     Log.wtf("isAvailable", "isSuccessful");
 
                     touristSpotPoint = response.body();
+                    Log.wtf("isAvailable11111", touristSpotPoint.toString());
                     if (touristSpotPoint == null) {
                         showDialog(false);
                     } else {
+                        // TODO: 8/10/21 progressbar off
                         gpsTracker = new GpsTracker(requireContext());
-                        distance_calculation(text, touristSpotPoint.getTouristspotpoint_latitude(), touristSpotPoint.getTouristspotpoint_longitude());
+                        sendTagging(finalText);
+                        //distance_calculation(text, touristSpotPoint.getTouristspotpoint_latitude(), touristSpotPoint.getTouristspotpoint_longitude());
 
                     }
 
@@ -134,56 +139,60 @@ public class NFCFragment extends BaseFragment implements NFCListener {
             @Override
             public void onFailure(Call<TouristSpotPoint> call, Throwable t) {
                 showDialog(false);
+
                 t.printStackTrace();
             }
         });
     }
 
-    private void 중(String tagIngo, double latitude, double longitude){
+    private void distance_calculation(String tagIngo, double latitude, double longitude){
         // 거리계산 30M 내
         //35.174201, 128.983804
         //35.256003, 129.013801
         //35.174208, 128.983784
-        double dice = distance(35.174208, 128.983784);
+        double dice = distance(latitude, longitude);
         if (dice <= 30){
-            //
+            Log.wtf("distance_calculation", "30M이내");
+            sendTagging(tagIngo);
+        }else {
+
+            Log.wtf("distance_calculation", "30M넘음");
+            showDialog(false);
         }
         Log.wtf("distance", String.valueOf(dice));
-
-
-
-        //sendTagging(tagIngo);
     }
 
     private double distance(double latitude, double longitude) {
 
         double userLatitude = gpsTracker.getLatitude();
         double userLongitude = gpsTracker.getLongitude();
-        Log.wtf("userLatitude", String.valueOf(userLatitude));
-        Log.wtf("userLongitude", String.valueOf(userLongitude));
+        //Log.wtf("userLatitude", String.valueOf(userLatitude));
+        //Log.wtf("userLongitude", String.valueOf(userLongitude));
 
         return Utils.distance(latitude, longitude, userLatitude, userLongitude);
     }
 
 
+    private void showDialog(boolean isSuccess, int touristhistory_touristspotpoint_idx){
+        // TODO: 8/10/21 progressbar off
+        new ScanResultDialog(requireContext(), isSuccess, "NFC", touristhistory_touristspotpoint_idx).show();
+    }
+
     private void showDialog(boolean isSuccess){
+        // TODO: 8/10/21 progressbar off
         new ScanResultDialog(requireContext(), isSuccess, "NFC").show();
     }
 
+
     private void sendTagging(String text){
-        //apiService.userLoginExists();
+
         apiService.check_in(text, String.valueOf(Utils.User_Idx)).enqueue(new Callback<Integer>() {
             @Override
             public void onResponse(Call<Integer> call, Response<Integer> response) {
                 if (response.isSuccessful()){
                     int result = response.body();
-                    if (result == 1){
-                        showDialog(true);
-                    }else if (result == 2){
-                        showDialog(false);
-                    }else if (result == 0){
-                        showDialog(false);
-                    }
+                    Log.wtf("result!!!!!!", String.valueOf(result));
+                    showDialog(result == 0? false : true, result);
                 }
             }
 

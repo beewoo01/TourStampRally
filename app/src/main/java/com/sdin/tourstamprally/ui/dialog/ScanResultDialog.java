@@ -8,6 +8,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -15,6 +16,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -27,20 +29,39 @@ import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.target.ViewTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.sdin.tourstamprally.R;
+import com.sdin.tourstamprally.Utils;
+import com.sdin.tourstamprally.model.Tour_Spot;
+import com.sdin.tourstamprally.model.TouristSpotPoint;
+import com.sdin.tourstamprally.utill.ItemOnClick;
 
-public class ScanResultDialog extends Dialog {
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+public class ScanResultDialog extends BaseDialog {
 
     private Context context;
 
     // 0 -> 실패 , 1 -> 성공
     private boolean isSucess;
     private String scanner;
+    private ItemOnClick itemOnClick;
+    private int touristhistory_touristspotpoint_idx;
 
     public ScanResultDialog(@NonNull Context context, boolean isSucess, String scanner) {
         super(context);
         this.context = context;
         this.isSucess = isSucess;
         this.scanner = scanner;
+    }
+
+    public ScanResultDialog(@NonNull Context context, boolean isSucess, String scanner, int touristhistory_touristspotpoint_idx) {
+        super(context);
+        this.context = context;
+        this.isSucess = isSucess;
+        this.scanner = scanner;
+        this.itemOnClick = (ItemOnClick) context;
+        this.touristhistory_touristspotpoint_idx = touristhistory_touristspotpoint_idx;
     }
 
     @Override
@@ -70,6 +91,11 @@ public class ScanResultDialog extends Dialog {
             resulButton.setBackground(ContextCompat.getDrawable(context, R.drawable.scan_button_bg));
             resulButton.setTextColor(ContextCompat.getColor(context, R.color.scan_dialog_text_color));
             resulButton.setText("확인하러가기 >");
+            resulButton.setOnClickListener( v -> {
+                // TODO: 8/10/21 선택 랠리맵으로 이동
+                getData();
+
+            });
 
             Glide.with(context).load(R.drawable.nfc_tag_ok_stamp).into((ImageView) findViewById(R.id.title_imv));
             Glide.with(context).load(R.drawable.mainlogo).into((ImageView) findViewById(R.id.logo));
@@ -89,6 +115,7 @@ public class ScanResultDialog extends Dialog {
             resulButton.setBackground(ContextCompat.getDrawable(context, R.drawable.scan_fail_button_bg));
             resulButton.setTextColor(ContextCompat.getColor(context, R.color.white));
             resulButton.setText("재시도하기 >");
+            resulButton.setOnClickListener( v -> dismiss());
 
             Glide.with(context).load(R.drawable.thumb_down).into((ImageView) findViewById(R.id.title_imv));
             Glide.with(context).load(R.drawable.main_logo_gray).into((ImageView) findViewById(R.id.logo));
@@ -101,6 +128,35 @@ public class ScanResultDialog extends Dialog {
             ((TextView)findViewById(R.id.inner_result)).setTextSize(15);
             ((TextView)findViewById(R.id.inner_result)).setTextColor(ContextCompat.getColor(context, R.color.black));
         }
+    }
+
+    private void getData(){
+
+
+        apiService.select_success_data(String.valueOf(touristhistory_touristspotpoint_idx)).enqueue(new Callback<Tour_Spot>() {
+            @Override
+            public void onResponse(Call<Tour_Spot> call, Response<Tour_Spot> response) {
+                if (response.isSuccessful()){
+                    itemOnClick.onItemClick(response.body());
+                }else {
+                    showToast("서버 문제");
+                }
+                dismiss();
+            }
+
+            @Override
+            public void onFailure(Call<Tour_Spot> call, Throwable t) {
+                showToast("서버 문제");
+                dismiss();
+                t.printStackTrace();
+
+            }
+        });
+
+    }
+
+    private void showToast(String msg){
+        Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
     }
 
     private void setBackgrountImg(int drawable, View view){
