@@ -38,7 +38,18 @@ public class TouristSpotPoint implements Serializable {
     @Expose
     private String touristspotpoint_explan;
 
+    @SerializedName("touristspotpoint_tag")
+    @Expose
+    private String touristspotpoint_tag;
 
+
+    @SerializedName("touristspotpoint_taggin_info")
+    @Expose
+    private String touristspotpoint_taggin_info;
+
+
+
+    /*아래 부터는 History 테이블 같이 쓰일곳이 있어 놔둠*/
 
     @SerializedName("touristhistory_idx")
     @Expose

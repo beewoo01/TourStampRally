@@ -182,6 +182,9 @@ public interface APIService {
     @GET("phonenum_authorization")
     Call<String> getAutoNumber( @Query("user_phone") String phone, @Query("access_token") String token);
 
+    @GET("getdistance")
+    Call<TouristSpotPoint> getDistance( @Query("tag_info") String taggin_info);
+
     @GET("check_in")
     Call<Integer> check_in( @Query("taggin_info") String taggin_info, @Query("userIdx") String userIdx );
 

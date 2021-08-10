@@ -5,6 +5,7 @@ import com.sdin.tourstamprally.api.APIService;
 import com.sdin.tourstamprally.data.Constant;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.sdin.tourstamprally.data.NullOnEmptyConverterFactory;
 
 import java.util.concurrent.TimeUnit;
 
@@ -51,6 +52,7 @@ public class RetrofitGenerator {
     // FirstCare
     Retrofit retrofitFC = new Retrofit.Builder()
             .baseUrl(Constant.SERVER_URL)
+            .addConverterFactory(new NullOnEmptyConverterFactory())
             .addConverterFactory(GsonConverterFactory.create(gson))
             .client(createOkHttpClient())
             .build();

@@ -23,10 +23,13 @@ import android.widget.Toast;
 import com.sdin.tourstamprally.R;
 import com.sdin.tourstamprally.Utils;
 import com.sdin.tourstamprally.databinding.FragmentNfcBinding;
+import com.sdin.tourstamprally.model.TouristSpotPoint;
 import com.sdin.tourstamprally.ui.activity.MainActivity;
 import com.sdin.tourstamprally.ui.dialog.ScanResultDialog;
+import com.sdin.tourstamprally.utill.GpsTracker;
 import com.sdin.tourstamprally.utill.NFCListener;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 
@@ -41,9 +44,12 @@ public class NFCFragment extends BaseFragment implements NFCListener {
     private static final String Listener = "param2";
     private NfcAdapter nfcAdapter;
 
+    private TouristSpotPoint touristSpotPoint ;
+
     // TODO: Rename and change types of parameters
     private NdefMessage[] dataArray;
     private FragmentNfcBinding binding;
+    private GpsTracker gpsTracker;
 
     public NFCFragment() {
 
@@ -86,18 +92,82 @@ public class NFCFragment extends BaseFragment implements NFCListener {
         Log.wtf("NFC 정보 text!", text);
         Log.wtf("NFC 정보 text22!", text2);
 
-        Toast.makeText(getContext(), text2 == null? text : text2, Toast.LENGTH_SHORT).show();;
-
+        Toast.makeText(getContext(), text2 == null? text : text2, Toast.LENGTH_SHORT).show();
+        GpsTracker gpsTracker = new GpsTracker(requireContext());
+        //gpsTracker.getLongitude()
         if (TextUtils.isEmpty(text) && TextUtils.isEmpty(text2)){
             new ScanResultDialog(requireContext(), false, "NFC").show();
         }else {
             if (!TextUtils.isEmpty(text2)){
-                sendTagging(text2);
+                isAvailable(text2);
+                //sendTagging(text2);
             }
             //new ScanResultDialog(requireContext(), true, "NFC").show();
         }
 
 
+    }
+
+    private void isAvailable(String text){
+        final String finalText = "T05100AA028";
+        apiService.getDistance(finalText).enqueue(new Callback<TouristSpotPoint>() {
+            @Override
+            public void onResponse(Call<TouristSpotPoint> call, Response<TouristSpotPoint> response) {
+                if (response.isSuccessful()){
+                    Log.wtf("isAvailable", "isSuccessful");
+
+                    touristSpotPoint = response.body();
+                    if (touristSpotPoint == null) {
+                        showDialog(false);
+                    } else {
+                        gpsTracker = new GpsTracker(requireContext());
+                        distance_calculation(text, touristSpotPoint.getTouristspotpoint_latitude(), touristSpotPoint.getTouristspotpoint_longitude());
+
+                    }
+
+                } else {
+                    showDialog(false);
+                    Log.wtf("else", "not isSuccessful");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<TouristSpotPoint> call, Throwable t) {
+                showDialog(false);
+                t.printStackTrace();
+            }
+        });
+    }
+
+    private void 중(String tagIngo, double latitude, double longitude){
+        // 거리계산 30M 내
+        //35.174201, 128.983804
+        //35.256003, 129.013801
+        //35.174208, 128.983784
+        double dice = distance(35.174208, 128.983784);
+        if (dice <= 30){
+            //
+        }
+        Log.wtf("distance", String.valueOf(dice));
+
+
+
+        //sendTagging(tagIngo);
+    }
+
+    private double distance(double latitude, double longitude) {
+
+        double userLatitude = gpsTracker.getLatitude();
+        double userLongitude = gpsTracker.getLongitude();
+        Log.wtf("userLatitude", String.valueOf(userLatitude));
+        Log.wtf("userLongitude", String.valueOf(userLongitude));
+
+        return Utils.distance(latitude, longitude, userLatitude, userLongitude);
+    }
+
+
+    private void showDialog(boolean isSuccess){
+        new ScanResultDialog(requireContext(), isSuccess, "NFC").show();
     }
 
     private void sendTagging(String text){
@@ -108,17 +178,18 @@ public class NFCFragment extends BaseFragment implements NFCListener {
                 if (response.isSuccessful()){
                     int result = response.body();
                     if (result == 1){
-                        showToast("체크인에 성공하였습니다.");
+                        showDialog(true);
                     }else if (result == 2){
-                        showToast("이미 체크인하였습니다.");
+                        showDialog(false);
                     }else if (result == 0){
-                        showToast("체크인에 실패하였습니다.");
+                        showDialog(false);
                     }
                 }
             }
 
             @Override
             public void onFailure(Call<Integer> call, Throwable t) {
+                showDialog(false);
                 t.printStackTrace();
             }
         });
