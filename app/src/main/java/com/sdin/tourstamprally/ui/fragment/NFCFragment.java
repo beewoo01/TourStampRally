@@ -94,9 +94,8 @@ public class NFCFragment extends BaseFragment implements NFCListener {
         Log.wtf("NFC 정보 text!", text);
         Log.wtf("NFC 정보 text22!", text2);
 
-        Toast.makeText(getContext(), text2 == null? text : text2, Toast.LENGTH_SHORT).show();
-        GpsTracker gpsTracker = new GpsTracker(requireContext());
-        //gpsTracker.getLongitude()
+        //Toast.makeText(getContext(), text2 == null? text : text2, Toast.LENGTH_SHORT).show();
+
         if (TextUtils.isEmpty(text) && TextUtils.isEmpty(text2)){
             new ScanResultDialog(requireContext(), false, "NFC").show();
         }else {
@@ -111,8 +110,8 @@ public class NFCFragment extends BaseFragment implements NFCListener {
     }
 
     private void isAvailable(final String text){
-        final String finalText = "T05100AA028";
-        apiService.getDistance(finalText).enqueue(new Callback<TouristSpotPoint>() {
+        //final String finalText = "T05100AA028";
+        apiService.getDistance(text).enqueue(new Callback<TouristSpotPoint>() {
             @Override
             public void onResponse(Call<TouristSpotPoint> call, Response<TouristSpotPoint> response) {
                 if (response.isSuccessful()){
@@ -125,8 +124,8 @@ public class NFCFragment extends BaseFragment implements NFCListener {
                     } else {
                         // TODO: 8/10/21 progressbar off
                         gpsTracker = new GpsTracker(requireContext());
-                        sendTagging(finalText);
-                        //distance_calculation(text, touristSpotPoint.getTouristspotpoint_latitude(), touristSpotPoint.getTouristspotpoint_longitude());
+                        //sendTagging(text);
+                        distance_calculation(text, touristSpotPoint.getTouristspotpoint_latitude(), touristSpotPoint.getTouristspotpoint_longitude());
 
                     }
 

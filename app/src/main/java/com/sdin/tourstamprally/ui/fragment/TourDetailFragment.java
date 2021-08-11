@@ -70,7 +70,11 @@ public class TourDetailFragment extends Fragment {
 
         binding.tourNameTxv.setText(tour_spot.getTouristspot_name());
         binding.tourContentTxv.setText(tour_spot.getTouristspot_explan());
-        Glide.with(requireContext()).load(ContextCompat.getDrawable(requireContext(), R.drawable.sample_bg)).into(binding.bgImv);
+        //Glide.with(requireContext()).load(ContextCompat.getDrawable(requireContext(), R.drawable.sample_bg)).into(binding.bgImv);
+        Glide.with(requireContext())
+                .load("http://zzipbbong.cafe24.com/imagefile/bsr/" + tour_spot.getTouristspot_img())
+                .error(ContextCompat.getDrawable(requireContext(), R.drawable.sample_bg))
+                .into(binding.bgImv);
 
         MapView mapView = new MapView(requireActivity());
         ViewGroup mapViewContainer = binding.mapView;

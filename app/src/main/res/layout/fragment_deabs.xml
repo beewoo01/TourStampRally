@@ -176,7 +176,7 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        store_txv_bg<ProgressBar
+        <ProgressBar
             android:id="@+id/fragment_deabs_pgb"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
