@@ -1,5 +1,6 @@
 package com.sdin.tourstamprally.ui.fragment;
 
+import android.content.Context;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -8,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -82,8 +84,8 @@ public class BaseFragment extends Fragment {
     }
 
 
-    public void ShowToast(){
-
+    public void ShowToast(String msg, Context context){
+        Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
     }
 
 

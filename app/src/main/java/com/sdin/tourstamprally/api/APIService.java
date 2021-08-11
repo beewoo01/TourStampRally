@@ -172,8 +172,17 @@ public interface APIService {
     @GET("select_interest")
     Call<List<Tour_Spot2>> getSelect_interest(@Query("user_idx") int user_idx);
 
+    @GET("insert_intest")
+    Call<Integer> insert_intest(@Query("interest_user_idx") int user_idx, @Query("interest_touristspot_idx") int touristspot_idx);
+
+    @GET("select_interest_status")
+    Call<Integer> select_interest_status(@Query("interest_user_idx") int user_idx, @Query("interest_touristspot_idx") int touristspot_idx);
+
     @GET("getLocations")
     Call<List<Location>> getLocations();
+
+    @GET("remove_intest")
+    Call<Integer> remove_intest(@Query("user_touristspot_interest_idx") int user_touristspot_interest_idx);
 
 
     @GET("gabia_token")

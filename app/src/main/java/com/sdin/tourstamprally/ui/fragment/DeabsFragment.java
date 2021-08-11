@@ -269,7 +269,6 @@ public class DeabsFragment extends BaseFragment {
     }
 
 
-
     class DeabsApdater extends RecyclerView.Adapter<DeabsApdater.ViewHolder>{
 
         private ArrayList<Tour_Spot2> arrayList;
@@ -299,6 +298,35 @@ public class DeabsFragment extends BaseFragment {
             holder.binding.deabImv.setVisibility(View.VISIBLE);
             holder.binding.title.setText(arrayList.get(position).getTouristspot_name());
             holder.binding.tag.setText(arrayList.get(position).getTouristspot_tag());
+            holder.binding.deabImv.setOnClickListener( v -> {
+
+                apiService.remove_intest(arrayList.get(position).getUser_touristspot_interest_idx()).enqueue(new Callback<Integer>() {
+                    @Override
+                    public void onResponse(Call<Integer> call, Response<Integer> response) {
+                        if (response.isSuccessful()){
+                            Log.wtf("RESULT", response.body().toString());
+                            if (response.body() == 1){
+                                removeData(position);
+                            }
+                        }else {
+                            Log.wtf("ERROR", response.toString());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<Integer> call, Throwable t) {
+                        t.printStackTrace();
+                    }
+                });
+            });
+        }
+
+        private void removeData(int position){
+            list.remove(arrayList.get(position));
+            arrayList.remove(position);
+            notifyItemRemoved(position);
+            notifyItemRangeChanged(position, arrayList.size());
+
         }
 
         @Override

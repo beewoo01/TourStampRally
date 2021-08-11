@@ -55,8 +55,6 @@ public class NFCFragment extends BaseFragment implements NFCListener {
 
     }
 
-
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
