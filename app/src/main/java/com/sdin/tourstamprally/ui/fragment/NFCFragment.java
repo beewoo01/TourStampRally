@@ -89,8 +89,8 @@ public class NFCFragment extends BaseFragment implements NFCListener {
             e.printStackTrace();
         }
 
-        Log.wtf("NFC 정보 text!", text);
-        Log.wtf("NFC 정보 text22!", text2);
+        //Log.wtf("NFC 정보 text!", text);
+        //Log.wtf("NFC 정보 text22!", text2);
 
         //Toast.makeText(getContext(), text2 == null? text : text2, Toast.LENGTH_SHORT).show();
 
@@ -113,10 +113,10 @@ public class NFCFragment extends BaseFragment implements NFCListener {
             @Override
             public void onResponse(Call<TouristSpotPoint> call, Response<TouristSpotPoint> response) {
                 if (response.isSuccessful()){
-                    Log.wtf("isAvailable", "isSuccessful");
+//                    Log.wtf("isAvailable", "isSuccessful");
 
                     touristSpotPoint = response.body();
-                    Log.wtf("isAvailable11111", touristSpotPoint.toString());
+//                    Log.wtf("isAvailable11111", touristSpotPoint.toString());
                     if (touristSpotPoint == null) {
                         showDialog(false);
                     } else {
@@ -156,7 +156,7 @@ public class NFCFragment extends BaseFragment implements NFCListener {
             Log.wtf("distance_calculation", "30M넘음");
             showDialog(false);
         }
-        Log.wtf("distance", String.valueOf(dice));
+        //Log.wtf("distance", String.valueOf(dice));
     }
 
     private double distance(double latitude, double longitude) {
@@ -188,7 +188,7 @@ public class NFCFragment extends BaseFragment implements NFCListener {
             public void onResponse(Call<Integer> call, Response<Integer> response) {
                 if (response.isSuccessful()){
                     int result = response.body();
-                    Log.wtf("result!!!!!!", String.valueOf(result));
+                    //Log.wtf("result!!!!!!", String.valueOf(result));
                     showDialog(result == 0? false : true, result);
                 }
             }

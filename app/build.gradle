@@ -60,7 +60,7 @@ dependencies {
     implementation 'org.projectlombok:lombok:1.18.12'
     implementation 'org.jetbrains:annotations:15.0'
     annotationProcessor 'org.projectlombok:lombok:1.18.12'
-    //머테리얼
+    //머테리얼 
     implementation 'com.google.android.material:material:1.1.0'
     //레트로핏2
     implementation 'com.squareup.retrofit2:retrofit:2.3.0'
