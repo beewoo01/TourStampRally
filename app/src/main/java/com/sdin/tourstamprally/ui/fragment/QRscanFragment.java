@@ -94,7 +94,7 @@ public class QRscanFragment extends BaseFragment {
         codeScanner.setDecodeCallback(result -> getActivity().runOnUiThread(()
                 -> {
             //showDialog(result == null? false : true);
-            Log.wtf("QR_RESULT", result.getText());
+            //Log.wtf("QR_RESULT", result.getText());
             isAvailable(result.getText());
             Toast.makeText(getActivity(), result.getText(), Toast.LENGTH_SHORT).show();
         }));
@@ -117,7 +117,7 @@ public class QRscanFragment extends BaseFragment {
                     Log.wtf("isAvailable", "isSuccessful");
 
                     touristSpotPoint = response.body();
-                    Log.wtf("isAvailable11111", touristSpotPoint.toString());
+                   // Log.wtf("isAvailable11111", touristSpotPoint.toString());
                     if (touristSpotPoint == null) {
                         showDialog(false);
                     } else {
@@ -181,7 +181,7 @@ public class QRscanFragment extends BaseFragment {
             public void onResponse(Call<Integer> call, Response<Integer> response) {
                 if (response.isSuccessful()){
                     int result = response.body();
-                    Log.wtf("result!!!!!!", String.valueOf(result));
+                   // Log.wtf("result!!!!!!", String.valueOf(result));
                     if (result == 0){
                         showDialog(false);
                     }else {
