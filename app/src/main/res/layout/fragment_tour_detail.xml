@@ -87,10 +87,11 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_10sdp"
+                        android:layout_marginHorizontal="@dimen/_20sdp"
                         android:gravity="center"
                         android:maxLines="4"
-                        android:text="흰여울길은 예전에 봉래산 기슭에서 여러 갈래의 물줄기가\n 바다로 \n fkoepw \n fjewpjgejwogewjp
-                    \n 럳제ㅐㅓ허ㅔㅈ대ㅓㅔㅐㅎ덪 \n fjewpoj \n gjweiohffjieowㄷㅈ허ㅓㅎㄷㅈ"
+                        android:maxLength="148"
+                        android:text="이 이이이이이이이 이이 이 이이 이 이이 이 이이 이이 이 이이디 이 이이이 이이 이 이이 이 이이 이 이이 이이 이 이이 기디디디 이 이이이이이이이 이이 이 이이 이 이이 이 이이 이이 이 이 기 이 이이이이이이이 이이 이 이이 이 이이 이 이이 이이 이 이이 기"
                         android:textColor="@color/gray"
                         android:textSize="@dimen/_10sdp"
                         app:layout_constraintBottom_toTopOf="@id/baseline2"

@@ -101,10 +101,10 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
 
     private void setToolbar(int pos) {
 
-        Log.wtf("ggggghash", hashMap.get(fragmentcount));
+        /*Log.wtf("ggggghash", hashMap.get(fragmentcount));
         Log.wtf("getBackStackEntryCount", String.valueOf(fragmentManager.getBackStackEntryCount()));
         Log.wtf("getBackStackEntryCount", String.valueOf(fragmentManager.getBackStackEntryCount()));
-        Log.wtf("getBackStackEntryCount", String.valueOf(fragmentManager.getBackStackEntryCount()));
+        Log.wtf("getBackStackEntryCount", String.valueOf(fragmentManager.getBackStackEntryCount()));*/
         /*int gg = getSupportFragmentManager().getBackStackEntryCount();
         Log.d("gg =", String.valueOf(gg));
         for (int i = 0; i <= gg; i++){
@@ -114,8 +114,8 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
         String name = getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount()- 1).getName();
         name = hashMap.get(fragmentcount);
 
-        Log.d("name", name);
-        Log.wtf("name11111111111111111", name);
+        /*Log.d("name", name);
+        Log.wtf("name11111111111111111", name);*/
         if (name.equals("NFC") || name.equals("QR")){
             String title = name.equals("QR")? name + "코드" : name;
             binding.toolbarLayout.toolbarLayout.setBackgroundColor(ContextCompat.getColor(this, R.color.popup_buttonColor));
@@ -197,7 +197,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
 
             Log.wtf("MainAct FCount", String.valueOf(fragmentManager.getBackStackEntryCount()));
             if (fragmentManager.getBackStackEntryCount() > 0) {
-                Log.wtf("MainAct", "if");
+                //Log.wtf("MainAct", "if");
                 fragmentManager.popBackStack();
                 fragmentManager.beginTransaction().remove(fragment).commit();
                 for(Iterator<Map.Entry<Integer, String>> it = hashMap.entrySet().iterator(); it.hasNext(); ) {
@@ -208,8 +208,8 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
                 }
                 fragmentcount--;
                 hashMap.get(fragmentcount);
-                Log.wtf("Id,@@ ", String.valueOf(getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount()-1).getId()));
-                Log.wtf("name!@#@!#@!#!@", getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount()-1).getName());
+                /*Log.wtf("Id,@@ ", String.valueOf(getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount()-1).getId()));
+                Log.wtf("name!@#@!#@!#!@", getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount()-1).getName());*/
 
 
             } else {
