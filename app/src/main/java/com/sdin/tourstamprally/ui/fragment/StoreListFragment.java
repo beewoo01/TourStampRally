@@ -10,7 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.sdin.tourstamprally.R;
-import com.sdin.tourstamprally.adapter.LocationAdapter;
+import com.sdin.tourstamprally.adapter.StoreAdapter;
 import com.sdin.tourstamprally.databinding.FragmentStoreListBinding;
 import com.sdin.tourstamprally.model.Tour_Spot;
 import com.sdin.tourstamprally.utill.DecoRation;
@@ -42,7 +42,7 @@ public class StoreListFragment extends Fragment {
         list = new ArrayList<>();
         initData();
 
-        binding.recyclerviewTourRecord.setAdapter(new LocationAdapter(list, getContext()));
+        binding.recyclerviewTourRecord.setAdapter(new StoreAdapter(list, getContext()));
         //binding.recyclerviewTourRecord.addItemDecoration(new DecoRation(30,30));
 
         return binding.getRoot();

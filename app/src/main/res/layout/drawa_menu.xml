@@ -10,9 +10,12 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_45sdp"
+        android:background="@color/white"
         android:layout_marginBottom="@dimen/_10sdp"
-        android:background="@drawable/rect"
-        android:elevation="@dimen/_1sdp"
+        android:elevation="@dimen/_5sdp"
+        android:outlineAmbientShadowColor="#98A2AA"
+        android:outlineSpotShadowColor="#9EB6CC"
+        android:outlineProvider="background"
         android:paddingBottom="@dimen/_2sdp"
         >
 
@@ -21,7 +24,6 @@
             android:layout_height="wrap_content"
             android:background="@color/white"
             android:padding="@dimen/_10sdp"
-
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

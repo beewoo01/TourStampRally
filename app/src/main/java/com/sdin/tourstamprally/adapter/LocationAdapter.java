@@ -24,7 +24,11 @@ import com.sdin.tourstamprally.Utils;
 import com.sdin.tourstamprally.databinding.TourRecordItemReBinding;
 import com.sdin.tourstamprally.model.Location;
 import com.sdin.tourstamprally.model.Tour_Spot;
+import com.sdin.tourstamprally.ui.activity.MainActivity;
+import com.sdin.tourstamprally.ui.dialog.GuidDialog;
 import com.sdin.tourstamprally.utill.GpsTracker;
+import com.sdin.tourstamprally.utill.ItemOnClick;
+import com.sdin.tourstamprally.utill.ItemOnClickAb;
 
 import java.text.ParseException;
 
@@ -39,12 +43,17 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHo
     private ArrayList<Tour_Spot> list;
     public static final String TAG = LocationAdapter.class.getSimpleName();
     private SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd");
+    private ItemOnClick listener;
+    private Tour_Spot send_model;
+    private Context context;
     //private SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd 'T' HH:mm:ss.SSSX " , Locale.US);
 
 
 
     public LocationAdapter(ArrayList<Tour_Spot> list, Context context){
         this.list = list;
+        this.context = context;
+        listener = (MainActivity) context;
 
     }
 
@@ -63,6 +72,18 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHo
         //sortList(category);
         return list;
     }
+
+    private ItemOnClick itemOnClick = new ItemOnClickAb() {
+        @Override
+        public void ItemGuid(int position) {
+            Log.d("dialog Onclick Listener", String.valueOf(position));
+            if (position == 1 || position == 2){
+                listener.ItemGuid(position);
+            }else {
+                listener.ItemGuid(position, send_model);
+            }
+        }
+    };
 
 
     @NonNull
@@ -126,6 +147,13 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHo
             super(binding.getRoot());
 
             this.binding = binding;
+            binding.contentLayout.setOnClickListener( v->{
+                send_model = list.get(getAdapterPosition());
+                GuidDialog guidDialog = new GuidDialog(context);
+                guidDialog.show();
+                guidDialog.setClickListener(itemOnClick);
+            });
+
         }
     }
 

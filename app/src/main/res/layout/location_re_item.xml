@@ -16,6 +16,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/bg_rounded_07"
+            android:elevation="@dimen/_3sdp"
+            android:outlineAmbientShadowColor="#98A2AA"
+            android:outlineSpotShadowColor="#9EB6CC"
+            android:outlineProvider="background"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -93,12 +97,13 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
+        <!--android:background="@drawable/shadow01"-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/_20sdp"
             android:layout_marginStart="@dimen/_10sdp"
             android:layout_marginEnd="@dimen/_10sdp"
-            android:background="@drawable/shadow01"
+            android:background="@android:color/transparent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="@id/top_layout"
             app:layout_constraintTop_toBottomOf="@id/top_layout"
