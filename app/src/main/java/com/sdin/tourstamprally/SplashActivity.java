@@ -73,8 +73,14 @@ public class SplashActivity extends BaseActivity {
                     final String psw = preferences.getString("password", "");
                     Log.d("isAutoLogin phone", phone);
                     Log.d("isAutoLogin psw", psw);
+                    if (!TextUtils.isEmpty(phone) && !TextUtils.isEmpty(psw))
+                    {
+                        login(phone, psw);
+                    }else {
+                        moveActivity(LoginActivity.class, null);
+                    }
 
-                    login(phone, psw);
+
 
                     /*앱 관련 체크 하나라도 false면 처음부터 다시 체크*/
                 } else {
@@ -215,30 +221,35 @@ public class SplashActivity extends BaseActivity {
             @Override
             public void onResponse(Call<UserModel> call, Response<UserModel> response) {
                 UserModel result = response.body();
-                Log.d("result JOIN", result.toString());
-                if (result.equals("null") || result == null){
-                    Log.d("result", result.toString());
-                    moveActivity(LoginActivity.class, "로그인에 실패하셨습니다.");
-                    //Toast.makeText(LoginActivity.this, "로그인 성공!!" + result, Toast.LENGTH_SHORT).show();
-                }else {
-                    Log.d("result!!", result.toString());
-                    if (result.getEnable().equals("0") ){
-
-                        Utils.UserPhone = phone;
-                        Utils.UserPassword = psw;
-                        Utils.User_Idx = result.getUserIdx();
-                        Utils.User_Name = result.getName();
-                        Utils.User_Email = result.getEmail();
-                        Utils.User_Location = result.getLocation();
-                        Utils.User_Profile = result.getUser_profile();
-
-                        Log.wtf("UserIDX!!", String.valueOf(Utils.User_Idx));
-
-                        moveActivity(MainActivity.class, "로그인에 성공하셨습니다.");
+                try {
+                    if (result == null || result.equals("null")){
+                          Log.d("result", "null오네");
+                          moveActivity(LoginActivity.class, "로그인에 실패하셨습니다.");
+                        //Toast.makeText(LoginActivity.this, "로그인 성공!!" + result, Toast.LENGTH_SHORT).show();
                     }else {
-                        moveActivity(LoginActivity.class, "로그인에 실패하셨습니다.");
+                        Log.d("result!!", result.toString());
+                        if (result.getEnable().equals("0") ){
+
+                            Utils.UserPhone = phone;
+                            Utils.UserPassword = psw;
+                            Utils.User_Idx = result.getUserIdx();
+                            Utils.User_Name = result.getName();
+                            Utils.User_Email = result.getEmail();
+                            Utils.User_Location = result.getLocation();
+                            Utils.User_Profile = result.getUser_profile();
+
+                            Log.wtf("UserIDX!!", String.valueOf(Utils.User_Idx));
+
+                            moveActivity(MainActivity.class, "로그인에 성공하셨습니다.");
+                        }else {
+                            moveActivity(LoginActivity.class, "로그인에 실패하셨습니다.");
+                        }
                     }
+                }catch (Exception e){
+                    e.printStackTrace();
+                    moveActivity(LoginActivity.class, "로그인에 실패하셨습니다.");
                 }
+
             }
 
             @Override

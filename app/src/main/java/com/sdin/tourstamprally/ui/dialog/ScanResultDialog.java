@@ -137,7 +137,7 @@ public class ScanResultDialog extends BaseDialog {
             @Override
             public void onResponse(Call<Tour_Spot> call, Response<Tour_Spot> response) {
                 if (response.isSuccessful()){
-                    itemOnClick.onItemClick(response.body());
+                    itemOnClick.ItemGuidForPoint(response.body());
                 }else {
                     showToast("서버 문제");
                 }

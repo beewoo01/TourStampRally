@@ -1,6 +1,7 @@
 package com.sdin.tourstamprally.utill;
 
 import com.sdin.tourstamprally.model.Tour_Spot;
+import com.sdin.tourstamprally.model.TouristSpotPoint;
 
 public abstract class ItemOnClickAb implements ItemOnClick{
 
@@ -15,7 +16,7 @@ public abstract class ItemOnClickAb implements ItemOnClick{
     }
 
     @Override
-    public void ItemGuid(int position, Tour_Spot model){
+    public void ItemGuidForPoint(Tour_Spot model){
 
     };
 
@@ -28,4 +29,10 @@ public abstract class ItemOnClickAb implements ItemOnClick{
     public void onItemClick(Tour_Spot tour_spot) {
 
     }
+
+    @Override
+    public void ItemGuidForDetail(TouristSpotPoint model) {
+        
+    }
+
 }

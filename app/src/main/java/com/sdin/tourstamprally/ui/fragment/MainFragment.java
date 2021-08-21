@@ -106,6 +106,12 @@ public class MainFragment extends BaseFragment {
         return binding.getRoot();
     }
 
+    public void cuverClick(){
+        //공지사항
+        listener = (MainActivity) requireActivity();
+        listener.onClick(1);
+    }
+
     public void moreClick(){
         listener = (MainActivity) requireActivity();
         listener.SetFragment("direction_guid");

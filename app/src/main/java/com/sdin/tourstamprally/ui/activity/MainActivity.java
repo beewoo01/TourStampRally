@@ -39,6 +39,7 @@ import com.sdin.tourstamprally.Utils;
 import com.sdin.tourstamprally.adapter.DrawaRecyclerViewAdapter;
 import com.sdin.tourstamprally.databinding.ActivityMainBinding;
 import com.sdin.tourstamprally.model.Tour_Spot;
+import com.sdin.tourstamprally.model.TouristSpotPoint;
 import com.sdin.tourstamprally.model.UserModel;
 import com.sdin.tourstamprally.ui.fragment.AccountFragment;
 import com.sdin.tourstamprally.ui.fragment.CouponMainFragment;
@@ -200,16 +201,26 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
                 //Log.wtf("MainAct", "if");
                 fragmentManager.popBackStack();
                 fragmentManager.beginTransaction().remove(fragment).commit();
-                for(Iterator<Map.Entry<Integer, String>> it = hashMap.entrySet().iterator(); it.hasNext(); ) {
+                /*for(Iterator<Map.Entry<Integer, String>> it = hashMap.entrySet().iterator(); it.hasNext(); ) {
                     Map.Entry<Integer, String> entry = it.next();
                     if(entry.getKey().equals("test")) {
                         it.remove();
                     }
-                }
+                }*/
                 fragmentcount--;
-                hashMap.get(fragmentcount);
-                /*Log.wtf("Id,@@ ", String.valueOf(getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount()-1).getId()));
-                Log.wtf("name!@#@!#@!#!@", getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount()-1).getName());*/
+
+
+                if (hashMap.get(fragmentcount).equals("NFC") || hashMap.get(fragmentcount).equals("QR")){
+                    fragmentManager.popBackStack();
+                    fragmentManager.beginTransaction().remove(fragment).commit();
+                    fragmentcount--;
+                }
+
+                Log.wtf("hash!!!", hashMap.get(fragmentcount));
+
+
+                Log.wtf("Id,@@ ", String.valueOf(getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount()-1).getId()));
+                Log.wtf("name!@#@!#@!#!@", getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount()-1).getName());
 
 
             } else {
@@ -289,6 +300,13 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
             finish();
         }
     }
+
+    /*private void testSetFragment(String tag, Fragment fragment){
+        fragmentManager = getSupportFragmentManager();
+
+        fragmentManager.beginTransaction().replace(binding.framelayout.getId(), fragment, tag).commit();
+        setToolbar(1);
+    }*/
 
     private void setFragment(String tag, Fragment fragment) {
         this.fragment = fragment;
@@ -405,6 +423,9 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
                     listener.onReadTag(msgs);
                 }
             }else {
+
+                /*testSetFragment("NFC", nfcFragment);*/
+                //testSetFragment("NFC", nfcFragment);
                 setFragment("NFC", nfcFragment);
                 listener.onReadTag(msgs);
             }
@@ -461,34 +482,49 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
         Log.d("ItemGuid_MainAct111", String.valueOf(position));
         if (position == 1){
             if (ISNfcInable) {
+                //testSetFragment("NFC", nfcFragment);
                 setFragment("NFC", nfcFragment);
             }else {
                 showToast("NFC를 지원하지 않는 단말기 입니다.");
             }
         }else if (position == 2){
+            //testSetFragment("NFC", QRscanFragment);
             setFragment("QR", QRscanFragment);
         }
 
     }
 
     @Override
-    public void ItemGuid(int position, Tour_Spot model) {
-        Log.d("ItemGuid_MainAct222", String.valueOf(position));
+    public void ItemGuidForPoint(Tour_Spot model) {
 
-        if (position == 0){
+        //관광지 포인트 화면 이동
+        Log.wtf("model ToSTRING", model.toString());
+        setFragment(model.getTouristspot_name(), new TourSpotPointFragment().newInstance(model));
+
+        /*if (position == 0){
             //관광지 자세히 보기
             setFragment(model.getTouristspot_name(), new TourDetailFragment().newInstance(model));
         }else if (position == 3){
             setFragment(model.getTouristspot_name(), new TourSpotPointFragment().newInstance(model));
-        }
+        }*/
 
+    }
+
+    @Override
+    public void ItemGuidForDetail(TouristSpotPoint model) {
+        setFragment(model.getTouristspotpoint_name(),new TourDetailFragment().newInstance(model));
     }
 
     @Override
     public void SetFragment(String tag) {
         if (tag.equals("direction_guid")){
+
             directionGuidFragment = new DirectionGuidFragment().newInstance();
             setFragment("direction_guid", directionGuidFragment);
+
+        }else if (tag.equals("notice")){
+
+
         }
     }
 

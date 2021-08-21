@@ -4,26 +4,22 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.URLUtil;
 
 import com.bumptech.glide.Glide;
 import com.sdin.tourstamprally.R;
 import com.sdin.tourstamprally.Utils;
-import com.sdin.tourstamprally.adapter.DirectionGuid_Adapter;
-import com.sdin.tourstamprally.adapter.DirectionGuid_Tag_Adapter;
-import com.sdin.tourstamprally.databinding.DirectionGuidLocationItemBinding;
 import com.sdin.tourstamprally.databinding.FragmentTourSpotPointBinding;
 import com.sdin.tourstamprally.databinding.LocationReItemBinding;
 import com.sdin.tourstamprally.model.Tour_Spot;
 import com.sdin.tourstamprally.model.TouristSpotPoint;
+import com.sdin.tourstamprally.ui.activity.MainActivity;
+import com.sdin.tourstamprally.utill.ItemOnClick;
 
 import net.daum.mf.map.api.MapPOIItem;
 import net.daum.mf.map.api.MapPoint;
@@ -141,9 +137,11 @@ public class TourSpotPointFragment extends BaseFragment {
     class TourSpotPointAdapter extends RecyclerView.Adapter<TourSpotPointAdapter.ViewHolder>{
 
         private ArrayList<TouristSpotPoint> arrayList;
+        private ItemOnClick listener;
 
         public TourSpotPointAdapter(ArrayList<TouristSpotPoint> arrayList) {
             this.arrayList = arrayList;
+            listener = (MainActivity) requireContext();
         }
 
         @NonNull
@@ -179,6 +177,11 @@ public class TourSpotPointFragment extends BaseFragment {
             public ViewHolder(@NonNull LocationReItemBinding binding) {
                 super(binding.getRoot());
                 this.binding = binding;
+                
+                binding.topLayout.setOnClickListener( v -> {
+                    listener.ItemGuidForDetail(arrayList.get(getAdapterPosition()));
+                });
+
             }
         }
     }

@@ -48,6 +48,11 @@ public class TouristSpotPoint implements Serializable {
     private String touristspotpoint_taggin_info;
 
 
+    @SerializedName("touristspotpoint_img")
+    @Expose
+    private String touristspotpoint_img;
+
+
 
     /*아래 부터는 History 테이블 같이 쓰일곳이 있어 놔둠*/
 

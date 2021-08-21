@@ -35,6 +35,17 @@ public class LoginActivity extends BaseActivity {
         binding.setActivity(this);
         //isAutoLogin();
 
+
+        if (!TextUtils.isEmpty(getIntent().getStringExtra("phone"))){
+            Log.wtf("phone", "phonephonephonephone");
+            binding.editPhone.setText(getIntent().getStringExtra("phone"));
+        }
+
+        if (!TextUtils.isEmpty(getIntent().getStringExtra("psw"))){
+            Log.wtf("psw", "pswpswpswpswpsw");
+            binding.editPassword.setText(getIntent().getStringExtra("psw"));
+        }
+
     }
 
     /*private void isAutoLogin(){
@@ -107,35 +118,41 @@ public class LoginActivity extends BaseActivity {
             @Override
             public void onResponse(Call<UserModel> call, Response<UserModel> response) {
                 UserModel result = response.body();
-                Log.d("result JOIN", result.toString());
-                if (result.equals("null") || result == null){
-                    Log.d("result", result.toString());
-                    Toast.makeText(LoginActivity.this, "로그인에 실패하셨습니다.", Toast.LENGTH_SHORT).show();
-                    //Toast.makeText(LoginActivity.this, "로그인 성공!!" + result, Toast.LENGTH_SHORT).show();
-                }else {
-                    Log.d("result!!", result.toString());
-                    if (result.getEnable().equals("0") ){
-                        if (binding.autoLoginRbt.isChecked()){
-                            setShearedString("phone", binding.editPhone.getText().toString());
-                            setShearedString("password", binding.editPassword.getText().toString());
-
-                        }else if (binding.saveIdRbt.isChecked()){
-                            setShearedString("phone", binding.editPhone.getText().toString());
-                        }
-                        Utils.UserPhone = binding.editPhone.getText().toString();
-                        Utils.UserPassword = binding.editPassword.getText().toString();
-                        Utils.User_Idx = result.getUserIdx();
-                        Utils.User_Name = result.getName();
-                        Utils.User_Email = result.getEmail();
-                        Utils.User_Location = result.getLocation();
-                        Utils.User_Profile = result.getUser_profile();
-
-                        movoToMain();
-                    }else {
+                //Log.d("result JOIN", result.toString());
+                try {
+                    if (result == null || result.equals("null") ){
+                        //Log.d("result", result.toString());
                         Toast.makeText(LoginActivity.this, "로그인에 실패하셨습니다.", Toast.LENGTH_SHORT).show();
-                    }
+                        //Toast.makeText(LoginActivity.this, "로그인 성공!!" + result, Toast.LENGTH_SHORT).show();
+                    }else {
+                        Log.d("result!!", result.toString());
+                        if (result.getEnable().equals("0") ){
+                            if (binding.autoLoginRbt.isChecked()){
+                                setShearedString("phone", binding.editPhone.getText().toString());
+                                setShearedString("password", binding.editPassword.getText().toString());
 
+                            }else if (binding.saveIdRbt.isChecked()){
+                                setShearedString("phone", binding.editPhone.getText().toString());
+                            }
+                            Utils.UserPhone = binding.editPhone.getText().toString();
+                            Utils.UserPassword = binding.editPassword.getText().toString();
+                            Utils.User_Idx = result.getUserIdx();
+                            Utils.User_Name = result.getName();
+                            Utils.User_Email = result.getEmail();
+                            Utils.User_Location = result.getLocation();
+                            Utils.User_Profile = result.getUser_profile();
+
+                            movoToMain();
+                        }else {
+                            Toast.makeText(LoginActivity.this, "로그인에 실패하셨습니다.", Toast.LENGTH_SHORT).show();
+                        }
+
+                    }
+                }catch (Exception e){
+                    Toast.makeText(LoginActivity.this, "로그인에 실패하셨습니다.", Toast.LENGTH_SHORT).show();
+                    e.printStackTrace();
                 }
+
             }
 
             @Override

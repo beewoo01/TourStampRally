@@ -108,22 +108,22 @@ public class NFCFragment extends BaseFragment implements NFCListener {
     }
 
     private void isAvailable(final String text){
-        //final String finalText = "T05100AA028";
+        final String finalText = "T05100AA028";
         apiService.getDistance(text).enqueue(new Callback<TouristSpotPoint>() {
             @Override
             public void onResponse(Call<TouristSpotPoint> call, Response<TouristSpotPoint> response) {
                 if (response.isSuccessful()){
-//                    Log.wtf("isAvailable", "isSuccessful");
+                    Log.wtf("isAvailable", "isSuccessful");
 
                     touristSpotPoint = response.body();
-//                    Log.wtf("isAvailable11111", touristSpotPoint.toString());
+                    //Log.wtf("isAvailable11111", touristSpotPoint.toString());
                     if (touristSpotPoint == null) {
                         showDialog(false);
                     } else {
                         // TODO: 8/10/21 progressbar off
                         gpsTracker = new GpsTracker(requireContext());
-                        //sendTagging(text);
-                        distance_calculation(text, touristSpotPoint.getTouristspotpoint_latitude(), touristSpotPoint.getTouristspotpoint_longitude());
+                        sendTagging(finalText);
+                        //distance_calculation(text, touristSpotPoint.getTouristspotpoint_latitude(), touristSpotPoint.getTouristspotpoint_longitude());
 
                     }
 

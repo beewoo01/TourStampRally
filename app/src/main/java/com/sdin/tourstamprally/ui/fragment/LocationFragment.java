@@ -6,7 +6,6 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -26,7 +25,6 @@ import com.sdin.tourstamprally.Utils;
 import com.sdin.tourstamprally.databinding.FragmentLocationBinding;
 import com.sdin.tourstamprally.databinding.LocationReItemBinding;
 import com.sdin.tourstamprally.model.Tour_Spot;
-import com.sdin.tourstamprally.model.TouristSpot;
 import com.sdin.tourstamprally.model.TouristSpotPoint;
 import com.sdin.tourstamprally.ui.activity.MainActivity;
 import com.sdin.tourstamprally.ui.dialog.GuidDialog;
@@ -35,12 +33,9 @@ import com.sdin.tourstamprally.utill.ItemOnClickAb;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import retrofit2.Call;
@@ -53,7 +48,6 @@ public class LocationFragment extends BaseFragment {
     private String location_name;
     private Tour_Spot tour_spot;
     private List<Tour_Spot> list;
-    private LocationFragAdapter adapter;
     private Map<Integer, Integer> spot_poinMap;
     private Map<Integer, Integer> spot_HistoryMap;
 
@@ -152,7 +146,7 @@ public class LocationFragment extends BaseFragment {
 
         }
 
-        adapter = new LocationFragAdapter(
+        LocationFragAdapter adapter = new LocationFragAdapter(
                 map.values().stream().collect(Collectors.toCollection(ArrayList::new)),
                 spot_poinMap,
                 spot_HistoryMap
@@ -269,7 +263,7 @@ public class LocationFragment extends BaseFragment {
                 if (position == 1 || position == 2){
                     listener.ItemGuid(position);
                 }else {
-                    listener.ItemGuid(position, send_model);
+                    listener.ItemGuidForPoint(send_model);
                 }
             }
         };
