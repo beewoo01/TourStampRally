@@ -55,6 +55,7 @@ import com.sdin.tourstamprally.ui.fragment.StoreListFragment;
 import com.sdin.tourstamprally.ui.fragment.TourDetailFragment;
 import com.sdin.tourstamprally.ui.fragment.TourRecordFragment;
 import com.sdin.tourstamprally.ui.fragment.TourSpotPointFragment;
+import com.sdin.tourstamprally.ui.fragment.VisitHistoryFragment;
 import com.sdin.tourstamprally.utill.ItemOnClick;
 import com.sdin.tourstamprally.utill.NFCListener;
 
@@ -272,7 +273,8 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
                 break;
 
             case R.id.page_report:
-                setFragment("관광지 기록", new TourRecordFragment());
+                //setFragment("관광지 기록", new TourRecordFragment());
+                setFragment("방문기록", new VisitHistoryFragment());
                 break;
 
             case R.id.page_navi:

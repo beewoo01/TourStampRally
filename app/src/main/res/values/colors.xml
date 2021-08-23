@@ -17,6 +17,9 @@
     <color name="agencyItemClickedBackgroundColor">#E7E6E6</color>
     <color name="agencyHeaderBackgroundColor">#F0F0F0</color>
 
+    <color name="gray_e">#eeeeee</color>
+    <color name="gray_ec">#ececec</color>
+
     <color name="popupbackground">#EBEBEB</color>
 
     <color name="popupColor">#009EE2</color>

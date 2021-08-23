@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_100sdp"
+
+            >
+
+            <!--<FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:id="@+id/heartImv"
+                    android:layout_width="@dimen/_30sdp"
+                    android:layout_height="@dimen/_30sdp"
+                    android:layout_gravity="start|center_vertical"
+                    android:src="@drawable/visit_heart_ic" />
+
+            </FrameLayout>-->
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/swipe_view"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="@color/white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+
+                <ImageView
+                    android:id="@+id/visitHistory_Imv"
+                    android:layout_width="@dimen/_55sdp"
+                    android:layout_height="@dimen/_55sdp"
+                    android:layout_marginStart="@dimen/_20sdp"
+                    android:background="@color/black"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/title_txv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:text="한일교류"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_14sdp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toEndOf="@id/visitHistory_Imv"
+                    app:layout_constraintTop_toTopOf="@id/visitHistory_Imv" />
+
+                <TextView
+                    android:id="@+id/explan_txv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="부산광역시 동구 초량동"
+                    android:textColor="@color/gray"
+                    android:textSize="@dimen/_7sdp"
+                    app:layout_constraintStart_toStartOf="@id/title_txv"
+                    app:layout_constraintTop_toBottomOf="@id/title_txv"
+
+                    />
+
+                <androidx.appcompat.widget.AppCompatSeekBar
+                    android:id="@+id/seekBar_location"
+                    android:layout_width="0dp"
+                    android:layout_height="4dp"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:clickable="false"
+                    android:paddingStart="0dp"
+                    android:paddingEnd="0dp"
+                    android:progress="100"
+                    android:progressDrawable="@drawable/custom_seekbar_bg_gray"
+                    android:thumb="@color/seekColor"
+                    android:thumbTint="@android:color/transparent"
+
+                    app:layout_constraintBottom_toBottomOf="@id/date_txv"
+                    app:layout_constraintEnd_toStartOf="@id/date_txv"
+                    app:layout_constraintStart_toStartOf="@id/title_txv"
+                    app:layout_constraintTop_toTopOf="@id/date_txv" />
+
+
+                <ImageView
+                    android:id="@+id/logo_imv"
+                    android:layout_width="@dimen/_35sdp"
+                    android:layout_height="@dimen/_35sdp"
+                    android:src="@drawable/visit_logo"
+                    app:layout_constraintBottom_toTopOf="@id/date_txv"
+                    app:layout_constraintEnd_toEndOf="@id/date_txv"
+                    app:layout_constraintStart_toStartOf="@id/date_txv"
+                    app:layout_constraintTop_toTopOf="@id/visitHistory_Imv" />
+
+                <TextView
+                    android:id="@+id/date_txv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/_20sdp"
+                    android:text="21.08.17"
+                    android:textColor="@color/seekColor"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="@id/visitHistory_Imv"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/logo_imv" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:background="@color/lightGrayColor"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </FrameLayout>
+</layout>
