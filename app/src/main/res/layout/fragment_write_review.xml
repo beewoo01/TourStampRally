@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/lightGrayColor"
+        >
+
+
+        <TextView
+            android:id="@+id/title_txv"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_40sdp"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_marginHorizontal="@dimen/_25sdp"
+            android:textColor="@color/black"
+            android:text="2135"
+            android:textSize="@dimen/_13sdp"
+            android:gravity="center_vertical"
+            android:paddingStart="@dimen/_10sdp"
+            android:background="@drawable/bg_rounded_07"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/review_title"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_100sdp"
+            android:orientation="vertical"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:padding="@dimen/_10sdp"
+            android:background="@drawable/bg_rounded_07"
+            app:layout_constraintStart_toStartOf="@id/title_txv"
+            app:layout_constraintEnd_toEndOf="@id/title_txv"
+            app:layout_constraintTop_toBottomOf="@id/title_txv"
+            >
+
+            <TextView
+                android:id="@+id/cosetxv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="코스만족도"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_15sdp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="(별점을 눌러 평가 해주세요)"
+                android:textSize="@dimen/_9sdp"
+                android:layout_marginStart="@dimen/_10sdp"
+                app:layout_constraintTop_toTopOf="@id/cosetxv"
+                app:layout_constraintBottom_toBottomOf="@id/cosetxv"
+                app:layout_constraintStart_toEndOf="@id/cosetxv"
+                />
+
+            <androidx.appcompat.widget.AppCompatRatingBar
+                android:id="@+id/ratingbar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:numStars="5"
+                android:rating="0"
+                android:isIndicator="false"
+                android:secondaryProgressTint="@color/orange"
+                android:progressTint="@color/orange"
+                android:scaleY="0.7"
+                android:scaleX="0.7"
+                app:layout_constraintTop_toBottomOf="@id/cosetxv"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+
+                />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <LinearLayout
+            android:id="@+id/review_layout"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_150sdp"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:background="@drawable/review_bg"
+            android:padding="@dimen/_10sdp"
+            android:orientation="vertical"
+            app:layout_constraintStart_toStartOf="@id/title_txv"
+            app:layout_constraintEnd_toEndOf="@id/title_txv"
+            app:layout_constraintTop_toBottomOf="@id/review_title"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="리뷰작성"
+                android:textSize="@dimen/_13sdp"
+                android:textColor="@color/black"
+                />
+
+            <EditText
+                android:id="@+id/review_edt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:textSize="@dimen/_10sdp"
+                android:text="내용내요내용내요내용내요내용내요내용내요내용내요내용내요내용내요내용내요내용내요내용내요"
+                android:background="@null"
+                />
+
+        </LinearLayout>
+
+
+        <Button
+            android:id="@+id/save_btn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_rounded_04"
+            android:text="@string/save"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:layout_marginTop="@dimen/_20sdp"
+            app:layout_constraintStart_toStartOf="@id/title_txv"
+            app:layout_constraintEnd_toEndOf="@id/title_txv"
+            app:layout_constraintTop_toBottomOf="@id/review_layout"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

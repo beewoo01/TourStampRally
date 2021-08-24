@@ -17,6 +17,9 @@
     <color name="agencyItemClickedBackgroundColor">#E7E6E6</color>
     <color name="agencyHeaderBackgroundColor">#F0F0F0</color>
 
+    <color name="reviewBgColor">#e6f6fd</color>
+    <color name="reviewBgStrockColor">#75BEF9</color>
+
     <color name="gray_e">#eeeeee</color>
     <color name="gray_ec">#ececec</color>
 

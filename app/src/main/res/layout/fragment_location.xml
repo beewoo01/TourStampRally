@@ -45,12 +45,12 @@
                     android:text="스탬프 랠리 진행도"
                     android:textColor="@color/white"
                     android:layout_marginBottom="10dp"
-                    app:layout_constraintStart_toStartOf="@id/seekBar_location"
-                    app:layout_constraintBottom_toTopOf="@id/seekBar_location"
+                    app:layout_constraintStart_toStartOf="@id/seekBar_Location"
+                    app:layout_constraintBottom_toTopOf="@id/seekBar_Location"
                     />
 
                 <androidx.appcompat.widget.AppCompatSeekBar
-                    android:id="@+id/seekBar_location"
+                    android:id="@+id/seekBar_Location"
                     android:layout_width="0dp"
                     android:layout_height="4dp"
                     android:progressDrawable="@drawable/custom_seekbar"
@@ -77,10 +77,10 @@
                     android:textStyle="bold"
                     android:textSize="@dimen/_17sdp"
                     android:layout_marginEnd="@dimen/_30sdp"
-                    app:layout_constraintStart_toEndOf="@id/seekBar_location"
+                    app:layout_constraintStart_toEndOf="@id/seekBar_Location"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/seekBar_location"
-                    app:layout_constraintBottom_toBottomOf="@id/seekBar_location"
+                    app:layout_constraintTop_toTopOf="@id/seekBar_Location"
+                    app:layout_constraintBottom_toBottomOf="@id/seekBar_Location"
                     />
 
 

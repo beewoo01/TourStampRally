@@ -13,4 +13,14 @@ public class VisitHistory_Model {
     private String spot_explan;
     private String date;
 
+
+    private boolean isExpanded = false;
+
+    private String reviewText;
+    private String reviewName;
+    private String reviewProfile;
+    private String reviewContents;
+
+    private int reviewScore;
+
 }
