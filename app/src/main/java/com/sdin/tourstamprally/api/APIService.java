@@ -9,6 +9,8 @@ import com.sdin.tourstamprally.model.Tour_Spot;
 import com.sdin.tourstamprally.model.Tour_Spot2;
 import com.sdin.tourstamprally.model.TouristSpotPoint;
 import com.sdin.tourstamprally.model.UserModel;
+import com.sdin.tourstamprally.model.VisitCountModel;
+import com.sdin.tourstamprally.model.history_spotModel;
 
 import java.util.List;
 import java.util.Map;
@@ -199,5 +201,11 @@ public interface APIService {
 
     @GET("select_success_data")
     Call<Tour_Spot> select_success_data( @Query("touristspotpoint_idx") String touristspotpoint_idx);
+
+    @GET("select_history_spot")
+    Call<List<history_spotModel>> getHistorySpot( @Query("user_idx") int user_idx);
+
+    @GET("select_visit_count")
+    Call<List<VisitCountModel>> getVisitCount(@Query("user_idx") int user_idx);
 
 }

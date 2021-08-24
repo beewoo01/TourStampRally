@@ -5,36 +5,53 @@ import android.annotation.SuppressLint;
 import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.sdin.tourstamprally.adapter.swipe.ToggleAnimation;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.bumptech.glide.request.RequestOptions;
+import com.sdin.tourstamprally.R;
 import com.sdin.tourstamprally.databinding.VisithistoryItemBinding;
-import com.sdin.tourstamprally.model.VisitHistory_Model;
+import com.sdin.tourstamprally.model.VisitCountModel;
+import com.sdin.tourstamprally.model.history_spotModel;
 import com.sdin.tourstamprally.utill.ItemCliclListener;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.TimeZone;
 
 public class VisitReAdapter extends RecyclerView.Adapter<VisitReAdapter.SwipeViewHolder>{
 
-    private ArrayList<VisitHistory_Model> arrayList;
+    private ArrayList<history_spotModel> historySpotList;
+
 
     private SparseBooleanArray selectedItems = new SparseBooleanArray();
     private int prePosition = -1;
     private ItemCliclListener listener;
+    private SimpleDateFormat oldSdf, newSdf;
     //private ToggleAnimation toggleAnimation;
 
     public void itemCilcListener(ItemCliclListener listener){
         this.listener = listener;
     }
 
-    public VisitReAdapter(ArrayList<VisitHistory_Model> arrayList){
-        this.arrayList = arrayList;
+    public void setList(ArrayList<history_spotModel> historySpotList){
+        this.historySpotList = historySpotList;
+    }
+
+    @SuppressLint("SimpleDateFormat")
+    public VisitReAdapter(ArrayList<history_spotModel> historySpotList){
+        this.historySpotList = historySpotList;
+        oldSdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
+        oldSdf.setTimeZone(TimeZone.getTimeZone("KST"));
+        newSdf = new SimpleDateFormat("yy.MM.dd");
       //  toggleAnimation = new ToggleAnimation();
     }
 
@@ -49,8 +66,7 @@ public class VisitReAdapter extends RecyclerView.Adapter<VisitReAdapter.SwipeVie
 
     @Override
     public void onBindViewHolder(@NonNull SwipeViewHolder holder, int position) {
-
-        holder.bind(arrayList.get(position), position, selectedItems);
+        holder.bind(historySpotList.get(position), position, selectedItems);
         holder.setOnViewHolderItemClickListener(() -> {
             if (selectedItems.get(position)) {
                 // 펼쳐진 Item을 클릭 시
@@ -73,7 +89,7 @@ public class VisitReAdapter extends RecyclerView.Adapter<VisitReAdapter.SwipeVie
 
     @Override
     public int getItemCount() {
-        return arrayList.size();
+        return historySpotList.size();
     }
 
     interface OnViewHolderItemClickListener{
@@ -93,26 +109,61 @@ public class VisitReAdapter extends RecyclerView.Adapter<VisitReAdapter.SwipeVie
         }
 
         @SuppressLint("ClickableViewAccessibility")
-        public void bind(VisitHistory_Model model, int position , SparseBooleanArray selectedItems){
+        public void bind(history_spotModel model, int position , SparseBooleanArray selectedItems){
 
             binding.seekBar.setEnabled(false);
-            binding.titleTxv.setText(model.getSpot_name());
-            binding.explanTxv.setText(model.getSpot_explan());
-            binding.dateTxv.setText(model.getDate());
+            binding.titleTxv.setText(model.getTouristspot_name());
+            binding.explanTxv.setText(model.getTouristspot_explan());
+            try {
+
+                Date old_date = oldSdf.parse(model.getTouristhistory_updatetime());
+                String n_date = newSdf.format(old_date);
+                binding.dateTxv.setText(n_date);
+            } catch (ParseException e) {
+                e.printStackTrace();
+                binding.dateTxv.setText(model.getTouristhistory_updatetime());
+            }
+
             binding.ratingbar.setOnTouchListener((v, event) -> true);
 
             binding.heartImv.setOnClickListener( v -> {
                 Log.wtf("heartImv click", String.valueOf(position));
                 if (listener != null && getAdapterPosition() > -1){
-                    binding.seekBar.setProgress(40);
-                    listener.deapsClick(getAdapterPosition(), arrayList.get(getAdapterPosition()));
+                    //binding.seekBar.setProgress(40);
+                    listener.deapsClick(getAdapterPosition(), historySpotList.get(getAdapterPosition()));
                 }
 
             });
             binding.swipeView.setOnClickListener(v-> {
                 Log.wtf("swipeView click", String.valueOf(position));
-                onViewHolderItemClickListener.onViewHolderItemClick();
+                if (model.getReview_idx() > 0){
+                    onViewHolderItemClickListener.onViewHolderItemClick();
+                }
             });
+
+            Glide.with(binding.visitHistoryImv.getContext())
+                    .load("http://zzipbbong.cafe24.com/imagefile/bsr/" + model.getTouristspot_img())
+                    .error(ContextCompat.getDrawable(binding.visitHistoryImv.getContext(), R.drawable.sample_profile_image))
+                    .apply(RequestOptions.bitmapTransform(new RoundedCorners(20)))
+                    .into(binding.visitHistoryImv);
+
+            binding.seekBar.setMax(100);
+            binding.seekBar.setProgress(model.getPercent());
+            Log.wtf("percent", String.valueOf(model.getPercent()));
+            if (model.getPercent() < 100){
+                binding.dateTxv.setText(model.getPercent() + "%");
+            }
+
+            if (model.getReview_idx() > 0){
+                binding.nameTxv.setText(model.getUser_name());
+                Glide.with(binding.profileIcon.getContext()).load("http://zzipbbong.cafe24.com/imagefile/bsr/" + model.getUser_profile()).circleCrop()
+                        .error(ContextCompat.getDrawable(binding.visitHistoryImv.getContext(), R.drawable.sample_profile_image))
+                        .into(binding.profileIcon);
+
+                binding.ratingbar.setRating(model.getReview_score());
+                binding.reviewExplan.setText(model.getReview_contents());
+            }
+
 
 
             changeVisibility(selectedItems.get(position));
@@ -123,15 +174,12 @@ public class VisitReAdapter extends RecyclerView.Adapter<VisitReAdapter.SwipeVie
             ValueAnimator va = isExpanded ? ValueAnimator.ofInt(0, 600) : ValueAnimator.ofInt(600, 0);
             // Animation이 실행되는 시간, n/1000초
             va.setDuration(100);
-            va.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                @Override
-                public void onAnimationUpdate(ValueAnimator animation) {
-                    // imageView의 높이 변경
-                    binding.reviewParentLayout.getLayoutParams().height = (int) animation.getAnimatedValue();
-                    binding.reviewParentLayout.requestLayout();
-                    // imageView가 실제로 사라지게하는 부분
-                    binding.reviewParentLayout.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
-                }
+            va.addUpdateListener(animation -> {
+                // imageView의 높이 변경
+                binding.reviewParentLayout.getLayoutParams().height = (int) animation.getAnimatedValue();
+                binding.reviewParentLayout.requestLayout();
+                // imageView가 실제로 사라지게하는 부분
+                binding.reviewParentLayout.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
             });
             // Animation start
             va.start();
