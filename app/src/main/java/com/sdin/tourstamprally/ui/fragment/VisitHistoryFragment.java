@@ -101,7 +101,7 @@ public class VisitHistoryFragment extends BaseFragment {
                 if (response.isSuccessful()){
                     ShowToast("찜하기에 성공 하셨습니다.", requireContext());
                 }else {
-                    Log.wtf("찜하기 실패", response.toString());
+                    //Log.wtf("찜하기 실패", response.toString());
                     ShowToast("찜하기에 실패 하셨습니다.", requireContext());
                 }
             }
@@ -169,7 +169,7 @@ public class VisitHistoryFragment extends BaseFragment {
             public void onResponse(Call<List<VisitCountModel>> call, Response<List<VisitCountModel>> response) {
                 try {
                     if (response.isSuccessful()){
-                        Log.wtf("getTourParticipants", "1111111111");
+                        //Log.wtf("getTourParticipants", "1111111111");
                         List<VisitCountModel> list = response.body();
                         //adapter.setCountList(new ArrayList<>(list));
 
@@ -227,14 +227,14 @@ public class VisitHistoryFragment extends BaseFragment {
                 public void onResponse(Call<Integer> call, Response<Integer> response) {
                     if (response.isSuccessful()){
                         //ShowToast("찜하기에 성공 하셨습니다.", requireContext());
-                        Log.wtf("response.body()", String.valueOf(response.body()));
+                        //Log.wtf("response.body()", String.valueOf(response.body()));
                         if (response.body() == 0) {
-                            Log.wtf("onResponse", "찜하기 000000");
+                          //  Log.wtf("onResponse", "찜하기 000000");
                             insert_intest(model.getTouristspot_idx());
                         }
 
                     } else {
-                        Log.wtf("찜하기 실패", response.toString());
+                        //Log.wtf("찜하기 실패", response.toString());
                         ShowToast("찜하기에 실패 하셨습니다.", requireContext());
                     }
                 }
@@ -268,7 +268,7 @@ public class VisitHistoryFragment extends BaseFragment {
 
         ArrayList<history_spotModel> arrayList = new ArrayList<>();
         if (searchData.length() == 0){
-            Log.wtf("searchData2", String.valueOf(searchData.length()));
+            //Log.wtf("searchData2", String.valueOf(searchData.length()));
 
             arrayList.addAll(history_spotList);
 
@@ -303,7 +303,7 @@ public class VisitHistoryFragment extends BaseFragment {
 
         private ItemOnClick itemOnClick;
 
-        private int selectedItem = -1;
+        private int selectedItem = 0;
         private int prevSelected = -1;
 
         public CaterotyAdaper(ArrayList<String> arrayList) {

@@ -236,7 +236,7 @@ public class AccountFragment extends BaseFragment {
     public void signUp() {
 
         Pattern pattern = Patterns.EMAIL_ADDRESS;
-        Log.wtf("signUp", "signUp");
+        //Log.wtf("signUp", "signUp");
 
         if (TextUtils.isEmpty(binding.editPassword.getText()) || binding.editPassword.getText().toString().length() < 8) {
 
@@ -257,11 +257,9 @@ public class AccountFragment extends BaseFragment {
             showToast("비밀번호가 일치하지 않습니다.");
 
         } else if (TextUtils.isEmpty(binding.editName.getText())) {
-            Log.wtf("signUp", "signUp");
             showToast("이름을 입력해 주세요.");
 
         } else if (TextUtils.isEmpty(binding.editEmail.getText()) && !pattern.matcher(binding.editEmail.getText().toString()).matches()) {
-            Log.wtf("signUp", "signUp");
             showToast("이메일을 입력해 주세요.");
 
         } else {
@@ -284,7 +282,7 @@ public class AccountFragment extends BaseFragment {
 
 
     private void update() {
-        Log.wtf("update", "update");
+        //Log.wtf("update", "update");
         //uploadProfile();
 
         UserModel userModel = new UserModel();

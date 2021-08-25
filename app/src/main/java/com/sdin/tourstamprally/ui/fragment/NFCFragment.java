@@ -113,7 +113,7 @@ public class NFCFragment extends BaseFragment implements NFCListener {
             @Override
             public void onResponse(Call<TouristSpotPoint> call, Response<TouristSpotPoint> response) {
                 if (response.isSuccessful()){
-                    Log.wtf("isAvailable", "isSuccessful");
+                    //Log.wtf("isAvailable", "isSuccessful");
 
                     touristSpotPoint = response.body();
                     //Log.wtf("isAvailable11111", touristSpotPoint.toString());
@@ -129,7 +129,7 @@ public class NFCFragment extends BaseFragment implements NFCListener {
 
                 } else {
                     showDialog(false);
-                    Log.wtf("else", "not isSuccessful");
+                    //Log.wtf("else", "not isSuccessful");
                 }
             }
 

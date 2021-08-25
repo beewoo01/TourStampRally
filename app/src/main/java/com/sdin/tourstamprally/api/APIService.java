@@ -208,4 +208,12 @@ public interface APIService {
     @GET("select_visit_count")
     Call<List<VisitCountModel>> getVisitCount(@Query("user_idx") int user_idx);
 
+
+    @GET("insert_writeReview")
+    Call<Integer> insert_writeReview(@Query("review_user_user_idx") int user_idx,
+                                                   @Query("review_touristspot_touristspot_idx") int touristspot_idx,
+                                                   @Query("review_score") float review_score,
+                                                   @Query("review_contents") String review_contents
+                                                   );
+
 }

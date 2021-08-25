@@ -31,7 +31,8 @@
         <activity android:name=".CustomScannerActivity"></activity>
 
         <activity android:name=".ui.activity.MainActivity"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            >
             <intent-filter> <!-- 추가할 intent-filter -->
                 <action android:name="android.nfc.action.NDEF_DISCOVERED"/>
                 <category android:name="android.intent.category.DEFAULT"/>

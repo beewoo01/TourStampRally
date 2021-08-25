@@ -35,4 +35,14 @@ public abstract class ItemOnClickAb implements ItemOnClick{
         
     }
 
+
+    @Override
+    public void onWriteRewviewClick(int spotIdx, String spotName) {
+
+    }
+
+    @Override
+    public void onWriteReviewSuccess() {
+
+    }
 }

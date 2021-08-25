@@ -1,12 +1,17 @@
 package com.sdin.tourstamprally.ui.fragment;
 
+import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
+import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -65,8 +70,24 @@ public class TourDetailFragment extends BaseFragment/* implements MapView.MapVie
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_tour_detail, container, false);
-        setData();
+
         return binding.getRoot();
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstancdState) {
+        super.onViewCreated(view, savedInstancdState);
+        setData();
+    }
+
+    public void onClick(View view){
+        if (view.getId() == binding.phoneTxv.getId()){
+            if (!TextUtils.isEmpty(binding.phoneTxv.getText().toString())){
+                //전화 걸기
+                //Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + touristSpotPoint));
+                //requireActivity().startActivity(intent);
+            }
+        }
     }
 
     private void setData(){
@@ -75,7 +96,7 @@ public class TourDetailFragment extends BaseFragment/* implements MapView.MapVie
         binding.tourNameTxv.setText(touristSpotPoint.getTouristspotpoint_name());
         binding.tourContentTxv.setText(touristSpotPoint.getTouristspotpoint_explan());
 
-        Log.wtf("imgimgimg", touristSpotPoint.getTouristspotpoint_img());
+        //Log.wtf("imgimgimg", touristSpotPoint.getTouristspotpoint_img());
         Glide.with(requireContext())
                 .load("http://zzipbbong.cafe24.com/imagefile/bsr/" + touristSpotPoint.getTouristspotpoint_img())
                 .error(ContextCompat.getDrawable(requireContext(), R.drawable.sample_bg))
@@ -171,14 +192,14 @@ public class TourDetailFragment extends BaseFragment/* implements MapView.MapVie
             }
 
             Address address = addresses.get(0);
-            Log.wtf("주소는?", address.getAddressLine(0).toString()+"\n");
+            //Log.wtf("주소는?", address.getAddressLine(0).toString()+"\n");
             return address.getAddressLine(0);
         } catch (IOException ioException) {
             //네트워크 문제
-            Log.wtf("addresses?", "지오코더 서비스 사용불가");
+            //Log.wtf("addresses?", "지오코더 서비스 사용불가");
             return touristSpotPoint.getTouristspotpoint_name();
         } catch (IllegalArgumentException illegalArgumentException) {
-            Log.wtf("addresses", "잘못된 GPS 좌표");
+            //Log.wtf("addresses", "잘못된 GPS 좌표");
             return touristSpotPoint.getTouristspotpoint_name();
 
         }

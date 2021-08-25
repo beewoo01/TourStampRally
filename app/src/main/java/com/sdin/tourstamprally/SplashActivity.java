@@ -223,11 +223,11 @@ public class SplashActivity extends BaseActivity {
                 UserModel result = response.body();
                 try {
                     if (result == null || result.equals("null")){
-                          Log.d("result", "null오네");
+                          //Log.d("result", "null오네");
                           moveActivity(LoginActivity.class, "로그인에 실패하셨습니다.");
                         //Toast.makeText(LoginActivity.this, "로그인 성공!!" + result, Toast.LENGTH_SHORT).show();
                     }else {
-                        Log.d("result!!", result.toString());
+                        //Log.d("result!!", result.toString());
                         if (result.getEnable().equals("0") ){
 
                             Utils.UserPhone = phone;
@@ -238,7 +238,7 @@ public class SplashActivity extends BaseActivity {
                             Utils.User_Location = result.getLocation();
                             Utils.User_Profile = result.getUser_profile();
 
-                            Log.wtf("UserIDX!!", String.valueOf(Utils.User_Idx));
+                            //Log.wtf("UserIDX!!", String.valueOf(Utils.User_Idx));
 
                             moveActivity(MainActivity.class, "로그인에 성공하셨습니다.");
                         }else {
@@ -321,7 +321,7 @@ public class SplashActivity extends BaseActivity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
         if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
-            Log.wtf("onRequestPermissionsResult ", "1111111111");
+            //Log.wtf("onRequestPermissionsResult ", "1111111111");
             SharedPreferences preferences = setSharedPref();
             String phone = preferences.getString("phone", "");
             String psw = preferences.getString("password", "");

@@ -74,7 +74,7 @@ public class DirectionGuidFragment extends BaseFragment {
             @Override
             public void onResponse(Call<List<Map<String, Integer>>> call, Response<List<Map<String, Integer>>> response) {
                 if (response.isSuccessful()){
-                    Log.wtf("getTourParticipants", "1111111111");
+                    //Log.wtf("getTourParticipants", "1111111111");
                     List<Map<String, Integer>> list = response.body();
                     particiMap = new HashMap<>();
                     for (Map hashMap : list){
@@ -176,7 +176,7 @@ public class DirectionGuidFragment extends BaseFragment {
 
         tagAdpater = new DirectionGuid_Tag_Adapter(list);
         tagAdpater.setOnItemClickListener(param -> {
-            Log.wtf("setOnItemClickListener", "param = " + param +"1");
+            //Log.wtf("setOnItemClickListener", "param = " + param +"1");
             search(param);
         });
         binding.tagRe.setAdapter(tagAdpater);
@@ -225,7 +225,7 @@ public class DirectionGuidFragment extends BaseFragment {
 
         ArrayList<Tour_Spot> arrayList = new ArrayList<>();
         if (searchData.length() == 0){
-            Log.wtf("searchData2", String.valueOf(searchData.length()));
+            //Log.wtf("searchData2", String.valueOf(searchData.length()));
 
             arrayList.addAll(tourList);
             adapter.setList(arrayList);

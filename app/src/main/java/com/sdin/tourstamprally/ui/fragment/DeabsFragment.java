@@ -200,7 +200,7 @@ public class DeabsFragment extends BaseFragment {
                     binding.deabsRe.addItemDecoration(new DecoRation(2, 50, true));
 
                 }else {
-                    Log.wtf("getSelect_interest", "else");
+                    //Log.wtf("getSelect_interest", "else");
                 }
             }
 
@@ -304,12 +304,12 @@ public class DeabsFragment extends BaseFragment {
                     @Override
                     public void onResponse(Call<Integer> call, Response<Integer> response) {
                         if (response.isSuccessful()){
-                            Log.wtf("RESULT", response.body().toString());
+                            //Log.wtf("RESULT", response.body().toString());
                             if (response.body() == 1){
                                 removeData(position);
                             }
                         }else {
-                            Log.wtf("ERROR", response.toString());
+                            //Log.wtf("ERROR", response.toString());
                         }
                     }
 

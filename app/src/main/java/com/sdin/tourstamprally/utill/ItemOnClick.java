@@ -10,4 +10,6 @@ public interface ItemOnClick {
     void ItemGuidForDetail(TouristSpotPoint model);
     void SetFragment(String tag);
     void onItemClick(Tour_Spot tour_spot);
+    void onWriteRewviewClick(int spotIdx, String spotName);
+    void onWriteReviewSuccess();
 }

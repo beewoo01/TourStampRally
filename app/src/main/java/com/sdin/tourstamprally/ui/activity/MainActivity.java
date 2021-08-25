@@ -56,6 +56,7 @@ import com.sdin.tourstamprally.ui.fragment.TourDetailFragment;
 import com.sdin.tourstamprally.ui.fragment.TourRecordFragment;
 import com.sdin.tourstamprally.ui.fragment.TourSpotPointFragment;
 import com.sdin.tourstamprally.ui.fragment.VisitHistoryFragment;
+import com.sdin.tourstamprally.ui.fragment.WriteReviewFragment;
 import com.sdin.tourstamprally.utill.ItemOnClick;
 import com.sdin.tourstamprally.utill.NFCListener;
 
@@ -151,7 +152,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
             }else if (name.equals("location_fragment")){
 
             }
-            Log.wtf("setToolbar","else");
+            //Log.wtf("setToolbar","else");
             binding.toolbarLayout.toolbarLayout.setBackgroundColor(ContextCompat.getColor(this, R.color.White));
             binding.toolbarLayout.backBtn.setVisibility(View.VISIBLE);
             Glide.with(this).load(ContextCompat.getDrawable(this, R.drawable.back_ic_resize)).into(binding.toolbarLayout.backBtn);
@@ -194,43 +195,42 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
 
 
         binding.navigationLayout.userNameTxv.setText(Utils.User_Name);
-        binding.toolbarLayout.backBtn.setOnClickListener(v -> {
+        binding.bottomNavigationView.setOnNavigationItemSelectedListener(this);
+        setFragment("Main", new MainFragment().newInstance("",""));
+    }
 
-
-            Log.wtf("MainAct FCount", String.valueOf(fragmentManager.getBackStackEntryCount()));
-            if (fragmentManager.getBackStackEntryCount() > 0) {
-                //Log.wtf("MainAct", "if");
-                fragmentManager.popBackStack();
-                fragmentManager.beginTransaction().remove(fragment).commit();
+    public void backClick(){
+        //Log.wtf("MainAct FCount", String.valueOf(fragmentManager.getBackStackEntryCount()));
+        if (fragmentManager.getBackStackEntryCount() > 0) {
+            //Log.wtf("MainAct", "if");
+            fragmentManager.popBackStack();
+            fragmentManager.beginTransaction().remove(fragment).commit();
                 /*for(Iterator<Map.Entry<Integer, String>> it = hashMap.entrySet().iterator(); it.hasNext(); ) {
                     Map.Entry<Integer, String> entry = it.next();
                     if(entry.getKey().equals("test")) {
                         it.remove();
                     }
                 }*/
+            fragmentcount--;
+
+
+            if (hashMap.get(fragmentcount).equals("NFC") || hashMap.get(fragmentcount).equals("QR")){
+                fragmentManager.popBackStack();
+                fragmentManager.beginTransaction().remove(fragment).commit();
                 fragmentcount--;
-
-
-                if (hashMap.get(fragmentcount).equals("NFC") || hashMap.get(fragmentcount).equals("QR")){
-                    fragmentManager.popBackStack();
-                    fragmentManager.beginTransaction().remove(fragment).commit();
-                    fragmentcount--;
-                }
-
-                Log.wtf("hash!!!", hashMap.get(fragmentcount));
-
-
-                Log.wtf("Id,@@ ", String.valueOf(getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount()-1).getId()));
-                Log.wtf("name!@#@!#@!#!@", getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount()-1).getName());
-
-
-            } else {
-                Log.wtf("MainAct", String.valueOf(fragmentManager.getBackStackEntryCount()));
             }
-            setToolbar(2);
-        });
-        binding.bottomNavigationView.setOnNavigationItemSelectedListener(this);
-        setFragment("Main", new MainFragment().newInstance("",""));
+
+            //Log.wtf("hash!!!", hashMap.get(fragmentcount));
+
+
+            //Log.wtf("Id,@@ ", String.valueOf(getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount()-1).getId()));
+            //Log.wtf("name!@#@!#@!#!@", getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount()-1).getName());
+
+
+        } else {
+            //Log.wtf("MainAct", String.valueOf(fragmentManager.getBackStackEntryCount()));
+        }
+        setToolbar(2);
     }
 
     public void openDrawa() {
@@ -335,8 +335,8 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
 
 
 
-        Log.wtf("Id,@@ ", String.valueOf(getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount()-1).getId()));
-        Log.wtf("name!@#@!#@!#!@", getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount()-1).getName());
+        //Log.wtf("Id,@@ ", String.valueOf(getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount()-1).getId()));
+        //Log.wtf("name!@#@!#@!#!@", getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount()-1).getName());
 
         setToolbar(1);
     }
@@ -344,7 +344,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
     @Override
     protected void onResume() {
         super.onResume();
-        Log.d("MainActivity", "onResume ");
+        //Log.d("MainActivity", "onResume ");
         if (TextUtils.isEmpty(Utils.UserPhone) || TextUtils.isEmpty(Utils.UserPassword)){
             startActivity(new Intent(MainActivity.this, LoginActivity.class));
             finish();
@@ -358,19 +358,19 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
     protected void onPause() {
         super.onPause();
         NfcModeOff();
-        Log.d("MainActivity", "onPause");
+        //Log.d("MainActivity", "onPause");
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        Log.d("MainActivity", "onStop");
+        //Log.d("MainActivity", "onStop");
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Log.d("MainActivity", "onDestroy");
+        //Log.d("MainActivity", "onDestroy");
     }
 
 
@@ -500,7 +500,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
     public void ItemGuidForPoint(Tour_Spot model) {
 
         //관광지 포인트 화면 이동
-        Log.wtf("model ToSTRING", model.toString());
+        //Log.wtf("model ToSTRING", model.toString());
         setFragment(model.getTouristspot_name(), new TourSpotPointFragment().newInstance(model));
 
         /*if (position == 0){
@@ -532,21 +532,32 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
 
     @Override
     public void onItemClick(Tour_Spot tour_spot) {
-        Log.wtf("onItemClick", tour_spot.toString());
+        //Log.wtf("onItemClick", tour_spot.toString());
         setFragment(tour_spot.getLocation_name() + " 랠리 맵", new LocationFragment().newInstance(tour_spot));
         setToolbar(3);
     }
 
+    @Override
+    public void onWriteRewviewClick(int spotIdx, String spotName) {
+        //Log.wtf("onWriteRewviewClick", "mainActivity");
+        setFragment("리뷰작성", new WriteReviewFragment().newInstance(spotIdx, spotName));
+    }
+
+    @Override
+    public void onWriteReviewSuccess() {
+        backClick();
+    }
+
     private void setKaKaoNavi(){
         if (NaviClient.getInstance().isKakaoNaviInstalled(this)){
-            Log.wtf(TAG, "카카오내비 앱으로 길안내 가능");
+            //Log.wtf(TAG, "카카오내비 앱으로 길안내 가능");
             startActivity(NaviClient.getInstance().navigateIntent(
                     new Location("카카오 판교오피스", "127.108640", "37.402111"),
                     new NaviOption(CoordType.WGS84)
                     )
             );
         }else {
-            Log.wtf(TAG, "카카오내비 미설치 : 웹 길안내 사용 권장");
+            //Log.wtf(TAG, "카카오내비 미설치 : 웹 길안내 사용 권장");
             Uri uri = NaviClient.getInstance().navigateWebUrl(
                     new Location("카카오 판교오피스", "127.108640", "37.402111"),
                     new NaviOption(CoordType.WGS84)

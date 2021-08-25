@@ -138,7 +138,7 @@ public class DirectionGuid_Adapter extends RecyclerView.Adapter<DirectionGuid_Ad
             holder.binding.seekBarDirectionItem.setProgress(clearCount);
             int allCountd = (int) ((double) clearCount /  (double) allContents * 100);
             holder.binding.seekPercentTxv.setText(allCountd + "%");
-            Log.wtf("persentage", String.valueOf(allCountd));
+            //Log.wtf("persentage", String.valueOf(allCountd));
 
         }else {
             holder.binding.seekBarDirectionItem.setProgress(0);

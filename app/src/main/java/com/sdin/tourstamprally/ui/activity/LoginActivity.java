@@ -37,12 +37,12 @@ public class LoginActivity extends BaseActivity {
 
 
         if (!TextUtils.isEmpty(getIntent().getStringExtra("phone"))){
-            Log.wtf("phone", "phonephonephonephone");
+            //Log.wtf("phone", "phonephonephonephone");
             binding.editPhone.setText(getIntent().getStringExtra("phone"));
         }
 
         if (!TextUtils.isEmpty(getIntent().getStringExtra("psw"))){
-            Log.wtf("psw", "pswpswpswpswpsw");
+            //Log.wtf("psw", "pswpswpswpswpsw");
             binding.editPassword.setText(getIntent().getStringExtra("psw"));
         }
 

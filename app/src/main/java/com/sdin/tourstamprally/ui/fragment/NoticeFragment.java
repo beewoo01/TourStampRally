@@ -76,7 +76,7 @@ public class NoticeFragment extends BaseFragment {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
                 selectedSpinnerItem = strings[position];
-                Log.wtf("onItemSelected", String.valueOf(position));
+                //Log.wtf("onItemSelected", String.valueOf(position));
                 if (noticeAdapter != null){
                     // 0 - 공지 1 - 이벤트
                     // 0 - 전체 1 - 공지 - 2 이벤트

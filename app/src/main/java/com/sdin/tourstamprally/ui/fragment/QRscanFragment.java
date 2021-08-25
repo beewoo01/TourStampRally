@@ -114,7 +114,7 @@ public class QRscanFragment extends BaseFragment {
             @Override
             public void onResponse(Call<TouristSpotPoint> call, Response<TouristSpotPoint> response) {
                 if (response.isSuccessful()){
-                    Log.wtf("isAvailable", "isSuccessful");
+                    //Log.wtf("isAvailable", "isSuccessful");
 
                     touristSpotPoint = response.body();
                    // Log.wtf("isAvailable11111", touristSpotPoint.toString());

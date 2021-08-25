@@ -9,13 +9,17 @@ public class Constant {
     /*FirstCare Server URL*/
     //public static final String SERVER_URL = "http://raon-soft.com/palette/";
     //public static final String SERVER_URL = "http://192.168.1.11:8080/project/";
+
     //public static final String SERVER_URL = "http://192.168.1.21:8080/project/";
     /*로컬 용*/
-    public static final String SERVER_URL = "http://192.168.219.111:8005/project/";
 
+    //public static final String SERVER_URL = "http://192.168.219.111:8005/project/";
     /*우리 집*/
-    //public static final String SERVER_URL = "http://raon-soft.com/base_project_brs/";
+
+    public static final String SERVER_URL = "http://raon-soft.com/base_project_brs/";
     /*실제 업로드용*/
+
+
     //  http://raon-soft.com/firstcare_mobile/
     //  http://112.173.80.179:8080/firstcare_mobile/
     //  http://192.168.1.9:8080/firstcare_mobile/

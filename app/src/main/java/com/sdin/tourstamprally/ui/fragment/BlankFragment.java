@@ -122,7 +122,7 @@ public class BlankFragment extends BaseFragment {
 
         //spinner 클릭시 오는 부분
 
-        Log.wtf("arrayList.size()", String.valueOf(arrayList.size()));
+        //Log.wtf("arrayList.size()", String.valueOf(arrayList.size()));
         ArrayList<Tour_Spot> samplArray = new ArrayList<>();
         for (int i = 0; i < list.size(); i++) {
             //Log.wtf("map for i 라라라 " + i, String.valueOf(arrayList.get(i).getTouristspot_idx()));

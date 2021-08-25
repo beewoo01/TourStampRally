@@ -125,11 +125,11 @@ public class MainFragment extends BaseFragment {
 
                     tourList = response.body();
                     binding.tourRallyPgb.setVisibility(View.GONE);
-                    Log.d("?????", tourList.get(0).toString());
+                    //Log.d("?????", tourList.get(0).toString());
                     setData();
 
                 }else {
-                    Log.wtf("getTour fail", response.toString());
+                    //Log.wtf("getTour fail", response.toString());
                 }
             }
 
