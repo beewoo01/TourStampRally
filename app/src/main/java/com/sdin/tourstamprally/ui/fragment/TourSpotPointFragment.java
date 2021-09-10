@@ -134,6 +134,10 @@ public class TourSpotPointFragment extends BaseFragment {
 
     }
 
+    private void removeMapView(){
+        binding.topLayout.removeAllViews();
+    }
+
     class TourSpotPointAdapter extends RecyclerView.Adapter<TourSpotPointAdapter.ViewHolder>{
 
         private ArrayList<TouristSpotPoint> arrayList;
@@ -179,6 +183,7 @@ public class TourSpotPointFragment extends BaseFragment {
                 this.binding = binding;
                 
                 binding.topLayout.setOnClickListener( v -> {
+                    removeMapView();
                     listener.ItemGuidForDetail(arrayList.get(getAdapterPosition()));
                 });
 

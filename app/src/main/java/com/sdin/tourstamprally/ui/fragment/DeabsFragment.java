@@ -294,7 +294,7 @@ public class DeabsFragment extends BaseFragment {
 
         @Override
         public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-            Glide.with(requireContext()).load("http://zzipbbong.cafe24.com/imagefile/bsr/" + arrayList.get(position).getTouristspot_img()).into(holder.binding.tourImageImv);
+            Glide.with(requireContext()).load("http://coratest.kr/imagefile/bsr/" + arrayList.get(position).getTouristspot_img()).into(holder.binding.tourImageImv);
             holder.binding.deabImv.setVisibility(View.VISIBLE);
             holder.binding.title.setText(arrayList.get(position).getTouristspot_name());
             holder.binding.tag.setText(arrayList.get(position).getTouristspot_tag());

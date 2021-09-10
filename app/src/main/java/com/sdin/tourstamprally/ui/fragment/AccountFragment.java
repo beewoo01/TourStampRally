@@ -148,7 +148,7 @@ public class AccountFragment extends BaseFragment {
         binding.editPhone.addTextChangedListener(textWatcher);
 
 
-        Glide.with(requireContext()).load("http://zzipbbong.cafe24.com/imagefile/bsr/" + Utils.User_Profile)
+        Glide.with(requireContext()).load("http://coratest.kr/imagefile/bsr/" + Utils.User_Profile)
                 .error(ContextCompat.getDrawable(requireContext(), R.drawable.sample_profile_image)).circleCrop()
                 .into(binding.profileImb);
     }

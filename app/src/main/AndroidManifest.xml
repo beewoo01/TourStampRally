@@ -61,8 +61,14 @@
             </intent-filter>
         </activity>
 
+        <!-- 개발용 KEY -->
         <meta-data android:name="com.kakao.sdk.AppKey"
             android:value="e8301ff2af31ff1516d8e761cbcadd1b"/>
+
+        <!-- 배포용 KEY -->
+        <!--<meta-data android:name="com.kakao.sdk.AppKey"
+            android:value="e8301ff2af31ff1516d8e761cbcadd1b"/>-->
+
     </application>
 
 </manifest>

@@ -38,8 +38,10 @@ public class FtpThread extends Thread{
         try {
             ftpClient.setControlEncoding("UTF-8");
 
-            ftpClient.connect("zzipbbong.cafe24.com", 21);
-            ftpClient.login("zzipbbong", "admin1237!");
+            //"http://coratest.kr/imagefile/bsr/"
+            //ftpClient.connect("zzipbbong.cafe24.com", 21);
+            ftpClient.connect("coratest.kr", 21);
+            ftpClient.login("bsrraon", "raon123!@");
             ftpClient.setFileType(FTP.BINARY_FILE_TYPE);
             ftpClient.enterLocalPassiveMode();
             ftpClient.setBufferSize(5 * 1024 * 1024);
@@ -97,8 +99,6 @@ public class FtpThread extends Thread{
                 ftpClient.logout();
                 ftpClient.disconnect();
             }
-        } catch (SocketException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }

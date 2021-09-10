@@ -79,7 +79,7 @@ public class LocationFragment extends BaseFragment {
         binding.locationTxv.setText(location_name);
 
         if (!TextUtils.isEmpty(tour_spot.getLocation_img())){
-            Glide.with(requireContext()).load("http://zzipbbong.cafe24.com/imagefile/bsr/" + tour_spot.getLocation_img()).into(new CustomTarget<Drawable>() {
+            Glide.with(requireContext()).load("http://coratest.kr/imagefile/bsr/" + tour_spot.getLocation_img()).into(new CustomTarget<Drawable>() {
                 @Override
                 public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
                     binding.topLayout.setBackground(resource);

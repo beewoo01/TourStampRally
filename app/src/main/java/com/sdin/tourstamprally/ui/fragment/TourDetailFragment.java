@@ -98,7 +98,8 @@ public class TourDetailFragment extends BaseFragment/* implements MapView.MapVie
 
         //Log.wtf("imgimgimg", touristSpotPoint.getTouristspotpoint_img());
         Glide.with(requireContext())
-                .load("http://zzipbbong.cafe24.com/imagefile/bsr/" + touristSpotPoint.getTouristspotpoint_img())
+                //.load("http://zzipbbong.cafe24.com/imagefile/bsr/" + touristSpotPoint.getTouristspotpoint_img())
+                .load("http://coratest.kr/imagefile/bsr/" + touristSpotPoint.getTouristspotpoint_img())
                 .error(ContextCompat.getDrawable(requireContext(), R.drawable.sample_bg))
                 .into(binding.bgImv);
 

@@ -286,7 +286,7 @@ public class MainFragment extends BaseFragment {
 
 
             if (!TextUtils.isEmpty(list.get(position).getLocation_img())){
-                Glide.with(context).load("http://zzipbbong.cafe24.com/imagefile/bsr/" + list.get(position).getLocation_img()).into(new CustomTarget<Drawable>() {
+                Glide.with(context).load("http://coratest.kr/imagefile/bsr/" + list.get(position).getLocation_img()).into(new CustomTarget<Drawable>() {
                     @Override
                     public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
                         holder.binding.mainLayout.setBackground(resource);

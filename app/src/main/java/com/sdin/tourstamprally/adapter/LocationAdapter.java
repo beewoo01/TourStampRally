@@ -95,7 +95,7 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHo
         //Glide.with(holder.itemView.getContext()).load(list.get(position).imgUrl).circleCrop().into(holder.binding.tourImv);
         holder.binding.tourImv.setBackground(new ShapeDrawable(new OvalShape()));
         holder.binding.tourImv.setClipToOutline(true);
-        Glide.with(holder.itemView.getContext()).load("http://zzipbbong.cafe24.com/imagefile/bsr/" + list.get(position).getTouristspot_img()).circleCrop().into(holder.binding.tourImv);
+        Glide.with(holder.itemView.getContext()).load("http://coratest.kr/imagefile/bsr/" + list.get(position).getTouristspot_img()).circleCrop().into(holder.binding.tourImv);
 
         if (list.get(position).isClear()){
             //클리어시 적용될 코드

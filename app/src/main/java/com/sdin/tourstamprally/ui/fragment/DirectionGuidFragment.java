@@ -76,9 +76,14 @@ public class DirectionGuidFragment extends BaseFragment {
                 if (response.isSuccessful()){
                     //Log.wtf("getTourParticipants", "1111111111");
                     List<Map<String, Integer>> list = response.body();
+                    Log.wtf("list", list.toString());
                     particiMap = new HashMap<>();
                     for (Map hashMap : list){
-                        particiMap.put((int) hashMap.get("location_idx"), (int) hashMap.get("cnt"));
+                        Log.wtf("list", hashMap.toString());
+                        if (hashMap.get("location_idx") != null && hashMap.get("cnt") != null){
+                            particiMap.put((int) hashMap.get("location_idx"), (int) hashMap.get("cnt"));
+                        }
+
                     }
                     getAllData();
                 }else {
@@ -163,6 +168,7 @@ public class DirectionGuidFragment extends BaseFragment {
 
         for (int i = 0; i < tourList.size(); i++){
             String hash = tourList.get(i).getTouristspot_tag();
+
             String[] array = Arrays.stream(hash.split("#")).map(String::trim).toArray(String[]::new);
             array = Arrays.stream(array)
                     .filter(s -> (s != null && s.length() > 0))

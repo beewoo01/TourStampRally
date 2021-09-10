@@ -25,14 +25,24 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <com.google.android.material.internal.BaselineLayout
+        <!--<com.google.android.material.internal.BaselineLayout
             android:id="@+id/baseline"
             android:layout_width="0dp"
             android:layout_height="@dimen/_50sdp"
             android:background="@color/black"
             app:layout_constraintBottom_toBottomOf="@id/background_img"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent" />-->
+
+        <Space
+            android:id="@+id/baseline"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/_50sdp"
+            app:layout_constraintBottom_toBottomOf="@id/background_img"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            />
 
         <ScrollView
             android:id="@+id/main_item_scv"

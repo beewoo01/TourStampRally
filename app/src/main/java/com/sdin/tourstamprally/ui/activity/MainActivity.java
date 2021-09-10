@@ -5,12 +5,16 @@ import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.net.Uri;
 import android.nfc.NdefMessage;
 import android.nfc.NfcAdapter;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.text.TextUtils;
+import android.util.Base64;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
@@ -60,6 +64,9 @@ import com.sdin.tourstamprally.ui.fragment.WriteReviewFragment;
 import com.sdin.tourstamprally.utill.ItemOnClick;
 import com.sdin.tourstamprally.utill.NFCListener;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -99,8 +106,34 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
 
         initView();
         setNFC();
+        //getHashKey();
 
     }
+
+    /*private void getHashKey(){
+        PackageInfo packageInfo = null;
+        try {
+            packageInfo = getPackageManager().getPackageInfo(getPackageName(), PackageManager.GET_SIGNATURES);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        if (packageInfo == null)
+            Log.e("KeyHash", "KeyHash:null");
+
+        for (Signature signature : packageInfo.signatures) {
+            try {
+                MessageDigest md = MessageDigest.getInstance("SHA");
+                md.update(signature.toByteArray());
+                Log.d("KeyHash!! ", Base64.encodeToString(md.digest(), Base64.DEFAULT));
+            } catch (NoSuchAlgorithmException e) {
+                Log.e("KeyHash", "Unable to get MessageDigest. signature=" + signature, e);
+            }
+        }
+
+
+        String keyHash = com.kakao.util.maps.helper.Utility.getKeyHash(this);
+        Log.wtf("keyHash!2222", keyHash);
+    }*/
 
     private void setToolbar(int pos) {
 
@@ -189,7 +222,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
         binding.drawaLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
         fragmentManager = getSupportFragmentManager();
 
-        Glide.with(this).load("http://zzipbbong.cafe24.com/imagefile/bsr/" + Utils.User_Profile)
+        Glide.with(this).load("http://coratest.kr/imagefile/bsr/" + Utils.User_Profile)
                 .error(ContextCompat.getDrawable(this, R.drawable.sample_profile_image)).circleCrop()
                 .into(binding.navigationLayout.profileIcon);
 
@@ -235,7 +268,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
 
     public void openDrawa() {
         binding.drawaLayout.openDrawer(GravityCompat.END);
-        Glide.with(this).load("http://zzipbbong.cafe24.com/imagefile/bsr/" + Utils.User_Profile)
+        Glide.with(this).load("http://coratest.kr/imagefile/bsr/" + Utils.User_Profile)
                 .error(ContextCompat.getDrawable(this, R.drawable.sample_profile_image)).circleCrop()
                 .into(binding.navigationLayout.profileIcon);
 

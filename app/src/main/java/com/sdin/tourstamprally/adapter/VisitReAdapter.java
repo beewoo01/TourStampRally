@@ -148,7 +148,7 @@ public class VisitReAdapter extends RecyclerView.Adapter<VisitReAdapter.SwipeVie
             });
 
             Glide.with(binding.visitHistoryImv.getContext())
-                    .load("http://zzipbbong.cafe24.com/imagefile/bsr/" + model.getTouristspot_img())
+                    .load("http://coratest.kr/imagefile/bsr/" + model.getTouristspot_img())
                     .error(ContextCompat.getDrawable(binding.visitHistoryImv.getContext(), R.drawable.sample_profile_image))
                     .apply(RequestOptions.bitmapTransform(new RoundedCorners(20)))
                     .into(binding.visitHistoryImv);
@@ -163,7 +163,7 @@ public class VisitReAdapter extends RecyclerView.Adapter<VisitReAdapter.SwipeVie
             if (model.getReview_idx() > 0){
                 binding.reviewLayout.setVisibility(View.VISIBLE);
                 binding.nameTxv.setText(model.getUser_name());
-                Glide.with(binding.profileIcon.getContext()).load("http://zzipbbong.cafe24.com/imagefile/bsr/" + model.getUser_profile()).circleCrop()
+                Glide.with(binding.profileIcon.getContext()).load("http://coratest.kr/imagefile/bsr/" + model.getUser_profile()).circleCrop()
                         .error(ContextCompat.getDrawable(binding.visitHistoryImv.getContext(), R.drawable.sample_profile_image))
                         .into(binding.profileIcon);
 
