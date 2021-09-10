@@ -10,20 +10,11 @@
             type="com.sdin.tourstamprally.ui.fragment.MainFragment" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.constraintlayout.motion.widget.MotionLayout
+        android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <ImageView
-            android:id="@+id/background_img"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/_210sdp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/enjoy_busan"
-            android:onClick="@{ () -> fragment.cuverClick()}"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+        android:layout_height="match_parent"
+        app:layoutDescription="@xml/fragment_main_xml_constraintlayout_scene">
 
         <!--<com.google.android.material.internal.BaselineLayout
             android:id="@+id/baseline"
@@ -34,6 +25,17 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />-->
 
+        <ImageView
+            android:id="@+id/background_img"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_210sdp"
+            android:onClick="@{ () -> fragment.cuverClick()}"
+            android:scaleType="centerCrop"
+            android:src="@drawable/enjoy_busan"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <Space
             android:id="@+id/baseline"
             android:layout_width="0dp"
@@ -41,13 +43,13 @@
             android:layout_marginBottom="@dimen/_50sdp"
             app:layout_constraintBottom_toBottomOf="@id/background_img"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            />
+            app:layout_constraintStart_toStartOf="parent" />
 
-        <ScrollView
+        <androidx.core.widget.NestedScrollView
             android:id="@+id/main_item_scv"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:overScrollMode="never"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -58,7 +60,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/bg_scrollview">
+                >
 
                 <LinearLayout
                     android:id="@+id/main_stemp_layout"
@@ -105,9 +107,9 @@
                             android:id="@+id/more_stemp_btn"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:onClick="@{ () -> fragment.moreClick()}"
                             android:text="@string/more_btn"
                             android:textSize="@dimen/_10sdp"
-                            android:onClick="@{ () -> fragment.moreClick()}"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
@@ -116,34 +118,29 @@
 
                     <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/_300sdp"
-                        >
+                        android:layout_height="@dimen/_300sdp">
 
                         <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/rally_recyclerview"
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/_300sdp"
-                            android:overScrollMode="never"
-                            android:background="@drawable/bg_rounded_08"
-                            android:layout_gravity="center_horizontal"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:layout_centerInParent="true"
+                            android:layout_gravity="center_horizontal"
+                            android:background="@drawable/bg_rounded_08"
+                            android:overScrollMode="never"
                             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                             app:spanCount="2"
                             tools:itemCount="4"
-                            tools:listitem="@layout/step_rally_location_item"
-                            />
+                            tools:listitem="@layout/step_rally_location_item" />
 
 
                         <ProgressBar
                             android:id="@+id/tour_rally_pgb"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_centerInParent="true"
-                            />
+                            android:layout_centerInParent="true" />
 
                     </RelativeLayout>
-
-
 
 
                 </LinearLayout>
@@ -222,7 +219,7 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-        </ScrollView>
+        </androidx.core.widget.NestedScrollView>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.motion.widget.MotionLayout>
 </layout>
