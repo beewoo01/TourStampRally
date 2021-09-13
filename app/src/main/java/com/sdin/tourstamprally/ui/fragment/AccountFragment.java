@@ -1,6 +1,7 @@
 package com.sdin.tourstamprally.ui.fragment;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -45,6 +46,7 @@ import com.sdin.tourstamprally.utill.FtpThread;
 import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPReply;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -102,10 +104,10 @@ public class AccountFragment extends BaseFragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_account, container,false);
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_account, container, false);
         binding.setFragment(this);
         setData();
         return binding.getRoot();
@@ -118,7 +120,7 @@ public class AccountFragment extends BaseFragment {
         SharedPreferences.Editor editor = pref.edit();
         editor.remove("phone");
         editor.remove("password");
-        editor.commit();
+        editor.apply();
 
         startActivity(new Intent(requireActivity(), LoginActivity.class));
         requireActivity().finish();
@@ -126,7 +128,7 @@ public class AccountFragment extends BaseFragment {
 
     }
 
-    private void setData(){
+    private void setData() {
         /*String[] arr = getResources().getStringArray(R.array.location);
         SpinnerAdapter spinnerAdapter = new SpinnerAdapter(new ArrayList(Arrays.asList(arr)));
         binding.spinnerLocation.setAdapter(spinnerAdapter);*/
@@ -140,8 +142,6 @@ public class AccountFragment extends BaseFragment {
         binding.spinnerLocation.getSelectedItem().toString();
 
 
-
-
         binding.editName.setText(Utils.User_Name);
         binding.editEmail.setText(Utils.User_Email);
         binding.editPhone.setText(Utils.UserPhone);
@@ -153,7 +153,7 @@ public class AccountFragment extends BaseFragment {
                 .into(binding.profileImb);
     }
 
-    public void profileSetOnClick(){
+    public void profileSetOnClick() {
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
@@ -181,55 +181,60 @@ public class AccountFragment extends BaseFragment {
 
     public void authResponse() {
 
-        if (TextUtils.isEmpty(binding.editPhone.getText().toString())){
+        if (TextUtils.isEmpty(binding.editPhone.getText().toString())) {
             showToast("휴대폰번호를 입력해 주세요");
             return;
         }
 
         apiService.getToken().enqueue(new Callback<String>() {
             @Override
-            public void onResponse(Call<String> call, Response<String> response) {
-                if (response.isSuccessful()){
+            public void onResponse(@NotNull Call<String> call, @NotNull Response<String> response) {
+                if (response.isSuccessful()) {
                     String Token = response.body();
-                    sendMsg(Token);
-                    binding.btnRequestAuth.setEnabled(false);
+                    if (Token != null) {
+                        sendMsg(Token);
+                        binding.btnRequestAuth.setEnabled(false);
+                    } else {
+                        binding.btnRequestAuth.setEnabled(true);
+                    }
 
-                }else {
+
+                } else {
                     binding.btnRequestAuth.setEnabled(true);
                 }
             }
 
             @Override
-            public void onFailure(Call<String> call, Throwable t) {
+            public void onFailure(@NotNull Call<String> call, @NotNull Throwable t) {
                 t.printStackTrace();
                 binding.btnRequestAuth.setEnabled(true);
             }
         });
     }
 
-    private void sendMsg(String Token){
+    private void sendMsg(String Token) {
         showToast("SMS발송 요청을 하셨습니다.");
         apiService.getAutoNumber(binding.editPhone.getText().toString(), Token).enqueue(new Callback<String>() {
             @Override
-            public void onResponse(Call<String> call, Response<String> response) {
-                if (response.isSuccessful()){
+            public void onResponse(@NotNull Call<String> call, @NotNull Response<String> response) {
+                if (response.isSuccessful()) {
                     auth = response.body();
-                }else {
-                    showToast("서버에서 문제가 발생했습니다.");
+                } else {
+                    showToast("SMS발송 요청에 실패하였습니다.");
                     Log.d("Auth", "실패");
                 }
 
             }
 
             @Override
-            public void onFailure(Call<String> call, Throwable t) {
+            public void onFailure(@NotNull Call<String> call, @NotNull Throwable t) {
                 showToast("서버에서 문제가 발생했습니다.");
                 t.printStackTrace();
             }
         });
     }
 
-    public void showToast(String msg){
+    public void showToast(String msg) {
         Toast.makeText(requireContext(), msg, Toast.LENGTH_SHORT).show();
     }
 
@@ -238,29 +243,36 @@ public class AccountFragment extends BaseFragment {
         Pattern pattern = Patterns.EMAIL_ADDRESS;
         //Log.wtf("signUp", "signUp");
 
-        if (TextUtils.isEmpty(binding.editPassword.getText()) || binding.editPassword.getText().toString().length() < 8) {
+        if (TextUtils.isEmpty(binding.editPassword.getText().toString().trim())
+                || binding.editPassword.getText().toString().trim().length() < 8) {
 
 
             showToast("비밀번호는 8자 이상입니다.");
             return;
         }
 
-        if (!Utils.UserPhone.equals(binding.editPhone.getText().toString())){
-            if (!isAuth){
+        if (!Utils.UserPhone.equals(binding.editPhone.getText().toString().trim())) {
+            if (!isAuth) {
                 showToast("휴대폰 번호를 인증해 주세요");
                 return;
             }
         }
 
-        if (TextUtils.isEmpty(binding.editPasswordConfirm.getText()) && TextUtils.isEmpty(binding.editPasswordConfirm.getText())
-                && binding.editPassword.getText().equals(binding.editPasswordConfirm.getText())) {
+        if (binding.editPassword.getText().toString().trim().equals(
+                        binding.editPasswordConfirm.getText().toString().trim())) {
+
             showToast("비밀번호가 일치하지 않습니다.");
 
-        } else if (TextUtils.isEmpty(binding.editName.getText())) {
-            showToast("이름을 입력해 주세요.");
+        } else if (TextUtils.isEmpty(binding.editName.getText().toString().trim())
+                || binding.editName.getText().toString().trim().length() < 2
+                || binding.editName.getText().toString().trim().length() > 8) {
 
-        } else if (TextUtils.isEmpty(binding.editEmail.getText()) && !pattern.matcher(binding.editEmail.getText().toString()).matches()) {
-            showToast("이메일을 입력해 주세요.");
+            showToast("이름은 2자 이상 8자 이하로 등록해주세요.");
+
+        } else if (TextUtils.isEmpty(binding.editEmail.getText().toString().trim())
+                || !pattern.matcher(binding.editEmail.getText().toString()).matches()) {
+
+            showToast("이메일을 정확히 입력해 주세요.");
 
         } else {
             update();
@@ -268,14 +280,19 @@ public class AccountFragment extends BaseFragment {
     }
 
     public void authCheck() {
-        if (!TextUtils.isEmpty(binding.editAuth.getText().toString())){
-            if (binding.editAuth.getText().toString().equals(auth)){
+        if (!TextUtils.isEmpty(binding.editAuth.getText().toString())) {
+            if (binding.editAuth.getText().toString().equals(auth)) {
                 isAuth = true;
                 showToast("휴대폰번호 인증에 성공하셨습니다.");
-            }else {
+                binding.editPhone.setEnabled(false);
+                binding.btnRequestAuth.setEnabled(false);
+                binding.editAuth.setEnabled(false);
+                binding.btnAuthCheck.setEnabled(false);
+
+            } else {
                 showToast("인증번호를 정확히 입력해 주세요");
             }
-        }else {
+        } else {
             showToast("인증번호를 정확히 입력해 주세요");
         }
     }
@@ -292,72 +309,78 @@ public class AccountFragment extends BaseFragment {
         userModel.setEmail(binding.editEmail.getText().toString());
         userModel.setLocation(binding.spinnerLocation.getSelectedItem().toString());
 
-        if (isChange){
+        if (isChange) {
             Date date = new Date(System.currentTimeMillis());
+            @SuppressLint("SimpleDateFormat")
             SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddhhmmss");
             String getTime = sdf.format(date);
             String fileName = getTime + ".jpg";
             userModel.setUser_profile(fileName);
             uploadProfile(fileName);
-        }else {
+        } else {
             userModel.setUser_profile(Utils.User_Profile);
         }
 
 
+        apiService.user_update(Utils.User_Idx, userModel.getPhone(), userModel.getPassword(),
+                userModel.getName(), userModel.getEmail(), userModel.getLocation(), userModel.getUser_profile()).enqueue(new Callback<String>() {
 
-        apiService.user_update( Utils.User_Idx, userModel.getPhone(), userModel.getPassword(), userModel.getName(), userModel.getEmail(), userModel.getLocation(), userModel.getUser_profile()).enqueue(
-                new Callback<String>() {
-            @Override
-            public void onResponse(Call<String> call, Response<String> response) {
+                    @Override
+                    public void onResponse(@NotNull Call<String> call, @NotNull Response<String> response) {
 
-                String result1 = String.valueOf(response.body());
-                String result = response.body();
-                Log.d("result", result);
-                Log.d("result1", result1);
-                Log.d("response", response.toString());
+                        if (response.isSuccessful()){
+                            String result = response.body();
 
-                if (result.equals("1")) {
+                            if (result != null) {
+                                if (result.equals("1")) {
 
-                    Utils.UserPhone = userModel.getPhone();
-                    Utils.User_Email = userModel.getEmail();
-                    Utils.User_Location = userModel.getLocation();
-                    Utils.User_Name = userModel.getName();
-                    Utils.User_Profile = userModel.getUser_profile();
-                    Utils.UserPassword = userModel.getPassword();
+                                    Utils.UserPhone = userModel.getPhone();
+                                    Utils.User_Email = userModel.getEmail();
+                                    Utils.User_Location = userModel.getLocation();
+                                    Utils.User_Name = userModel.getName();
+                                    Utils.User_Profile = userModel.getUser_profile();
+                                    Utils.UserPassword = userModel.getPassword();
 
-                    setShearedString("phone", binding.editPhone.getText().toString());
-                    setShearedString("password", binding.editPassword.getText().toString());
+                                    setShearedString("phone", binding.editPhone.getText().toString());
+                                    setShearedString("password", binding.editPassword.getText().toString());
 
-                    showToast("업데이트 성공");
+                                    showToast("업데이트 성공");
 
-                } else {
-                    showToast("업데이트에 실패하였습니다.");
-                }
-            }
+                                } else {
+                                    showToast("업데이트에 실패하였습니다.");
+                                }
+                            }else {
+                                showToast("업데이트에 실패하였습니다.");
+                            }
+                        }else {
+                            showToast("업데이트에 실패하였습니다.");
+                        }
 
-            @Override
-            public void onFailure(Call<String> call, Throwable t) {
-                t.printStackTrace();
-                showToast("서버에 문제가 있습니다.");
-            }
-        });
+                    }
+
+                    @Override
+                    public void onFailure(@NotNull Call<String> call, @NotNull Throwable t) {
+                        t.printStackTrace();
+                        showToast("업데이트에 실패하였습니다.");
+                    }
+                });
 
     }
 
 
-    private void setShearedString(String key, String value){
+    private void setShearedString(String key, String value) {
         SharedPreferences preferences = setSharedPref();
         SharedPreferences.Editor editor = preferences.edit();
         editor.putString(key, value);
-        editor.commit();
+        editor.apply();
 
     }
 
-    private SharedPreferences setSharedPref(){
+    private SharedPreferences setSharedPref() {
         return requireContext().getSharedPreferences("rebuild_preference", Context.MODE_PRIVATE);
     }
 
-    private void uploadProfile(String fileName){
+    private void uploadProfile(String fileName) {
 
         new FtpThread(imgeUri, requireContext(), fileName).start();
 
@@ -385,25 +408,30 @@ public class AccountFragment extends BaseFragment {
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == REQUEST_CODE){
-            if(resultCode == RESULT_OK)
-            {
-                Glide.with(requireContext()).load(data.getData()).circleCrop().error(ContextCompat.getDrawable(requireContext(), R.drawable.sample_profile_image))
-                        .into(binding.profileImb);
-                imgeUri = data.getData();
-                isChange = true;
-                //new FtpThread(imgeUri.toString());
-                //uploadProfile();
-            }
-            else if(resultCode == RESULT_CANCELED)
-            {
+        if (requestCode == REQUEST_CODE) {
+            //new FtpThread(imgeUri.toString());
+            //uploadProfile();
+            if (resultCode == RESULT_OK)
+                if (data != null) {
+                    Glide.with(requireContext()).load(data.getData()).circleCrop()
+                            .error(ContextCompat.getDrawable(requireContext(), R.drawable.sample_profile_image))
+                            .into(binding.profileImb);
+
+                    imgeUri = data.getData();
+                    isChange = true;
+                } else {
+                    Toast.makeText(requireContext(), "사진을 가져오는데 실패하였습니다.", Toast.LENGTH_LONG).show();
+                }
+
+            else if (resultCode == RESULT_CANCELED) {
+
                 Toast.makeText(requireContext(), "사진 선택 취소", Toast.LENGTH_LONG).show();
             }
         }
     }
 
 
-    private class SpinnerAdapter extends BaseAdapter {
+    /*private class SpinnerAdapter extends BaseAdapter {
 
         private final ArrayList<String> data;
 
@@ -457,5 +485,5 @@ public class AccountFragment extends BaseFragment {
 
             return convertView;
         }
-    }
+    }*/
 }

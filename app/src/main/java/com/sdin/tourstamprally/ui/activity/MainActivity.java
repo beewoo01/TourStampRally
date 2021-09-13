@@ -1,5 +1,6 @@
 package com.sdin.tourstamprally.ui.activity;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.PendingIntent;
 import android.content.Intent;
@@ -70,6 +71,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Objects;
 
 
 public class MainActivity extends BaseActivity implements BottomNavigationView.OnNavigationItemSelectedListener, ItemOnClick {
@@ -79,23 +81,21 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
     private NfcAdapter nfcAdapter;
     private boolean NfcMode = false;
     private PendingIntent pendingIntent;
-    private IntentFilter writingTagFilters[];
+    private IntentFilter[] writingTagFilters;
     public static boolean ISNfcInable;
     private FragmentManager fragmentManager;
-    private String NOWFRAGMENT = "Main";
+    private final String NOWFRAGMENT = "Main";
     private Fragment fragment;
-    private NFCFragment nfcFragment = new NFCFragment();
-    private QRscanFragment QRscanFragment = new QRscanFragment();
-    private DirectionGuidFragment directionGuidFragment;
-    private CouponMainFragment couponMainFragment = new CouponMainFragment();
-    private DeabsFragment deabsFragment = new DeabsFragment();
-    private SetAlarmFragment setAlarmFragment=new SetAlarmFragment();
+    private final NFCFragment nfcFragment = new NFCFragment();
+    private final QRscanFragment QRscanFragment = new QRscanFragment();
+    private final CouponMainFragment couponMainFragment = new CouponMainFragment();
+    private final DeabsFragment deabsFragment = new DeabsFragment();
+    private final SetAlarmFragment setAlarmFragment = new SetAlarmFragment();
     private long backKeyPressedTime = 0;
 
 
-    private Map<Integer, String> hashMap = new HashMap<>();
+    private final Map<Integer, String> hashMap = new HashMap<>();
     private int fragmentcount = 0;
-
 
 
     @Override
@@ -135,6 +135,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
         Log.wtf("keyHash!2222", keyHash);
     }*/
 
+    @SuppressLint("SetTextI18n")
     private void setToolbar(int pos) {
 
         /*Log.wtf("ggggghash", hashMap.get(fragmentcount));
@@ -147,53 +148,65 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
             String name = getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount()- 1).getName();
             //Log.wtf("name!!!!", name);
         }*/
-        String name = getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount()- 1).getName();
-        name = hashMap.get(fragmentcount);
+        //String name = getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount() - 1).getName();
+        String name = hashMap.get(fragmentcount);
 
         /*Log.d("name", name);
         Log.wtf("name11111111111111111", name);*/
-        if (name.equals("NFC") || name.equals("QR")){
-            String title = name.equals("QR")? name + "코드" : name;
-            binding.toolbarLayout.toolbarLayout.setBackgroundColor(ContextCompat.getColor(this, R.color.popup_buttonColor));
-            binding.toolbarLayout.backBtn.setVisibility(View.VISIBLE);
-            binding.toolbarLayout.titleTxv.setVisibility(View.VISIBLE);
-            binding.toolbarLayout.titleTxv.setText(title+ " 스캔");
-            binding.toolbarLayout.titleTxv.setTextColor(ContextCompat.getColor(this, R.color.White));
-            binding.toolbarLayout.logoMainToolbar.setVisibility(View.GONE);
-            Glide.with(this).load(ContextCompat.getDrawable(this, R.drawable.ic_backspace_white_24)).into(binding.toolbarLayout.backBtn);
-            binding.toolbarLayout.tapImb.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_hamburger_white_24));
-        }else if (name.equals("Main")){
-            binding.toolbarLayout.toolbarLayout.setBackgroundColor(ContextCompat.getColor(this, R.color.White));
-            binding.toolbarLayout.backBtn.setVisibility(View.GONE);
-            binding.toolbarLayout.titleTxv.setVisibility(View.GONE);
-            binding.toolbarLayout.logoMainToolbar.setVisibility(View.VISIBLE);
-            binding.toolbarLayout.tapImb.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.hamberger_menu_resize));
-        }else if (name.equals("계정수정") || name.equals("공지사항") || name.equals("쿠폰현황") || name.equals("찜한목록") || name.equals("알림설정")){
+        if (name != null) {
+            switch (name) {
+                case "NFC":
+                case "QR":
+                    String title = name.equals("QR") ? name + "코드" : name;
+                    binding.toolbarLayout.toolbarLayout.setBackgroundColor(ContextCompat.getColor(this, R.color.popup_buttonColor));
+                    binding.toolbarLayout.backBtn.setVisibility(View.VISIBLE);
+                    binding.toolbarLayout.titleTxv.setVisibility(View.VISIBLE);
+                    binding.toolbarLayout.titleTxv.setText(title + " 스캔");
+                    binding.toolbarLayout.titleTxv.setTextColor(ContextCompat.getColor(this, R.color.White));
+                    binding.toolbarLayout.logoMainToolbar.setVisibility(View.GONE);
+                    Glide.with(this).load(ContextCompat.getDrawable(this, R.drawable.ic_backspace_white_24)).into(binding.toolbarLayout.backBtn);
+                    binding.toolbarLayout.tapImb.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_hamburger_white_24));
+                    break;
+                case "Main":
+                    binding.toolbarLayout.toolbarLayout.setBackgroundColor(ContextCompat.getColor(this, R.color.White));
+                    binding.toolbarLayout.backBtn.setVisibility(View.GONE);
+                    binding.toolbarLayout.titleTxv.setVisibility(View.GONE);
+                    binding.toolbarLayout.logoMainToolbar.setVisibility(View.VISIBLE);
+                    binding.toolbarLayout.tapImb.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.hamberger_menu_resize));
+                    break;
+                case "계정수정":
+                case "공지사항":
+                case "쿠폰현황":
+                case "찜한목록":
+                case "알림설정":
 
-            binding.toolbarLayout.toolbarLayout.setBackgroundColor(ContextCompat.getColor(this, R.color.mainColor));
-            binding.toolbarLayout.backBtn.setVisibility(View.VISIBLE);
-            Glide.with(this).load(ContextCompat.getDrawable(this, R.drawable.ic_backspace_white_24)).into(binding.toolbarLayout.backBtn);
-            binding.toolbarLayout.titleTxv.setVisibility(View.VISIBLE);
-            binding.toolbarLayout.titleTxv.setText(name);
-            binding.toolbarLayout.titleTxv.setTextColor(ContextCompat.getColor(this, R.color.White));
-            binding.toolbarLayout.logoMainToolbar.setVisibility(View.GONE);
-            binding.toolbarLayout.tapImb.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_hamburger_white_24));
+                    binding.toolbarLayout.toolbarLayout.setBackgroundColor(ContextCompat.getColor(this, R.color.mainColor));
+                    binding.toolbarLayout.backBtn.setVisibility(View.VISIBLE);
+                    Glide.with(this).load(ContextCompat.getDrawable(this, R.drawable.ic_backspace_white_24)).into(binding.toolbarLayout.backBtn);
+                    binding.toolbarLayout.titleTxv.setVisibility(View.VISIBLE);
+                    binding.toolbarLayout.titleTxv.setText(name);
+                    binding.toolbarLayout.titleTxv.setTextColor(ContextCompat.getColor(this, R.color.White));
+                    binding.toolbarLayout.logoMainToolbar.setVisibility(View.GONE);
+                    binding.toolbarLayout.tapImb.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_hamburger_white_24));
 
-        } else {
-            if (name.equals("direction_guid")){
-                name = "길안내 관광지";
-            }else if (name.equals("location_fragment")){
+                    break;
+                default:
+                    if (name.equals("direction_guid")) {
+                        name = "길안내 관광지";
+                    } else if (name.equals("location_fragment")) {
 
+                    }
+                    //Log.wtf("setToolbar","else");
+                    binding.toolbarLayout.toolbarLayout.setBackgroundColor(ContextCompat.getColor(this, R.color.White));
+                    binding.toolbarLayout.backBtn.setVisibility(View.VISIBLE);
+                    Glide.with(this).load(ContextCompat.getDrawable(this, R.drawable.back_ic_resize)).into(binding.toolbarLayout.backBtn);
+                    binding.toolbarLayout.titleTxv.setVisibility(View.VISIBLE);
+                    binding.toolbarLayout.titleTxv.setTextColor(ContextCompat.getColor(this, R.color.Black));
+                    binding.toolbarLayout.titleTxv.setText(name);
+                    binding.toolbarLayout.logoMainToolbar.setVisibility(View.GONE);
+                    binding.toolbarLayout.tapImb.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.hamberger_menu_resize));
+                    break;
             }
-            //Log.wtf("setToolbar","else");
-            binding.toolbarLayout.toolbarLayout.setBackgroundColor(ContextCompat.getColor(this, R.color.White));
-            binding.toolbarLayout.backBtn.setVisibility(View.VISIBLE);
-            Glide.with(this).load(ContextCompat.getDrawable(this, R.drawable.back_ic_resize)).into(binding.toolbarLayout.backBtn);
-            binding.toolbarLayout.titleTxv.setVisibility(View.VISIBLE);
-            binding.toolbarLayout.titleTxv.setTextColor(ContextCompat.getColor(this, R.color.Black));
-            binding.toolbarLayout.titleTxv.setText(name);
-            binding.toolbarLayout.logoMainToolbar.setVisibility(View.GONE);
-            binding.toolbarLayout.tapImb.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.hamberger_menu_resize));
         }
 
     }
@@ -229,10 +242,10 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
 
         binding.navigationLayout.userNameTxv.setText(Utils.User_Name);
         binding.bottomNavigationView.setOnNavigationItemSelectedListener(this);
-        setFragment("Main", new MainFragment().newInstance("",""));
+        setFragment("Main", MainFragment.newInstance("", ""));
     }
 
-    public void backClick(){
+    public void backClick() {
         //Log.wtf("MainAct FCount", String.valueOf(fragmentManager.getBackStackEntryCount()));
         if (fragmentManager.getBackStackEntryCount() > 0) {
             //Log.wtf("MainAct", "if");
@@ -247,11 +260,16 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
             fragmentcount--;
 
 
-            if (hashMap.get(fragmentcount).equals("NFC") || hashMap.get(fragmentcount).equals("QR")){
-                fragmentManager.popBackStack();
-                fragmentManager.beginTransaction().remove(fragment).commit();
-                fragmentcount--;
+            if (hashMap.get(fragmentcount) != null){
+                if (Objects.equals(hashMap.get(fragmentcount), "NFC") || Objects.equals(hashMap.get(fragmentcount), "QR")){
+                    fragmentManager.popBackStack();
+                    fragmentManager.beginTransaction().remove(fragment).commit();
+                    fragmentcount--;
+                }
             }
+            /*if (Objects.requireNonNull(hashMap.get(fragmentcount)).equals("NFC") || hashMap.get(fragmentcount).equals("QR")) {
+
+            }*/
 
             //Log.wtf("hash!!!", hashMap.get(fragmentcount));
 
@@ -283,7 +301,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
         SharedPreferences.Editor editor = pref.edit();
         editor.remove("phone");
         editor.remove("password");
-        editor.commit();
+        editor.apply();
 
         startActivity(new Intent(this, LoginActivity.class));
         finish();
@@ -294,10 +312,33 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
-        switch (item.getItemId()) {
+        Fragment fragment = null;
+        String tag = null;
+
+        if (item.getItemId() == R.id.page_home) {
+            fragment = MainFragment.newInstance("", "");
+            tag = "Main";
+            //setFragment("Main", MainFragment.newInstance("", ""));
+        } else if (item.getItemId() == R.id.page_store) {
+            fragment = new StoreListFragment();
+            tag = "매장 리스트";
+        } else if (item.getItemId() == R.id.page_report) {
+            fragment = new VisitHistoryFragment();
+            tag = "방문기록";
+        } else if (item.getItemId() == R.id.page_navi) {
+            setKaKaoNavi();
+        }
+
+        if (fragment != null){
+            setFragment(tag, fragment);
+        }
+
+
+
+        /*switch (item.getItemId()) {
             case R.id.page_home:
 
-                setFragment("Main", new MainFragment().newInstance("", ""));
+                setFragment("Main", MainFragment.newInstance("", ""));
                 break;
 
             case R.id.page_store:
@@ -317,21 +358,20 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
                 //setFragment("Tour", new TourRecordFragment());
                 break;
 
-        }
+        }*/
         return true;
     }
 
 
-
     @Override
     public void onBackPressed() {
-        if (System.currentTimeMillis() > backKeyPressedTime + 2000){
+        if (System.currentTimeMillis() > backKeyPressedTime + 2000) {
             backKeyPressedTime = System.currentTimeMillis();
-            Toast.makeText(this, "\'뒤로\' 버튼을 한번 더 누르시면 종료됩니다.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "'뒤로' 버튼을 한번 더 누르시면 종료됩니다.", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        if (System.currentTimeMillis() <= backKeyPressedTime + 2000){
+        if (System.currentTimeMillis() <= backKeyPressedTime + 2000) {
             finish();
         }
     }
@@ -348,9 +388,9 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
 
 
         //hashMap.put();
-        if (tag.equals("Main")){
+        if (tag.equals("Main")) {
             binding.webViewLayout.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             binding.webViewLayout.setVisibility(View.GONE);
         }
         fragmentManager = getSupportFragmentManager();
@@ -364,8 +404,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
         ft.replace(binding.framelayout.getId(), fragment, tag).addToBackStack(null).commit();*/
         fragmentManager.executePendingTransactions();
         fragmentcount++;
-        hashMap.put(fragmentcount, getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount()-1).getName());
-
+        hashMap.put(fragmentcount, getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount() - 1).getName());
 
 
         //Log.wtf("Id,@@ ", String.valueOf(getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount()-1).getId()));
@@ -378,10 +417,10 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
     protected void onResume() {
         super.onResume();
         //Log.d("MainActivity", "onResume ");
-        if (TextUtils.isEmpty(Utils.UserPhone) || TextUtils.isEmpty(Utils.UserPassword)){
+        if (TextUtils.isEmpty(Utils.UserPhone) || TextUtils.isEmpty(Utils.UserPassword)) {
             startActivity(new Intent(MainActivity.this, LoginActivity.class));
             finish();
-        }else {
+        } else {
             NfcModeOn();
         }
 
@@ -407,13 +446,12 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
     }
 
 
-
     private void NfcModeOn() {
         NfcMode = true;
-        if (nfcAdapter == null){
+        if (nfcAdapter == null) {
             nfcAdapter = NfcAdapter.getDefaultAdapter(this);
         }
-        if (ISNfcInable){
+        if (ISNfcInable) {
             nfcAdapter.enableForegroundDispatch(this, pendingIntent, writingTagFilters, null);
         }
 
@@ -452,17 +490,19 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
                 }
             }
 
-            String name = getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount()-1).getName();
-            if (name.equals("NFC")){
-                if (listener != null){
+            String name = getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount() - 1).getName();
+            if (name != null) {
+                if (name.equals("NFC")) {
+                    if (listener != null) {
+                        listener.onReadTag(msgs);
+                    }
+                } else {
+
+                    /*testSetFragment("NFC", nfcFragment);*/
+                    //testSetFragment("NFC", nfcFragment);
+                    setFragment("NFC", nfcFragment);
                     listener.onReadTag(msgs);
                 }
-            }else {
-
-                /*testSetFragment("NFC", nfcFragment);*/
-                //testSetFragment("NFC", nfcFragment);
-                setFragment("NFC", nfcFragment);
-                listener.onReadTag(msgs);
             }
 
             //setFragment("NFC", nfcFragment.newInstance(msgs, listener));
@@ -471,7 +511,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
 
     private NFCListener listener;
 
-    public void setOnListener(NFCListener listener){
+    public void setOnListener(NFCListener listener) {
         this.listener = listener;
     }
 
@@ -480,30 +520,30 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
     public void onClick(int position) {
         //ItemOnClcik Listener
         Log.d("onClick", String.valueOf(position));
-        binding.drawaLayout.closeDrawer(Gravity.RIGHT);
+        binding.drawaLayout.closeDrawer(GravityCompat.END);
 
-        switch (position){
-            case 0 :
+        switch (position) {
+            case 0:
                 UserModel userModel = new UserModel(Utils.User_Idx, Utils.UserPhone, Utils.User_Name, Utils.User_Email, Utils.User_Location, Utils.User_Profile);
-                setFragment("계정수정", new AccountFragment().newInstance(userModel));
+                setFragment("계정수정", AccountFragment.newInstance(userModel));
                 break;
 
-            case 1 :
+            case 1:
                 setFragment("공지사항", new NoticeFragment());
                 //공지
                 break;
 
-            case 2 :
+            case 2:
                 setFragment("쿠폰현황", couponMainFragment);
                 //쿠폰현황
                 break;
 
-            case 3 :
+            case 3:
                 setFragment("알림설정", setAlarmFragment);
                 //알림설정
                 break;
 
-            case 4 :
+            case 4:
                 setFragment("찜한목록", deabsFragment);
                 //찜한목록
                 break;
@@ -515,14 +555,14 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
     @Override
     public void ItemGuid(int position) {
         Log.d("ItemGuid_MainAct111", String.valueOf(position));
-        if (position == 1){
+        if (position == 1) {
             if (ISNfcInable) {
                 //testSetFragment("NFC", nfcFragment);
                 setFragment("NFC", nfcFragment);
-            }else {
+            } else {
                 showToast("NFC를 지원하지 않는 단말기 입니다.");
             }
-        }else if (position == 2){
+        } else if (position == 2) {
             //testSetFragment("NFC", QRscanFragment);
             setFragment("QR", QRscanFragment);
         }
@@ -534,7 +574,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
 
         //관광지 포인트 화면 이동
         //Log.wtf("model ToSTRING", model.toString());
-        setFragment(model.getTouristspot_name(), new TourSpotPointFragment().newInstance(model));
+        setFragment(model.getTouristspot_name(), TourSpotPointFragment.newInstance(model));
 
         /*if (position == 0){
             //관광지 자세히 보기
@@ -547,17 +587,17 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
 
     @Override
     public void ItemGuidForDetail(TouristSpotPoint model) {
-        setFragment(model.getTouristspotpoint_name(),new TourDetailFragment().newInstance(model));
+        setFragment(model.getTouristspotpoint_name(), TourDetailFragment.newInstance(model));
     }
 
     @Override
     public void SetFragment(String tag) {
-        if (tag.equals("direction_guid")){
+        if (tag.equals("direction_guid")) {
 
-            directionGuidFragment = new DirectionGuidFragment().newInstance();
+            DirectionGuidFragment directionGuidFragment = DirectionGuidFragment.newInstance();
             setFragment("direction_guid", directionGuidFragment);
 
-        }else if (tag.equals("notice")){
+        } else if (tag.equals("notice")) {
 
 
         }
@@ -566,14 +606,14 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
     @Override
     public void onItemClick(Tour_Spot tour_spot) {
         //Log.wtf("onItemClick", tour_spot.toString());
-        setFragment(tour_spot.getLocation_name() + " 랠리 맵", new LocationFragment().newInstance(tour_spot));
+        setFragment(tour_spot.getLocation_name() + " 랠리 맵", LocationFragment.newInstance(tour_spot));
         setToolbar(3);
     }
 
     @Override
     public void onWriteRewviewClick(int spotIdx, String spotName) {
         //Log.wtf("onWriteRewviewClick", "mainActivity");
-        setFragment("리뷰작성", new WriteReviewFragment().newInstance(spotIdx, spotName));
+        setFragment("리뷰작성", WriteReviewFragment.newInstance(spotIdx, spotName));
     }
 
     @Override
@@ -581,15 +621,15 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
         backClick();
     }
 
-    private void setKaKaoNavi(){
-        if (NaviClient.getInstance().isKakaoNaviInstalled(this)){
+    private void setKaKaoNavi() {
+        if (NaviClient.getInstance().isKakaoNaviInstalled(this)) {
             //Log.wtf(TAG, "카카오내비 앱으로 길안내 가능");
             startActivity(NaviClient.getInstance().navigateIntent(
                     new Location("카카오 판교오피스", "127.108640", "37.402111"),
                     new NaviOption(CoordType.WGS84)
                     )
             );
-        }else {
+        } else {
             //Log.wtf(TAG, "카카오내비 미설치 : 웹 길안내 사용 권장");
             Uri uri = NaviClient.getInstance().navigateWebUrl(
                     new Location("카카오 판교오피스", "127.108640", "37.402111"),

@@ -10,7 +10,6 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -24,6 +23,7 @@
 
             <ImageButton
                 android:id="@+id/back_imb"
+                android:contentDescription="@string/backimv"
                 android:layout_width="@dimen/_30sdp"
                 android:layout_height="@dimen/_30sdp"
                 android:src="@drawable/back_ic_resize"
@@ -72,6 +72,7 @@
             android:layout_marginTop="@dimen/_5sdp"
             android:layout_marginEnd="@dimen/_20sdp"
             android:background="@drawable/bg_rounded_09"
+            android:paddingHorizontal="@dimen/_5sdp"
             app:layout_constraintBottom_toTopOf="@+id/service_term_rdb"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@id/service_term_txv"
@@ -81,8 +82,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/black"
-                android:text=""
-                android:textSize="@dimen/_12sdp" />
+                android:text="@string/serviceTerm"
+                android:textSize="@dimen/_10sdp" />
 
         </ScrollView>
 
@@ -115,6 +116,7 @@
             android:layout_width="0dp"
             android:layout_height="@dimen/_130sdp"
             android:layout_marginTop="@dimen/_5sdp"
+            android:paddingHorizontal="@dimen/_5sdp"
             android:background="@drawable/bg_rounded_09"
             android:onClick="@{ () -> activity.chackBoxClick()}"
             app:layout_constraintEnd_toEndOf="@+id/service_terms_scv"
@@ -124,8 +126,9 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:text="@string/personalTerms"
                 android:textColor="@color/black"
-                android:textSize="@dimen/_12sdp" />
+                android:textSize="@dimen/_10sdp" />
 
         </ScrollView>
 
@@ -163,7 +166,7 @@
                 android:onClick="@{ activity::allagree }"
                 android:padding="@dimen/_5sdp"
                 android:text="@string/all_agree" />
--->
+
         </LinearLayout>
 
 

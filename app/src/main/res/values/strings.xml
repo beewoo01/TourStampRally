@@ -83,5 +83,6 @@
 
     <string name="kakaoNativeAppKey">e8301ff2af31ff1516d8e761cbcadd1b</string>
     <string name="save">저장</string>
+    <string name="backimv">backImv</string>
 
 </resources>

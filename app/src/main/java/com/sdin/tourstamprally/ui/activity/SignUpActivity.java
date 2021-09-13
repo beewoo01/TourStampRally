@@ -22,6 +22,8 @@ import com.sdin.tourstamprally.R;
 import com.sdin.tourstamprally.databinding.ActivitySignUpBinding;
 import com.sdin.tourstamprally.model.UserModel;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.regex.Pattern;
@@ -49,7 +51,7 @@ public class SignUpActivity extends BaseActivity {
     @Override
     protected void initView() {
         String[] arr = getResources().getStringArray(R.array.location);
-        SpinnerAdapter spinnerAdapter = new SpinnerAdapter(new ArrayList(Arrays.asList(arr)));
+        SpinnerAdapter spinnerAdapter = new SpinnerAdapter(new ArrayList<>(Arrays.asList(arr)));
         //ArrayAdapter adapter = ArrayAdapter.createFromResource(this, R.array.location, android.R.layout.simple_spinner_item);
         //adapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
         binding.spinnerLocation.setAdapter(spinnerAdapter);
@@ -75,40 +77,53 @@ public class SignUpActivity extends BaseActivity {
 
     public void authResponse() {
 
-        if (TextUtils.isEmpty(binding.editPhone.getText().toString())){
+        if (TextUtils.isEmpty(binding.editPhone.getText().toString())) {
             showToast("휴대폰번호를 입력해 주세요");
             return;
         }
 
         apiService.getToken().enqueue(new Callback<String>() {
             @Override
-            public void onResponse(Call<String> call, Response<String> response) {
-                if (response.isSuccessful()){
+            public void onResponse(@NotNull Call<String> call, @NotNull Response<String> response) {
+                if (response.isSuccessful()) {
                     String Token = response.body();
-                    sendMsg(Token);
-                    binding.btnRequestAuth.setEnabled(false);
+                    if (Token != null){
+                        sendMsg(Token);
+                        binding.btnRequestAuth.setEnabled(false);
+                    }else {
+                        binding.btnRequestAuth.setEnabled(true);
+                        showToast("SMS발송 요청을 실패하였습니다.");
+                    }
 
-                }else {
+
+                } else {
                     binding.btnRequestAuth.setEnabled(true);
+                    showToast("SMS발송 요청을 실패하였습니다.");
                 }
             }
 
             @Override
-            public void onFailure(Call<String> call, Throwable t) {
+            public void onFailure(@NotNull Call<String> call, @NotNull Throwable t) {
                 t.printStackTrace();
                 binding.btnRequestAuth.setEnabled(true);
+                showToast("SMS발송 요청을 실패하였습니다.");
             }
         });
     }
 
-    private void sendMsg(String Token){
+    private void sendMsg(String Token) {
         showToast("SMS발송 요청을 하셨습니다.");
         apiService.getAutoNumber(binding.editPhone.getText().toString(), Token).enqueue(new Callback<String>() {
             @Override
-            public void onResponse(Call<String> call, Response<String> response) {
-                if (response.isSuccessful()){
-                    auth = response.body();
-                }else {
+            public void onResponse(@NotNull Call<String> call, @NotNull Response<String> response) {
+                if (response.isSuccessful()) {
+                    if (auth != null){
+                        auth = response.body();
+                    }else {
+                        showToast("SMS발송 요청을 실패하였습니다.");
+                    }
+
+                } else {
                     showToast("서버에서 문제가 발생했습니다.");
                     Log.d("Auth", "실패");
                 }
@@ -116,7 +131,7 @@ public class SignUpActivity extends BaseActivity {
             }
 
             @Override
-            public void onFailure(Call<String> call, Throwable t) {
+            public void onFailure(@NotNull Call<String> call, @NotNull Throwable t) {
                 showToast("서버에서 문제가 발생했습니다.");
                 t.printStackTrace();
             }
@@ -124,14 +139,18 @@ public class SignUpActivity extends BaseActivity {
     }
 
     public void authCheck() {
-        if (!TextUtils.isEmpty(binding.editAuth.getText().toString())){
-            if (binding.editAuth.getText().toString().equals(auth)){
+        if (!TextUtils.isEmpty(binding.editAuth.getText().toString())) {
+            if (binding.editAuth.getText().toString().equals(auth)) {
                 isAuth = true;
                 showToast("휴대폰번호 인증에 성공하셨습니다.");
-            }else {
+                binding.editPhone.setEnabled(false);
+                binding.editAuth.setEnabled(false);
+                binding.btnRequestAuth.setEnabled(false);
+                binding.btnAuthCheck.setEnabled(false);
+            } else {
                 showToast("인증번호를 정확히 입력해 주세요");
             }
-        }else {
+        } else {
             showToast("인증번호를 정확히 입력해 주세요");
         }
     }
@@ -150,23 +169,24 @@ public class SignUpActivity extends BaseActivity {
             return;
         }
 
-        if (TextUtils.isEmpty(binding.editPassword.getText()) || binding.editPassword.getText().toString().length() < 8) {
+        if (TextUtils.isEmpty(binding.editPassword.getText().toString().trim())
+                || binding.editPassword.getText().toString().trim().length() < 8) {
 
             showToast("비밀번호는 8자 이상입니다.");
 
-        }else if (TextUtils.isEmpty(binding.editPasswordConfirm.getText()) && TextUtils.isEmpty(binding.editPasswordConfirm.getText())
-                && binding.editPassword.getText().equals(binding.editPasswordConfirm.getText())) {
-            showToast("비밀번호가 일치하지 않습니다.");
-
-        } else if (binding.editPasswordConfirm.getText().equals(binding.editPassword.getText().equals(binding.editPasswordConfirm.getText()))){
+        } else if (!binding.editPassword.getText().toString().trim().equals(
+                binding.editPasswordConfirm.getText().toString().trim())) {
 
             showToast("비밀번호가 일치하지 않습니다.");
 
-        } else if (TextUtils.isEmpty(binding.editName.getText())) {
+        } else if (TextUtils.isEmpty(binding.editName.getText().toString().trim())
+                || binding.editName.getText().toString().trim().length() > 8
+                || binding.editName.getText().toString().trim().length() < 2) {
 
-            showToast("이름을 입력해 주세요.");
+            showToast("이름은 2자 이상 8자 이하로 등록해 주세요");
 
-        } else if (TextUtils.isEmpty(binding.editEmail.getText()) && !pattern.matcher(binding.editEmail.getText().toString()).matches()) {
+        } else if (TextUtils.isEmpty(binding.editEmail.getText().toString().trim())
+                || !pattern.matcher(binding.editEmail.getText().toString().trim()).matches()) {
 
             showToast("이메일을 입력해 주세요.");
 
@@ -177,54 +197,70 @@ public class SignUpActivity extends BaseActivity {
 
     private void join() {
         UserModel userModel = new UserModel();
-        userModel.setPhone(binding.editPhone.getText().toString());
-        userModel.setPassword(binding.editPassword.getText().toString());
-        userModel.setName(binding.editName.getText().toString());
-        userModel.setEmail(binding.editEmail.getText().toString());
+        userModel.setPhone(binding.editPhone.getText().toString().trim());
+        userModel.setPassword(binding.editPassword.getText().toString().trim());
+        userModel.setName(binding.editName.getText().toString().trim());
+        userModel.setEmail(binding.editEmail.getText().toString().trim());
         userModel.setLocation(binding.spinnerLocation.getSelectedItem().toString());
 
         apiService.userPhoneExists(userModel.getPhone()).enqueue(new Callback<String>() {
             @Override
-            public void onResponse(Call<String> call, Response<String> response) {
-                String result = response.body();
-                Log.d("result JOIN", result);
-                if (result.equals("true")){
-                    userSignUp(userModel);
-                }else {
-                    Toast.makeText(SignUpActivity.this, "이미 등록된 번호 입니다.", Toast.LENGTH_SHORT).show();
+            public void onResponse(@NotNull Call<String> call, @NotNull Response<String> response) {
+                if (response.isSuccessful()) {
+                    String result = response.body();
+                    if (result != null) {
+                        if (result.equals("true")) {
+                            userSignUp(userModel);
+                        } else {
+                            Toast.makeText(SignUpActivity.this, "이미 등록된 번호 입니다.", Toast.LENGTH_SHORT).show();
+                        }
+                    } else {
+                        showToast("회원가입에 실패하였습니다.");
+                    }
+                } else {
+                    showToast("회원가입에 실패하였습니다.");
                 }
+
             }
 
             @Override
-            public void onFailure(Call<String> call, Throwable t) {
-
+            public void onFailure(@NotNull Call<String> call, @NotNull Throwable t) {
+                Log.wtf("SignUp", t.getMessage());
             }
         });
 
 
-
     }
 
-    private void userSignUp(UserModel userModel){
+    private void userSignUp(UserModel userModel) {
         apiService.userSignUp(userModel.getPhone(), userModel.getPassword(), userModel.getName()
                 , userModel.getEmail(), userModel.getLocation(), 1, 1).enqueue(new Callback<String>() {
             @Override
-            public void onResponse(Call<String> call, Response<String> response) {
+            public void onResponse(@NotNull Call<String> call, @NotNull Response<String> response) {
 
-                String result = response.body();
-
-                if (result.equals("1")) {
-                    showToast("회원가입 성공");
-                    TermsOfConditionsActivity activity = (TermsOfConditionsActivity) TermsOfConditionsActivity.activity;
-                    activity.finish();
-                    finish();
+                if (response.isSuccessful()) {
+                    String result = response.body();
+                    if (result != null) {
+                        if (result.equals("1")) {
+                            showToast("회원가입 성공");
+                            TermsOfConditionsActivity activity = (TermsOfConditionsActivity) TermsOfConditionsActivity.activity;
+                            activity.finish();
+                            finish();
+                        } else {
+                            showToast("회원가입에 실패하였습니다.");
+                        }
+                    } else {
+                        showToast("회원가입에 실패하였습니다.");
+                    }
                 } else {
                     showToast("회원가입에 실패하였습니다.");
                 }
+
+
             }
 
             @Override
-            public void onFailure(Call<String> call, Throwable t) {
+            public void onFailure(@NotNull Call<String> call, @NotNull Throwable t) {
                 t.printStackTrace();
                 showToast("서버에 문제가 있습니다.");
             }
