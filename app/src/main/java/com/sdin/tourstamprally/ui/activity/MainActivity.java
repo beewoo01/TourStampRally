@@ -1,23 +1,17 @@
 package com.sdin.tourstamprally.ui.activity;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.Signature;
 import android.net.Uri;
 import android.nfc.NdefMessage;
 import android.nfc.NfcAdapter;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.text.TextUtils;
-import android.util.Base64;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
@@ -31,9 +25,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.bumptech.glide.Glide;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.zxing.integration.android.IntentIntegrator;
-import com.google.zxing.integration.android.IntentResult;
+import com.google.android.material.navigation.NavigationBarView;
 import com.kakao.sdk.common.util.KakaoCustomTabsClient;
 import com.kakao.sdk.navi.NaviClient;
 import com.kakao.sdk.navi.model.CoordType;
@@ -73,7 +65,7 @@ import java.util.Map;
 import java.util.Objects;
 
 
-public class MainActivity extends BaseActivity implements BottomNavigationView.OnNavigationItemSelectedListener, ItemOnClick {
+public class MainActivity extends BaseActivity implements NavigationBarView.OnItemSelectedListener, ItemOnClick {
 
     private ActivityMainBinding binding;
     public final String TAG = "MainActivity";
@@ -240,7 +232,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
 
 
         binding.navigationLayout.userNameTxv.setText(Utils.User_Name);
-        binding.bottomNavigationView.setOnNavigationItemSelectedListener(this);
+        binding.bottomNavigationView.setOnItemSelectedListener(this);
         setFragment("Main", MainFragment.newInstance("", ""));
     }
 

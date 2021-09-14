@@ -31,6 +31,8 @@ import com.sdin.tourstamprally.model.VisitCountModel;
 import com.sdin.tourstamprally.model.VisitHistory_Model;
 import com.sdin.tourstamprally.model.history_spotModel;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -119,14 +121,16 @@ public class VisitHistoryFragment extends BaseFragment {
 
         apiService.getHistorySpot(Utils.User_Idx).enqueue(new Callback<List<history_spotModel>>() {
             @Override
-            public void onResponse(Call<List<history_spotModel>> call, Response<List<history_spotModel>> response) {
+            public void onResponse(@NotNull Call<List<history_spotModel>> call, @NotNull Response<List<history_spotModel>> response) {
                 try {
                     if (response.isSuccessful()){
 
-                        history_spotList = new ArrayList<>(response.body());
+                        if (response.body() != null) {
+                            history_spotList = new ArrayList<>(response.body());
+                        }
 
 
-                        Map<Integer, history_spotModel> map = new HashMap();
+                        Map<Integer, history_spotModel> map = new HashMap<>();
 
                         history_spotModel saveModel = null;
                         for (history_spotModel model : history_spotList){
@@ -155,7 +159,7 @@ public class VisitHistoryFragment extends BaseFragment {
             }
 
             @Override
-            public void onFailure(Call<List<history_spotModel>> call, Throwable t) {
+            public void onFailure(@NotNull Call<List<history_spotModel>> call, @NotNull Throwable t) {
                 t.printStackTrace();
             }
         });
@@ -169,7 +173,7 @@ public class VisitHistoryFragment extends BaseFragment {
         apiService.getVisitCount(Utils.User_Idx).enqueue(new Callback<List<VisitCountModel>>() {
 
             @Override
-            public void onResponse(Call<List<VisitCountModel>> call, Response<List<VisitCountModel>> response) {
+            public void onResponse(@NotNull Call<List<VisitCountModel>> call, @NotNull Response<List<VisitCountModel>> response) {
                 try {
                     if (response.isSuccessful()){
                         //Log.wtf("getTourParticipants", "1111111111");
@@ -217,7 +221,7 @@ public class VisitHistoryFragment extends BaseFragment {
             }
 
             @Override
-            public void onFailure(Call<List<VisitCountModel>> call, Throwable t) {
+            public void onFailure(@NotNull Call<List<VisitCountModel>> call, @NotNull Throwable t) {
                 t.printStackTrace();
             }
         });
@@ -227,7 +231,7 @@ public class VisitHistoryFragment extends BaseFragment {
         adapter.itemCilcListener((position, model) -> {
             apiService.select_interest_status(Utils.User_Idx, model.getTouristspot_idx()).enqueue(new Callback<Integer>() {
                 @Override
-                public void onResponse(Call<Integer> call, Response<Integer> response) {
+                public void onResponse(@NotNull Call<Integer> call, @NotNull Response<Integer> response) {
                     if (response.isSuccessful()){
                         //ShowToast("찜하기에 성공 하셨습니다.", requireContext());
                         //Log.wtf("response.body()", String.valueOf(response.body()));
@@ -243,7 +247,7 @@ public class VisitHistoryFragment extends BaseFragment {
                 }
 
                 @Override
-                public void onFailure(Call<Integer> call, Throwable t) {
+                public void onFailure(@NotNull Call<Integer> call, @NotNull Throwable t) {
                     ShowToast("찜하기에 실패 하셨습니다.", requireContext());
                     t.printStackTrace();
                 }
@@ -350,10 +354,10 @@ public class VisitHistoryFragment extends BaseFragment {
                 this.binding = binding;
                 binding.tagItemTxv.setOnClickListener( v -> {
                     prevSelected = selectedItem;
-                    selectedItem = getAdapterPosition();
-                    if (getAdapterPosition() != RecyclerView.NO_POSITION){
+                    selectedItem = getAbsoluteAdapterPosition();
+                    if (getAbsoluteAdapterPosition() != RecyclerView.NO_POSITION){
                         if (itemOnClick != null){
-                            itemOnClick.onCategoryClick(arrayList.get(getAdapterPosition()));
+                            itemOnClick.onCategoryClick(arrayList.get(getAbsoluteAdapterPosition()));
                             notifyItemChanged(selectedItem);
                             notifyItemChanged(prevSelected);
                         }
