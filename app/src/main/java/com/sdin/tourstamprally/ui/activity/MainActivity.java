@@ -58,7 +58,6 @@ import com.sdin.tourstamprally.ui.fragment.QRscanFragment;
 import com.sdin.tourstamprally.ui.fragment.SetAlarmFragment;
 import com.sdin.tourstamprally.ui.fragment.StoreListFragment;
 import com.sdin.tourstamprally.ui.fragment.TourDetailFragment;
-import com.sdin.tourstamprally.ui.fragment.TourRecordFragment;
 import com.sdin.tourstamprally.ui.fragment.TourSpotPointFragment;
 import com.sdin.tourstamprally.ui.fragment.VisitHistoryFragment;
 import com.sdin.tourstamprally.ui.fragment.WriteReviewFragment;
@@ -388,29 +387,32 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
 
 
         //hashMap.put();
-        if (tag.equals("Main")) {
-            binding.webViewLayout.setVisibility(View.VISIBLE);
-        } else {
-            binding.webViewLayout.setVisibility(View.GONE);
-        }
-        fragmentManager = getSupportFragmentManager();
+        if (tag != null){
+            if (tag.equals("Main")) {
+                binding.webViewLayout.setVisibility(View.VISIBLE);
+            } else {
+                binding.webViewLayout.setVisibility(View.GONE);
+            }
+            fragmentManager = getSupportFragmentManager();
 
-        fragmentManager.beginTransaction().replace(binding.framelayout.getId(), this.fragment, tag)
-                .addToBackStack(tag)
-                .commit();
+            fragmentManager.beginTransaction().replace(binding.framelayout.getId(), this.fragment, tag)
+                    .addToBackStack(tag)
+                    .commit();
 
 
         /*ft = fragmentManager.beginTransaction();
         ft.replace(binding.framelayout.getId(), fragment, tag).addToBackStack(null).commit();*/
-        fragmentManager.executePendingTransactions();
-        fragmentcount++;
-        hashMap.put(fragmentcount, getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount() - 1).getName());
+            fragmentManager.executePendingTransactions();
+            fragmentcount++;
+            hashMap.put(fragmentcount, getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount() - 1).getName());
 
 
-        //Log.wtf("Id,@@ ", String.valueOf(getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount()-1).getId()));
-        //Log.wtf("name!@#@!#@!#!@", getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount()-1).getName());
+            //Log.wtf("Id,@@ ", String.valueOf(getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount()-1).getId()));
+            //Log.wtf("name!@#@!#@!#!@", getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount()-1).getName());
 
-        setToolbar(1);
+            setToolbar(1);
+        }
+
     }
 
     @Override
@@ -587,6 +589,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
 
     @Override
     public void ItemGuidForDetail(TouristSpotPoint model) {
+
         setFragment(model.getTouristspotpoint_name(), TourDetailFragment.newInstance(model));
     }
 

@@ -22,6 +22,8 @@ import com.sdin.tourstamprally.databinding.FragmentTourRecordBinding;
 import com.sdin.tourstamprally.model.Tour_Spot;
 import com.sdin.tourstamprally.utill.GpsTracker;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -82,7 +84,7 @@ public class TourRecordFragment extends BaseFragment {
 
         apiService.getTour(Utils.User_Idx).enqueue(new Callback<List<Tour_Spot>>() {
             @Override
-            public void onResponse(Call<List<Tour_Spot>> call, Response<List<Tour_Spot>> response) {
+            public void onResponse(@NotNull Call<List<Tour_Spot>> call, @NotNull Response<List<Tour_Spot>> response) {
                 if (response.isSuccessful()) {
                     list = response.body();
                     HashMap<Integer, Tour_Spot> hashMap = new HashMap<>();

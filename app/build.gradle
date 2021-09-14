@@ -7,7 +7,7 @@ android {
 
     defaultConfig {
         applicationId "com.sdin.tourstamprally"
-        minSdkVersion 26
+        minSdkVersion 24
         targetSdkVersion 30
         versionCode 5
         versionName "1.5"
@@ -46,7 +46,7 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.1.0'
     /*implementation 'com.journeyapps:zxing-android-embedded:4.1.0'*/
     implementation('com.journeyapps:zxing-android-embedded:4.2.0') { transitive = false }
-    implementation 'com.google.zxing:core:3.3.3'
+    implementation 'com.google.zxing:core:3.4.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation files('libs/commons-net-3.8.0.jar')
     /*implementation 'com.google.zxing:core:3.4.1'*/

@@ -133,7 +133,10 @@ public class VisitHistoryFragment extends BaseFragment {
                             if (model.getReview_user_user_idx() == Utils.User_Idx){
                                 saveModel = model;
                             }
-                            map.put(model.getTouristspot_idx(), model);
+                            if (model.getTouristspot_idx() > 0){
+                                map.put(model.getTouristspot_idx(), model);
+                            }
+
                         }
 
                         if (saveModel != null){

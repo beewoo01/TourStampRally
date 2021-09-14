@@ -1,5 +1,6 @@
 package com.sdin.tourstamprally.ui.dialog;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -78,6 +79,7 @@ public class ScanResultDialog extends BaseDialog {
 
     }
 
+    @SuppressLint("SetTextI18n")
     private void initView(){
         ConstraintLayout constraintLayout = findViewById(R.id.backgrount_layout);
         Button resulButton = findViewById(R.id.guid_btn);
