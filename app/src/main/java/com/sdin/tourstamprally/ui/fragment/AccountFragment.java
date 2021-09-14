@@ -11,6 +11,10 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
@@ -154,11 +158,38 @@ public class AccountFragment extends BaseFragment {
     }
 
     public void profileSetOnClick() {
+        Log.wtf("profileSetOnClick", "11111");
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(intent, REQUEST_CODE);
+        galleryResult.launch(intent);
+        /*startActivityForResult(intent, REQUEST_CODE);*/
     }
+
+    private final ActivityResultLauncher<Intent> galleryResult = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+
+                if (result.getResultCode() == RESULT_OK) {
+
+                    Intent intent = result.getData();
+                    if (intent != null) {
+                        Glide.with(requireContext()).load(intent.getData()).circleCrop()
+                                .error(ContextCompat.getDrawable(requireContext(), R.drawable.sample_profile_image))
+                                .into(binding.profileImb);
+
+                        imgeUri = intent.getData();
+                        isChange = true;
+                    } else {
+                        Toast.makeText(requireContext(), "사진을 가져오는데 실패하였습니다.", Toast.LENGTH_LONG).show();
+                    }
+
+                }else if (result.getResultCode() == RESULT_CANCELED) {
+
+                    Toast.makeText(requireContext(), "사진 선택 취소", Toast.LENGTH_LONG).show();
+                }
+            }
+    );
 
     private final TextWatcher textWatcher = new TextWatcher() {
 
@@ -220,15 +251,16 @@ public class AccountFragment extends BaseFragment {
                 if (response.isSuccessful()) {
                     auth = response.body();
                 } else {
-                    showToast("SMS발송 요청에 실패하였습니다.");
+                    showToast(getString(R.string.fail_sms));
                     Log.d("Auth", "실패");
+                    Log.d("response not Succes", response.toString());
                 }
 
             }
 
             @Override
             public void onFailure(@NotNull Call<String> call, @NotNull Throwable t) {
-                showToast("서버에서 문제가 발생했습니다.");
+                showToast(getString(R.string.fail_sms));
                 t.printStackTrace();
             }
         });
@@ -258,7 +290,7 @@ public class AccountFragment extends BaseFragment {
             }
         }
 
-        if (binding.editPassword.getText().toString().trim().equals(
+        if (!binding.editPassword.getText().toString().trim().equals(
                         binding.editPasswordConfirm.getText().toString().trim())) {
 
             showToast("비밀번호가 일치하지 않습니다.");
@@ -404,7 +436,7 @@ public class AccountFragment extends BaseFragment {
 
     });*/
 
-    @Override
+    /*@Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
@@ -428,7 +460,7 @@ public class AccountFragment extends BaseFragment {
                 Toast.makeText(requireContext(), "사진 선택 취소", Toast.LENGTH_LONG).show();
             }
         }
-    }
+    }*/
 
 
     /*private class SpinnerAdapter extends BaseAdapter {

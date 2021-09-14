@@ -2,6 +2,7 @@ package com.sdin.tourstamprally.ui.activity;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.MutableLiveData;
 
 import android.os.Bundle;
 import android.text.Editable;
@@ -13,6 +14,7 @@ import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -51,10 +53,17 @@ public class SignUpActivity extends BaseActivity {
     @Override
     protected void initView() {
         String[] arr = getResources().getStringArray(R.array.location);
+
         SpinnerAdapter spinnerAdapter = new SpinnerAdapter(new ArrayList<>(Arrays.asList(arr)));
         //ArrayAdapter adapter = ArrayAdapter.createFromResource(this, R.array.location, android.R.layout.simple_spinner_item);
         //adapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
-        binding.spinnerLocation.setAdapter(spinnerAdapter);
+        //binding.spinnerLocation.setAdapter(spinnerAdapter);
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(
+                this,
+                android.R.layout.simple_spinner_dropdown_item,
+                new ArrayList<>(Arrays.asList(arr))
+        );
+        binding.spinnerLocation.setAdapter(arrayAdapter);
         binding.editPhone.addTextChangedListener(textWatcher);
     }
 
@@ -87,18 +96,17 @@ public class SignUpActivity extends BaseActivity {
             public void onResponse(@NotNull Call<String> call, @NotNull Response<String> response) {
                 if (response.isSuccessful()) {
                     String Token = response.body();
-                    if (Token != null){
+                    if (Token != null || !Token.equals("error")) {
                         sendMsg(Token);
-                        binding.btnRequestAuth.setEnabled(false);
-                    }else {
+                    } else {
                         binding.btnRequestAuth.setEnabled(true);
-                        showToast("SMS발송 요청을 실패하였습니다.");
+                        showToast(getString(R.string.fail_sms));
                     }
 
 
                 } else {
                     binding.btnRequestAuth.setEnabled(true);
-                    showToast("SMS발송 요청을 실패하였습니다.");
+                    showToast(getString(R.string.fail_sms));
                 }
             }
 
@@ -107,6 +115,7 @@ public class SignUpActivity extends BaseActivity {
                 t.printStackTrace();
                 binding.btnRequestAuth.setEnabled(true);
                 showToast("SMS발송 요청을 실패하였습니다.");
+                Log.e("getToken", t.getMessage());
             }
         });
     }
@@ -117,14 +126,11 @@ public class SignUpActivity extends BaseActivity {
             @Override
             public void onResponse(@NotNull Call<String> call, @NotNull Response<String> response) {
                 if (response.isSuccessful()) {
-                    if (auth != null){
-                        auth = response.body();
-                    }else {
-                        showToast("SMS발송 요청을 실패하였습니다.");
-                    }
+
+                    auth = response.body();
 
                 } else {
-                    showToast("서버에서 문제가 발생했습니다.");
+                    showToast(getString(R.string.fail_sms));
                     Log.d("Auth", "실패");
                 }
 
@@ -132,8 +138,9 @@ public class SignUpActivity extends BaseActivity {
 
             @Override
             public void onFailure(@NotNull Call<String> call, @NotNull Throwable t) {
-                showToast("서버에서 문제가 발생했습니다.");
+                showToast(getString(R.string.fail_sms));
                 t.printStackTrace();
+                Log.e("getToken", t.getMessage());
             }
         });
     }
@@ -164,7 +171,7 @@ public class SignUpActivity extends BaseActivity {
 
         Pattern pattern = Patterns.EMAIL_ADDRESS;
 
-        if (!isAuth){
+        if (!isAuth) {
             showToast("전화번호를 인증해 주세요");
             return;
         }
@@ -197,6 +204,7 @@ public class SignUpActivity extends BaseActivity {
 
     private void join() {
         UserModel userModel = new UserModel();
+        //userModel.setPhone(binding.editPhone.getText().toString().trim());
         userModel.setPhone(binding.editPhone.getText().toString().trim());
         userModel.setPassword(binding.editPassword.getText().toString().trim());
         userModel.setName(binding.editName.getText().toString().trim());
@@ -234,7 +242,7 @@ public class SignUpActivity extends BaseActivity {
 
     private void userSignUp(UserModel userModel) {
         apiService.userSignUp(userModel.getPhone(), userModel.getPassword(), userModel.getName()
-                , userModel.getEmail(), userModel.getLocation(), 1, 1).enqueue(new Callback<String>() {
+                , userModel.getEmail(), userModel.getLocation(), 1).enqueue(new Callback<String>() {
             @Override
             public void onResponse(@NotNull Call<String> call, @NotNull Response<String> response) {
 
@@ -243,8 +251,8 @@ public class SignUpActivity extends BaseActivity {
                     if (result != null) {
                         if (result.equals("1")) {
                             showToast("회원가입 성공");
-                            TermsOfConditionsActivity activity = (TermsOfConditionsActivity) TermsOfConditionsActivity.activity;
-                            activity.finish();
+                            /*TermsOfConditionsActivity activity = (TermsOfConditionsActivity) TermsOfConditionsActivity.activity;
+                            activity.finish();*/
                             finish();
                         } else {
                             showToast("회원가입에 실패하였습니다.");
@@ -318,6 +326,7 @@ public class SignUpActivity extends BaseActivity {
             TextView textView = convertView.findViewById(R.id.spinnerText);
             ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
             params.leftMargin = size;
+            params.setMargins(10,5,10,5);
             textView.setLayoutParams(params);
 
             return convertView;

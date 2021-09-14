@@ -64,5 +64,15 @@
         <item name="android:textColor">@color/Black</item>
     </style>
 
+
+    <style name="SpinnerTheme" parent="AppTheme">
+        <item name="dropDownListViewStyle">@style/SpinnerDivideStyle</item>
+    </style>
+
+    <style name="SpinnerDivideStyle" parent="android:style/Widget.ListView.DropDown">
+        <item name="android:divider">#FFFFFF</item> <!-- divider 색 -->
+        <item name="android:dividerHeight">2dp</item> <!-- divider 높이 -->
+    </style>
+
 </resources>
 

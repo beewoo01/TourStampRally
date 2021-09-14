@@ -52,8 +52,8 @@ public class RetrofitGenerator {
     // FirstCare
     Retrofit retrofitFC = new Retrofit.Builder()
             .baseUrl(Constant.SERVER_URL)
-            .addConverterFactory(new NullOnEmptyConverterFactory())
             .addConverterFactory(GsonConverterFactory.create(gson))
+            /*.addConverterFactory(new NullOnEmptyConverterFactory())*/
             .client(createOkHttpClient())
             .build();
 

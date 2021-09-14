@@ -104,8 +104,7 @@ public interface APIService {
                                   @Query("user_name") String name,
                                   @Query("user_email") String email,
                                   @Query("user_location") String location,
-                                  @Query("agree1") int agree1,
-                                  @Query("agree2") int agree2
+                                  @Query("authorityIdx") int authorityIdx
     );
 
     //유저 회원가입
