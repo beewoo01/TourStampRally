@@ -12,8 +12,6 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
-
-
     <uses-feature
         android:name="android.hardware.nfc"
         android:required="true" />
@@ -28,7 +26,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".CustomScannerActivity"></activity>
+        <activity android:name=".CustomScannerActivity"/>
 
         <activity android:name=".ui.activity.MainActivity"
             android:screenOrientation="portrait"
