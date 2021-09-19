@@ -225,6 +225,7 @@ public class AccountFragment extends BaseFragment {
                     if (Token != null) {
                         sendMsg(Token);
                         binding.btnRequestAuth.setEnabled(false);
+                        binding.editPhone.setEnabled(false);
                     } else {
                         binding.btnRequestAuth.setEnabled(true);
                     }

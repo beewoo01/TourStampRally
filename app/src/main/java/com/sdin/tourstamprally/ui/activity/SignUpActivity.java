@@ -54,10 +54,6 @@ public class SignUpActivity extends BaseActivity {
     protected void initView() {
         String[] arr = getResources().getStringArray(R.array.location);
 
-        SpinnerAdapter spinnerAdapter = new SpinnerAdapter(new ArrayList<>(Arrays.asList(arr)));
-        //ArrayAdapter adapter = ArrayAdapter.createFromResource(this, R.array.location, android.R.layout.simple_spinner_item);
-        //adapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
-        //binding.spinnerLocation.setAdapter(spinnerAdapter);
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(
                 this,
                 android.R.layout.simple_spinner_dropdown_item,
@@ -126,6 +122,8 @@ public class SignUpActivity extends BaseActivity {
             @Override
             public void onResponse(@NotNull Call<String> call, @NotNull Response<String> response) {
                 if (response.isSuccessful()) {
+                    binding.editPhone.setEnabled(false);
+                    binding.btnRequestAuth.setEnabled(false);
 
                     auth = response.body();
 
@@ -149,11 +147,10 @@ public class SignUpActivity extends BaseActivity {
         if (!TextUtils.isEmpty(binding.editAuth.getText().toString())) {
             if (binding.editAuth.getText().toString().equals(auth)) {
                 isAuth = true;
-                showToast("휴대폰번호 인증에 성공하셨습니다.");
-                binding.editPhone.setEnabled(false);
                 binding.editAuth.setEnabled(false);
-                binding.btnRequestAuth.setEnabled(false);
                 binding.btnAuthCheck.setEnabled(false);
+                showToast("휴대폰번호 인증에 성공하셨습니다.");
+
             } else {
                 showToast("인증번호를 정확히 입력해 주세요");
             }

@@ -18,7 +18,7 @@ import static android.content.Context.LOCATION_SERVICE;
 
 public class GpsTracker extends Service implements LocationListener {
 
-    private Context context;
+    private final Context context;
     private Location location;
     private double latitude;
     private double longitude;

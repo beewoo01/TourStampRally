@@ -9,8 +9,8 @@ android {
         applicationId "com.sdin.tourstamprally"
         minSdkVersion 24
         targetSdkVersion 30
-        versionCode 5
-        versionName "1.5"
+        versionCode 6
+        versionName "1.6"
         dataBinding {
             enabled = true
         }
@@ -85,6 +85,11 @@ dependencies {
     implementation 'com.budiyev.android:code-scanner:2.1.0'
 
     implementation "com.kakao.sdk:v2-navi:2.5.2" // 카카오내비
+
+    implementation "io.reactivex.rxjava3:rxjava:3.1.1"
+
+
+    implementation 'io.github.ParkSangGwon:tedkeyboardobserver:1.0.1'//키보드 상태 받아오는 라이브러리
 
     compile files('libs/commons-net-3.8.0.jar')
 

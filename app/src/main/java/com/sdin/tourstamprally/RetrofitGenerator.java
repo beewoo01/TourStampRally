@@ -1,12 +1,15 @@
 package com.sdin.tourstamprally;
 
 
+import com.google.gson.stream.JsonReader;
 import com.sdin.tourstamprally.api.APIService;
 import com.sdin.tourstamprally.data.Constant;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.sdin.tourstamprally.data.LenientGsonConverterFactory;
 import com.sdin.tourstamprally.data.NullOnEmptyConverterFactory;
 
+import java.io.StringReader;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
@@ -49,10 +52,11 @@ public class RetrofitGenerator {
             .create();
 
 
+
     // FirstCare
     Retrofit retrofitFC = new Retrofit.Builder()
             .baseUrl(Constant.SERVER_URL)
-            .addConverterFactory(GsonConverterFactory.create(gson))
+            .addConverterFactory(LenientGsonConverterFactory.create(gson))
             /*.addConverterFactory(new NullOnEmptyConverterFactory())*/
             .client(createOkHttpClient())
             .build();

@@ -1,6 +1,7 @@
 
 package com.sdin.tourstamprally.ui.fragment;
 
+import android.app.Activity;
 import android.os.Bundle;
 
 import androidx.databinding.DataBindingUtil;
@@ -9,8 +10,10 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 
 import com.sdin.tourstamprally.R;
@@ -64,6 +67,14 @@ public class DirectionGuidFragment extends BaseFragment {
         if (getArguments() != null) {
 
         }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        /*InputMethodManager inputMethodManager = (InputMethodManager) requireActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
+        inputMethodManager.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);*/
     }
 
     private void getData(){

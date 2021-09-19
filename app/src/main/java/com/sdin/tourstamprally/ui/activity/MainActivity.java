@@ -1,6 +1,7 @@
 package com.sdin.tourstamprally.ui.activity;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -14,6 +15,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -64,6 +66,9 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 
+import gun0912.tedkeyboardobserver.TedKeyboardObserver;
+import gun0912.tedkeyboardobserver.TedRxKeyboardObserver;
+
 
 public class MainActivity extends BaseActivity implements NavigationBarView.OnItemSelectedListener, ItemOnClick {
 
@@ -84,6 +89,8 @@ public class MainActivity extends BaseActivity implements NavigationBarView.OnIt
     private final SetAlarmFragment setAlarmFragment = new SetAlarmFragment();
     private long backKeyPressedTime = 0;
 
+    private boolean keyboardState = false;
+
 
     private final Map<Integer, String> hashMap = new HashMap<>();
     private int fragmentcount = 0;
@@ -101,49 +108,13 @@ public class MainActivity extends BaseActivity implements NavigationBarView.OnIt
 
     }
 
-    /*private void getHashKey(){
-        PackageInfo packageInfo = null;
-        try {
-            packageInfo = getPackageManager().getPackageInfo(getPackageName(), PackageManager.GET_SIGNATURES);
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-        }
-        if (packageInfo == null)
-            Log.e("KeyHash", "KeyHash:null");
-
-        for (Signature signature : packageInfo.signatures) {
-            try {
-                MessageDigest md = MessageDigest.getInstance("SHA");
-                md.update(signature.toByteArray());
-                Log.d("KeyHash!! ", Base64.encodeToString(md.digest(), Base64.DEFAULT));
-            } catch (NoSuchAlgorithmException e) {
-                Log.e("KeyHash", "Unable to get MessageDigest. signature=" + signature, e);
-            }
-        }
-
-
-        String keyHash = com.kakao.util.maps.helper.Utility.getKeyHash(this);
-        Log.wtf("keyHash!2222", keyHash);
-    }*/
 
     @SuppressLint("SetTextI18n")
     private void setToolbar(int pos) {
 
-        /*Log.wtf("ggggghash", hashMap.get(fragmentcount));
-        Log.wtf("getBackStackEntryCount", String.valueOf(fragmentManager.getBackStackEntryCount()));
-        Log.wtf("getBackStackEntryCount", String.valueOf(fragmentManager.getBackStackEntryCount()));
-        Log.wtf("getBackStackEntryCount", String.valueOf(fragmentManager.getBackStackEntryCount()));*/
-        /*int gg = getSupportFragmentManager().getBackStackEntryCount();
-        Log.d("gg =", String.valueOf(gg));
-        for (int i = 0; i <= gg; i++){
-            String name = getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount()- 1).getName();
-            //Log.wtf("name!!!!", name);
-        }*/
-        //String name = getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount() - 1).getName();
+
         String name = hashMap.get(fragmentcount);
 
-        /*Log.d("name", name);
-        Log.wtf("name11111111111111111", name);*/
         if (name != null) {
             switch (name) {
                 case "NFC":
@@ -237,17 +208,10 @@ public class MainActivity extends BaseActivity implements NavigationBarView.OnIt
     }
 
     public void backClick() {
-        //Log.wtf("MainAct FCount", String.valueOf(fragmentManager.getBackStackEntryCount()));
         if (fragmentManager.getBackStackEntryCount() > 0) {
-            //Log.wtf("MainAct", "if");
             fragmentManager.popBackStack();
             fragmentManager.beginTransaction().remove(fragment).commit();
-                /*for(Iterator<Map.Entry<Integer, String>> it = hashMap.entrySet().iterator(); it.hasNext(); ) {
-                    Map.Entry<Integer, String> entry = it.next();
-                    if(entry.getKey().equals("test")) {
-                        it.remove();
-                    }
-                }*/
+
             fragmentcount--;
 
 
@@ -258,19 +222,15 @@ public class MainActivity extends BaseActivity implements NavigationBarView.OnIt
                     fragmentcount--;
                 }
             }
-            /*if (Objects.requireNonNull(hashMap.get(fragmentcount)).equals("NFC") || hashMap.get(fragmentcount).equals("QR")) {
 
-            }*/
-
-            //Log.wtf("hash!!!", hashMap.get(fragmentcount));
-
-
-            //Log.wtf("Id,@@ ", String.valueOf(getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount()-1).getId()));
-            //Log.wtf("name!@#@!#@!#!@", getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount()-1).getName());
+            if (keyboardState){
+                InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+                inputMethodManager.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+            }
 
 
         } else {
-            //Log.wtf("MainAct", String.valueOf(fragmentManager.getBackStackEntryCount()));
+
         }
         setToolbar(2);
     }
@@ -324,32 +284,6 @@ public class MainActivity extends BaseActivity implements NavigationBarView.OnIt
             setFragment(tag, fragment);
         }
 
-
-
-        /*switch (item.getItemId()) {
-            case R.id.page_home:
-
-                setFragment("Main", MainFragment.newInstance("", ""));
-                break;
-
-            case R.id.page_store:
-                setFragment("매장 리스트", new StoreListFragment());
-                //setFragment("NFC", nfcFragment);
-                break;
-
-            case R.id.page_report:
-                //setFragment("관광지 기록", new TourRecordFragment());
-                setFragment("방문기록", new VisitHistoryFragment());
-                break;
-
-            case R.id.page_navi:
-                setKaKaoNavi();
-                //setFragment("Navi", new TourSpotPointFragment());
-                // TODO: 7/7/21 navi popup
-                //setFragment("Tour", new TourRecordFragment());
-                break;
-
-        }*/
         return true;
     }
 
@@ -367,15 +301,16 @@ public class MainActivity extends BaseActivity implements NavigationBarView.OnIt
         }
     }
 
-    /*private void testSetFragment(String tag, Fragment fragment){
-        fragmentManager = getSupportFragmentManager();
-
-        fragmentManager.beginTransaction().replace(binding.framelayout.getId(), fragment, tag).commit();
-        setToolbar(1);
-    }*/
 
     private void setFragment(String tag, Fragment fragment) {
         this.fragment = fragment;
+
+        new TedKeyboardObserver(this)
+                .listen(isShow -> {
+                    keyboardState = isShow;
+                });
+
+
 
 
         //hashMap.put();
@@ -391,16 +326,17 @@ public class MainActivity extends BaseActivity implements NavigationBarView.OnIt
                     .addToBackStack(tag)
                     .commit();
 
+            if (keyboardState){
+                InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+                inputMethodManager.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+            }
 
-        /*ft = fragmentManager.beginTransaction();
-        ft.replace(binding.framelayout.getId(), fragment, tag).addToBackStack(null).commit();*/
+
+
             fragmentManager.executePendingTransactions();
             fragmentcount++;
             hashMap.put(fragmentcount, getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount() - 1).getName());
 
-
-            //Log.wtf("Id,@@ ", String.valueOf(getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount()-1).getId()));
-            //Log.wtf("name!@#@!#@!#!@", getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount()-1).getName());
 
             setToolbar(1);
         }
@@ -424,19 +360,16 @@ public class MainActivity extends BaseActivity implements NavigationBarView.OnIt
     protected void onPause() {
         super.onPause();
         NfcModeOff();
-        //Log.d("MainActivity", "onPause");
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        //Log.d("MainActivity", "onStop");
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        //Log.d("MainActivity", "onDestroy");
     }
 
 
@@ -567,15 +500,8 @@ public class MainActivity extends BaseActivity implements NavigationBarView.OnIt
     public void ItemGuidForPoint(Tour_Spot model) {
 
         //관광지 포인트 화면 이동
-        //Log.wtf("model ToSTRING", model.toString());
         setFragment(model.getTouristspot_name(), TourSpotPointFragment.newInstance(model));
 
-        /*if (position == 0){
-            //관광지 자세히 보기
-            setFragment(model.getTouristspot_name(), new TourDetailFragment().newInstance(model));
-        }else if (position == 3){
-            setFragment(model.getTouristspot_name(), new TourSpotPointFragment().newInstance(model));
-        }*/
 
     }
 
@@ -638,15 +564,6 @@ public class MainActivity extends BaseActivity implements NavigationBarView.OnIt
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
-        Log.d("onActivityResult Main", "onActivityResult Main: .");
-        /*if (resultCode == Activity.RESULT_OK) {
-            IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
-            String re = scanResult.getContents();
-            String message = re;
-            Log.d("onActivityResult", "onActivityResult: ." + re);
-            Toast.makeText(this, re, Toast.LENGTH_LONG).show();
-        }else {
-            super.onActivityResult(requestCode, resultCode, intent);
-        }*/
+
     }
 }

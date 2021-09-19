@@ -35,6 +35,8 @@ import com.sdin.tourstamprally.ui.activity.MainActivity;
 import com.sdin.tourstamprally.ui.dialog.ScanResultDialog;
 import com.sdin.tourstamprally.utill.GpsTracker;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.lang.reflect.Field;
 
 import retrofit2.Call;
@@ -50,12 +52,6 @@ public class QRscanFragment extends BaseFragment {
     private GpsTracker gpsTracker;
 
     public QRscanFragment() {
-
-    }
-
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
 
     }
 
@@ -112,7 +108,7 @@ public class QRscanFragment extends BaseFragment {
 
         apiService.getDistance(text).enqueue(new Callback<TouristSpotPoint>() {
             @Override
-            public void onResponse(Call<TouristSpotPoint> call, Response<TouristSpotPoint> response) {
+            public void onResponse(@NotNull Call<TouristSpotPoint> call, @NotNull Response<TouristSpotPoint> response) {
                 if (response.isSuccessful()){
                     //Log.wtf("isAvailable", "isSuccessful");
 
@@ -121,7 +117,6 @@ public class QRscanFragment extends BaseFragment {
                     if (touristSpotPoint == null) {
                         showDialog(false);
                     } else {
-                        // TODO: 8/10/21 progressbar off
                         gpsTracker = new GpsTracker(requireContext());
                         //sendTagging(text);
                         if (distance_calculation(touristSpotPoint.getTouristspotpoint_latitude(), touristSpotPoint.getTouristspotpoint_longitude())){
