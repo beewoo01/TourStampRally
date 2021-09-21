@@ -126,6 +126,13 @@ public interface APIService {
                              @Query("user_profile") String profile
     );
 
+    @GET("update_user_psw")
+    Call<Integer> update_user_psw(@Query("user_name") String name,
+                                 @Query("user_phone") String phone,
+                                 @Query("user_email") String email,
+                                 @Query("user_password") String password
+    );
+
     /*//비밀번호 업데이트
     @FormUrlEncoded
     @POST("change_password")

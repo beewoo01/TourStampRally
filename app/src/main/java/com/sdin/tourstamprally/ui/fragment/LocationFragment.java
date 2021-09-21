@@ -1,5 +1,6 @@
 package com.sdin.tourstamprally.ui.fragment;
 
+import android.annotation.SuppressLint;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
@@ -139,7 +140,7 @@ public class LocationFragment extends BaseFragment {
 
 
             if (touristSpotPoint.getTouristhistory_idx() != null){
-                spot_HistoryMap.put(Integer.valueOf(touristSpotPoint.getTouristspotpoint_touristspot_idx()),
+                spot_HistoryMap.put(touristSpotPoint.getTouristspotpoint_touristspot_idx(),
                         spot_HistoryMap.get(touristSpotPoint.getTouristspotpoint_touristspot_idx()) == null?
                                 1 : spot_HistoryMap.get(touristSpotPoint.getTouristspotpoint_touristspot_idx()) +1);
             }
@@ -147,7 +148,7 @@ public class LocationFragment extends BaseFragment {
         }
 
         LocationFragAdapter adapter = new LocationFragAdapter(
-                map.values().stream().collect(Collectors.toCollection(ArrayList::new)),
+                new ArrayList<>(map.values()),
                 spot_poinMap,
                 spot_HistoryMap
         );
@@ -156,6 +157,7 @@ public class LocationFragment extends BaseFragment {
         setProgress();
     }
 
+    @SuppressLint("SetTextI18n")
     private void setProgress(){
 
         int clear = 0;
@@ -182,10 +184,10 @@ public class LocationFragment extends BaseFragment {
 
     class LocationFragAdapter extends RecyclerView.Adapter<LocationFragAdapter.ViewHolder>{
 
-        private ArrayList<Tour_Spot> arrayList;
-        private Map<Integer, Integer> spotPoint_map;
-        private Map<Integer, Integer> history_map;
-        private ItemOnClick listener;
+        private final ArrayList<Tour_Spot> arrayList;
+        private final Map<Integer, Integer> spotPoint_map;
+        private final Map<Integer, Integer> history_map;
+        private final ItemOnClick listener;
         private Tour_Spot send_model;
 
 
@@ -241,7 +243,7 @@ public class LocationFragment extends BaseFragment {
         }
 
         class ViewHolder extends RecyclerView.ViewHolder{
-            private LocationReItemBinding binding;
+            private final LocationReItemBinding binding;
             public ViewHolder(@NonNull LocationReItemBinding binding) {
                 super(binding.getRoot());
                 this.binding = binding;
@@ -256,7 +258,7 @@ public class LocationFragment extends BaseFragment {
         }
 
 
-        private ItemOnClick itemOnClick = new ItemOnClickAb() {
+        private final ItemOnClick itemOnClick = new ItemOnClickAb() {
             @Override
             public void ItemGuid(int position) {
                 Log.d("dialog Onclick Listener", String.valueOf(position));

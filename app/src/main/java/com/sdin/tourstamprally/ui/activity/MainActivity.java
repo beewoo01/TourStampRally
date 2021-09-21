@@ -215,15 +215,15 @@ public class MainActivity extends BaseActivity implements NavigationBarView.OnIt
             fragmentcount--;
 
 
-            if (hashMap.get(fragmentcount) != null){
-                if (Objects.equals(hashMap.get(fragmentcount), "NFC") || Objects.equals(hashMap.get(fragmentcount), "QR")){
+            if (hashMap.get(fragmentcount) != null) {
+                if (Objects.equals(hashMap.get(fragmentcount), "NFC") || Objects.equals(hashMap.get(fragmentcount), "QR")) {
                     fragmentManager.popBackStack();
                     fragmentManager.beginTransaction().remove(fragment).commit();
                     fragmentcount--;
                 }
             }
 
-            if (keyboardState){
+            if (keyboardState) {
                 InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
                 inputMethodManager.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
             }
@@ -280,7 +280,7 @@ public class MainActivity extends BaseActivity implements NavigationBarView.OnIt
             setKaKaoNavi();
         }
 
-        if (fragment != null){
+        if (fragment != null) {
             setFragment(tag, fragment);
         }
 
@@ -290,15 +290,23 @@ public class MainActivity extends BaseActivity implements NavigationBarView.OnIt
 
     @Override
     public void onBackPressed() {
-        if (System.currentTimeMillis() > backKeyPressedTime + 2000) {
-            backKeyPressedTime = System.currentTimeMillis();
+        backKeyPressedTime = System.currentTimeMillis();
+        Log.wtf("fragmentTag", fragment.getTag());
+        if (!Objects.equals(hashMap.get(fragmentcount), "Main")) {
+            backClick();
+        } else if (Objects.equals(hashMap.get(fragmentcount), "Main")){
+            finish();
+        }
+
+
+        /*if (System.currentTimeMillis() > backKeyPressedTime + 1000) {
             Toast.makeText(this, "'뒤로' 버튼을 한번 더 누르시면 종료됩니다.", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        if (System.currentTimeMillis() <= backKeyPressedTime + 2000) {
+        if (System.currentTimeMillis() <= backKeyPressedTime + 1000) {
             finish();
-        }
+        }*/
     }
 
 
@@ -311,10 +319,8 @@ public class MainActivity extends BaseActivity implements NavigationBarView.OnIt
                 });
 
 
-
-
         //hashMap.put();
-        if (tag != null){
+        if (tag != null) {
             if (tag.equals("Main")) {
                 binding.webViewLayout.setVisibility(View.VISIBLE);
             } else {
@@ -326,11 +332,10 @@ public class MainActivity extends BaseActivity implements NavigationBarView.OnIt
                     .addToBackStack(tag)
                     .commit();
 
-            if (keyboardState){
+            if (keyboardState) {
                 InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
                 inputMethodManager.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
             }
-
 
 
             fragmentManager.executePendingTransactions();

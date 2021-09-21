@@ -1,7 +1,6 @@
 package com.sdin.tourstamprally.ui.fragment;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
@@ -11,9 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.text.TextUtils;
@@ -21,7 +18,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.CustomTarget;
@@ -34,14 +30,11 @@ import com.sdin.tourstamprally.model.Tour_Spot;
 import com.sdin.tourstamprally.ui.activity.MainActivity;
 import com.sdin.tourstamprally.ui.dialog.GuidDialog;
 import com.sdin.tourstamprally.utill.ItemOnClick;
-import com.sdin.tourstamprally.utill.ItemOnClickAb;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Comparator;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -96,7 +89,7 @@ public class MainFragment extends BaseFragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_main, container, false);
@@ -130,11 +123,15 @@ public class MainFragment extends BaseFragment {
     private void getTop4Location(){
         apiService.getTour(Utils.User_Idx).enqueue(new Callback<List<Tour_Spot>>() {
             @Override
-            public void onResponse(Call<List<Tour_Spot>> call, Response<List<Tour_Spot>> response) {
+            public void onResponse(@NotNull Call<List<Tour_Spot>> call, @NotNull Response<List<Tour_Spot>> response) {
                 if (response.isSuccessful()){
 
                     tourList = response.body();
                     binding.tourRallyPgb.setVisibility(View.GONE);
+                    Log.wtf("tourist!!!!", tourList.toString());
+                    for (int i = 0; i < tourList.size(); i++){
+                        Log.wtf("touristName", tourList.get(i).getLocation_name());
+                    }
                     //Log.d("?????", tourList.get(0).toString());
                     setData();
 
@@ -144,7 +141,7 @@ public class MainFragment extends BaseFragment {
             }
 
             @Override
-            public void onFailure(Call<List<Tour_Spot>> call, Throwable t) {
+            public void onFailure(@NotNull Call<List<Tour_Spot>> call, @NotNull Throwable t) {
                 t.printStackTrace();
             }
         });
@@ -185,9 +182,9 @@ public class MainFragment extends BaseFragment {
     }
 
     private class RallyRecyclerviewAdapterDeco extends RecyclerView.ItemDecoration{
-        private int spanCount;
-        private int spacing;
-        private boolean includeEdge;
+        private final int spanCount;
+        private final int spacing;
+        private final boolean includeEdge;
 
         public RallyRecyclerviewAdapterDeco(int spanCount, int spacing, boolean includeEdge) {
             this.spanCount = spanCount;
@@ -222,16 +219,16 @@ public class MainFragment extends BaseFragment {
     private class RallyRecyclerviewAdapter extends RecyclerView.Adapter<RallyRecyclerviewAdapter.ViewHolder>{
 
         private GuidDialog guidDialog;
-        private Context context;
-        private ArrayList<Tour_Spot> list;
+        private final Context context;
+        private final ArrayList<Tour_Spot> adapterList;
         private final Map<Integer, Integer> progress_Map;
         private final Map<Integer, Integer> history_Map;
         private final ItemOnClick itemOnClick;
 
 
-        public RallyRecyclerviewAdapter(Context context, ArrayList<Tour_Spot> list, Map<Integer, Integer> progress_Map, Map<Integer, Integer> history_Map){
+        public RallyRecyclerviewAdapter(Context context, ArrayList<Tour_Spot> adapterList, Map<Integer, Integer> progress_Map, Map<Integer, Integer> history_Map){
             this.context = context;
-            this.list = list;
+            this.adapterList = adapterList;
             this.progress_Map = progress_Map;
             this.history_Map = history_Map;
             this.itemOnClick = (ItemOnClick) requireActivity();
@@ -239,7 +236,7 @@ public class MainFragment extends BaseFragment {
 
 
         public void sortList(){
-            list.sort((o1, o2) -> {
+            adapterList.sort((o1, o2) -> {
                 /*if (o1.getTouristspot_createtime() > o2.getTouristspot_createtime()){
 
                 }*/
@@ -249,11 +246,11 @@ public class MainFragment extends BaseFragment {
 
         private int average(){
             int sum = 0;
-            for (int i = 0; i < list.size(); i++){
-                sum += list.get(i).getTouristspot_checkin_count();
+            for (int i = 0; i < adapterList.size(); i++){
+                sum += adapterList.get(i).getTouristspot_checkin_count();
             }
 
-            return sum / list.size();
+            return sum / adapterList.size();
         }
 
         @NonNull
@@ -273,7 +270,7 @@ public class MainFragment extends BaseFragment {
 
 
 
-            holder.binding.location.setText(list.get(position).getLocation_name());
+            holder.binding.location.setText(adapterList.get(position).getLocation_name());
             /*SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             sdf.format(list.get(position).getTouristspot_createtime());
             try {
@@ -296,8 +293,11 @@ public class MainFragment extends BaseFragment {
             }*/
 
 
-            if (!TextUtils.isEmpty(list.get(position).getLocation_img())){
-                Glide.with(context).load("http://coratest.kr/imagefile/bsr/" + list.get(position).getLocation_img()).into(new CustomTarget<Drawable>() {
+            if (!TextUtils.isEmpty(adapterList.get(position).getLocation_img())){
+                Log.wtf("이미지??", "???");
+                Glide.with(context).load("http://coratest.kr/imagefile/bsr/" + adapterList.get(position).getLocation_img())
+                        .error(ContextCompat.getDrawable(requireContext(), R.drawable.sample_bg))
+                        .into(new CustomTarget<Drawable>() {
                     @Override
                     public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
                         holder.binding.mainLayout.setBackground(resource);
@@ -311,11 +311,11 @@ public class MainFragment extends BaseFragment {
                 });
             }
 
-            if (list.get(position).getTouristspot_checkin_count() > average()) {
+            if (adapterList.get(position).getTouristspot_checkin_count() > average()) {
                 //list 내 CheckCount 의 평균값을 구한 뒤 평균 이상이면 HOT 띄우기
                 holder.binding.newsImv.setVisibility(View.VISIBLE);
                 Glide.with(holder.binding.newsImv.getContext()).load(R.drawable.hot_icon).into(holder.binding.newsImv);
-            }else if (((System.currentTimeMillis() - list.get(position).getTouristspot_createtime()) / 10000 ) / (24 * 60 * 60) < 8){
+            }else if (((System.currentTimeMillis() - adapterList.get(position).getTouristspot_createtime()) / 10000 ) / (24 * 60 * 60) < 8){
                 //현재 시간과 관광지 등록시간이 7일 이하면 NEW 띄우기
                 holder.binding.newsImv.setVisibility(View.VISIBLE);
                 Glide.with(holder.binding.newsImv.getContext()).load(R.drawable.new_icon).into(holder.binding.newsImv);
@@ -323,12 +323,12 @@ public class MainFragment extends BaseFragment {
                 holder.binding.newsImv.setVisibility(View.GONE);
             }
 
-            if (progress_Map.get(list.get(position).getLocation_idx()) != null
-                    &&  history_Map.get(list.get(position).getLocation_idx()) != null) {
+            if (progress_Map.get(adapterList.get(position).getLocation_idx()) != null
+                    &&  history_Map.get(adapterList.get(position).getLocation_idx()) != null) {
 
 
-                int allContents = progress_Map.get(list.get(position).getLocation_idx());
-                int clearCount = history_Map.get(list.get(position).getLocation_idx());
+                int allContents = progress_Map.get(adapterList.get(position).getLocation_idx());
+                int clearCount = history_Map.get(adapterList.get(position).getLocation_idx());
 
                 holder.binding.seekbar.setMax(allContents);
                 holder.binding.seekbar.setProgress(clearCount);
@@ -341,10 +341,10 @@ public class MainFragment extends BaseFragment {
             }
 
 
-            Glide.with(holder.binding.dibsImv.getContext()).load(ContextCompat.getDrawable(requireContext(),
-                     Integer.parseInt(holder.binding.dibsImv.getTag().toString()) == 0?
-                    R.drawable.heart_resize : R.drawable.full_heart_resize)
-            ).into(holder.binding.dibsImv);
+            Glide.with(holder.binding.dibsImv.getContext()).load(ContextCompat.getDrawable(requireContext()
+                    , Integer.parseInt(holder.binding.dibsImv.getTag().toString()) == 0?
+                             R.drawable.heart_resize : R.drawable.full_heart_resize))
+                    .into(holder.binding.dibsImv);
 
             holder.binding.dibsImv.setOnClickListener( v -> {
 
@@ -364,7 +364,12 @@ public class MainFragment extends BaseFragment {
 
         @Override
         public int getItemCount() {
-            return 4;
+            if (adapterList.size() > 4){
+                return 4;
+            }else {
+                return adapterList.size();
+            }
+
         }
 
 
@@ -378,7 +383,7 @@ public class MainFragment extends BaseFragment {
 
                 this.binding = binding;
 
-                binding.stepRallyBg.setOnClickListener( v -> itemOnClick.onItemClick(list.get(getAdapterPosition())));
+                binding.stepRallyBg.setOnClickListener( v -> itemOnClick.onItemClick(adapterList.get(getAbsoluteAdapterPosition())));
             }
         }
     }

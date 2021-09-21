@@ -25,6 +25,7 @@ import com.sdin.tourstamprally.databinding.FragmentDirectionGuidBinding;
 import com.sdin.tourstamprally.model.HashTagModel;
 import com.sdin.tourstamprally.model.Tour_Spot;
 
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -83,7 +84,7 @@ public class DirectionGuidFragment extends BaseFragment {
         //참여자 데이터 받아오는 부분
         apiService.getTourParticipants().enqueue(new Callback<List<Map<String, Integer>>>() {
             @Override
-            public void onResponse(Call<List<Map<String, Integer>>> call, Response<List<Map<String, Integer>>> response) {
+            public void onResponse(@NotNull Call<List<Map<String, Integer>>> call, @NotNull Response<List<Map<String, Integer>>> response) {
                 if (response.isSuccessful()){
                     //Log.wtf("getTourParticipants", "1111111111");
                     List<Map<String, Integer>> list = response.body();
@@ -112,7 +113,7 @@ public class DirectionGuidFragment extends BaseFragment {
     private void getAllData(){
         apiService.getTourSortHashTag(Utils.User_Idx).enqueue(new Callback<List<Tour_Spot>>() {
             @Override
-            public void onResponse(Call<List<Tour_Spot>> call, Response<List<Tour_Spot>> response) {
+            public void onResponse(@NotNull Call<List<Tour_Spot>> call, @NotNull Response<List<Tour_Spot>> response) {
                 if (response.isSuccessful()){
                     tourList = new ArrayList<>();
                     tourList = response.body();
@@ -126,7 +127,7 @@ public class DirectionGuidFragment extends BaseFragment {
             }
 
             @Override
-            public void onFailure(Call<List<Tour_Spot>> call, Throwable t) {
+            public void onFailure(@NotNull Call<List<Tour_Spot>> call, @NotNull Throwable t) {
                 t.printStackTrace();
             }
         });
@@ -280,7 +281,7 @@ public class DirectionGuidFragment extends BaseFragment {
     }
 
 
-    private AdapterView.OnItemSelectedListener selectedListener = new AdapterView.OnItemSelectedListener() {
+    private final AdapterView.OnItemSelectedListener selectedListener = new AdapterView.OnItemSelectedListener() {
         @Override
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
             Log.d("getSelectedItem", parent.getSelectedItem().toString());

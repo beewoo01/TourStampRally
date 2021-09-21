@@ -271,7 +271,36 @@ public class AccountFragment extends BaseFragment {
         Toast.makeText(requireContext(), msg, Toast.LENGTH_SHORT).show();
     }
 
+
+    private boolean specialCheck(String str) {
+        if (str != null && str.matches("[0-9|a-z|A-Z|ㄱ-ㅎ|ㅏ-ㅣ|가-힝| ]*")) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+
+
     public void signUp() {
+
+        if (specialCheck(binding.editPassword.getText().toString())){
+            showToast("비밀번호는 특수문자없이 작성해 주세요");
+            return;
+        }
+
+        if (specialCheck(binding.editName.getText().toString())){
+            showToast("이름은 특수문자없이 작성해 주세요");
+            return;
+        }
+
+        if (specialCheck(binding.editPasswordConfirm.getText().toString())){
+            showToast("비밀번호는 특수문자없이 작성해 주세요");
+            return;
+        }
+
+
+
 
         Pattern pattern = Patterns.EMAIL_ADDRESS;
         //Log.wtf("signUp", "signUp");
@@ -329,6 +358,9 @@ public class AccountFragment extends BaseFragment {
             showToast("인증번호를 정확히 입력해 주세요");
         }
     }
+
+
+
 
 
     private void update() {

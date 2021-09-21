@@ -173,6 +173,17 @@ public class SignUpActivity extends BaseActivity {
             return;
         }
 
+        if (specialCheck(binding.editPassword.getText().toString())){
+            showToast("비밀번호는 특수문자없이 작성해 주세요");
+            return;
+        }
+
+        if (specialCheck(binding.editName.getText().toString())){
+            showToast("이름은 특수문자없이 작성해 주세요");
+            return;
+        }
+
+
         if (TextUtils.isEmpty(binding.editPassword.getText().toString().trim())
                 || binding.editPassword.getText().toString().trim().length() < 8) {
 
@@ -196,6 +207,15 @@ public class SignUpActivity extends BaseActivity {
 
         } else {
             join();
+        }
+    }
+
+
+    private boolean specialCheck(String str) {
+        if (str != null && str.matches("[0-9|a-z|A-Z|ㄱ-ㅎ|ㅏ-ㅣ|가-힝| ]*")) {
+            return false;
+        } else {
+            return true;
         }
     }
 

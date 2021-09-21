@@ -41,28 +41,31 @@ import retrofit2.Response;
 
 public class ScanResultDialog extends BaseDialog {
 
-    private Context context;
+    private final Context context;
 
     // 0 -> 실패 , 1 -> 성공
-    private boolean isSucess;
-    private String scanner;
+    private final boolean isSucess;
+    private final String scanner;
+    private final String msg;
     private ItemOnClick itemOnClick;
     private int touristhistory_touristspotpoint_idx;
 
-    public ScanResultDialog(@NonNull Context context, boolean isSucess, String scanner) {
+    public ScanResultDialog(@NonNull Context context, boolean isSucess, String scanner, String msg) {
         super(context);
         this.context = context;
         this.isSucess = isSucess;
         this.scanner = scanner;
+        this.msg = msg;
     }
 
-    public ScanResultDialog(@NonNull Context context, boolean isSucess, String scanner, int touristhistory_touristspotpoint_idx) {
+    public ScanResultDialog(@NonNull Context context, boolean isSucess, String scanner, int touristhistory_touristspotpoint_idx, String msg) {
         super(context);
         this.context = context;
         this.isSucess = isSucess;
         this.scanner = scanner;
         this.itemOnClick = (ItemOnClick) context;
         this.touristhistory_touristspotpoint_idx = touristhistory_touristspotpoint_idx;
+        this.msg = msg;
     }
 
     @Override
@@ -106,7 +109,8 @@ public class ScanResultDialog extends BaseDialog {
 
             ((TextView)findViewById(R.id.scan_result_txv)).setText(scanner + (scanner.equals("NFC")? " 태깅": "스캔") + " 성공");
             ((TextView)findViewById(R.id.scan_result_txv)).setTextColor(ContextCompat.getColor(context, R.color.white));
-            ((TextView)findViewById(R.id.inner_result)).setText("스탬프 랠리 획득!");
+            //((TextView)findViewById(R.id.inner_result)).setText("스탬프 랠리 획득!");
+            ((TextView)findViewById(R.id.inner_result)).setText(msg);
             ((TextView)findViewById(R.id.inner_result)).setTextSize(25);
             ((TextView)findViewById(R.id.inner_result)).setTextColor(ContextCompat.getColor(context, R.color.scan_dialog_text_color));
 
@@ -126,7 +130,8 @@ public class ScanResultDialog extends BaseDialog {
 
             ((TextView)findViewById(R.id.scan_result_txv)).setText(scanner + (scanner.equals("NFC")? " 태깅": "스캔") + " 실패");
             ((TextView)findViewById(R.id.scan_result_txv)).setTextColor(ContextCompat.getColor(context, R.color.scan_fail_btn_Color));
-            ((TextView)findViewById(R.id.inner_result)).setText(scanner + " 확인 하신 후 \n재시도 해주세요.");
+            //((TextView)findViewById(R.id.inner_result)).setText(scanner + " 확인 하신 후 \n재시도 해주세요.");
+            ((TextView)findViewById(R.id.inner_result)).setText(msg);
             ((TextView)findViewById(R.id.inner_result)).setTextSize(15);
             ((TextView)findViewById(R.id.inner_result)).setTextColor(ContextCompat.getColor(context, R.color.black));
         }

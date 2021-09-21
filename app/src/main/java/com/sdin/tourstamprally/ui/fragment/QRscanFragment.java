@@ -1,43 +1,25 @@
 package com.sdin.tourstamprally.ui.fragment;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
-import androidx.fragment.app.Fragment;
 
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.budiyev.android.codescanner.CodeScanner;
-import com.budiyev.android.codescanner.DecodeCallback;
-import com.google.zxing.Result;
-import com.google.zxing.integration.android.IntentIntegrator;
-import com.google.zxing.integration.android.IntentResult;
-import com.journeyapps.barcodescanner.CaptureManager;
-import com.journeyapps.barcodescanner.DecoratedBarcodeView;
-import com.journeyapps.barcodescanner.ViewfinderView;
-import com.sdin.tourstamprally.BackPressCloseHandler;
-import com.sdin.tourstamprally.CustomScannerActivity;
 import com.sdin.tourstamprally.R;
 import com.sdin.tourstamprally.Utils;
 import com.sdin.tourstamprally.databinding.FragmentQrScanBinding;
 import com.sdin.tourstamprally.model.TouristSpotPoint;
-import com.sdin.tourstamprally.ui.activity.MainActivity;
 import com.sdin.tourstamprally.ui.dialog.ScanResultDialog;
 import com.sdin.tourstamprally.utill.GpsTracker;
 
 import org.jetbrains.annotations.NotNull;
-
-import java.lang.reflect.Field;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -82,7 +64,7 @@ public class QRscanFragment extends BaseFragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_qr_scan, container, false);
@@ -92,7 +74,7 @@ public class QRscanFragment extends BaseFragment {
             //showDialog(result == null? false : true);
             //Log.wtf("QR_RESULT", result.getText());
             isAvailable(result.getText());
-            Toast.makeText(getActivity(), result.getText(), Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getActivity(), result.getText(), Toast.LENGTH_SHORT).show();
         }));
 
         binding.scannerView.setOnClickListener( v -> codeScanner.startPreview());
@@ -110,32 +92,33 @@ public class QRscanFragment extends BaseFragment {
             @Override
             public void onResponse(@NotNull Call<TouristSpotPoint> call, @NotNull Response<TouristSpotPoint> response) {
                 if (response.isSuccessful()){
+                    Log.wtf("거리 가져오기", "거리 가져오기");
                     //Log.wtf("isAvailable", "isSuccessful");
 
                     touristSpotPoint = response.body();
                    // Log.wtf("isAvailable11111", touristSpotPoint.toString());
                     if (touristSpotPoint == null) {
-                        showDialog(false);
+                        showDialog("QR 확인 하신 후 \n재시도 해주세요.");
                     } else {
                         gpsTracker = new GpsTracker(requireContext());
                         //sendTagging(text);
                         if (distance_calculation(touristSpotPoint.getTouristspotpoint_latitude(), touristSpotPoint.getTouristspotpoint_longitude())){
                             sendTagging(text);
                         }else {
-                            showDialog(false);
+                            showDialog("QR 확인 하신 후 \n재시도 해주세요.");
                         }
 
                     }
 
                 } else {
-                    showDialog(false);
+                    showDialog("QR 확인 하신 후 \n재시도 해주세요.");
                     Log.wtf("else", "not isSuccessful");
                 }
             }
 
             @Override
-            public void onFailure(Call<TouristSpotPoint> call, Throwable t) {
-                showDialog(false);
+            public void onFailure(@NotNull Call<TouristSpotPoint> call, @NotNull Throwable t) {
+                showDialog("QR 확인 하신 후 \n재시도 해주세요.");
 
                 t.printStackTrace();
             }
@@ -173,14 +156,16 @@ public class QRscanFragment extends BaseFragment {
 
         apiService.check_in(text, String.valueOf(Utils.User_Idx)).enqueue(new Callback<Integer>() {
             @Override
-            public void onResponse(Call<Integer> call, Response<Integer> response) {
+            public void onResponse(@NotNull Call<Integer> call, @NotNull Response<Integer> response) {
+                Log.wtf("체크인 ", "체크인 ");
                 if (response.isSuccessful()){
                     int result = response.body();
                    // Log.wtf("result!!!!!!", String.valueOf(result));
+                    Log.wtf("result!!!!!!! ", String.valueOf(result));
                     if (result == 0){
-                        showDialog(false);
+                        showDialog("이미 완료한 장소입니다.");
                     }else {
-                        showDialog(true, result);
+                        showDialog(result);
                     }
                     //showDialog(result == 0? false : true, result);
                 }
@@ -188,53 +173,20 @@ public class QRscanFragment extends BaseFragment {
 
             @Override
             public void onFailure(Call<Integer> call, Throwable t) {
-                showDialog(false);
+                showDialog("QR 확인 하신 후 \n재시도 해주세요.");
                 t.printStackTrace();
             }
         });
 
     }
 
-    private void showDialog(boolean isSuccess, int touristhistory_touristspotpoint_idx){
-        // TODO: 8/10/21 progressbar off
-        new ScanResultDialog(requireContext(), isSuccess, "QR", touristhistory_touristspotpoint_idx).show();
+    private void showDialog(int touristhistory_touristspotpoint_idx){
+        new ScanResultDialog(requireContext(), true, "QR", touristhistory_touristspotpoint_idx, "스탬프 랠리 획득!").show();
     }
 
-    private void showDialog(boolean isSuccess){
-        // TODO: 8/10/21 progressbar off
-        new ScanResultDialog(requireContext(), isSuccess, "QR").show();
+    private void showDialog(String msg){
+        new ScanResultDialog(requireContext(), false, "QR", msg).show();
     }
-
-
-    /*private void displayToast() {
-
-        if(getActivity() != null && toast != null) {
-            Toast.makeText(getActivity(), toast, Toast.LENGTH_LONG).show();
-            Log.wtf("QR_TEXT ", toast);
-            toast = null;
-        }
-    }*/
-
-
-
-    /*@Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Log.wtf("QRSCAN", "onActivityResult");
-        IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
-        if(result != null) {
-            if(result.getContents() == null) {
-                toast = "Cancelled from fragment";
-            } else {
-                toast = "Scanned from fragment: " + result.getContents();
-
-                Log.wtf("QR_onActivityResult ", result.getContents());
-
-            }
-            displayToast();
-            // At this point we may or may not have a reference to the activity
-
-        }
-    }*/
 
 
 }
