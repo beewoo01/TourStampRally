@@ -3,6 +3,8 @@ package com.sdin.tourstamprally.ui.fragment;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ObservableArrayList;
 
@@ -53,9 +55,9 @@ public class DirectionGuidFragment extends BaseFragment {
 
     private DirectionGuid_Adapter adapter;
     private DirectionGuid_Tag_Adapter tagAdpater;
-    private Map<Integer, Integer> location_Progress_Map;
+    /*private Map<Integer, Integer> location_Progress_Map;
     private Map<Integer, Integer> location_history_Map;
-    private Map<Integer, Integer> particiMap;
+    private Map<Integer, Integer> particiMap;*/
     // 총 참여자
 
     private ArrayList<Location_four> paramArrayList;
@@ -79,18 +81,11 @@ public class DirectionGuidFragment extends BaseFragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             paramArrayList = getArguments().getParcelableArrayList(ARG_PARAM);
-            Log.wtf("paramArrayList", paramArrayList.toString());
-            Log.wtf("paramArrayListsize", String.valueOf(paramArrayList.size()));
+            /*Log.wtf("paramArrayList", paramArrayList.toString());
+            Log.wtf("paramArrayListsize", String.valueOf(paramArrayList.size()));*/
         }
     }
 
-    @Override
-    public void onStop() {
-        super.onStop();
-
-        /*InputMethodManager inputMethodManager = (InputMethodManager) requireActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
-        inputMethodManager.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);*/
-    }
 
     private void getData() {
         binding.directionGuidPgb.setVisibility(View.VISIBLE);
@@ -105,7 +100,7 @@ public class DirectionGuidFragment extends BaseFragment {
                         //locationArrayList = new ArrayList<>();
 
                         for (TourTagModel model : hashTagModels) {
-                            Set<String> set = new HashSet<>();
+                            //Set<String> set = new HashSet<>();
                             String[] array = Arrays.stream(model.getHashTag().split("#")).map(String::trim).toArray(String[]::new);
 
                             Arrays.stream(array)
@@ -114,7 +109,7 @@ public class DirectionGuidFragment extends BaseFragment {
                                     .forEach(data -> hashTagList.add(new TourTagModel(data, model.getLocation_idx())));
 
 
-                            Log.wtf("hashTagList set ToString", set.toString());
+                            //Log.wtf("hashTagList set ToString", set.toString());
                             /*for (Location_four location_four : paramArrayList){
                                 if (location_four.getLocation_idx() == model.getLocation_idx()){
                                     locationArrayList.add(new Pair<>(location_four, model));
@@ -273,6 +268,11 @@ public class DirectionGuidFragment extends BaseFragment {
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_direction_guid, container, false);
+        return binding.getRoot();
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstancdState) {
         SelectLocationAdapter spinnerAdapter = new SelectLocationAdapter(requireContext(), Arrays.asList(requireContext().getResources().getStringArray(R.array.area_direction)));
         binding.spinnerTourRecord.setAdapter(spinnerAdapter);
         binding.spinnerTourRecord.setOnItemSelectedListener(selectedListener);
@@ -297,11 +297,7 @@ public class DirectionGuidFragment extends BaseFragment {
 
         });
 
-        binding.searchBtn.setOnClickListener(v -> {
-            search(binding.searchEdt.getText().toString());
-        });
-
-        return binding.getRoot();
+        binding.searchBtn.setOnClickListener(v -> search(binding.searchEdt.getText().toString()));
     }
 
     private void search(String searchData) {
@@ -327,19 +323,19 @@ public class DirectionGuidFragment extends BaseFragment {
                 }
             }*/
 
-            Log.wtf("searchData", searchData);
+            //Log.wtf("searchData", searchData);
 
             for (TourTagModel tagModel : hashTagList) {
                 if (tagModel.getHashTag().toLowerCase().contains(searchData)) {
                     locationIdxes.add(tagModel.getLocation_idx());
-                    Log.wtf("tagModel", tagModel.getHashTag());
+                    //Log.wtf("tagModel", tagModel.getHashTag());
                 }
             }
 
             for (Location_four location_model : paramArrayList) {
                 if (location_model.getLocation_name().toLowerCase().contains(searchData)) {
                     locationIdxes.add(location_model.getLocation_idx());
-                    Log.wtf("location_model", String.valueOf(location_model.getLocation_idx()));
+                    //Log.wtf("location_model", String.valueOf(location_model.getLocation_idx()));
                 }
             }
 
@@ -361,12 +357,12 @@ public class DirectionGuidFragment extends BaseFragment {
                 }
             }
 
-            Observable test = Observable.just(paramArrayList, hashTagList);
+            /*Observable test = Observable.just(paramArrayList, hashTagList);
 
             Observable.merge(test).subscribe( it->
 
                     Log.wtf("merge", String.valueOf(it.toString()))
-            );
+            );*/
 
 
 
@@ -403,7 +399,7 @@ public class DirectionGuidFragment extends BaseFragment {
     private final AdapterView.OnItemSelectedListener selectedListener = new AdapterView.OnItemSelectedListener() {
         @Override
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-            Log.d("getSelectedItem", parent.getSelectedItem().toString());
+            //Log.d("getSelectedItem", parent.getSelectedItem().toString());
 
             if (paramArrayList != null) {
                 String searchData = parent.getSelectedItem().toString();
