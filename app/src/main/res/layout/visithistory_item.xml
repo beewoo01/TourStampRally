@@ -85,6 +85,7 @@
                     android:layout_height="4dp"
                     android:layout_marginEnd="@dimen/_10sdp"
                     android:clickable="false"
+                    android:focusable="false"
                     android:paddingStart="0dp"
                     android:paddingEnd="0dp"
                     android:progress="10"

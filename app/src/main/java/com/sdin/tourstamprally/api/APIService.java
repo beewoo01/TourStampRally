@@ -3,8 +3,11 @@ package com.sdin.tourstamprally.api;
 
 
 import com.google.gson.Gson;
+import com.sdin.tourstamprally.model.HashTagModel;
 import com.sdin.tourstamprally.model.Location;
+import com.sdin.tourstamprally.model.Location_four;
 import com.sdin.tourstamprally.model.Notice;
+import com.sdin.tourstamprally.model.TourTagModel;
 import com.sdin.tourstamprally.model.Tour_Spot;
 import com.sdin.tourstamprally.model.Tour_Spot2;
 import com.sdin.tourstamprally.model.TouristSpotPoint;
@@ -156,6 +159,12 @@ public interface APIService {
 
     @GET("getTourist")
     Call<List<Tour_Spot>> getTour(@Query("userIdx") int idx);
+
+    @GET("getFourLocations")
+    Call<List<Location_four>> getFourLocations(@Query("userIdx") int idx);
+
+    @GET("getHashTag")
+    Call<List<TourTagModel>> getHashTag();
 
     //메인 시작시 가져오는 Location 등 데이터
     //@FormUrlEncoded

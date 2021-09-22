@@ -15,18 +15,19 @@ import com.sdin.tourstamprally.R;
 import com.sdin.tourstamprally.databinding.DirectionGuidLocationItemBinding;
 import com.sdin.tourstamprally.databinding.DirectionGuidTagItemBinding;
 import com.sdin.tourstamprally.model.HashTagModel;
+import com.sdin.tourstamprally.model.TourTagModel;
 import com.sdin.tourstamprally.model.Tour_Spot;
 
 import java.util.ArrayList;
 
 public class DirectionGuid_Tag_Adapter extends RecyclerView.Adapter<DirectionGuid_Tag_Adapter.ViewHolder> {
 
-    private ArrayList<String> arrayList;
+    private ArrayList<TourTagModel> arrayList;
     private int selectedItem = -1;
     private int prevSelected = -1;
 
     public interface ItemOnClick {
-        void onClick(String param);
+        void onClick(TourTagModel param);
     };
 
     private ItemOnClick mListener = null;
@@ -35,11 +36,11 @@ public class DirectionGuid_Tag_Adapter extends RecyclerView.Adapter<DirectionGui
         this.mListener = mListener;
     }
 
-    public DirectionGuid_Tag_Adapter(ArrayList<String> arrayList) {
+    public DirectionGuid_Tag_Adapter(ArrayList<TourTagModel> arrayList) {
         this.arrayList = arrayList;
     }
 
-    public void setList(ArrayList<String> arrayList){
+    public void setList(ArrayList<TourTagModel> arrayList){
         //this.list.clear();
         this.arrayList = arrayList;
         notifyDataSetChanged();
@@ -57,7 +58,7 @@ public class DirectionGuid_Tag_Adapter extends RecyclerView.Adapter<DirectionGui
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.binding.tagItemTxv.setText("# " + arrayList.get(position));
+        holder.binding.tagItemTxv.setText("# " + arrayList.get(position).getHashTag());
         setBackground(position, holder);
     }
 
@@ -85,10 +86,10 @@ public class DirectionGuid_Tag_Adapter extends RecyclerView.Adapter<DirectionGui
             this.binding = binding;
             binding.tagItemTxv.setOnClickListener( v -> {
                 prevSelected = selectedItem;
-                selectedItem = getAdapterPosition();
-                if (getAdapterPosition() != RecyclerView.NO_POSITION){
+                selectedItem = getAbsoluteAdapterPosition();
+                if (getAbsoluteAdapterPosition() != RecyclerView.NO_POSITION){
                     if (mListener != null){
-                        mListener.onClick(arrayList.get(getAdapterPosition()));
+                        mListener.onClick(arrayList.get(getAbsoluteAdapterPosition()));
                         notifyItemChanged(selectedItem);
                         notifyItemChanged(prevSelected);
                     }

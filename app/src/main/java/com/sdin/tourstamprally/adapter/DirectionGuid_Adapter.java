@@ -21,6 +21,7 @@ import com.bumptech.glide.request.transition.Transition;
 import com.sdin.tourstamprally.Utils;
 import com.sdin.tourstamprally.databinding.DirectionGuidLocationItemBinding;
 import com.sdin.tourstamprally.databinding.DirectionGuidTagItemBinding;
+import com.sdin.tourstamprally.model.Location_four;
 import com.sdin.tourstamprally.model.Tour_Spot;
 import com.sdin.tourstamprally.ui.activity.MainActivity;
 import com.sdin.tourstamprally.ui.fragment.DirectionGuidFragment;
@@ -38,11 +39,13 @@ import lombok.val;
 
 public class DirectionGuid_Adapter extends RecyclerView.Adapter<DirectionGuid_Adapter.ViewHolder> {
 
-    private ArrayList<Tour_Spot> list;
-    private final Map<Integer, Integer> location_Progress_Map;
-    private final Map<Integer, Integer> location_history_Map;
+
+
+    private ArrayList<Location_four> list;
+    /*private final Map<Integer, Integer> location_Progress_Map;
+    private final Map<Integer, Integer> location_history_Map;*/
     private double latitude, longitude;
-    private final Map<Integer, Integer> particiMap;
+    //private final Map<Integer, Integer> particiMap;
     // 총 참여자
 
     /*public interface ItemOnClick{
@@ -52,16 +55,16 @@ public class DirectionGuid_Adapter extends RecyclerView.Adapter<DirectionGuid_Ad
     private final ItemOnClick itemOnClick;
     private Context context;
 
-    public DirectionGuid_Adapter(ArrayList<Tour_Spot> list, Activity activity,
+    public DirectionGuid_Adapter(ArrayList<Location_four> list, Activity activity/*,
                                  Map<Integer, Integer> location_Progress_Map,
                                  Map<Integer, Integer> location_history_Map,
-                                 Map<Integer, Integer> particiMap) {
+                                 Map<Integer, Integer> particiMap*/) {
         this.list = list;
         this.itemOnClick = (ItemOnClick) activity;
         this.context = activity.getApplicationContext();
-        this.location_history_Map = location_history_Map;
+        /*this.location_history_Map = location_history_Map;
         this.location_Progress_Map = location_Progress_Map;
-        this.particiMap = particiMap;
+        this.particiMap = particiMap*/;
         getGps();
     }
 
@@ -74,7 +77,7 @@ public class DirectionGuid_Adapter extends RecyclerView.Adapter<DirectionGuid_Ad
 
 
 
-    public void setList(ArrayList<Tour_Spot> list){
+    public void setList(ArrayList<Location_four> list){
         //this.list.clear();
         this.list = list;
         notifyDataSetChanged();
@@ -126,8 +129,15 @@ public class DirectionGuid_Adapter extends RecyclerView.Adapter<DirectionGuid_Ad
             });
         }
 
-
-        if (location_Progress_Map.get(list.get(position).getLocation_idx()) != null
+        if (list.get(position).getLocation_idx() > 0){
+            int allContents = list.get(position).getAllPointCount();
+            int clearCount = list.get(position).getMyHistoryCount();
+            int allCountd = (int) ((double) clearCount /  (double) allContents * 100);
+            holder.binding.seekBarDirectionItem.setMax(allContents);
+            holder.binding.seekBarDirectionItem.setProgress(clearCount);
+            holder.binding.seekPercentTxv.setText(allCountd + "%");
+        }
+        /*if (list.get(list.get(position).getLocation_idx()) != null
                 &&  location_history_Map.get(list.get(position).getLocation_idx()) != null) {
 
 
@@ -143,15 +153,36 @@ public class DirectionGuid_Adapter extends RecyclerView.Adapter<DirectionGuid_Ad
         }else {
             holder.binding.seekBarDirectionItem.setProgress(0);
             holder.binding.seekPercentTxv.setText(0 + "%");
-        }
+        }*/
+
+
+        /*if (location_Progress_Map.get(list.get(position).getLocation_idx()) != null
+                &&  location_history_Map.get(list.get(position).getLocation_idx()) != null) {
+
+
+            int allContents = location_Progress_Map.get(list.get(position).getLocation_idx());
+            int clearCount = location_history_Map.get(list.get(position).getLocation_idx());
+
+            holder.binding.seekBarDirectionItem.setMax(allContents);
+            holder.binding.seekBarDirectionItem.setProgress(clearCount);
+            int allCountd = (int) ((double) clearCount /  (double) allContents * 100);
+            holder.binding.seekPercentTxv.setText(allCountd + "%");
+            //Log.wtf("persentage", String.valueOf(allCountd));
+
+        }else {
+            holder.binding.seekBarDirectionItem.setProgress(0);
+            holder.binding.seekPercentTxv.setText(0 + "%");
+        }*/
 
 
         //참여자 데이터 적용
-        if (particiMap.get(list.get(position).getLocation_idx()) != null){
+        holder.binding.joinnerNumberTxv.setText(String.valueOf(list.get(position).getPopular()));
+
+        /*if (particiMap.get(list.get(position).getLocation_idx()) != null){
             holder.binding.joinnerNumberTxv.setText(particiMap.get(list.get(position).getLocation_idx()).toString());
         }else {
             holder.binding.joinnerNumberTxv.setText("0");
-        }
+        }*/
 
 
     }
@@ -168,7 +199,7 @@ public class DirectionGuid_Adapter extends RecyclerView.Adapter<DirectionGuid_Ad
             super(binding.getRoot());
             this.binding = binding;
             binding.locationBg.setOnClickListener( v-> {
-                itemOnClick.onItemClick(list.get(getAdapterPosition()));
+                itemOnClick.onItemClick(list.get(getAbsoluteAdapterPosition()));
             });
         }
     }

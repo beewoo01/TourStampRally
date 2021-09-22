@@ -25,12 +25,15 @@ import com.sdin.tourstamprally.R;
 import com.sdin.tourstamprally.Utils;
 import com.sdin.tourstamprally.databinding.FragmentLocationBinding;
 import com.sdin.tourstamprally.databinding.LocationReItemBinding;
+import com.sdin.tourstamprally.model.Location_four;
 import com.sdin.tourstamprally.model.Tour_Spot;
 import com.sdin.tourstamprally.model.TouristSpotPoint;
 import com.sdin.tourstamprally.ui.activity.MainActivity;
 import com.sdin.tourstamprally.ui.dialog.GuidDialog;
 import com.sdin.tourstamprally.utill.ItemOnClick;
 import com.sdin.tourstamprally.utill.ItemOnClickAb;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -47,17 +50,18 @@ public class LocationFragment extends BaseFragment {
 
     private FragmentLocationBinding binding;
     private String location_name;
-    private Tour_Spot tour_spot;
+    private Location_four location_four;
     private List<Tour_Spot> list;
     private Map<Integer, Integer> spot_poinMap;
     private Map<Integer, Integer> spot_HistoryMap;
 
-    public static LocationFragment newInstance(Tour_Spot tour_spot) {
+    public static LocationFragment newInstance(Location_four location_four) {
 
         Bundle args = new Bundle();
 
         LocationFragment fragment = new LocationFragment();
-        args.putSerializable("model", tour_spot);
+        //args.putSerializable("model", location_four);
+        args.putParcelable("model", location_four);
         fragment.setArguments(args);
         return fragment;
     }
@@ -66,21 +70,22 @@ public class LocationFragment extends BaseFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            tour_spot = (Tour_Spot) getArguments().getSerializable("model");
-            location_name = tour_spot.getLocation_name();
+            //location_four = (Location_four) getArguments().getSerializable("model");
+            location_four = (Location_four) getArguments().getParcelable("model");
+            location_name = location_four.getLocation_name();
 
         }
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_location, container, false);
         binding.locationTxv.setText(location_name);
 
-        if (!TextUtils.isEmpty(tour_spot.getLocation_img())){
-            Glide.with(requireContext()).load("http://coratest.kr/imagefile/bsr/" + tour_spot.getLocation_img()).into(new CustomTarget<Drawable>() {
+        if (!TextUtils.isEmpty(location_four.getLocation_img())){
+            Glide.with(requireContext()).load("http://coratest.kr/imagefile/bsr/" + location_four.getLocation_img()).into(new CustomTarget<Drawable>() {
                 @Override
                 public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
                     binding.topLayout.setBackground(resource);
@@ -102,17 +107,17 @@ public class LocationFragment extends BaseFragment {
         binding.locationPgb.setVisibility(View.VISIBLE);
         Map<String, Integer> dataMap = new HashMap<>();
         dataMap.put("user_idx", Utils.User_Idx);
-        dataMap.put("location_idx", tour_spot.getLocation_idx());
+        dataMap.put("location_idx", location_four.getLocation_idx());
         apiService.getTourLocation_for_spot(dataMap).enqueue(new Callback<List<Tour_Spot>>() {
             @Override
-            public void onResponse(Call<List<Tour_Spot>> call, Response<List<Tour_Spot>> response) {
+            public void onResponse(@NotNull Call<List<Tour_Spot>> call, @NotNull Response<List<Tour_Spot>> response) {
                 list = response.body();
                 setRecylcerviewAdapter();
 
             }
 
             @Override
-            public void onFailure(Call<List<Tour_Spot>> call, Throwable t) {
+            public void onFailure(@NotNull Call<List<Tour_Spot>> call, @NotNull Throwable t) {
                 t.printStackTrace();
             }
         });
@@ -249,7 +254,7 @@ public class LocationFragment extends BaseFragment {
                 this.binding = binding;
 
                 binding.topLayout.setOnClickListener( v -> {
-                    send_model = arrayList.get(getAdapterPosition());
+                    send_model = arrayList.get(getAbsoluteAdapterPosition());
                     GuidDialog guidDialog = new GuidDialog(requireContext());
                     guidDialog.show();
                     guidDialog.setClickListener(itemOnClick);

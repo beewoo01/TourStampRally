@@ -59,6 +59,7 @@
                     android:layout_marginBottom="@dimen/_15sdp"
                     android:thumbTint="@android:color/transparent"
                     android:clickable="false"
+                    android:focusable="false"
                     android:thumb="@color/gray"
                     android:paddingStart="0dp"
                     android:paddingEnd="0dp"

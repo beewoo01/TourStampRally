@@ -1,7 +1,10 @@
 package com.sdin.tourstamprally.utill;
 
+import com.sdin.tourstamprally.model.Location_four;
 import com.sdin.tourstamprally.model.Tour_Spot;
 import com.sdin.tourstamprally.model.TouristSpotPoint;
+
+import java.util.ArrayList;
 
 public abstract class ItemOnClickAb implements ItemOnClick{
 
@@ -20,15 +23,25 @@ public abstract class ItemOnClickAb implements ItemOnClick{
 
     };
 
-    @Override
+    /*@Override
     public void SetFragment(String tag){
 
-    };
+    }*/
 
     @Override
-    public void onItemClick(Tour_Spot tour_spot) {
+    public void SetFragment(ArrayList<Location_four> location_four) {
 
     }
+
+    @Override
+    public void onItemClick(Location_four location_four) {
+
+    }
+
+    /*@Override
+    public void onItemClick(Tour_Spot tour_spot) {
+
+    }*/
 
     @Override
     public void ItemGuidForDetail(TouristSpotPoint model) {

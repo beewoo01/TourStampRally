@@ -28,6 +28,7 @@ import androidx.fragment.app.FragmentManager;
 
 import com.bumptech.glide.Glide;
 import com.google.android.material.navigation.NavigationBarView;
+import com.google.android.material.navigation.NavigationView;
 import com.kakao.sdk.common.util.KakaoCustomTabsClient;
 import com.kakao.sdk.navi.NaviClient;
 import com.kakao.sdk.navi.model.CoordType;
@@ -37,6 +38,7 @@ import com.sdin.tourstamprally.R;
 import com.sdin.tourstamprally.Utils;
 import com.sdin.tourstamprally.adapter.DrawaRecyclerViewAdapter;
 import com.sdin.tourstamprally.databinding.ActivityMainBinding;
+import com.sdin.tourstamprally.model.Location_four;
 import com.sdin.tourstamprally.model.Tour_Spot;
 import com.sdin.tourstamprally.model.TouristSpotPoint;
 import com.sdin.tourstamprally.model.UserModel;
@@ -61,6 +63,7 @@ import com.sdin.tourstamprally.utill.NFCListener;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -516,25 +519,37 @@ public class MainActivity extends BaseActivity implements NavigationBarView.OnIt
         setFragment(model.getTouristspotpoint_name(), TourDetailFragment.newInstance(model));
     }
 
-    @Override
+    /*@Override
     public void SetFragment(String tag) {
         if (tag.equals("direction_guid")) {
 
-            DirectionGuidFragment directionGuidFragment = DirectionGuidFragment.newInstance();
+            DirectionGuidFragment directionGuidFragment = new DirectionGuidFragment;
             setFragment("direction_guid", directionGuidFragment);
 
         } else if (tag.equals("notice")) {
 
 
         }
+    }*/
+
+    @Override
+    public void SetFragment(ArrayList<Location_four> location_four) {
+        DirectionGuidFragment directionGuidFragment =  DirectionGuidFragment.newInstance(location_four);
+        setFragment("direction_guid", directionGuidFragment);
     }
 
     @Override
+    public void onItemClick(Location_four location_four) {
+        setFragment(location_four.getLocation_name() + " 랠리 맵", LocationFragment.newInstance(location_four));
+        setToolbar(3);
+    }
+
+    /*@Override
     public void onItemClick(Tour_Spot tour_spot) {
         //Log.wtf("onItemClick", tour_spot.toString());
         setFragment(tour_spot.getLocation_name() + " 랠리 맵", LocationFragment.newInstance(tour_spot));
         setToolbar(3);
-    }
+    }*/
 
     @Override
     public void onWriteRewviewClick(int spotIdx, String spotName) {
