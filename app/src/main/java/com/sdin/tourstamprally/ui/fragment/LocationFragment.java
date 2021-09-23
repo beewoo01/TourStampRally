@@ -1,11 +1,13 @@
 package com.sdin.tourstamprally.ui.fragment;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -15,6 +17,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.CustomTarget;
@@ -187,7 +190,7 @@ public class LocationFragment extends BaseFragment {
     }
 
 
-    class LocationFragAdapter extends RecyclerView.Adapter<LocationFragAdapter.ViewHolder>{
+    class LocationFragAdapter extends RecyclerView.Adapter<LocationFragAdapter.ViewHolder> {
 
         private final ArrayList<Tour_Spot> arrayList;
         private final Map<Integer, Integer> spotPoint_map;
@@ -216,6 +219,12 @@ public class LocationFragment extends BaseFragment {
 
         @Override
         public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+            /*if (position == 0) {
+                ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) holder.binding.topLayout.getLayoutParams();
+                layoutParams.topMargin = 10;
+                binding.topLayout.setLayoutParams(layoutParams);
+            }*/
+
             holder.binding.topLine.setVisibility(position == 0 ? View.INVISIBLE : View.VISIBLE );
             holder.binding.bottomLine.setVisibility(position == arrayList.size() -1 ? View.GONE : View.VISIBLE);
             holder.binding.bottomLayout.setVisibility(position == arrayList.size() -1 ? View.GONE : View.VISIBLE);
@@ -233,9 +242,10 @@ public class LocationFragment extends BaseFragment {
 
                 int allContents = spotPoint_map.get(Integer.parseInt(arrayList.get(position).getTouristspotpoint_touristspot_idx()));
                 int clearCount = history_map.get(Integer.parseInt(arrayList.get(position).getTouristspotpoint_touristspot_idx()));
+
                 return allContents - clearCount == 0;
 
-            }else {
+            } else {
 
                 return false;
 

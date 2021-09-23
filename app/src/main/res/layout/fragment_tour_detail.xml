@@ -6,6 +6,11 @@
 
     <!--관광지 상세 xml-->
 
+    <data>
+        <variable
+            name="fragment"
+            type="com.sdin.tourstamprally.ui.fragment.TourDetailFragment" />
+    </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -16,12 +21,12 @@
             android:layout_width="0dp"
             android:layout_height="@dimen/_180sdp"
             android:src="@color/black"
-            android:scaleType="centerCrop"
+            android:scaleType="fitXY"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <com.google.android.material.internal.BaselineLayout
+        <Space
             android:id="@+id/baseline"
             android:layout_width="0dp"
             android:layout_height="1dp"
@@ -91,7 +96,7 @@
                         android:gravity="center"
                         android:maxLines="4"
                         android:maxLength="148"
-                        android:text="이 이이이이이이이 이이 이 이이 이 이이 이 이이 이이 이 이이디 이 이이이 이이 이 이이 이 이이 이 이이 이이 이 이이 기디디디 이 이이이이이이이 이이 이 이이 이 이이 이 이이 이이 이 이 기 이 이이이이이이이 이이 이 이이 이 이이 이 이이 이이 이 이이 기"
+                        android:text=""
                         android:textColor="@color/gray"
                         android:textSize="@dimen/_10sdp"
                         app:layout_constraintBottom_toTopOf="@id/baseline2"
@@ -122,6 +127,7 @@
                         android:drawablePadding="@dimen/_5sdp"
                         android:gravity="center"
                         android:text="전화"
+                        android:onClick="@{fragment::onClick}"
                         android:textSize="@dimen/_12sdp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toStartOf="@id/save_txv"

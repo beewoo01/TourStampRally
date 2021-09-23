@@ -78,6 +78,7 @@ public class FindPasswordActivity extends BaseActivity {
 
                             if (result == 1) {
                                 showToast("비밀번호 변경을 완료하였습니다.");
+                                finish();
                             } else {
                                 showToast("비밀번호 변경에 실패하였습니다.");
                             }

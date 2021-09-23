@@ -29,6 +29,8 @@ import net.daum.mf.map.api.MapPOIItem;
 import net.daum.mf.map.api.MapPoint;
 import net.daum.mf.map.api.MapView;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
@@ -66,10 +68,11 @@ public class TourDetailFragment extends BaseFragment/* implements MapView.MapVie
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_tour_detail, container, false);
+        binding.setFragment(this);
 
         return binding.getRoot();
     }
@@ -82,11 +85,11 @@ public class TourDetailFragment extends BaseFragment/* implements MapView.MapVie
 
     public void onClick(View view){
         if (view.getId() == binding.phoneTxv.getId()){
-            if (!TextUtils.isEmpty(binding.phoneTxv.getText().toString())){
+            /*if (!TextUtils.isEmpty(binding.phoneTxv.getText().toString())){
                 //전화 걸기
-                //Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + touristSpotPoint));
-                //requireActivity().startActivity(intent);
-            }
+                Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + touristSpotPoint));
+                requireActivity().startActivity(intent);
+            }*/
         }
     }
 
@@ -177,11 +180,9 @@ public class TourDetailFragment extends BaseFragment/* implements MapView.MapVie
     private String getAddress(){
         Geocoder geocoder = new Geocoder(requireContext(), Locale.getDefault());
 
-        List<Address> addresses ;
-
         try {
 
-            addresses = geocoder.getFromLocation(
+            List<Address> addresses = geocoder.getFromLocation(
                     touristSpotPoint.getTouristspotpoint_latitude(),
                     touristSpotPoint.getTouristspotpoint_longitude(),
                     7);
@@ -195,15 +196,12 @@ public class TourDetailFragment extends BaseFragment/* implements MapView.MapVie
             Address address = addresses.get(0);
             //Log.wtf("주소는?", address.getAddressLine(0).toString()+"\n");
             return address.getAddressLine(0);
-        } catch (IOException ioException) {
+        } catch (IOException | IllegalArgumentException ioException) {
             //네트워크 문제
             //Log.wtf("addresses?", "지오코더 서비스 사용불가");
             return touristSpotPoint.getTouristspotpoint_name();
-        } catch (IllegalArgumentException illegalArgumentException) {
-            //Log.wtf("addresses", "잘못된 GPS 좌표");
-            return touristSpotPoint.getTouristspotpoint_name();
+        } //Log.wtf("addresses", "잘못된 GPS 좌표");
 
-        }
     }
 
     /*@Override

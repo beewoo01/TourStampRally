@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
 
     >
 
@@ -8,8 +9,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:layout_marginHorizontal="@dimen/_10sdp">
+        android:layout_marginHorizontal="@dimen/_10sdp"
+        android:background="@color/white">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/top_layout"
@@ -18,8 +19,8 @@
             android:background="@drawable/bg_rounded_07"
             android:elevation="@dimen/_3sdp"
             android:outlineAmbientShadowColor="#98A2AA"
-            android:outlineSpotShadowColor="#9EB6CC"
             android:outlineProvider="background"
+            android:outlineSpotShadowColor="#9EB6CC"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -65,23 +66,23 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_8sdp"
-                android:text="해운대 해수욕장 아아아"
+                android:maxLength="12"
                 android:textColor="@color/black"
                 android:textSize="@dimen/_15sdp"
-                android:maxLength="12"
                 app:layout_constraintStart_toEndOf="@id/location_imv"
-                app:layout_constraintTop_toTopOf="@id/location_imv" />
+                app:layout_constraintTop_toTopOf="@id/location_imv"
+                tools:text="해운대 해수욕장 아아아" />
 
             <TextView
                 android:id="@+id/explan_txv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:maxLength="29"
-                android:text="부산 해운대구 중동 좌동 우동에 걸쳐 있는 해수욕장"
-                android:textSize="@dimen/_7sdp"
                 android:textColor="@color/gray"
+                android:textSize="@dimen/_7sdp"
                 app:layout_constraintStart_toStartOf="@id/spot_name"
-                app:layout_constraintTop_toBottomOf="@id/spot_name" />
+                app:layout_constraintTop_toBottomOf="@id/spot_name"
+                tools:text="부산 해운대구 중동 좌동 우동에 걸쳐 있는 해수욕장" />
 
             <ImageView
                 android:id="@+id/logo_imv"
@@ -99,33 +100,27 @@
 
         <!--android:background="@drawable/shadow01"-->
         <LinearLayout
-            android:layout_width="match_parent"
+            android:id="@+id/bottom_layout"
+            android:layout_width="@dimen/_30sdp"
             android:layout_height="@dimen/_20sdp"
             android:layout_marginStart="@dimen/_10sdp"
             android:layout_marginEnd="@dimen/_10sdp"
             android:background="@android:color/transparent"
+            android:gravity="center"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="@id/top_layout"
-            app:layout_constraintTop_toBottomOf="@id/top_layout"
-            >
+            app:layout_constraintTop_toBottomOf="@id/top_layout">
 
-            <LinearLayout
-                android:id="@+id/bottom_layout"
-                android:layout_width="@dimen/_30sdp"
+
+            <View
+                android:id="@+id/bottom_line_admin"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:gravity="center"
-                >
+                android:background="@drawable/dotted_line_vertical"
 
-                <View
-                    android:id="@+id/bottom_line_admin"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/dotted_line_vertical"
-
-                    />
+                />
 
 
-            </LinearLayout>
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 

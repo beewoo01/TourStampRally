@@ -32,6 +32,7 @@
                 android:layout_weight="1"
                 android:layout_gravity="center"
                 android:maxLines="1"
+                android:inputType="text"
                 android:gravity="center_vertical"
                 android:textSize="@dimen/_13sdp"
                 android:hint="관광지를 검색해주세요."

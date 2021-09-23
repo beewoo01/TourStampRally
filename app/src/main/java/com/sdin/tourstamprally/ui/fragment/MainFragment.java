@@ -263,7 +263,7 @@ public class MainFragment extends BaseFragment {
             holder.binding.location.setText(adapterList.get(position).getLocation_name());
 
             if (adapterList.get(position).getLocation_img() != null && !adapterList.get(position).getLocation_img().equals("null")){
-                Log.wtf("이미지??", "???");
+
                 Glide.with(requireContext()).load("http://coratest.kr/imagefile/bsr/" + adapterList.get(position).getLocation_img())
                         .error(ContextCompat.getDrawable(requireContext(), R.drawable.sample_bg))
                         .into(new CustomTarget<Drawable>() {
