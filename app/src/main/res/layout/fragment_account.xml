@@ -135,7 +135,6 @@
                     android:layout_height="0dp"
                     android:layout_marginEnd="@dimen/_10sdp"
                     android:background="@drawable/bg_rounded_02"
-                    android:enabled="false"
                     android:text="@string/AuthenticationRequest"
                     android:onClick="@{ () -> fragment.authResponse() }"
                     android:textColor="@color/mainColor"
@@ -284,17 +283,17 @@
                     android:id="@+id/btn_signUp"
                     android:layout_width="0dp"
                     android:layout_height="@dimen/_40sdp"
+                    android:layout_marginHorizontal="@dimen/_15sdp"
                     android:background="@drawable/bg_rounded_04"
                     android:gravity="center"
+                    android:onClick="@{ () -> fragment.signUp()}"
                     android:text="변경"
                     android:textColor="@color/white"
                     android:textSize="@dimen/_13sdp"
-                    android:layout_marginHorizontal="@dimen/_15sdp"
-                    android:onClick="@{ () -> fragment.signUp()}"
-                    app:layout_constraintTop_toBottomOf="@id/spinner_location"
                     app:layout_constraintBottom_toTopOf="@id/quit_txv"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent" />
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/spinner_location" />
 
                 <TextView
                     android:id="@+id/quit_txv"

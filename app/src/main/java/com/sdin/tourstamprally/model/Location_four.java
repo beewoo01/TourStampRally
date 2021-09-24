@@ -9,11 +9,16 @@ import java.io.Serializable;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class Location_four implements Comparable<Tour_Spot>, Parcelable {
 
+    private int myInterCount;
+
+    private int allSpotCount;
     //@SerializedName("popular")
     private int popular;
 
@@ -40,6 +45,8 @@ public class Location_four implements Comparable<Tour_Spot>, Parcelable {
 
 
     protected Location_four(Parcel in) {
+        myInterCount = in.readInt();
+        allSpotCount = in.readInt();
         popular = in.readInt();
         location_idx = in.readInt();
         location_name = in.readString();
@@ -70,6 +77,8 @@ public class Location_four implements Comparable<Tour_Spot>, Parcelable {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeInt(myInterCount);
+        parcel.writeInt(allSpotCount);
         parcel.writeInt(popular);
         parcel.writeInt(location_idx);
         parcel.writeString(location_name);

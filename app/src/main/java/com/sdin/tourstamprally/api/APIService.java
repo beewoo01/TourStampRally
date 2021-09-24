@@ -4,6 +4,7 @@ package com.sdin.tourstamprally.api;
 
 import com.google.gson.Gson;
 import com.sdin.tourstamprally.model.HashTagModel;
+import com.sdin.tourstamprally.model.InterestModel;
 import com.sdin.tourstamprally.model.Location;
 import com.sdin.tourstamprally.model.Location_four;
 import com.sdin.tourstamprally.model.Notice;
@@ -189,6 +190,9 @@ public interface APIService {
     @GET("select_interest")
     Call<List<Tour_Spot2>> getSelect_interest(@Query("user_idx") int user_idx);
 
+    @GET("getAllInterest")
+    Call<List<InterestModel>> getAllInterest(@Query("user_idx") int user_idx);
+
     @GET("insert_intest")
     Call<Integer> insert_intest(@Query("interest_user_idx") int user_idx, @Query("interest_touristspot_idx") int touristspot_idx);
 
@@ -198,8 +202,9 @@ public interface APIService {
     @GET("getLocations")
     Call<List<Location>> getLocations();
 
-    @GET("remove_intest")
-    Call<Integer> remove_intest(@Query("user_touristspot_interest_idx") int user_touristspot_interest_idx);
+    @GET("delete_interest")
+    Call<Integer> remove_intest(@Query("interest_idx") int interest_idx,
+                                @Query("ts_type") int ts_type);
 
 
     @GET("gabia_token")
@@ -226,9 +231,9 @@ public interface APIService {
 
     @GET("insert_writeReview")
     Call<Integer> insert_writeReview(@Query("review_user_user_idx") int user_idx,
-                                                   @Query("review_touristspot_touristspot_idx") int touristspot_idx,
-                                                   @Query("review_score") float review_score,
-                                                   @Query("review_contents") String review_contents
-                                                   );
+                                     @Query("review_touristspot_touristspot_idx") int touristspot_idx,
+                                     @Query("review_score") float review_score,
+                                     @Query("review_contents") String review_contents
+    );
 
 }

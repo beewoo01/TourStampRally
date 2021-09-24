@@ -88,7 +88,7 @@ public class NFCFragment extends BaseFragment implements NFCListener {
         //Toast.makeText(getContext(), text2 == null? text : text2, Toast.LENGTH_SHORT).show();
 
         if (TextUtils.isEmpty(text) && TextUtils.isEmpty(text2)){
-            new ScanResultDialog(requireContext(), false, "NFC", " 확인 하신 후 \n재시도 해주세요.").show();
+            new ScanResultDialog(requireContext(), false, "NFC 태깅 실패", " 확인 하신 후 \n재시도 해주세요.").show();
         }else {
             if (!TextUtils.isEmpty(text2)){
                 isAvailable(text2);
@@ -111,7 +111,7 @@ public class NFCFragment extends BaseFragment implements NFCListener {
                     touristSpotPoint = response.body();
                     //Log.wtf("isAvailable11111", touristSpotPoint.toString());
                     if (touristSpotPoint == null) {
-                        showDialog("NFC 확인 하신 후 \n재시도 해주세요.");
+                        showDialog("NFC 태깅 실패","NFC 확인 하신 후 \n재시도 해주세요.");
                     } else {
                         gpsTracker = new GpsTracker(requireContext());
                         sendTagging(text);
@@ -120,13 +120,13 @@ public class NFCFragment extends BaseFragment implements NFCListener {
                     }
 
                 } else {
-                    showDialog("NFC 확인 하신 후 \n재시도 해주세요.");
+                    showDialog("NFC 태깅 실패","NFC 확인 하신 후 \n재시도 해주세요.");
                 }
             }
 
             @Override
             public void onFailure(@NotNull Call<TouristSpotPoint> call, @NotNull Throwable t) {
-                showDialog("NFC 확인 하신 후 \n재시도 해주세요.");
+                showDialog("NFC 태깅 실패","NFC 확인 하신 후 \n재시도 해주세요.");
 
                 t.printStackTrace();
             }
@@ -145,7 +145,7 @@ public class NFCFragment extends BaseFragment implements NFCListener {
         }else {
 
             Log.wtf("distance_calculation", "30M넘음");
-            showDialog("NFC 확인 하신 후 \n재시도 해주세요.");
+            showDialog("NFC 태깅 실패","NFC 확인 하신 후 \n재시도 해주세요.");
         }
         //Log.wtf("distance", String.valueOf(dice));
     }
@@ -162,11 +162,11 @@ public class NFCFragment extends BaseFragment implements NFCListener {
 
 
     private void showDialog(boolean isSuccess, int touristhistory_touristspotpoint_idx){
-        new ScanResultDialog(requireContext(), isSuccess, "NFC", touristhistory_touristspotpoint_idx, "스탬프 랠리 획득!").show();
+        new ScanResultDialog(requireContext(), isSuccess, "NFC 태깅 성공", touristhistory_touristspotpoint_idx, "스탬프 랠리 획득!").show();
     }
 
-    private void showDialog(String msg){
-        new ScanResultDialog(requireContext(), false, "NFC", msg).show();
+    private void showDialog(String title,String msg){
+        new ScanResultDialog(requireContext(), false, title, msg).show();
     }
 
 
@@ -179,7 +179,7 @@ public class NFCFragment extends BaseFragment implements NFCListener {
                     int result = response.body();
                     //Log.wtf("result!!!!!!", String.valueOf(result));
                     if (result == 0){
-                        showDialog(" 이미 완료한 장소입니다.");
+                        showDialog("스탬프 확인"," 이미 획득 완료한\n 스탬프 입니다.");
                     }else {
                         showDialog(result != 0, result);
                     }
@@ -189,7 +189,7 @@ public class NFCFragment extends BaseFragment implements NFCListener {
 
             @Override
             public void onFailure(@NotNull Call<Integer> call, @NotNull Throwable t) {
-                showDialog("NFC 확인 하신 후 \n재시도 해주세요.");
+                showDialog("NFC 태깅 실패","NFC 확인 하신 후 \n재시도 해주세요.");
                 t.printStackTrace();
             }
         });

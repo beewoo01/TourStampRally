@@ -126,10 +126,12 @@ public class SignUpActivity extends BaseActivity {
                     binding.btnRequestAuth.setEnabled(false);
 
                     auth = response.body();
+                    Log.wtf("succss", "!!!");
+                    Log.wtf("succss", auth);
 
                 } else {
                     showToast(getString(R.string.fail_sms));
-                    Log.d("Auth", "실패");
+                    Log.wtf("Auth", "실패");
                 }
 
             }

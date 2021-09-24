@@ -19,6 +19,8 @@ import com.sdin.tourstamprally.api.APIService;
 import com.sdin.tourstamprally.databinding.ActivityLoginBinding;
 import com.sdin.tourstamprally.model.UserModel;
 
+import org.jetbrains.annotations.NotNull;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -37,12 +39,12 @@ public class LoginActivity extends BaseActivity {
 
 
         if (!TextUtils.isEmpty(getIntent().getStringExtra("phone"))){
-            //Log.wtf("phone", "phonephonephonephone");
+            Log.wtf("phone", "phonephonephonephone");
             binding.editPhone.setText(getIntent().getStringExtra("phone"));
         }
 
         if (!TextUtils.isEmpty(getIntent().getStringExtra("psw"))){
-            //Log.wtf("psw", "pswpswpswpswpsw");
+            Log.wtf("psw", "pswpswpswpswpsw");
             binding.editPassword.setText(getIntent().getStringExtra("psw"));
         }
 
@@ -93,7 +95,7 @@ public class LoginActivity extends BaseActivity {
 
         apiService.userLoginExists(phone, psw).enqueue(new Callback<String>() {
             @Override
-            public void onResponse(Call<String> call, Response<String> response) {
+            public void onResponse(@NotNull Call<String> call, @NotNull Response<String> response) {
                 String result = response.body();
                 Log.d("result JOIN", result);
                 if (result.equals("true")){
@@ -105,7 +107,7 @@ public class LoginActivity extends BaseActivity {
             }
 
             @Override
-            public void onFailure(Call<String> call, Throwable t) {
+            public void onFailure(@NotNull Call<String> call, @NotNull Throwable t) {
                 t.printStackTrace();
             }
         });
@@ -116,7 +118,7 @@ public class LoginActivity extends BaseActivity {
 
         apiService.userLogin(phone, psw).enqueue(new Callback<UserModel>() {
             @Override
-            public void onResponse(Call<UserModel> call, Response<UserModel> response) {
+            public void onResponse(@NotNull Call<UserModel> call, @NotNull Response<UserModel> response) {
                 UserModel result = response.body();
                 //Log.d("result JOIN", result.toString());
                 try {
@@ -128,10 +130,12 @@ public class LoginActivity extends BaseActivity {
                         Log.d("result!!", result.toString());
                         if (result.getEnable().equals("0") ){
                             if (binding.autoLoginRbt.isChecked()){
+                                Log.wtf("autoLoginRbt", "checked");
                                 setShearedString("phone", binding.editPhone.getText().toString());
                                 setShearedString("password", binding.editPassword.getText().toString());
 
                             }else if (binding.saveIdRbt.isChecked()){
+                                Log.wtf("saveIdRbt", "checked");
                                 setShearedString("phone", binding.editPhone.getText().toString());
                             }
                             Utils.UserPhone = binding.editPhone.getText().toString();
@@ -179,7 +183,7 @@ public class LoginActivity extends BaseActivity {
         SharedPreferences preferences = setSharedPref();
         SharedPreferences.Editor editor = preferences.edit();
         editor.putString(key, value);
-        editor.commit();
+        editor.apply();
 
     }
 

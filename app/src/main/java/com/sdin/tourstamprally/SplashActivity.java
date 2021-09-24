@@ -7,6 +7,7 @@ import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -44,7 +45,7 @@ import retrofit2.Response;
 public class SplashActivity extends BaseActivity {
 
     private ActivitySplashBinding binding;
-    private Animation fadeOutAnimation, fadeInAnimation;
+    private Animation fadeOutAnimation;
     private boolean isErr = false;
     private static int CHECKNUM = 0;
     Handler mHandler;
@@ -59,7 +60,7 @@ public class SplashActivity extends BaseActivity {
         /*스플래시 로고 페이드 인/아웃 애니메이션*/
         fadeOutAnimation = AnimationUtils.loadAnimation(this, R.anim.logo_fade_out);
         fadeOutAnimation.setAnimationListener(fadeOutAnimationListener);
-        fadeInAnimation = AnimationUtils.loadAnimation(this, R.anim.logo_fade_in);
+        Animation fadeInAnimation = AnimationUtils.loadAnimation(this, R.anim.logo_fade_in);
         fadeInAnimation.setAnimationListener(fadeInAnimationListener);
         binding.logo.startAnimation(fadeInAnimation);
 
@@ -77,7 +78,12 @@ public class SplashActivity extends BaseActivity {
                     {
                         login(phone, psw);
                     }else {
-                        moveActivity(LoginActivity.class, null);
+                        Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
+                        intent.putExtra("phone", phone);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
+                        finish();
+                        //moveActivity(LoginActivity.class, null);
                     }
 
 
@@ -135,6 +141,7 @@ public class SplashActivity extends BaseActivity {
 
 
     /*체크 실행*/
+    @SuppressLint("SetTextI18n")
     private void startLoading() {
 
         //startActivity(new Intent(this, LoginActivity.class));
@@ -271,14 +278,8 @@ public class SplashActivity extends BaseActivity {
                 Constant.ACCESS_STOREGE = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE);
 
                 if (Constant.ACCESS_CAMERA == PackageManager.PERMISSION_GRANTED){
-                    check = true;
                     if (Constant.ACCESS_LOCATION == PackageManager.PERMISSION_GRANTED){
-                        check = true;
-                        if (Constant.ACCESS_STOREGE == PackageManager.PERMISSION_GRANTED){
-                            check = true;
-                        }else {
-                            check = false;
-                        }
+                        check = Constant.ACCESS_STOREGE == PackageManager.PERMISSION_GRANTED;
                     }else {
                         check = false;
                     }
@@ -294,19 +295,11 @@ public class SplashActivity extends BaseActivity {
                 break;
 
             case 1 :
-                if (Utils.getGPSState(this)){
-                    check = true;
-                } else {
-                    check = false;
-                }
+                check = Utils.getGPSState(this);
                 break;
 
             case 2 :
-                if (Utils.getNetworkStatus(this) < 3){
-                    check = true;
-                } else {
-                    check = false;
-                }
+                check = Utils.getNetworkStatus(this) < 3;
 
                 break;
 
@@ -338,19 +331,13 @@ public class SplashActivity extends BaseActivity {
             AlertDialog.Builder di = new AlertDialog.Builder(this);
             di.setTitle("앱 권한");
             di.setMessage("해당 앱의 원할한 기능을 이용하시려면 애플리케이션 정보> 권한> 에서 모든 권한을 허용해 주십시오");
-            di.setPositiveButton("권한설정", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).setData(Uri.parse("package:" + getApplicationContext().getPackageName()));
-                    startActivity(intent);
-                    dialog.cancel();
-                }
+            di.setPositiveButton("권한설정", (dialog, which) -> {
+                Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).setData(Uri.parse("package:" + getApplicationContext().getPackageName()));
+                startActivity(intent);
+                dialog.cancel();
             });
             di.show();
         }
-
-        return;
-
     }
 
     private SharedPreferences setSharedPref(){
@@ -359,8 +346,8 @@ public class SplashActivity extends BaseActivity {
 
 
     // 퍼미션 에러 팝업 닫기
-    private View.OnClickListener permissionErrPopUpCloseButtonListener = new View.OnClickListener() {
-        @RequiresApi(api = Build.VERSION_CODES.Q)
+    private final View.OnClickListener permissionErrPopUpCloseButtonListener = new View.OnClickListener() {
+
         @Override
         public void onClick(View v) {
             defaultPopUpDialog.dismiss();
@@ -372,8 +359,8 @@ public class SplashActivity extends BaseActivity {
     };
 
     // gps 에러 팝업 닫기
-    private View.OnClickListener gpsErrPopUpCloseButtonListener = new View.OnClickListener() {
-        @RequiresApi(api = Build.VERSION_CODES.Q)
+    private final View.OnClickListener gpsErrPopUpCloseButtonListener = new View.OnClickListener() {
+
         @Override
         public void onClick(View v) {
             defaultPopUpDialog.dismiss();
@@ -385,7 +372,7 @@ public class SplashActivity extends BaseActivity {
     };
 
     // 네트워크 에러 팝업 닫기
-    private View.OnClickListener networkErrPopUpCloseButtonListener = new View.OnClickListener() {
+    private final View.OnClickListener networkErrPopUpCloseButtonListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             defaultPopUpDialog.dismiss();

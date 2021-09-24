@@ -31,11 +31,7 @@ public class FindPasswordActivity extends BaseActivity {
     }
 
     private boolean specialCheck(String str) {
-        if (str != null && str.matches("[0-9|a-z|A-Z|ㄱ-ㅎ|ㅏ-ㅣ|가-힝| ]*")) {
-            return false;
-        } else {
-            return true;
-        }
+        return str == null || !str.matches("[0-9|a-z|A-Z|ㄱ-ㅎ|ㅏ-ㅣ|가-힝| ]*");
     }
 
     public void findPsw() {
@@ -60,7 +56,7 @@ public class FindPasswordActivity extends BaseActivity {
 
         } else if (binding.editPassword.getText().toString().trim().length() < 8) {
 
-            showToast("이름은 2자 이상 8자 이하로 등록해 주세요");
+            showToast("비밀번호는 8자 이상으로 등록해 주세요");
 
 
         } else {

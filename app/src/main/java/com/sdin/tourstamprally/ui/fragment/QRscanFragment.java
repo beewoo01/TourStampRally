@@ -3,6 +3,7 @@ package com.sdin.tourstamprally.ui.fragment;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 
 import android.util.Log;
@@ -17,6 +18,7 @@ import com.sdin.tourstamprally.Utils;
 import com.sdin.tourstamprally.databinding.FragmentQrScanBinding;
 import com.sdin.tourstamprally.model.TouristSpotPoint;
 import com.sdin.tourstamprally.ui.dialog.ScanResultDialog;
+import com.sdin.tourstamprally.utill.DialogListener;
 import com.sdin.tourstamprally.utill.GpsTracker;
 
 import org.jetbrains.annotations.NotNull;
@@ -25,13 +27,14 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class QRscanFragment extends BaseFragment {
+public class QRscanFragment extends BaseFragment implements DialogListener {
 
     private FragmentQrScanBinding binding;
 
     private CodeScanner codeScanner;
     private TouristSpotPoint touristSpotPoint ;
     private GpsTracker gpsTracker;
+    private ScanResultDialog scanResultDialog = null;
 
     public QRscanFragment() {
 
@@ -54,6 +57,7 @@ public class QRscanFragment extends BaseFragment {
     public void onPause() {
         super.onPause();
         //capture.onPause();
+        Log.wtf("onPause", "onPause");
         codeScanner.releaseResources();
     }
 
@@ -68,6 +72,15 @@ public class QRscanFragment extends BaseFragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_qr_scan, container, false);
+        Log.wtf("onCreateView", "onCreateView");
+
+        return binding.getRoot();
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstancdState) {
+        super.onViewCreated(view, savedInstancdState);
+        Log.wtf("onViewCreated", "onViewCreated");
         codeScanner = new CodeScanner(getActivity(), binding.scannerView);
         codeScanner.setDecodeCallback(result -> getActivity().runOnUiThread(()
                 -> {
@@ -77,10 +90,11 @@ public class QRscanFragment extends BaseFragment {
             //Toast.makeText(getActivity(), result.getText(), Toast.LENGTH_SHORT).show();
         }));
 
-        binding.scannerView.setOnClickListener( v -> codeScanner.startPreview());
 
-        return binding.getRoot();
+
+        //binding.scannerView.setOnClickListener( v -> codeScanner.startPreview());
     }
+
 
 
     private void isAvailable(final String text){
@@ -98,27 +112,27 @@ public class QRscanFragment extends BaseFragment {
                     touristSpotPoint = response.body();
                    // Log.wtf("isAvailable11111", touristSpotPoint.toString());
                     if (touristSpotPoint == null) {
-                        showDialog("QR 확인 하신 후 \n재시도 해주세요.");
+                        showDialog("QR 스캔 실패","QR 확인 하신 후 \n재시도 해주세요.");
                     } else {
                         gpsTracker = new GpsTracker(requireContext());
                         //sendTagging(text);
                         if (distance_calculation(touristSpotPoint.getTouristspotpoint_latitude(), touristSpotPoint.getTouristspotpoint_longitude())){
                             sendTagging(text);
                         }else {
-                            showDialog("QR 확인 하신 후 \n재시도 해주세요.");
+                            showDialog("QR 스캔 실패","QR 확인 하신 후 \n재시도 해주세요.");
                         }
 
                     }
 
                 } else {
-                    showDialog("QR 확인 하신 후 \n재시도 해주세요.");
+                    showDialog("QR 스캔 실패","QR 확인 하신 후 \n재시도 해주세요.");
                     Log.wtf("else", "not isSuccessful");
                 }
             }
 
             @Override
             public void onFailure(@NotNull Call<TouristSpotPoint> call, @NotNull Throwable t) {
-                showDialog("QR 확인 하신 후 \n재시도 해주세요.");
+                showDialog("QR 스캔 실패","QR 확인 하신 후 \n재시도 해주세요.");
 
                 t.printStackTrace();
             }
@@ -163,7 +177,7 @@ public class QRscanFragment extends BaseFragment {
                    // Log.wtf("result!!!!!!", String.valueOf(result));
                     Log.wtf("result!!!!!!! ", String.valueOf(result));
                     if (result == 0){
-                        showDialog("이미 완료한 장소입니다.");
+                        showDialog("스템프 확인","이미 획득 완료한 \n 스탬프 입니다.");
                     }else {
                         showDialog(result);
                     }
@@ -172,8 +186,8 @@ public class QRscanFragment extends BaseFragment {
             }
 
             @Override
-            public void onFailure(Call<Integer> call, Throwable t) {
-                showDialog("QR 확인 하신 후 \n재시도 해주세요.");
+            public void onFailure(@NotNull Call<Integer> call, @NotNull Throwable t) {
+                showDialog("QR 스캔 실패","QR 확인 하신 후 \n재시도 해주세요.");
                 t.printStackTrace();
             }
         });
@@ -181,13 +195,25 @@ public class QRscanFragment extends BaseFragment {
     }
 
     private void showDialog(int touristhistory_touristspotpoint_idx){
-        new ScanResultDialog(requireContext(), true, "QR", touristhistory_touristspotpoint_idx, "스탬프 랠리 획득!").show();
+        scanResultDialog = new ScanResultDialog(requireContext(), true, "QR 스캔 성공", touristhistory_touristspotpoint_idx, "스탬프 랠리 획득!");
+        scanResultDialog.setDialogListener(this);
+        scanResultDialog.show();
+
+        /*ScanResultDialog scanResultDialog = new ScanResultDialog(requireContext(), true, "QR", touristhistory_touristspotpoint_idx, "스탬프 랠리 획득!");
+        scanResultDialog.show();
+        scanResultDialog.*/
     }
 
-    private void showDialog(String msg){
-        new ScanResultDialog(requireContext(), false, "QR", msg).show();
+    private void showDialog(String title, String msg){
+        scanResultDialog = new ScanResultDialog(requireContext(), false, title, msg);
+        scanResultDialog.setDialogListener(this);
+        scanResultDialog.show();
     }
 
 
+    @Override
+    public void onDissMiss() {
+        codeScanner.startPreview();
+    }
 }
 

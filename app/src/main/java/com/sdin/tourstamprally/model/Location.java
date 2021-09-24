@@ -12,6 +12,10 @@ public class Location {
     private String location_name;
     private String location_img;
     private String location_createtime;
-    private String locatio_updatetime;
+    private String location_updatetime;
 
+    public Location(int location_idx, String location_name){
+        this.location_idx = location_idx;
+        this.location_name = location_name;
+    }
 }

@@ -142,68 +142,17 @@ public class MainFragment extends BaseFragment {
             }
         });
 
-        /*apiService.getTour(Utils.User_Idx).enqueue(new Callback<List<Tour_Spot>>() {
-            @Override
-            public void onResponse(@NotNull Call<List<Tour_Spot>> call, @NotNull Response<List<Tour_Spot>> response) {
-                if (response.isSuccessful()){
-
-                    tourList = response.body();
-                    binding.tourRallyPgb.setVisibility(View.GONE);
-                    Log.wtf("tourist!!!!", tourList.toString());
-                    for (int i = 0; i < tourList.size(); i++){
-                        Log.wtf("touristName", tourList.get(i).getLocation_name());
-                    }
-                    //Log.d("?????", tourList.get(0).toString());
-                    setData();
-
-                }else {
-                    //Log.wtf("getTour fail", response.toString());
-                }
-            }
-
-            @Override
-            public void onFailure(@NotNull Call<List<Tour_Spot>> call, @NotNull Throwable t) {
-                t.printStackTrace();
-            }
-        });*/
     }
 
 
     private void setData(ArrayList<Location_four> list){
 
-       /* Map<Integer, Tour_Spot> hashMap = new HashMap<>();
-        for (Tour_Spot model : tourList){
-            hashMap.put(model.getLocation_idx(), model);
-        }
-
-        Collection<Tour_Spot> collection = hashMap.values();
-        ArrayList<Tour_Spot> arrayList = new ArrayList(collection);
-
-        Map<Integer, Integer> progress_Map = new HashMap<>();
-        Map<Integer, Integer> history_Map = new HashMap<>();
-
-        for (Tour_Spot tour_spot : tourList) {
-
-            progress_Map.put(tour_spot.getLocation_idx(),
-                    progress_Map.get(tour_spot.getLocation_idx()) == null ?
-                            1 : progress_Map.get(tour_spot.getLocation_idx()) +1);
-
-
-            if (tour_spot.getTouristhistory_idx() != null){
-                history_Map.put(tour_spot.getLocation_idx(),
-                        history_Map.get(tour_spot.getLocation_idx()) == null?
-                                1 : history_Map.get(tour_spot.getLocation_idx()) +1);
-            }
-
-        }*/
-
-        //RallyRecyclerviewAdapter adapter = new RallyRecyclerviewAdapter(requireContext(), arrayList, progress_Map, history_Map);
         RallyRecyclerviewAdapter adapter = new RallyRecyclerviewAdapter(list);
         binding.rallyRecyclerview.setAdapter(adapter);
-        binding.rallyRecyclerview.addItemDecoration(new RallyRecyclerviewAdapterDeco(2, 50, true));
+        //binding.rallyRecyclerview.addItemDecoration(new RallyRecyclerviewAdapterDeco(2, 50, true));
     }
 
-    private class RallyRecyclerviewAdapterDeco extends RecyclerView.ItemDecoration{
+    /*private class RallyRecyclerviewAdapterDeco extends RecyclerView.ItemDecoration{
         private final int spanCount;
         private final int spacing;
         private final boolean includeEdge;
@@ -235,7 +184,7 @@ public class MainFragment extends BaseFragment {
                 }
             }
         }
-    }
+    }*/
 
     private class RallyRecyclerviewAdapter extends RecyclerView.Adapter<RallyRecyclerviewAdapter.ViewHolder>{
 
@@ -265,7 +214,7 @@ public class MainFragment extends BaseFragment {
             if (adapterList.get(position).getLocation_img() != null && !adapterList.get(position).getLocation_img().equals("null")){
 
                 Glide.with(requireContext()).load("http://coratest.kr/imagefile/bsr/" + adapterList.get(position).getLocation_img())
-                        .error(ContextCompat.getDrawable(requireContext(), R.drawable.sample_bg))
+                        .error(R.drawable.sample_bg)
                         .into(new CustomTarget<Drawable>() {
                             @Override
                             public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
@@ -280,7 +229,7 @@ public class MainFragment extends BaseFragment {
                         });
             }else {
 
-                Glide.with(requireContext()).load(ContextCompat.getDrawable(requireContext(), R.drawable.sample_bg))
+                Glide.with(requireContext()).load(R.drawable.sample_bg)
                         .into(new CustomTarget<Drawable>() {
                             @Override
                             public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
@@ -303,10 +252,17 @@ public class MainFragment extends BaseFragment {
                 holder.binding.newsImv.setImageResource(R.drawable.new_icon);
             }
 
-            if (adapterList.get(position).getAllPointCount() > 0){
-                if (adapterList.get(position).getAllPointCount() == adapterList.get(position).getMyHistoryCount()){
+            Log.wtf("getAllPointCount", String.valueOf(adapterList.get(position).getAllPointCount()));
+            Log.wtf("getMyInterCount", String.valueOf(adapterList.get(position).getMyInterCount()));
+            if (adapterList.get(position).getAllSpotCount() > 0){
+                if (adapterList.get(position).getAllSpotCount() == adapterList.get(position).getMyInterCount()){
                     holder.binding.dibsImv.setImageResource(R.drawable.full_heart_resize);
+                }else {
+                    holder.binding.dibsImv.setImageResource(R.drawable.heart_resize);
                 }
+                /*if (adapterList.get(position).getAllPointCount() == adapterList.get(position).getMyHistoryCount()){
+                    holder.binding.dibsImv.setImageResource(R.drawable.full_heart_resize);
+                }*/
             }
 
 
@@ -319,6 +275,10 @@ public class MainFragment extends BaseFragment {
             holder.binding.seekbar.setMax( adapterList.get(position).getAllPointCount());
             holder.binding.seekbar.setProgress(adapterList.get(position).getMyHistoryCount());
             holder.binding.seekTxv.setText(allCountd + "%");
+
+        }
+
+        private void setLocationInter(int idx){
 
         }
 

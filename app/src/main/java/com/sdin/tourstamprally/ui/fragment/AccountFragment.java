@@ -128,8 +128,6 @@ public class AccountFragment extends BaseFragment {
 
         startActivity(new Intent(requireActivity(), LoginActivity.class));
         requireActivity().finish();
-
-
     }
 
     private void setData() {
@@ -149,7 +147,7 @@ public class AccountFragment extends BaseFragment {
         binding.editName.setText(Utils.User_Name);
         binding.editEmail.setText(Utils.User_Email);
         binding.editPhone.setText(Utils.UserPhone);
-        binding.editPhone.addTextChangedListener(textWatcher);
+
 
 
         Glide.with(requireContext()).load("http://coratest.kr/imagefile/bsr/" + Utils.User_Profile)
@@ -191,31 +189,20 @@ public class AccountFragment extends BaseFragment {
             }
     );
 
-    private final TextWatcher textWatcher = new TextWatcher() {
-
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-        }
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-        }
-
-        @Override
-        public void afterTextChanged(Editable s) {
-            binding.btnRequestAuth.setEnabled(binding.editPhone.getText().toString().length() == 11);
-        }
-    };
-
 
     public void authResponse() {
 
-        if (TextUtils.isEmpty(binding.editPhone.getText().toString())) {
-            showToast("휴대폰번호를 입력해 주세요");
+        if (TextUtils.isEmpty(binding.editPhone.getText().toString())
+                || binding.editPhone.getText().toString().length() < 11
+                || binding.editPhone.getText().toString().length() > 11) {
+            showToast("휴대폰번호를 정확히 입력해 주세요");
             return;
         }
+
+        /*if (Utils.UserPhone.equals(binding.editPhone.getText().toString())){
+            showToast("인증이 완료된 번호입니다.");
+            return;
+        }*/
 
         apiService.getToken().enqueue(new Callback<String>() {
             @Override
@@ -273,11 +260,7 @@ public class AccountFragment extends BaseFragment {
 
 
     private boolean specialCheck(String str) {
-        if (str != null && str.matches("[0-9|a-z|A-Z|ㄱ-ㅎ|ㅏ-ㅣ|가-힝| ]*")) {
-            return false;
-        } else {
-            return true;
-        }
+        return str == null || !str.matches("[0-9|a-z|A-Z|ㄱ-ㅎ|ㅏ-ㅣ|가-힝| ]*");
     }
 
 
@@ -305,19 +288,17 @@ public class AccountFragment extends BaseFragment {
         Pattern pattern = Patterns.EMAIL_ADDRESS;
         //Log.wtf("signUp", "signUp");
 
+        if (!isAuth) {
+            showToast("휴대폰 번호를 인증해 주세요");
+            return;
+        }
+
         if (TextUtils.isEmpty(binding.editPassword.getText().toString().trim())
                 || binding.editPassword.getText().toString().trim().length() < 8) {
 
 
             showToast("비밀번호는 8자 이상입니다.");
             return;
-        }
-
-        if (!Utils.UserPhone.equals(binding.editPhone.getText().toString().trim())) {
-            if (!isAuth) {
-                showToast("휴대폰 번호를 인증해 주세요");
-                return;
-            }
         }
 
         if (!binding.editPassword.getText().toString().trim().equals(
