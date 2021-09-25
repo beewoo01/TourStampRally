@@ -19,6 +19,8 @@ import com.sdin.tourstamprally.model.history_spotModel;
 import java.util.List;
 import java.util.Map;
 
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.core.Single;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Field;
@@ -137,26 +139,21 @@ public interface APIService {
                                  @Query("user_password") String password
     );
 
-    /*//비밀번호 업데이트
-    @FormUrlEncoded
-    @POST("change_password")
-    Call<ResponseBody> change_password(@Field("id") String id,
-                                       @Field("name") String name,
-                                       @Field("password") String password,
-                                       @Field("phone") String phone
+    @GET("insert_multiple_tourspot_deaps")
+    Single<Integer> multipleInserDeaps(@Query("user_idx") int user_idx,
+                                       @Query("location_idx") int location_idx);
 
-    );
+    @GET("delete_multiple_tourspot_deaps")
+    Single<Integer> multipleDelDeaps(@Query("user_idx") int user_idx,
+                                         @Query("location_idx") int location_idx);
 
-    //색 측정값 넣기
-    @FormUrlEncoded
-    @POST("insert_history")
-    Call<ResponseBody> historyInsert(@Field("adminidx") int adminidx,
-                                     @Field("useridx") int useridx,
-                                     @Field("adminid") String adminid,
-                                     @Field("userid") String userid,
-                                     @Field("colorcode") String colorcode
+    /*@GET("insert_multiple_tourspot_deaps")
+    Call<Integer> multipleInserDeaps(@Query("user_idx") int user_idx,
+                                @Query("location_idx") int location_idx);*/
 
-    );*/
+    /*@GET("delete_multiple_tourspot_deaps")
+    Call<Integer> multipleDelDeaps(@Query("user_idx") int user_idx,
+                                @Query("location_idx") int location_idx);*/
 
     @GET("getTourist")
     Call<List<Tour_Spot>> getTour(@Query("userIdx") int idx);
