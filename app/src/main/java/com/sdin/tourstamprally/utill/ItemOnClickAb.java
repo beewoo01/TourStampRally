@@ -1,5 +1,6 @@
 package com.sdin.tourstamprally.utill;
 
+import com.sdin.tourstamprally.model.AllReviewDTO;
 import com.sdin.tourstamprally.model.Location_four;
 import com.sdin.tourstamprally.model.Tour_Spot;
 import com.sdin.tourstamprally.model.TouristSpotPoint;
@@ -58,4 +59,10 @@ public abstract class ItemOnClickAb implements ItemOnClick{
     public void onWriteReviewSuccess() {
 
     }
+
+    @Override
+    public void reviewMoreClick() { }
+
+    @Override
+    public void reviewItemClick(AllReviewDTO allReviewDTO) { }
 }

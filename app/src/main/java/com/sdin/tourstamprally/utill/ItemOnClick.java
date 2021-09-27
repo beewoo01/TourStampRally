@@ -1,5 +1,6 @@
 package com.sdin.tourstamprally.utill;
 
+import com.sdin.tourstamprally.model.AllReviewDTO;
 import com.sdin.tourstamprally.model.Location_four;
 import com.sdin.tourstamprally.model.Tour_Spot;
 import com.sdin.tourstamprally.model.TouristSpotPoint;
@@ -16,4 +17,7 @@ public interface ItemOnClick {
     void onItemClick(Location_four location_four);
     void onWriteRewviewClick(int spotIdx, String spotName);
     void onWriteReviewSuccess();
+
+    void reviewMoreClick();
+    void reviewItemClick(AllReviewDTO allReviewDTO);
 }

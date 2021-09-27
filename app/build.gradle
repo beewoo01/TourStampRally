@@ -49,6 +49,7 @@ dependencies {
     implementation 'com.google.zxing:core:3.4.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation files('libs/commons-net-3.8.0.jar')
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     /*implementation 'com.google.zxing:core:3.4.1'*/
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'

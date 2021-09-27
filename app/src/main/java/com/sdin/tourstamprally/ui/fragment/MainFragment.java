@@ -10,6 +10,7 @@ import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
@@ -24,8 +25,10 @@ import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.sdin.tourstamprally.R;
 import com.sdin.tourstamprally.Utils;
+import com.sdin.tourstamprally.adapter.Review_Main_ReAdapter;
 import com.sdin.tourstamprally.databinding.FragmentMainBinding;
 import com.sdin.tourstamprally.databinding.StepRallyLocationItemBinding;
+import com.sdin.tourstamprally.model.AllReviewDTO;
 import com.sdin.tourstamprally.model.Location_four;
 import com.sdin.tourstamprally.model.Tour_Spot;
 import com.sdin.tourstamprally.ui.activity.MainActivity;
@@ -99,6 +102,7 @@ public class MainFragment extends BaseFragment {
         });
 
         getTop4Location();
+        getAllReview();
 
         return binding.getRoot();
     }
@@ -113,6 +117,44 @@ public class MainFragment extends BaseFragment {
         listener = (MainActivity) requireActivity();
         //listener.SetFragment("direction_guid");
         listener.SetFragment(new ArrayList<>(tourList_test));
+    }
+
+    private void getAllReview(){
+        apiService.select_all_review().subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(new DisposableSingleObserver<List<AllReviewDTO>>(){
+
+                    @Override
+                    public void onSuccess(@io.reactivex.rxjava3.annotations.NonNull List<AllReviewDTO> allReviewDTOS) {
+                        binding.reviewReProgressbar.setVisibility(View.GONE);
+                        if (allReviewDTOS != null){
+                            initReviewData(new ArrayList<>(allReviewDTOS));
+                        }
+
+                    }
+
+                    @Override
+                    public void onError(@io.reactivex.rxjava3.annotations.NonNull Throwable e) {
+                        binding.reviewReProgressbar.setVisibility(View.GONE);
+                        e.printStackTrace();
+                    }
+                });
+
+    }
+
+    private void initReviewData(ArrayList<AllReviewDTO> arrayList){
+        Review_Main_ReAdapter adapter = new Review_Main_ReAdapter(arrayList);
+        binding.mainReviewRecyclerview.setAdapter(adapter);
+        binding.mainReviewRecyclerview.setLayoutManager(new LinearLayoutManager(requireContext()));
+
+        adapter.setListener(model -> {
+            // TODO: 2021-09-28 moveFragment
+            Log.wtf("reviewAdapterOnclick", model.toString());
+        });
+    }
+
+    public void reviewMoreClick(){
+
     }
 
     private void getTop4Location() {
@@ -137,6 +179,7 @@ public class MainFragment extends BaseFragment {
             @Override
             public void onFailure(@NotNull Call<List<Location_four>> call, @NotNull Throwable t) {
                 t.printStackTrace();
+                binding.tourRallyPgb.setVisibility(View.GONE);
             }
         });
 

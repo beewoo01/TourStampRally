@@ -55,13 +55,9 @@ public class DirectionGuidFragment extends BaseFragment {
 
     private DirectionGuid_Adapter adapter;
     private DirectionGuid_Tag_Adapter tagAdpater;
-    /*private Map<Integer, Integer> location_Progress_Map;
-    private Map<Integer, Integer> location_history_Map;
-    private Map<Integer, Integer> particiMap;*/
     // 총 참여자
 
     private ArrayList<Location_four> paramArrayList;
-    //private ArrayList<Pair<Location_four, TourTagModel>> locationArrayList;
     private ArrayList<TourTagModel> hashTagList = new ArrayList<>();
 
     public DirectionGuidFragment() {
@@ -97,24 +93,16 @@ public class DirectionGuidFragment extends BaseFragment {
                     List<TourTagModel> hashTagModels = response.body();
 
                     if (hashTagModels != null) {
-                        //locationArrayList = new ArrayList<>();
 
                         for (TourTagModel model : hashTagModels) {
-                            //Set<String> set = new HashSet<>();
-                            String[] array = Arrays.stream(model.getHashTag().split("#")).map(String::trim).toArray(String[]::new);
+                            if (model.getHashTag() != null){
+                                String[] array = Arrays.stream(model.getHashTag().split("#")).map(String::trim).toArray(String[]::new);
+                                Arrays.stream(array)
+                                        .filter(s -> (s != null && s.length() > 0))
+                                        .distinct()
+                                        .forEach(data -> hashTagList.add(new TourTagModel(data, model.getLocation_idx())));
+                            }
 
-                            Arrays.stream(array)
-                                    .filter(s -> (s != null && s.length() > 0))
-                                    .distinct()
-                                    .forEach(data -> hashTagList.add(new TourTagModel(data, model.getLocation_idx())));
-
-
-                            //Log.wtf("hashTagList set ToString", set.toString());
-                            /*for (Location_four location_four : paramArrayList){
-                                if (location_four.getLocation_idx() == model.getLocation_idx()){
-                                    locationArrayList.add(new Pair<>(location_four, model));
-                                }
-                            }*/
 
                         }
                     }
@@ -130,57 +118,7 @@ public class DirectionGuidFragment extends BaseFragment {
         });
 
 
-        //참여자 데이터 받아오는 부분
-        /*apiService.getTourParticipants().enqueue(new Callback<List<Map<String, Integer>>>() {
-            @Override
-            public void onResponse(@NotNull Call<List<Map<String, Integer>>> call, @NotNull Response<List<Map<String, Integer>>> response) {
-                if (response.isSuccessful()){
-                    //Log.wtf("getTourParticipants", "1111111111");
-                    List<Map<String, Integer>> list = response.body();
-                    Log.wtf("list", list.toString());
-                    particiMap = new HashMap<>();
-                    for (Map hashMap : list){
-                        Log.wtf("list", hashMap.toString());
-                        if (hashMap.get("location_idx") != null && hashMap.get("cnt") != null){
-                            particiMap.put((int) hashMap.get("location_idx"), (int) hashMap.get("cnt"));
-                        }
-
-                    }
-                    getAllData();
-                }else {
-
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<Map<String, Integer>>> call, Throwable t) {
-                t.printStackTrace();
-            }
-        });*/
     }
-
-    /*private void getAllData(){
-        apiService.getTourSortHashTag(Utils.User_Idx).enqueue(new Callback<List<Tour_Spot>>() {
-            @Override
-            public void onResponse(@NotNull Call<List<Tour_Spot>> call, @NotNull Response<List<Tour_Spot>> response) {
-                if (response.isSuccessful()){
-                    tourList = new ArrayList<>();
-                    tourList = response.body();
-
-                    setTourSpotList();
-                    setHashTag();
-
-                }else {
-
-                }
-            }
-
-            @Override
-            public void onFailure(@NotNull Call<List<Tour_Spot>> call, @NotNull Throwable t) {
-                t.printStackTrace();
-            }
-        });
-    }*/
 
     private void setTourSpotList() {
 
@@ -196,62 +134,7 @@ public class DirectionGuidFragment extends BaseFragment {
     }
 
 
-    /*private void setTourSpotList(){
-
-        location_Progress_Map = new HashMap<>();
-        location_history_Map = new HashMap<>();
-
-        for (Tour_Spot tour_spot : tourList) {
-
-            location_Progress_Map.put(tour_spot.getLocation_idx(),
-                    location_Progress_Map.get(tour_spot.getLocation_idx()) == null ?
-                            1 : location_Progress_Map.get(tour_spot.getLocation_idx()) +1);
-
-
-            if (tour_spot.getTouristhistory_idx() != null){
-                location_history_Map.put(tour_spot.getLocation_idx(),
-                        location_history_Map.get(tour_spot.getLocation_idx()) == null?
-                                1 : location_history_Map.get(tour_spot.getLocation_idx()) +1);
-            }
-
-        }
-
-        Map<Integer, Tour_Spot> hashMap = new HashMap<>();
-        for (Tour_Spot model : tourList){
-            hashMap.put(model.getLocation_idx(), model);
-        }
-
-        Collection<Tour_Spot> collection = hashMap.values();
-        ArrayList<Tour_Spot> arrayList = new ArrayList(collection);
-        adapter = new DirectionGuid_Adapter(
-                arrayList,
-                requireActivity(),
-                location_Progress_Map,
-                location_history_Map,
-                particiMap);
-
-        binding.locationRe.setAdapter(adapter);
-        binding.locationRe.setHasFixedSize(true);
-    }*/
-
-
     private void setHashTag() {
-
-        /*Set<String> hashSet = new HashSet<>();
-
-        for (int i = 0; i < tourList.size(); i++){
-            String hash = tourList.get(i).getTouristspot_tag();
-
-            String[] array = Arrays.stream(hash.split("#")).map(String::trim).toArray(String[]::new);
-            array = Arrays.stream(array)
-                    .filter(s -> (s != null && s.length() > 0))
-                    .toArray(String[]::new);
-
-            hashSet.addAll(Arrays.asList(array));
-        }
-
-        ArrayList<String> list = new ArrayList<>(hashSet);*/
-
 
         tagAdpater = new DirectionGuid_Tag_Adapter(hashTagList);
         tagAdpater.setOnItemClickListener(param -> {
@@ -307,46 +190,24 @@ public class DirectionGuidFragment extends BaseFragment {
         Set<Integer> locationIdxes = new HashSet<>();
 
         if (searchData.length() == 0) {
-            //Log.wtf("searchData2", String.valueOf(searchData.length()));
+
 
             arrayList.addAll(paramArrayList);
             adapter.setList(arrayList);
-            //tagAdpater.setList(arrayList);
 
         } else {
-
-            /*for (TourTagModel model : hashTagList){
-                for (Location_four location_model : paramArrayList){
-                    if (model.getLocation_idx() == location_model.getLocation_idx()){
-                        arrayList.add(location_model);
-                    }
-                }
-            }*/
-
-            //Log.wtf("searchData", searchData);
 
             for (TourTagModel tagModel : hashTagList) {
                 if (tagModel.getHashTag().toLowerCase().contains(searchData)) {
                     locationIdxes.add(tagModel.getLocation_idx());
-                    //Log.wtf("tagModel", tagModel.getHashTag());
                 }
             }
 
             for (Location_four location_model : paramArrayList) {
                 if (location_model.getLocation_name().toLowerCase().contains(searchData)) {
                     locationIdxes.add(location_model.getLocation_idx());
-                    //Log.wtf("location_model", String.valueOf(location_model.getLocation_idx()));
                 }
             }
-
-            /*Observable<Location_four> source1 = Observable.fromIterable(paramArrayList);
-            Observable<TourTagModel> source2 = Observable.fromIterable(hashTagList);
-
-            Observable.zip(source1, source2, (Location_four n1, TourTagModel n2) ->
-                    n1.getLocation_idx() == n2.getLocation_idx()).subscribe(data1 ->
-                            Log.wtf("Observable!!", data1.toString())
-            );*/
-
 
 
             for (Integer idx : locationIdxes) {
@@ -357,38 +218,8 @@ public class DirectionGuidFragment extends BaseFragment {
                 }
             }
 
-            /*Observable test = Observable.just(paramArrayList, hashTagList);
-
-            Observable.merge(test).subscribe( it->
-
-                    Log.wtf("merge", String.valueOf(it.toString()))
-            );*/
-
-
-
-            /*for (int i = 0; i < paramArrayList.size(); i++){
-                if (paramArrayList.get(i).getLocation_name().toLowerCase().contains(searchData)){
-                    arrayList.add(paramArrayList.get(i));
-                }
-
-                if (paramArrayList.get(i).getTouristspot_name().toLowerCase().contains(searchData)){
-                    arrayList.add(paramArrayList.get(i));
-                }
-
-                if (paramArrayList.get(i).getTouristspot_tag().contains(searchData)){
-                    arrayList.add(paramArrayList.get(i));
-                }
-            }*/
         }
 
-        /*Map<Integer, Tour_Spot> hashMap = new HashMap<>();
-        for (Tour_Spot model : arrayList){
-            hashMap.put(model.getLocation_idx(), model);
-        }
-
-
-        Collection<Tour_Spot> collection = hashMap.values();
-        arrayList = new ArrayList(collection);*/
 
 
         adapter.setList(arrayList);

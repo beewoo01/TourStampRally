@@ -136,9 +136,9 @@ public class VisitReAdapter extends RecyclerView.Adapter<VisitReAdapter.SwipeVie
 
             binding.heartImv.setOnClickListener( v -> {
                 //Log.wtf("heartImv click", String.valueOf(position));
-                if (listener != null && getAdapterPosition() > -1){
+                if (listener != null && getAbsoluteAdapterPosition() > -1){
                     //binding.seekBar.setProgress(40);
-                    listener.deapsClick(getAdapterPosition(), historySpotList.get(getAdapterPosition()));
+                    listener.deapsClick(getAbsoluteAdapterPosition(), historySpotList.get(getAbsoluteAdapterPosition()));
                 }
 
             });

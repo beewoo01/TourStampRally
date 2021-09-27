@@ -10,7 +10,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.budiyev.android.codescanner.CodeScanner;
 import com.sdin.tourstamprally.R;
@@ -22,6 +21,8 @@ import com.sdin.tourstamprally.utill.DialogListener;
 import com.sdin.tourstamprally.utill.GpsTracker;
 
 import org.jetbrains.annotations.NotNull;
+
+import java.util.HashMap;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -112,27 +113,27 @@ public class QRscanFragment extends BaseFragment implements DialogListener {
                     touristSpotPoint = response.body();
                    // Log.wtf("isAvailable11111", touristSpotPoint.toString());
                     if (touristSpotPoint == null) {
-                        showDialog("QR 스캔 실패","QR 확인 하신 후 \n재시도 해주세요.");
+                        showFailDialog();
                     } else {
                         gpsTracker = new GpsTracker(requireContext());
-                        //sendTagging(text);
-                        if (distance_calculation(touristSpotPoint.getTouristspotpoint_latitude(), touristSpotPoint.getTouristspotpoint_longitude())){
+                        sendTagging(text);
+                        /*if (distance_calculation(touristSpotPoint.getTouristspotpoint_latitude(), touristSpotPoint.getTouristspotpoint_longitude())){
                             sendTagging(text);
                         }else {
                             showDialog("QR 스캔 실패","QR 확인 하신 후 \n재시도 해주세요.");
-                        }
+                        }*/
 
                     }
 
                 } else {
-                    showDialog("QR 스캔 실패","QR 확인 하신 후 \n재시도 해주세요.");
+                    showFailDialog();
                     Log.wtf("else", "not isSuccessful");
                 }
             }
 
             @Override
             public void onFailure(@NotNull Call<TouristSpotPoint> call, @NotNull Throwable t) {
-                showDialog("QR 스캔 실패","QR 확인 하신 후 \n재시도 해주세요.");
+                showFailDialog();
 
                 t.printStackTrace();
             }
@@ -168,34 +169,49 @@ public class QRscanFragment extends BaseFragment implements DialogListener {
 
     private void sendTagging(String text){
 
-        apiService.check_in(text, String.valueOf(Utils.User_Idx)).enqueue(new Callback<Integer>() {
+        apiService.check_in(text, String.valueOf(Utils.User_Idx)).enqueue(new Callback<HashMap<String, Integer>>() {
             @Override
-            public void onResponse(@NotNull Call<Integer> call, @NotNull Response<Integer> response) {
+            public void onResponse(@NotNull Call<HashMap<String, Integer>> call, @NotNull Response<HashMap<String, Integer>> response) {
                 Log.wtf("체크인 ", "체크인 ");
                 if (response.isSuccessful()){
-                    int result = response.body();
-                   // Log.wtf("result!!!!!!", String.valueOf(result));
-                    Log.wtf("result!!!!!!! ", String.valueOf(result));
-                    if (result == 0){
-                        showDialog("스템프 확인","이미 획득 완료한 \n 스탬프 입니다.");
-                    }else {
-                        showDialog(result);
+
+                    HashMap<String, Integer> result = response.body();
+                    Log.wtf("result!!!!!!", result.toString());
+                    if (result != null && result.get("result") != null && result.get("data") != null) {
+
+                        int isSuccess = result.get("result");
+                        int sendData = result.get("data");
+
+                        if (isSuccess == 1) {
+                            //이미 방문
+                            showAlreadyDialog(sendData);
+                        } else if (isSuccess == 0) {
+                            //성공
+                            showSuccessDialog(sendData);
+                        }else {
+                            //실패
+                            showFailDialog();
+                        }
+
+
+                    } else {
+                        showFailDialog();
                     }
-                    //showDialog(result == 0? false : true, result);
+
                 }
             }
 
             @Override
-            public void onFailure(@NotNull Call<Integer> call, @NotNull Throwable t) {
-                showDialog("QR 스캔 실패","QR 확인 하신 후 \n재시도 해주세요.");
+            public void onFailure(@NotNull Call<HashMap<String, Integer>> call, @NotNull Throwable t) {
+                showFailDialog();
                 t.printStackTrace();
             }
         });
 
     }
 
-    private void showDialog(int touristhistory_touristspotpoint_idx){
-        scanResultDialog = new ScanResultDialog(requireContext(), true, "QR 스캔 성공", touristhistory_touristspotpoint_idx, "스탬프 랠리 획득!");
+    private void showSuccessDialog(int touristhistory_touristspotpoint_idx){
+        scanResultDialog = new ScanResultDialog(requireContext(), 1, "QR 스캔 성공", touristhistory_touristspotpoint_idx, "스탬프 랠리 획득!");
         scanResultDialog.setDialogListener(this);
         scanResultDialog.show();
 
@@ -204,11 +220,18 @@ public class QRscanFragment extends BaseFragment implements DialogListener {
         scanResultDialog.*/
     }
 
-    private void showDialog(String title, String msg){
-        scanResultDialog = new ScanResultDialog(requireContext(), false, title, msg);
+    private void showFailDialog(){
+        scanResultDialog = new ScanResultDialog(requireContext(), 0, "QR 스캔 실패", "QR 확인 하신 후 \n재시도 해주세요.");
         scanResultDialog.setDialogListener(this);
         scanResultDialog.show();
     }
+
+    private void showAlreadyDialog(int touristspotpoint_idx){
+        scanResultDialog = new ScanResultDialog(requireContext(), 2, "스탬프 확인", " 이미 획득 완료하신\n 스탬프 입니다.", touristspotpoint_idx);
+        scanResultDialog.setDialogListener(this);
+        scanResultDialog.show();
+    }
+
 
 
     @Override

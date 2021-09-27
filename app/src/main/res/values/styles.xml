@@ -74,5 +74,10 @@
         <item name="android:dividerHeight">2dp</item> <!-- divider 높이 -->
     </style>
 
+
+    <style name="smallRatingBar" parent="android:style/Widget.Material.RatingBar.Small">
+
+    </style>
+
 </resources>
 

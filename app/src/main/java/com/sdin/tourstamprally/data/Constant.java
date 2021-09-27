@@ -13,7 +13,7 @@ public class Constant {
     //public static final String SERVER_URL = "http://192.168.1.21:8080/project/";
     /*로컬 용*/
 
-    public static final String SERVER_URL = "http://192.168.219.105:8005/project/";
+    public static final String SERVER_URL = "http://192.168.219.156:8005/project/";
     /*우리 집*/
 
     //public static final String SERVER_URL = "http://raon-soft.com/base_project_brs/";

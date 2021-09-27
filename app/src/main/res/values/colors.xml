@@ -40,6 +40,8 @@
 
     <color name="scan_dialog_text_color">#005454</color>
 
+    <color name="scan_Al_text_color">#005CAA</color>
+
 
 
     <color name="typeSelectOffBgColor">#E5E5E5</color>

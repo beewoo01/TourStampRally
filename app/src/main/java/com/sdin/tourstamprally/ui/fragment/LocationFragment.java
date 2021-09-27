@@ -1,6 +1,7 @@
 package com.sdin.tourstamprally.ui.fragment;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -17,6 +18,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.LinearLayout;
 
 import com.bumptech.glide.Glide;
@@ -45,6 +47,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import gun0912.tedkeyboardobserver.TedKeyboardObserver;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -58,6 +61,7 @@ public class LocationFragment extends BaseFragment {
     private Map<Integer, Integer> spot_poinMap;
     private Map<Integer, Integer> spot_HistoryMap;
 
+
     public static LocationFragment newInstance(Location_four location_four) {
 
         Bundle args = new Bundle();
@@ -66,6 +70,7 @@ public class LocationFragment extends BaseFragment {
         //args.putSerializable("model", location_four);
         args.putParcelable("model", location_four);
         fragment.setArguments(args);
+        Log.wtf("Locationa newInstance", String.valueOf(MainActivity.keyboardState));
         return fragment;
     }
 
@@ -76,16 +81,38 @@ public class LocationFragment extends BaseFragment {
             //location_four = (Location_four) getArguments().getSerializable("model");
             location_four = (Location_four) getArguments().getParcelable("model");
             location_name = location_four.getLocation_name();
+            Log.wtf("Locationa", String.valueOf(MainActivity.keyboardState));
+
 
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        /*new TedKeyboardObserver(requireActivity())
+                .listen(isShow -> {
+                    keyboardState = isShow;
+                    Log.wtf("setFragment!!!!", String.valueOf(keyboardState));
+                    if (keyboardState) {
+                        InputMethodManager inputMethodManager = (InputMethodManager)
+                                requireActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
+                        inputMethodManager.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+                    }
+                });*/
     }
 
     @Override
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+
+
+
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_location, container, false);
         binding.locationTxv.setText(location_name);
+
+
 
         if (!TextUtils.isEmpty(location_four.getLocation_img())){
             Glide.with(requireContext()).load("http://coratest.kr/imagefile/bsr/" + location_four.getLocation_img()).into(new CustomTarget<Drawable>() {

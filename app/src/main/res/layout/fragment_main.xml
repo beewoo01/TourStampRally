@@ -3,13 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data>
-
-        <variable
-            name="fragment"
-            type="com.sdin.tourstamprally.ui.fragment.MainFragment" />
-    </data>
-
     <androidx.constraintlayout.motion.widget.MotionLayout
         android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
@@ -59,8 +52,7 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                >
+                android:layout_height="match_parent">
 
                 <LinearLayout
                     android:id="@+id/main_stemp_layout"
@@ -72,6 +64,8 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
+
+
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/main_top_layout"
@@ -133,7 +127,6 @@
                             tools:itemCount="4"
                             tools:listitem="@layout/step_rally_location_item" />
 
-
                         <ProgressBar
                             android:id="@+id/tour_rally_pgb"
                             android:layout_width="wrap_content"
@@ -141,7 +134,6 @@
                             android:layout_centerInParent="true" />
 
                     </RelativeLayout>
-
 
                 </LinearLayout>
 
@@ -156,6 +148,9 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/main_stemp_layout">
+
+
+
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/main_bottom_layout"
@@ -178,20 +173,24 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/_5sdp"
-                            android:text="@string/coupon_exchange"
+                            android:text="@string/watch_review"
                             android:textColor="@color/mainColor"
                             android:textSize="@dimen/_13sdp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toEndOf="@id/coupon_imv"
                             app:layout_constraintTop_toTopOf="parent" />
 
+                        <!--todo 아이콘 변경해야함-->
+
 
                         <TextView
                             android:id="@+id/more_coupon_btn"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:gravity="center"
                             android:text="@string/more_btn"
                             android:textSize="@dimen/_10sdp"
+                            android:onClick="@{ () -> fragment.reviewMoreClick()}"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
@@ -199,19 +198,28 @@
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
 
                     <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/main_coupon_recyclerview"
+                        android:id="@+id/main_review_recyclerview"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_10sdp"
+                        android:layout_centerInParent="true"
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/main_top_layout"
-                        tools:itemCount="2"
-                        tools:listitem="@layout/coupon_rcv_item" />
+                        tools:itemCount="1"
+                        tools:listitem="@layout/re_item_review_main" />
+
+                        <ProgressBar
+                            android:id="@+id/review_re_progressbar"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            />
+
+                    </RelativeLayout>
 
 
                 </LinearLayout>
@@ -222,4 +230,11 @@
         </androidx.core.widget.NestedScrollView>
 
     </androidx.constraintlayout.motion.widget.MotionLayout>
+
+    <data>
+
+        <variable
+            name="fragment"
+            type="com.sdin.tourstamprally.ui.fragment.MainFragment" />
+    </data>
 </layout>

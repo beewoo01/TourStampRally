@@ -38,6 +38,7 @@ import com.sdin.tourstamprally.R;
 import com.sdin.tourstamprally.Utils;
 import com.sdin.tourstamprally.adapter.DrawaRecyclerViewAdapter;
 import com.sdin.tourstamprally.databinding.ActivityMainBinding;
+import com.sdin.tourstamprally.model.AllReviewDTO;
 import com.sdin.tourstamprally.model.Location_four;
 import com.sdin.tourstamprally.model.Tour_Spot;
 import com.sdin.tourstamprally.model.TouristSpotPoint;
@@ -86,13 +87,12 @@ public class MainActivity extends BaseActivity implements NavigationBarView.OnIt
     private final String NOWFRAGMENT = "Main";
     private Fragment fragment;
     private final NFCFragment nfcFragment = new NFCFragment();
-    private final QRscanFragment QRscanFragment = new QRscanFragment();
     private final CouponMainFragment couponMainFragment = new CouponMainFragment();
     private final DeabsFragment deabsFragment = new DeabsFragment();
     private final SetAlarmFragment setAlarmFragment = new SetAlarmFragment();
     private long backKeyPressedTime = 0;
 
-    private boolean keyboardState = false;
+    public static boolean keyboardState = false;
 
 
     private final Map<Integer, String> hashMap = new HashMap<>();
@@ -215,21 +215,27 @@ public class MainActivity extends BaseActivity implements NavigationBarView.OnIt
             fragmentManager.popBackStack();
             fragmentManager.beginTransaction().remove(fragment).commit();
 
+
             fragmentcount--;
 
-
-            if (hashMap.get(fragmentcount) != null) {
-                if (Objects.equals(hashMap.get(fragmentcount), "NFC") || Objects.equals(hashMap.get(fragmentcount), "QR")) {
-                    fragmentManager.popBackStack();
-                    fragmentManager.beginTransaction().remove(fragment).commit();
-                    fragmentcount--;
-                }
-            }
 
             if (keyboardState) {
                 InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
                 inputMethodManager.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+                keyboardState = false;
             }
+
+            /*if (hashMap.get(fragmentcount) != null) {
+                if (Objects.equals(hashMap.get(fragmentcount), "NFC") || Objects.equals(hashMap.get(fragmentcount), "QR")) {
+                    fragmentManager.popBackStack();
+                    fragmentManager.beginTransaction().remove(fragment).commit();
+                    fragmentcount--;
+
+
+                }
+            }*/
+
+
 
 
         } else {
@@ -316,29 +322,50 @@ public class MainActivity extends BaseActivity implements NavigationBarView.OnIt
     private void setFragment(String tag, Fragment fragment) {
         this.fragment = fragment;
 
-        new TedKeyboardObserver(this)
-                .listen(isShow -> {
-                    keyboardState = isShow;
-                });
+        Log.wtf("setFragment!!!!", "just");
+
+
+
+
 
 
         //hashMap.put();
+
         if (tag != null) {
+
+            if (!tag.equals("QR")){
+                new TedKeyboardObserver(this)
+                    .listen(isShow -> {
+                        Log.wtf("setFragment!!!!", String.valueOf(isShow));
+                        keyboardState = isShow;
+                    });
+            }
+
+
+
             if (tag.equals("Main")) {
+
+
                 binding.webViewLayout.setVisibility(View.VISIBLE);
             } else {
                 binding.webViewLayout.setVisibility(View.GONE);
             }
             fragmentManager = getSupportFragmentManager();
 
+            if (hashMap.get(fragmentcount) != null) {
+                if (Objects.equals(hashMap.get(fragmentcount), "NFC") || Objects.equals(hashMap.get(fragmentcount), "QR")) {
+                    Log.wtf("setFragment", "QR");
+                    fragmentManager.popBackStack();
+                    fragmentManager.beginTransaction().remove(fragment).commit();
+                    fragmentcount--;
+
+
+                }
+            }
+
             fragmentManager.beginTransaction().replace(binding.framelayout.getId(), this.fragment, tag)
                     .addToBackStack(tag)
                     .commit();
-
-            if (keyboardState) {
-                InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
-                inputMethodManager.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
-            }
 
 
             fragmentManager.executePendingTransactions();
@@ -347,6 +374,11 @@ public class MainActivity extends BaseActivity implements NavigationBarView.OnIt
 
 
             setToolbar(1);
+        }
+        if (keyboardState) {
+            InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+            inputMethodManager.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+            keyboardState = false;
         }
 
     }
@@ -499,7 +531,7 @@ public class MainActivity extends BaseActivity implements NavigationBarView.OnIt
             }
         } else if (position == 2) {
             //testSetFragment("NFC", QRscanFragment);
-            setFragment("QR", QRscanFragment);
+            setFragment("QR", new QRscanFragment());
         }
 
     }
@@ -540,6 +572,7 @@ public class MainActivity extends BaseActivity implements NavigationBarView.OnIt
 
     @Override
     public void onItemClick(Location_four location_four) {
+
         setFragment(location_four.getLocation_name() + " 랠리 맵", LocationFragment.newInstance(location_four));
         setToolbar(3);
     }
@@ -560,6 +593,16 @@ public class MainActivity extends BaseActivity implements NavigationBarView.OnIt
     @Override
     public void onWriteReviewSuccess() {
         backClick();
+    }
+
+    @Override
+    public void reviewMoreClick() {
+        
+    }
+
+    @Override
+    public void reviewItemClick(AllReviewDTO allReviewDTO) {
+
     }
 
     private void setKaKaoNavi() {

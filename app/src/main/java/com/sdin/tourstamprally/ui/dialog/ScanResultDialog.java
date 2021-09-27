@@ -4,10 +4,12 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -39,15 +41,16 @@ public class ScanResultDialog extends BaseDialog {
 
     private final Context context;
 
-    // 0 -> 실패 , 1 -> 성공
-    private final boolean isSucess;
+    // 0 -> 실패 , 1 -> 성공  2-> 이미 방문
+    private final int isSucess;
     private final String title;
     private final String msg;
     private ItemOnClick itemOnClick;
     private int touristhistory_touristspotpoint_idx;
     private DialogListener dialogListener = null;
 
-    public ScanResultDialog(@NonNull Context context, boolean isSucess, String title, String msg) {
+    public ScanResultDialog(@NonNull Context context, int isSucess, String title, String msg) {
+        //성공
         super(context);
         this.context = context;
         this.isSucess = isSucess;
@@ -55,7 +58,19 @@ public class ScanResultDialog extends BaseDialog {
         this.msg = msg;
     }
 
-    public ScanResultDialog(@NonNull Context context, boolean isSucess, String title, int touristhistory_touristspotpoint_idx, String msg) {
+    public ScanResultDialog(@NonNull Context context, int isSucess, String title, String msg, int touristhistory_touristspotpoint_idx) {
+        //이미 완료
+        super(context);
+        this.context = context;
+        this.isSucess = isSucess;
+        this.title = title;
+        this.msg = msg;
+        this.itemOnClick = (ItemOnClick) context;
+        this.touristhistory_touristspotpoint_idx = touristhistory_touristspotpoint_idx;
+    }
+
+    public ScanResultDialog(@NonNull Context context, int isSucess, String title, int touristhistory_touristspotpoint_idx, String msg) {
+        //실패
         super(context);
         this.context = context;
         this.isSucess = isSucess;
@@ -83,6 +98,8 @@ public class ScanResultDialog extends BaseDialog {
     private void initView() {
         ConstraintLayout constraintLayout = findViewById(R.id.backgrount_layout);
         Button resulButton = findViewById(R.id.guid_btn);
+        TextView inner_result = findViewById(R.id.inner_result);
+        TextView scan_result_txv = findViewById(R.id.scan_result_txv);
 
         findViewById(R.id.close_btn).setOnClickListener(v -> {
             if (dialogListener != null) {
@@ -91,7 +108,7 @@ public class ScanResultDialog extends BaseDialog {
             dismiss();
         });
 
-        if (isSucess) {
+        if (isSucess == 1) {
 
             setBackgrountImg(R.drawable.nfc_tag_ok_bg, constraintLayout);
 
@@ -108,14 +125,14 @@ public class ScanResultDialog extends BaseDialog {
             Glide.with(context).load(R.drawable.mainlogo).into((ImageView) findViewById(R.id.logo));
 
 
-            ((TextView) findViewById(R.id.scan_result_txv)).setText(title);
-            ((TextView) findViewById(R.id.scan_result_txv)).setTextColor(ContextCompat.getColor(context, R.color.white));
+            scan_result_txv.setText(title);
+            scan_result_txv.setTextColor(ContextCompat.getColor(context, R.color.white));
             //((TextView)findViewById(R.id.inner_result)).setText("스탬프 랠리 획득!");
-            ((TextView) findViewById(R.id.inner_result)).setText(msg);
-            ((TextView) findViewById(R.id.inner_result)).setTextSize(25);
-            ((TextView) findViewById(R.id.inner_result)).setTextColor(ContextCompat.getColor(context, R.color.scan_dialog_text_color));
+            inner_result.setText(msg);
+            inner_result.setTextSize(25);
+            inner_result.setTextColor(ContextCompat.getColor(context, R.color.scan_dialog_text_color));
 
-        } else {
+        } else if (isSucess == 0){
 
             setBackgrountImg(R.drawable.nfc_tag_fail_bg, constraintLayout);
 
@@ -133,16 +150,41 @@ public class ScanResultDialog extends BaseDialog {
             Glide.with(context).load(R.drawable.main_logo_gray).into((ImageView) findViewById(R.id.logo));
 
 
-            ((TextView) findViewById(R.id.scan_result_txv)).setText(title /*+ (scanner.equals("NFC") ? " 태깅" : "스캔") + " 실패"*/);
-            ((TextView) findViewById(R.id.scan_result_txv)).setTextColor(ContextCompat.getColor(context, R.color.scan_fail_btn_Color));
+            scan_result_txv.setText(title /*+ (scanner.equals("NFC") ? " 태깅" : "스캔") + " 실패"*/);
+            scan_result_txv.setTextColor(ContextCompat.getColor(context, R.color.scan_fail_btn_Color));
             //((TextView)findViewById(R.id.inner_result)).setText(scanner + " 확인 하신 후 \n재시도 해주세요.");
-            ((TextView) findViewById(R.id.inner_result)).setText(msg);
-            ((TextView) findViewById(R.id.inner_result)).setTextSize(15);
-            ((TextView) findViewById(R.id.inner_result)).setTextColor(ContextCompat.getColor(context, R.color.black));
+            inner_result.setText(msg);
+            inner_result.setTextSize(15);
+            inner_result.setTextColor(ContextCompat.getColor(context, R.color.black));
+        } else if (isSucess == 2){
+
+            // 이미 방문
+
+            setBackgrountImg(R.drawable.tagging_already, constraintLayout);
+
+            resulButton.setBackground(ContextCompat.getDrawable(context, R.drawable.scan_button_bg));
+            resulButton.setTextColor(ContextCompat.getColor(context, R.color.scan_Al_text_color));
+            resulButton.setText("확인하러가기 >");
+            resulButton.setOnClickListener(v -> {
+                // TODO: 8/10/21 선택 랠리맵으로 이동
+                getData();
+
+            });
+
+            Glide.with(context).load(R.drawable.mainlogo).into((ImageView) findViewById(R.id.logo));
+
+            scan_result_txv.setText(title);//스탬프확인
+            scan_result_txv.setTextColor(ContextCompat.getColor(context, R.color.white));
+            scan_result_txv.setTypeface(inner_result.getTypeface(), Typeface.BOLD);
+            inner_result.setText(msg);//이미 획득 완료하신 스탬프 입니다.
+            inner_result.setTextSize(15);
+
+            inner_result.setTextColor(ContextCompat.getColor(context, R.color.Black));
         }
     }
 
     private void getData() {
+        Log.wtf("getData!!", String.valueOf(touristhistory_touristspotpoint_idx));
 
         if (dialogListener != null) {
             dialogListener.onDissMiss();

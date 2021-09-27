@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/_5sdp"
+    android:background="@drawable/bg_rounded_18"
+    android:padding="@dimen/_10sdp">
+
+    <ImageView
+        android:id="@+id/tourspot_bg_imv"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/_60sdp"
+        android:scaleType="fitXY"
+        android:src="@drawable/sample_bg"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <TextView
+        android:id="@+id/tourspot_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:text="한일교류의길"
+        android:textColor="@color/black"
+        android:textSize="@dimen/_13sdp"
+        android:textStyle="bold"
+        android:maxLines="1"
+        android:maxLength="9"
+        app:layout_constraintStart_toStartOf="@id/tourspot_bg_imv"
+        app:layout_constraintTop_toBottomOf="@id/tourspot_bg_imv" />
+
+
+    <TextView
+        android:id="@+id/location_txv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_2sdp"
+        android:text="부산광역시 동구 초량동"
+        android:textSize="@dimen/_7sdp"
+        android:maxLines="1"
+        android:maxLength="18"
+        app:layout_constraintStart_toStartOf="@id/tourspot_name"
+        app:layout_constraintTop_toBottomOf="@id/tourspot_name" />
+
+
+
+    <View
+        android:id="@+id/line"
+        android:layout_width="0dp"
+        android:layout_height="0.5dp"
+        android:layout_marginVertical="@dimen/_10sdp"
+        android:background="@color/gray"
+        app:layout_constraintBottom_toTopOf="@id/user_profile_imv"
+        app:layout_constraintEnd_toEndOf="@id/tourspot_bg_imv"
+        app:layout_constraintStart_toStartOf="@id/tourspot_bg_imv"
+        app:layout_constraintTop_toBottomOf="@id/location_txv" />
+
+
+    <ImageView
+        android:id="@+id/user_profile_imv"
+        android:layout_width="@dimen/_25sdp"
+        android:layout_height="@dimen/_25sdp"
+        android:src="@drawable/sample_profile_image"
+        app:layout_constraintBottom_toTopOf="@id/review_content_txv"
+        app:layout_constraintTop_toBottomOf="@id/line"
+        app:layout_constraintStart_toStartOf="@id/tourspot_bg_imv"
+        app:layout_constraintEnd_toStartOf="@id/user_name_txv"
+        />
+
+    <TextView
+        android:id="@+id/user_name_txv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@id/user_profile_imv"
+        app:layout_constraintTop_toTopOf="@id/user_profile_imv"
+        app:layout_constraintBottom_toBottomOf="@id/user_profile_imv"
+        app:layout_constraintEnd_toStartOf="@id/ratingbar"
+        android:text="홍길동"
+        android:maxLength="3"
+        android:maxLines="1"
+        android:textSize="@dimen/_8sdp"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:layout_marginHorizontal="@dimen/_7sdp"
+        />
+
+
+    <androidx.appcompat.widget.AppCompatRatingBar
+        android:id="@+id/ratingbar"
+        style="@style/smallRatingBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_8sdp"
+        android:isIndicator="false"
+        android:numStars="5"
+        android:progressTint="@color/orange"
+        android:rating="3"
+        android:secondaryProgressTint="@color/orange"
+
+        app:layout_constraintBottom_toBottomOf="@id/user_name_txv"
+        app:layout_constraintStart_toEndOf="@id/user_name_txv"
+        app:layout_constraintTop_toTopOf="@id/user_name_txv"
+
+        />
+
+
+    <TextView
+        android:id="@+id/review_content_txv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="부산여행 뚜벅이 코스로 딱입니다!"
+        android:textColor="@color/gray"
+        android:textSize="@dimen/_8sdp"
+        android:layout_marginTop="@dimen/_10sdp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/user_profile_imv" />
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,12 +1,10 @@
 package com.sdin.tourstamprally.ui.fragment;
 
-import android.content.Intent;
 import android.graphics.Outline;
 import android.nfc.NdefMessage;
 import android.nfc.NfcAdapter;
 import android.os.Bundle;
 
-import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 
 import android.text.TextUtils;
@@ -19,7 +17,6 @@ import android.widget.Toast;
 
 import com.sdin.tourstamprally.R;
 import com.sdin.tourstamprally.Utils;
-import com.sdin.tourstamprally.databinding.FragmentNfcBinding;
 import com.sdin.tourstamprally.model.TouristSpotPoint;
 import com.sdin.tourstamprally.ui.activity.MainActivity;
 import com.sdin.tourstamprally.ui.dialog.ScanResultDialog;
@@ -29,6 +26,7 @@ import com.sdin.tourstamprally.utill.NFCListener;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -40,7 +38,7 @@ public class NFCFragment extends BaseFragment implements NFCListener {
     private static final String DataArray = "param1";
     private static final String Listener = "param2";
 
-    private TouristSpotPoint touristSpotPoint ;
+    private TouristSpotPoint touristSpotPoint;
 
     private GpsTracker gpsTracker;
 
@@ -55,7 +53,7 @@ public class NFCFragment extends BaseFragment implements NFCListener {
             NdefMessage[] dataArray = (NdefMessage[]) getArguments().getParcelableArray(DataArray);
             buildtagViews(dataArray);
             //mParam2 = getArguments().getString(ARG_PARAM2);
-        }else {
+        } else {
             MainActivity mainActivity = (MainActivity) getActivity();
             if (mainActivity != null) {
                 mainActivity.setOnListener(this);
@@ -87,10 +85,10 @@ public class NFCFragment extends BaseFragment implements NFCListener {
 
         //Toast.makeText(getContext(), text2 == null? text : text2, Toast.LENGTH_SHORT).show();
 
-        if (TextUtils.isEmpty(text) && TextUtils.isEmpty(text2)){
-            new ScanResultDialog(requireContext(), false, "NFC 태깅 실패", " 확인 하신 후 \n재시도 해주세요.").show();
-        }else {
-            if (!TextUtils.isEmpty(text2)){
+        if (TextUtils.isEmpty(text) && TextUtils.isEmpty(text2)) {
+            new ScanResultDialog(requireContext(), 0, "NFC 태깅 실패", " 확인 하신 후 \n재시도 해주세요.").show();
+        } else {
+            if (!TextUtils.isEmpty(text2)) {
                 isAvailable(text2);
                 //sendTagging(text2);
             }
@@ -100,18 +98,18 @@ public class NFCFragment extends BaseFragment implements NFCListener {
 
     }
 
-    private void isAvailable(final String text){
+    private void isAvailable(final String text) {
 
         apiService.getDistance(text).enqueue(new Callback<TouristSpotPoint>() {
             @Override
             public void onResponse(@NotNull Call<TouristSpotPoint> call, @NotNull Response<TouristSpotPoint> response) {
-                if (response.isSuccessful()){
+                if (response.isSuccessful()) {
                     //Log.wtf("isAvailable", "isSuccessful");
 
                     touristSpotPoint = response.body();
                     //Log.wtf("isAvailable11111", touristSpotPoint.toString());
                     if (touristSpotPoint == null) {
-                        showDialog("NFC 태깅 실패","NFC 확인 하신 후 \n재시도 해주세요.");
+                        showFailDialog();
                     } else {
                         gpsTracker = new GpsTracker(requireContext());
                         sendTagging(text);
@@ -120,83 +118,101 @@ public class NFCFragment extends BaseFragment implements NFCListener {
                     }
 
                 } else {
-                    showDialog("NFC 태깅 실패","NFC 확인 하신 후 \n재시도 해주세요.");
+                    showFailDialog();
                 }
             }
 
             @Override
             public void onFailure(@NotNull Call<TouristSpotPoint> call, @NotNull Throwable t) {
-                showDialog("NFC 태깅 실패","NFC 확인 하신 후 \n재시도 해주세요.");
+                showFailDialog();
 
                 t.printStackTrace();
             }
         });
     }
 
-    private void distance_calculation(String tagIngo, double latitude, double longitude){
+    private void distance_calculation(String tagIngo, double latitude, double longitude) {
         // 거리계산 30M 내
         //35.174201, 128.983804
         //35.256003, 129.013801
         //35.174208, 128.983784
         double dice = distance(latitude, longitude);
-        if (dice <= 30){
+        if (dice <= 30) {
             Log.wtf("distance_calculation", "30M이내");
             sendTagging(tagIngo);
-        }else {
+        } else {
 
             Log.wtf("distance_calculation", "30M넘음");
-            showDialog("NFC 태깅 실패","NFC 확인 하신 후 \n재시도 해주세요.");
+            showFailDialog();
         }
-        //Log.wtf("distance", String.valueOf(dice));
     }
 
     private double distance(double latitude, double longitude) {
 
         double userLatitude = gpsTracker.getLatitude();
         double userLongitude = gpsTracker.getLongitude();
-        //Log.wtf("userLatitude", String.valueOf(userLatitude));
-        //Log.wtf("userLongitude", String.valueOf(userLongitude));
 
         return Utils.distance(latitude, longitude, userLatitude, userLongitude);
     }
 
 
-    private void showDialog(boolean isSuccess, int touristhistory_touristspotpoint_idx){
-        new ScanResultDialog(requireContext(), isSuccess, "NFC 태깅 성공", touristhistory_touristspotpoint_idx, "스탬프 랠리 획득!").show();
+    private void showSuccessDialog(int touristhistory_touristspotpoint_idx) {
+        new ScanResultDialog(requireContext(), 1, "NFC 태깅 성공", touristhistory_touristspotpoint_idx, "스탬프 랠리 획득!").show();
     }
 
-    private void showDialog(String title,String msg){
-        new ScanResultDialog(requireContext(), false, title, msg).show();
+    private void showFailDialog() {
+        new ScanResultDialog(requireContext(), 0, "NFC 태깅 실패", "NFC 확인 하신 후 \n재시도 해주세요.").show();
+    }
+
+    private void showAlreadyDialog(int touristspotpoint_idx) {
+        new ScanResultDialog(requireContext(), 2, "스탬프 확인", " 이미 획득 완료하신\n 스탬프 입니다.", touristspotpoint_idx ).show();
     }
 
 
-    private void sendTagging(String text){
+    private void sendTagging(String text) {
 
-        apiService.check_in(text, String.valueOf(Utils.User_Idx)).enqueue(new Callback<Integer>() {
+        apiService.check_in(text, String.valueOf(Utils.User_Idx)).enqueue(new Callback<HashMap<String, Integer>>() {
             @Override
-            public void onResponse(@NotNull Call<Integer> call, @NotNull Response<Integer> response) {
-                if (response.isSuccessful()){
-                    int result = response.body();
-                    //Log.wtf("result!!!!!!", String.valueOf(result));
-                    if (result == 0){
-                        showDialog("스탬프 확인"," 이미 획득 완료한\n 스탬프 입니다.");
-                    }else {
-                        showDialog(result != 0, result);
+            public void onResponse(@NotNull Call<HashMap<String, Integer>> call, @NotNull Response<HashMap<String, Integer>> response) {
+                if (response.isSuccessful()) {
+
+                    HashMap<String, Integer> result = response.body();
+                    Log.wtf("result!!!!!!", result.toString());
+                    if (result != null && result.get("result") != null && result.get("data") != null) {
+
+                        int isSuccess = result.get("result");
+                        int sendData = result.get("data");
+
+                        if (isSuccess == 1) {
+                            //이미 방문
+                            showAlreadyDialog(sendData);
+                        } else if (isSuccess == 0) {
+                            //성공
+                            showSuccessDialog(sendData);
+                        }else {
+                            //실패
+                            showFailDialog();
+                        }
+
+
+                    } else {
+                        //실패
+                        showFailDialog();
                     }
 
                 }
             }
 
             @Override
-            public void onFailure(@NotNull Call<Integer> call, @NotNull Throwable t) {
-                showDialog("NFC 태깅 실패","NFC 확인 하신 후 \n재시도 해주세요.");
+            public void onFailure(@NotNull Call<HashMap<String, Integer>> call, @NotNull Throwable t) {
+                showFailDialog();
                 t.printStackTrace();
             }
         });
 
     }
 
-    private void showToast(String msg){
+    private void showToast(String msg) {
         Toast.makeText(requireContext(), msg, Toast.LENGTH_SHORT).show();
     }
 
@@ -208,8 +224,8 @@ public class NFCFragment extends BaseFragment implements NFCListener {
         com.sdin.tourstamprally.databinding.FragmentNfcBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_nfc, container, false);
         NfcAdapter nfcAdapter = NfcAdapter.getDefaultAdapter(getContext());
 
-        if (nfcAdapter == null) Toast.makeText(getContext(), "NFC를 지원하지 않는 단말기입니다.", Toast.LENGTH_SHORT).show();
-
+        if (nfcAdapter == null)
+            Toast.makeText(getContext(), "NFC를 지원하지 않는 단말기입니다.", Toast.LENGTH_SHORT).show();
 
 
         binding.imageViewNfcBg.setOutlineProvider(new ViewOutlineProvider() {
