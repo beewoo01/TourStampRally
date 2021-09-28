@@ -97,13 +97,18 @@ public class LoginActivity extends BaseActivity {
             @Override
             public void onResponse(@NotNull Call<String> call, @NotNull Response<String> response) {
                 String result = response.body();
-                Log.d("result JOIN", result);
-                if (result.equals("true")){
-                    saveInfo();
-                    //Toast.makeText(LoginActivity.this, "로그인 성공!!" + result, Toast.LENGTH_SHORT).show();
+                //Log.d("result JOIN", result);
+                if (result != null){
+                    if (result.equals("true")){
+                        saveInfo();
+                        //Toast.makeText(LoginActivity.this, "로그인 성공!!" + result, Toast.LENGTH_SHORT).show();
+                    }else {
+                        Toast.makeText(LoginActivity.this, "로그인에 실패하셨습니다.", Toast.LENGTH_SHORT).show();
+                    }
                 }else {
                     Toast.makeText(LoginActivity.this, "로그인에 실패하셨습니다.", Toast.LENGTH_SHORT).show();
                 }
+
             }
 
             @Override

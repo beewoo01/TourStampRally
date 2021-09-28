@@ -49,6 +49,7 @@ import com.sdin.tourstamprally.ui.fragment.DeabsFragment;
 import com.sdin.tourstamprally.ui.fragment.DirectionGuidFragment;
 import com.sdin.tourstamprally.ui.fragment.LocationFragment;
 import com.sdin.tourstamprally.ui.fragment.MainFragment;
+import com.sdin.tourstamprally.ui.fragment.MoreReviewFragment;
 import com.sdin.tourstamprally.ui.fragment.NFCFragment;
 import com.sdin.tourstamprally.ui.fragment.NoticeFragment;
 import com.sdin.tourstamprally.ui.fragment.QRscanFragment;
@@ -597,7 +598,7 @@ public class MainActivity extends BaseActivity implements NavigationBarView.OnIt
 
     @Override
     public void reviewMoreClick() {
-        
+        setFragment("리뷰보기", MoreReviewFragment.newInstance());
     }
 
     @Override

@@ -86,8 +86,7 @@ public class TourSpotPointFragment extends BaseFragment {
                 if (response.isSuccessful()){
                     list = new ArrayList<>();
                     list = response.body();
-                    ArrayList<TouristSpotPoint> arrayList = new ArrayList<>();
-                    arrayList.addAll(list);
+                    ArrayList<TouristSpotPoint> arrayList = new ArrayList<>(list);
                     binding.recyclerviewLocationRe.setAdapter(new TourSpotPointAdapter(arrayList));
                     binding.recyclerviewLocationRe.setLayoutManager(new LinearLayoutManager(requireContext()));
                     binding.recyclerviewLocationRe.setHasFixedSize(true);

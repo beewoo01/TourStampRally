@@ -213,7 +213,7 @@
                         android:layout_height="wrap_content"
                         android:numStars="5"
                         android:rating="3"
-                        android:isIndicator="false"
+                        android:isIndicator="true"
                         android:secondaryProgressTint="@color/orange"
                         android:progressTint="@color/orange"
                         android:clickable="false"

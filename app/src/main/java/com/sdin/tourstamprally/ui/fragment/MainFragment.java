@@ -154,7 +154,8 @@ public class MainFragment extends BaseFragment {
     }
 
     public void reviewMoreClick(){
-
+        listener = (MainActivity) requireActivity();
+        listener.reviewMoreClick();
     }
 
     private void getTop4Location() {
