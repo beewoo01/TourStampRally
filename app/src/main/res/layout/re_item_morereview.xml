@@ -105,7 +105,6 @@
             app:layout_constraintBottom_toBottomOf="@id/user_name_txv"
             app:layout_constraintStart_toEndOf="@id/user_name_txv"
             app:layout_constraintTop_toTopOf="@id/user_name_txv"
-
             />
 
 

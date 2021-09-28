@@ -53,6 +53,7 @@ import com.sdin.tourstamprally.ui.fragment.MoreReviewFragment;
 import com.sdin.tourstamprally.ui.fragment.NFCFragment;
 import com.sdin.tourstamprally.ui.fragment.NoticeFragment;
 import com.sdin.tourstamprally.ui.fragment.QRscanFragment;
+import com.sdin.tourstamprally.ui.fragment.ReviewComentsFragment;
 import com.sdin.tourstamprally.ui.fragment.SetAlarmFragment;
 import com.sdin.tourstamprally.ui.fragment.StoreListFragment;
 import com.sdin.tourstamprally.ui.fragment.TourDetailFragment;
@@ -602,8 +603,8 @@ public class MainActivity extends BaseActivity implements NavigationBarView.OnIt
     }
 
     @Override
-    public void reviewItemClick(AllReviewDTO allReviewDTO) {
-
+    public void reviewItemClick(int review_idx, String spot_name) {
+        setFragment(spot_name, ReviewComentsFragment.newInstance(review_idx));
     }
 
     private void setKaKaoNavi() {

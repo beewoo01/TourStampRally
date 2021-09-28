@@ -9,6 +9,8 @@ import com.sdin.tourstamprally.model.InterestModel;
 import com.sdin.tourstamprally.model.Location;
 import com.sdin.tourstamprally.model.Location_four;
 import com.sdin.tourstamprally.model.Notice;
+import com.sdin.tourstamprally.model.ReveiwCommentsDC;
+import com.sdin.tourstamprally.model.ReviewDetailDC;
 import com.sdin.tourstamprally.model.TourTagModel;
 import com.sdin.tourstamprally.model.Tour_Spot;
 import com.sdin.tourstamprally.model.Tour_Spot2;
@@ -237,5 +239,16 @@ public interface APIService {
 
     @GET("select_all_review")
     Single<List<AllReviewDTO>> select_all_review();
+
+    @GET("select_review_detail")
+    Single<ReviewDetailDC> select_review_detail(@Query("review_idx") int review_idx,
+                                                @Query("user_idx") int user_idx);
+
+    @GET("select_review_comments")
+    Single<List<ReveiwCommentsDC>> select_review_comments(@Query("review_idx") int review_idx);
+
+    @GET("inordel_review_interest")
+    Single<Integer> inordel_review_interest(@Query("review_interest_review_idx") int review_idx,
+                                            @Query("review_interes_user_idx") int user_idx);
 
 }

@@ -148,8 +148,8 @@ public class MainFragment extends BaseFragment {
         binding.mainReviewRecyclerview.setLayoutManager(new LinearLayoutManager(requireContext()));
 
         adapter.setListener(model -> {
-            // TODO: 2021-09-28 moveFragment
-            Log.wtf("reviewAdapterOnclick", model.toString());
+            listener = (MainActivity) requireActivity();
+            listener.reviewItemClick(model.getReview_idx(), model.getTouristspot_name());
         });
     }
 
@@ -261,8 +261,6 @@ public class MainFragment extends BaseFragment {
                 holder.binding.newsImv.setImageResource(R.drawable.new_icon);
             }
 
-            Log.wtf("getAllPointCount", String.valueOf(adapterList.get(position).getAllPointCount()));
-            Log.wtf("getMyInterCount", String.valueOf(adapterList.get(position).getMyInterCount()));
             if (adapterList.get(position).getAllSpotCount() > 0) {
                 if (adapterList.get(position).getAllSpotCount() == adapterList.get(position).getMyInterCount()) {
                     holder.binding.dibsImv.setImageResource(R.drawable.full_heart_resize);
@@ -351,7 +349,9 @@ public class MainFragment extends BaseFragment {
             public ViewHolder(@NonNull StepRallyLocationItemBinding binding) {
                 super(binding.getRoot());
                 this.binding = binding;
-                binding.stepRallyBg.setOnClickListener(v -> itemOnClick.onItemClick(adapterList.get(getAbsoluteAdapterPosition())));
+                binding.stepRallyBg.setOnClickListener(v ->
+                        itemOnClick.onItemClick(adapterList.get(getAbsoluteAdapterPosition()))
+                );
             }
         }
 

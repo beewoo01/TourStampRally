@@ -19,5 +19,5 @@ public interface ItemOnClick {
     void onWriteReviewSuccess();
 
     void reviewMoreClick();
-    void reviewItemClick(AllReviewDTO allReviewDTO);
+    void reviewItemClick(int review_idx, String spot_name);
 }

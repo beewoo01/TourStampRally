@@ -13,6 +13,7 @@ import com.sdin.tourstamprally.adapter.More_Frag_LocationAdapter
 import com.sdin.tourstamprally.adapter.swipe.More_Frag_ReviewAdapter
 import com.sdin.tourstamprally.databinding.FragmentMoreReviewBinding
 import com.sdin.tourstamprally.model.AllReviewDTO
+import com.sdin.tourstamprally.ui.activity.MainActivity
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.ObservableEmitter
@@ -22,6 +23,8 @@ import io.reactivex.rxjava3.observers.DisposableSingleObserver
 import io.reactivex.rxjava3.schedulers.Schedulers
 import java.util.*
 import java.util.concurrent.TimeUnit
+import com.sdin.tourstamprally.utill.ItemOnClick
+
 import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 
@@ -29,11 +32,12 @@ import kotlin.collections.HashMap
 class MoreReviewFragment : BaseFragment() {
 
     private var binding: FragmentMoreReviewBinding? = null
-    private val selectedLocationIdx = arrayListOf<Int>()
+    private var selectedLocationIdx = 0
     var reviewAdapter: More_Frag_ReviewAdapter? = null
     var locationAdapter: More_Frag_LocationAdapter? = null
     private var textint = 0
-    private val reviewList = arrayListOf<AllReviewDTO>()
+    private val reviewList = ArrayList<AllReviewDTO>()
+    private var listener : ItemOnClick? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -57,44 +61,24 @@ class MoreReviewFragment : BaseFragment() {
 
         getData()
 
-        searchEdtObservable.subscribe(object : Observer<String> {
-            override fun onSubscribe(d: Disposable?) {
-                Log.wtf("onSubscribe", d.toString())
-            }
 
-            override fun onNext(t: String?) {
-                t?.let {
-                    Log.wtf("myObservable", "onNext $t")
-                    // TODO: 9/28/21 검색
-                }
-
-            }
-
-            override fun onError(e: Throwable?) {
-                Log.wtf("subscribe", "onError")
-                e?.printStackTrace()
-            }
-
-            override fun onComplete() = Unit
-
-        })
-
-
-
-    }
-
-    val searchEdtObservable = Observable.create { emitter: ObservableEmitter<String>? ->
         binding?.searchEdt?.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) = Unit
 
-            override fun afterTextChanged(s: Editable?) = Unit
+            override fun afterTextChanged(s: Editable?) {
+                search(binding?.searchEdt?.text.toString())
+            }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                emitter?.onNext(s.toString())
+
             }
         })
-    }.debounce(500, TimeUnit.MILLISECONDS).subscribeOn(Schedulers.io())
 
+        binding?.searchBtn?.setOnClickListener {
+
+            search(binding?.searchEdt?.text.toString())
+        }
+    }
 
     private fun getData() {
 
@@ -124,6 +108,7 @@ class MoreReviewFragment : BaseFragment() {
         val map = HashMap<Int, String>()
 
         for (i in list) {
+            Log.wtf("touristspot_name", i.touristspot_name)
             map[i.location_idx] = i.location_name
         }
 
@@ -133,61 +118,49 @@ class MoreReviewFragment : BaseFragment() {
             locationList.add(Pair(k, v))
         }
 
-        val reviewList: MutableList<AllReviewDTO> = mutableListOf()
+        val reviewList: ArrayList<AllReviewDTO> = ArrayList()
         reviewList.addAll(list)
         reviewAdapter = More_Frag_ReviewAdapter(requireContext(), reviewList)
         reviewAdapter?.apply {
             setListener(object : More_Frag_ReviewAdapter.MoreReviewListener {
                 override fun onItemClick(data: AllReviewDTO) {
-                    // TODO: 9/28/21 상세페이지로 ㄱㄱ
-                    Log.wtf("ReviewAdpaterdata", data.toString())
-
+                    listener = requireActivity() as MainActivity
+                    (listener as MainActivity).reviewItemClick(data.review_idx, data.touristspot_name)
                 }
             })
             binding?.reviewRecyclerview?.adapter = this
         }
 
 
-
-
-
         locationAdapter = More_Frag_LocationAdapter(locationList, requireContext())
         locationAdapter?.apply {
 
-            locationObserver?.subscribe( object : Observer<Int>{
-                override fun onSubscribe(d: Disposable?) {
+            locationAdapter?.setMoreLocationListener(object
+                : More_Frag_LocationAdapter.MoreLocationItemListener {
 
-                }
+                override fun onItemClick(item: Int) {
+                    Log.wtf("locationIDX??", item.toString())
+                    //val adList : MutableList<AllReviewDTO> = MutableList()
+                    val paramList = ArrayList<AllReviewDTO>()
 
-                override fun onNext(t: Int?) {
-                    t?.let {
-                        Log.wtf("locationIDX??", t.toString())
-                        //val adList : MutableList<AllReviewDTO> = MutableList()
+                    if (selectedLocationIdx == item) {
 
+                        paramList.addAll(reviewList)
 
-                        val paramList = ArrayList<AllReviewDTO>()
-                        for (i in reviewList){
-                            if (i.location_idx == t){
-                                Log.wtf("iiiiii idx??", i.location_idx.toString())
-                                Log.wtf("iiiiii name??", i.location_name.toString())
+                        selectedLocationIdx = 0
+
+                    } else {
+                        selectedLocationIdx = item
+
+                        for (i in reviewList) {
+                            if (i.location_idx == item) {
                                 paramList.add(i)
                             }
 
                         }
-
-                        reviewAdapter?.changeList(paramList)
-
                     }
 
-                }
-
-                override fun onError(e: Throwable?) {
-                    Log.wtf("rs", "onError")
-                    e?.printStackTrace()
-                }
-
-                override fun onComplete() {
-
+                    reviewAdapter?.changeList(paramList)
                 }
 
             })
@@ -198,22 +171,60 @@ class MoreReviewFragment : BaseFragment() {
 
     }
 
-    override fun onStop() {
-        super.onStop()
-        //locationObserver.doOnDispose()
-    }
+    private fun search(data: String) {
+        val arrayList = ArrayList<AllReviewDTO>()
 
-    val locationObserver = Observable.create { emitter: ObservableEmitter<Int>? ->
-        locationAdapter?.setMoreLocationListener(object : More_Frag_LocationAdapter.MoreLocationItemListener {
-            override fun onItemClick(item: Int) {
+            for (i in reviewList) {
+                if (data.isNotEmpty()) {
+                    if (i.location_name.toLowerCase(Locale.ROOT).contains(data)) {
 
-                emitter?.onNext(item)
+                        if (selectedLocationIdx != 0 &&
+                                reviewList[reviewList.indexOf(i)].location_idx == selectedLocationIdx) {
+                            arrayList.add(i)
+                        } else if (selectedLocationIdx == 0) {
+                            arrayList.add(i)
+                        }
+
+                    }
+
+                    if (i.touristspot_name.toLowerCase(Locale.ROOT).contains(data)) {
+                        Log.wtf("search", "touristspot_name")
+
+                        if (selectedLocationIdx != 0 &&
+                                reviewList[reviewList.indexOf(i)].location_idx == selectedLocationIdx) {
+                            arrayList.add(i)
+
+                        } else if (selectedLocationIdx == 0) {
+                            arrayList.add(i)
+                        }
+                    }
+
+                    if (i.review_contents.toLowerCase(Locale.ROOT).contains(data)) {
+                        Log.wtf("search", "review_contents")
+
+                        if (selectedLocationIdx != 0 &&
+                                reviewList[reviewList.indexOf(i)].location_idx == selectedLocationIdx) {
+                            arrayList.add(i)
+                        } else if (selectedLocationIdx == 0) {
+                            arrayList.add(i)
+                        }
+                    }
+
+                }else {
+                    if (selectedLocationIdx != 0 &&
+                            reviewList[reviewList.indexOf(i)].location_idx == selectedLocationIdx){
+
+                        arrayList.add(i)
+                    }else if (selectedLocationIdx == 0){
+                        arrayList.add(i)
+                    }
+                }
 
             }
 
-        })
+        reviewAdapter?.changeList(arrayList)
 
-    }.subscribeOn(Schedulers.io())
+    }
 
 
     companion object {

@@ -12,10 +12,10 @@ import com.sdin.tourstamprally.R
 import com.sdin.tourstamprally.databinding.ReItemMorereviewBinding
 import com.sdin.tourstamprally.model.AllReviewDTO
 
-class More_Frag_ReviewAdapter(val context: Context, val list: MutableList<AllReviewDTO>) : RecyclerView.Adapter<More_Frag_ReviewAdapter.ViewHolder>() {
+class More_Frag_ReviewAdapter(val context: Context, var list: ArrayList<AllReviewDTO>) :
+        RecyclerView.Adapter<More_Frag_ReviewAdapter.ViewHolder>() {
 
     private var litener : MoreReviewListener? = null
-    private var locationIdx = 0
 
     interface MoreReviewListener {
         fun onItemClick(data : AllReviewDTO)
@@ -23,28 +23,20 @@ class More_Frag_ReviewAdapter(val context: Context, val list: MutableList<AllRev
 
 
     fun setListener(litener: MoreReviewListener){
+        Log.wtf("More_Frag_ReviewAdapter", "setListener")
         this.litener = litener
     }
 
-    @JvmName("getList1")
-    fun getList() : MutableList<AllReviewDTO> = list
 
-    fun changeList(list : MutableList<AllReviewDTO>){
-
-        this.list.clear()
-        this.list.addAll(list)
+    fun changeList(list : ArrayList<AllReviewDTO>){
+        this.list = list
         notifyDataSetChanged()
 
-    }
-
-    fun setLocation(locationIdx : Int){
-        this.locationIdx = locationIdx
     }
 
     inner class ViewHolder(val binding: ReItemMorereviewBinding) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(data: AllReviewDTO) {
-            if (locationIdx != 0){
                 binding.locationTxv.text = data.location_name
                 binding.ratingbar.rating = data.review_score
                 binding.userNameTxv.text = data.user_name
@@ -66,13 +58,10 @@ class More_Frag_ReviewAdapter(val context: Context, val list: MutableList<AllRev
                         .into(binding.tourspotBgImv)
 
                 binding.itemContainer.setOnClickListener{
+                    Log.wtf("itemContainer", "itemContainer")
                     litener?.onItemClick(data = data)
                 }
-            }else {
 
-
-
-            }
 
 
         }

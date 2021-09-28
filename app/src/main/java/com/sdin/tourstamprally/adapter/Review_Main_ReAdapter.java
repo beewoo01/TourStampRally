@@ -56,9 +56,11 @@ public class Review_Main_ReAdapter extends RecyclerView.Adapter<Review_Main_ReAd
 
     @Override
     public int getItemCount() {
-        if (list.size() > 1){
+        if (list.size() >= 1 && list.size() <= 3){
             return list.size();
-        }else {
+        }else if (list.size() > 3){
+            return 3;
+        } else {
             return 0;
         }
 

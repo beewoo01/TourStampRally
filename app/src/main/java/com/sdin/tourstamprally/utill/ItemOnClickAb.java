@@ -64,5 +64,5 @@ public abstract class ItemOnClickAb implements ItemOnClick{
     public void reviewMoreClick() { }
 
     @Override
-    public void reviewItemClick(AllReviewDTO allReviewDTO) { }
+    public void reviewItemClick(int review_idx, String spot_name) { }
 }
