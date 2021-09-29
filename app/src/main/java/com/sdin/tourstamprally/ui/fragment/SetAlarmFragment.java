@@ -2,6 +2,7 @@ package com.sdin.tourstamprally.ui.fragment;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -9,13 +10,18 @@ import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
 
 import com.sdin.tourstamprally.R;
+import com.sdin.tourstamprally.Utils;
 import com.sdin.tourstamprally.databinding.FragmentSetAlarmBinding;
+import com.sdin.tourstamprally.model.AlramState;
+import com.sdin.tourstamprally.sqlite.DbOpenHelper;
+import com.sdin.tourstamprally.sqlite.SQLiteConnector;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -28,7 +34,14 @@ public class SetAlarmFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
+    private boolean emailstat = false;
+    private boolean pushstat = false;
+    private boolean smsstat = false;
+
     private FragmentSetAlarmBinding binding;
+
+    private SQLiteConnector sqlConn;
+
 
     public SetAlarmFragment() {
         // Required empty public constructor
@@ -64,38 +77,55 @@ public class SetAlarmFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        getStatus();
+        /*DbOpenHelper helper = new DbOpenHelper(requireActivity());
+        SQLiteDatabase db = helper.getWritableDatabase();
+        helper.onCreate(db);*/
 
-        binding.switchEmail.setOnCheckedChangeListener((buttonView, isChecked) ->
-                setShearedString("alEmail", isChecked));
+        sqlConn = new SQLiteConnector(requireActivity());
+        AlramState alramState = sqlConn.selectExits(Utils.UserPhone);
 
-        binding.switchPush.setOnCheckedChangeListener((buttonView, isChecked) ->
-                setShearedString("alPush", isChecked));
 
-        binding.switchSms.setOnCheckedChangeListener((buttonView, isChecked) ->
-                setShearedString("alSms", isChecked));
+        getStatus(alramState);
+
+        binding.switchEmail.setOnCheckedChangeListener((buttonView, isChecked) ->{
+            emailstat = isChecked;
+            update();
+        });
+
+        binding.switchPush.setOnCheckedChangeListener((buttonView, isChecked) ->{
+            pushstat = isChecked;
+            update();
+        });
+
+        binding.switchSms.setOnCheckedChangeListener((buttonView, isChecked) ->{
+            smsstat = isChecked;
+            update();
+        });
     }
 
-    private void getStatus(){
-        SharedPreferences preferences = setSharedPref();
-        final boolean alEmail = preferences.getBoolean("alEmail", false);
-        final boolean alPush = preferences.getBoolean("alPush", false);
-        final boolean alSms = preferences.getBoolean("alSms", false);
-        binding.switchEmail.setChecked(alEmail);
-        binding.switchPush.setChecked(alPush);
-        binding.switchSms.setChecked(alSms);
+    private void update(){
+        sqlConn.update(new AlramState(
+                Utils.UserPhone,
+                convertBooleanToInt(emailstat),
+                convertBooleanToInt(pushstat),
+                convertBooleanToInt(smsstat)
+        ));
+    }
+
+    private int convertBooleanToInt(boolean state){
+        return state? 1 : 0;
+    }
+
+    private boolean convertInttoBoolean(int state){
+        return state != 0;
+    }
+
+    private void getStatus(AlramState alramState){
+
+        binding.switchEmail.setChecked(convertInttoBoolean(alramState.getEmail_Alram()));
+        binding.switchPush.setChecked(convertInttoBoolean(alramState.getPush_Alram()));
+        binding.switchSms.setChecked(convertInttoBoolean(alramState.getSms_Alram()));
 
     }
 
-    private SharedPreferences setSharedPref(){
-        return requireActivity().getSharedPreferences("rebuild_preference", Context.MODE_PRIVATE);
-    }
-
-    private void setShearedString(String key, boolean isCheck){
-        SharedPreferences preferences = setSharedPref();
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putBoolean(key, isCheck);
-        editor.apply();
-
-    }
 }

@@ -19,7 +19,7 @@ public class Review_Main_ReAdapter extends RecyclerView.Adapter<Review_Main_ReAd
     private ArrayList<AllReviewDTO> list;
     private ReviewMainItemOnClick listener;
 
-    public interface ReviewMainItemOnClick{
+    public interface ReviewMainItemOnClick {
         void onItemClick(AllReviewDTO model);
     }
 
