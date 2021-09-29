@@ -164,7 +164,7 @@
                             android:id="@+id/coupon_imv"
                             android:layout_width="@dimen/_10sdp"
                             android:layout_height="@dimen/_10sdp"
-                            android:src="@drawable/coupon_icon"
+                            android:src="@drawable/comment_ic"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
@@ -208,6 +208,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_10sdp"
                         android:layout_centerInParent="true"
+                        android:overScrollMode="never"
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                         tools:itemCount="1"
                         tools:listitem="@layout/re_item_review_main" />

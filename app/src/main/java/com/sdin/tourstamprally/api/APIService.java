@@ -251,4 +251,13 @@ public interface APIService {
     Single<Integer> inordel_review_interest(@Query("review_interest_review_idx") int review_idx,
                                             @Query("review_interes_user_idx") int user_idx);
 
+
+    @GET("insert_review_comment")
+    Single<Integer> insert_review_comment(@Query("review_comment_review_idx") int review_idx,
+                                          @Query("review_comment_user_idx") int user_idx,
+                                          @Query("review_comment_content") String comment);
+
+    @GET("userwithdrawal")
+    Single<Integer> userwithdrawal(@Query("user_idx") int user_idx);
+
 }

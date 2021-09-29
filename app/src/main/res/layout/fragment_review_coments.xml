@@ -127,7 +127,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/_7sdp"
-                        android:text="부산광역시 동구 초량동"
+
                         android:textColor="@color/gray"
                         android:textSize="@dimen/_8sdp"
                         app:layout_constraintBottom_toBottomOf="@id/spot_name_txv"
@@ -215,15 +215,16 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
 
+            <!-- 번역회사 엔코라인 -->
             <EditText
                 android:id="@+id/writeComment_edt"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:layout_marginVertical="@dimen/_5sdp"
+                android:layout_marginVertical="@dimen/_7sdp"
                 android:layout_marginStart="@dimen/_20sdp"
                 android:layout_marginEnd="@dimen/_10sdp"
                 android:background="@drawable/bg_rounded_03"
-                android:backgroundTint="@color/gray"
+                android:backgroundTint="@color/comment_edt_color"
                 android:padding="@dimen/_5sdp"
                 android:textSize="@dimen/_10sdp"
                 android:maxLength="20"
@@ -239,7 +240,7 @@
                 android:layout_width="@dimen/_30sdp"
                 android:layout_height="@dimen/_30sdp"
                 android:layout_marginEnd="@dimen/_10sdp"
-                android:src="@drawable/coupon_status_icon"
+                android:src="@drawable/send_comment_resize"
                 android:background="@null"
                 app:layout_constraintBottom_toBottomOf="@id/writeComment_edt"
                 app:layout_constraintEnd_toEndOf="parent"

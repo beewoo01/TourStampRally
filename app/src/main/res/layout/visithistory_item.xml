@@ -59,7 +59,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_10sdp"
                     android:layout_marginTop="@dimen/_5sdp"
-                    android:text="한일교류"
+
                     android:textColor="@color/black"
                     android:textSize="@dimen/_14sdp"
                     android:textStyle="bold"
@@ -70,7 +70,7 @@
                     android:id="@+id/explan_txv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="부산광역시 동구 초량동"
+
                     android:textColor="@color/gray"
                     android:textSize="@dimen/_7sdp"
                     android:maxLength="30"
@@ -88,7 +88,7 @@
                     android:focusable="false"
                     android:paddingStart="0dp"
                     android:paddingEnd="0dp"
-                    android:progress="10"
+                    android:progress="0"
                     android:progressDrawable="@drawable/custom_seekbar_bg_gray"
                     android:thumb="@color/seekColor"
                     android:thumbTint="@android:color/transparent"
@@ -113,7 +113,7 @@
                     android:layout_width="@dimen/_55sdp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/_20sdp"
-                    android:text="21.08.17"
+
                     android:textColor="@color/seekColor"
                     android:textStyle="bold"
                     android:maxLength="8"
@@ -193,14 +193,13 @@
                         app:layout_constraintBottom_toBottomOf="@id/profile_icon"
                         app:layout_constraintStart_toEndOf="@id/profile_icon"
                         app:layout_constraintTop_toTopOf="@id/profile_icon"
-                        android:text="홍길동" />
+                         />
 
                     <TextView
                         android:id="@+id/review_explan"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_5sdp"
-                        android:text="부산 여행 뚜벅이 코스로 딱입니다.!"
                         android:textSize="@dimen/_8sdp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="@id/profile_icon"
@@ -212,7 +211,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:numStars="5"
-                        android:rating="3"
+                        android:rating="0"
                         android:isIndicator="true"
                         android:secondaryProgressTint="@color/orange"
                         android:progressTint="@color/orange"

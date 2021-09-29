@@ -20,4 +20,6 @@ public interface ItemOnClick {
 
     void reviewMoreClick();
     void reviewItemClick(int review_idx, String spot_name);
+
+    //void signOutListener();
 }

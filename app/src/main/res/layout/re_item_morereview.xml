@@ -28,7 +28,6 @@
             android:layout_marginTop="@dimen/_10sdp"
             android:maxLength="9"
             android:maxLines="1"
-            android:text="한일교류의길"
             android:textColor="@color/black"
             android:textSize="@dimen/_13sdp"
             android:textStyle="bold"
@@ -43,7 +42,7 @@
             android:layout_marginTop="@dimen/_2sdp"
             android:maxLength="18"
             android:maxLines="1"
-            android:text="부산광역시 동구 초량동"
+
             android:textSize="@dimen/_7sdp"
             app:layout_constraintStart_toStartOf="@id/tourspot_name"
             app:layout_constraintTop_toBottomOf="@id/tourspot_name" />
@@ -78,7 +77,7 @@
             android:layout_marginHorizontal="@dimen/_7sdp"
             android:maxLength="3"
             android:maxLines="1"
-            android:text="홍길동"
+
             android:textColor="@color/black"
             android:textSize="@dimen/_8sdp"
             android:textStyle="bold"
@@ -97,7 +96,7 @@
             android:isIndicator="true"
             android:numStars="5"
             android:progressTint="@color/orange"
-            android:rating="3"
+            android:rating="0"
             android:clickable="false"
             android:contextClickable="false"
             android:longClickable="false"
@@ -113,7 +112,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_10sdp"
-            android:text="부산여행 뚜벅이 코스로 딱입니다!"
             android:textColor="@color/gray"
             android:textSize="@dimen/_8sdp"
             android:maxLength="20"

@@ -83,7 +83,7 @@ public class SignUpActivity extends BaseActivity {
     public void authResponse() {
 
         if (TextUtils.isEmpty(binding.editPhone.getText().toString())) {
-            showToast("휴대폰번호를 입력해 주세요");
+            showToast("전화번호를 입력해 주세요");
             return;
         }
 
@@ -151,7 +151,7 @@ public class SignUpActivity extends BaseActivity {
                 isAuth = true;
                 binding.editAuth.setEnabled(false);
                 binding.btnAuthCheck.setEnabled(false);
-                showToast("휴대폰번호 인증에 성공하셨습니다.");
+                showToast("전화번호 인증에 성공하셨습니다.");
 
             } else {
                 showToast("인증번호를 정확히 입력해 주세요");

@@ -13,6 +13,7 @@
     <color name="middleLightColor">#F3FAFA</color>
     <color name="lightColor">#F5F8F8</color>
     <color name="deepGrayColor">#E6616766</color>
+
     <color name="lightGrayColor">#E5E5E5</color>
     <color name="agencyItemClickedBackgroundColor">#E7E6E6</color>
     <color name="agencyHeaderBackgroundColor">#F0F0F0</color>
@@ -23,6 +24,9 @@
     <color name="gray_e2">#F1F1F5</color>
     <color name="gray_e">#eeeeee</color>
     <color name="gray_ec">#ececec</color>
+    <color name="comment_mainColor">#E8F5FE</color>
+    <color name="comment_edt_color">#F2F3F5</color>
+    <color name="withdrawal_unchecked_color">#C0DDFC</color>
 
     <color name="popupbackground">#EBEBEB</color>
 

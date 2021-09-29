@@ -3,6 +3,7 @@ package com.sdin.tourstamprally.model
 import com.google.gson.annotations.SerializedName
 
 data class ReveiwCommentsDC(
+
         @SerializedName("review_comment_idx")
         val review_comment_idx : Int,
         @SerializedName("review_comment_content")

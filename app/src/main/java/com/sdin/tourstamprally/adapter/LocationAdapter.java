@@ -136,7 +136,7 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHo
 
             this.binding = binding;
             binding.contentLayout.setOnClickListener( v->{
-                send_model = list.get(getAdapterPosition());
+                send_model = list.get(getAbsoluteAdapterPosition());
                 GuidDialog guidDialog = new GuidDialog(context);
                 guidDialog.show();
                 guidDialog.setClickListener(itemOnClick);

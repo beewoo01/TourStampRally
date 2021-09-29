@@ -2,10 +2,12 @@ package com.sdin.tourstamprally.ui.fragment
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.text.TextUtils
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
@@ -30,6 +32,9 @@ class ReviewComentsFragment : BaseFragment() {
     private var bining: FragmentReviewComentsBinding? = null
 
     private var likeState = false
+
+    val mutableList = arrayListOf<ReveiwCommentsDC>()
+    lateinit var commentAdapter : ReviewCommentsAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -82,6 +87,36 @@ class ReviewComentsFragment : BaseFragment() {
 
                             })
                 }
+            }
+
+            it.writeImb.setOnClickListener { view ->
+                if (!TextUtils.isEmpty(it.writeCommentEdt.text) && it.writeCommentEdt.text.length > 1){
+                    review_idx?.let { reviewidx ->
+                        apiService.insert_review_comment(reviewidx, Utils.User_Idx, it.writeCommentEdt.text.toString())
+                                .subscribeOn(Schedulers.newThread())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribeWith(object : DisposableSingleObserver<Int>() {
+                                    override fun onSuccess(t: Int?) {
+                                        t?.let { result ->
+                                            if (result > 0) {
+                                                it.writeCommentEdt.setText("")
+                                                Toast.makeText(requireContext(), "댓글이 작성이 완료되었습니다.", Toast.LENGTH_SHORT).show()
+                                                getData()
+                                            }
+                                        }
+                                    }
+
+                                    override fun onError(e: Throwable?) {
+                                        e?.printStackTrace()
+                                    }
+
+                                })
+
+                    }
+
+                }
+
+
             }
         }
 
@@ -171,9 +206,10 @@ class ReviewComentsFragment : BaseFragment() {
 
     private fun initCommentsData(list: List<ReveiwCommentsDC>) {
         bining?.commentsRecyclerview?.apply {
-            val mutableList = arrayListOf<ReveiwCommentsDC>()
+            mutableList.clear()
             mutableList.addAll(list)
-            adapter = ReviewCommentsAdapter(mutableList)
+            commentAdapter = ReviewCommentsAdapter(mutableList)
+            adapter = commentAdapter
         }
     }
 

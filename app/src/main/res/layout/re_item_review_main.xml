@@ -26,7 +26,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/_10sdp"
-            android:text="한일교류의길"
+
             android:textColor="@color/popupColor"
             app:layout_constraintBottom_toBottomOf="@id/location_txv"
             app:layout_constraintStart_toEndOf="@id/location_txv"
@@ -37,7 +37,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_8sdp"
-            android:text="부산광역시 동구 초량동"
+
             android:textSize="@dimen/_8sdp"
             app:layout_constraintBottom_toBottomOf="@id/spotpoint_name_txv"
             app:layout_constraintStart_toEndOf="@id/spotpoint_name_txv"
@@ -51,7 +51,7 @@
             android:background="@drawable/bg_rounded_review_main"
             android:paddingHorizontal="@dimen/_10sdp"
             android:paddingVertical="@dimen/_3sdp"
-            android:text="동구"
+
             android:textColor="@color/popupColor"
             android:textSize="@dimen/_10sdp"
             app:layout_constraintStart_toStartOf="parent"
@@ -63,7 +63,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_10sdp"
-            android:text="홍길동"
+
             android:textColor="@color/black"
             android:textSize="@dimen/_12sdp"
             app:layout_constraintBottom_toTopOf="@id/review_txv"
@@ -76,7 +76,7 @@
             android:layout_height="wrap_content"
             android:maxLength="20"
             android:maxLines="1"
-            android:text="부산 여행 뚜벅이 코스로 딱입니다!"
+
             android:textSize="@dimen/_9sdp"
             app:layout_constraintBottom_toBottomOf="@id/user_profile_imv"
             app:layout_constraintStart_toStartOf="@id/user_name_txv"
@@ -92,7 +92,7 @@
             android:isIndicator="true"
             android:numStars="5"
             android:progressTint="@color/orange"
-            android:rating="3"
+            android:rating="0"
             android:secondaryProgressTint="@color/orange"
             app:layout_constraintBottom_toBottomOf="@id/user_name_txv"
             app:layout_constraintStart_toEndOf="@id/user_name_txv"

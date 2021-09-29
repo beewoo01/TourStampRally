@@ -22,7 +22,7 @@ public abstract class ItemOnClickAb implements ItemOnClick{
     @Override
     public void ItemGuidForPoint(Tour_Spot model){
 
-    };
+    }
 
     /*@Override
     public void SetFragment(String tag){
@@ -65,4 +65,8 @@ public abstract class ItemOnClickAb implements ItemOnClick{
 
     @Override
     public void reviewItemClick(int review_idx, String spot_name) { }
+
+    public void signOutListener() {
+
+    }
 }

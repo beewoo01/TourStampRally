@@ -11,7 +11,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class ReviewCommentsAdapter(val list : MutableList<ReveiwCommentsDC>) : RecyclerView.Adapter<ReviewCommentsAdapter.ViewHolder>() {
-    class ViewHolder(val binding : ItemReCommentsBinding) : RecyclerView.ViewHolder(binding.root){
+    inner class ViewHolder(val binding : ItemReCommentsBinding) : RecyclerView.ViewHolder(binding.root){
         fun onBind(data : ReveiwCommentsDC){
             binding.commentTxv.text = data.review_comment_content
 
@@ -29,6 +29,11 @@ class ReviewCommentsAdapter(val list : MutableList<ReveiwCommentsDC>) : Recycler
                     .error(R.drawable.sample_profile_image)
                     .into(binding.userProfileImv)
         }
+    }
+
+    fun addList(model : ReveiwCommentsDC){
+        list.add(model)
+        notifyItemInserted(list.lastIndex)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

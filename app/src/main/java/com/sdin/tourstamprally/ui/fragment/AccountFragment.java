@@ -43,9 +43,13 @@ import com.bumptech.glide.request.RequestOptions;
 import com.sdin.tourstamprally.R;
 import com.sdin.tourstamprally.Utils;
 import com.sdin.tourstamprally.databinding.FragmentAccountBinding;
+import com.sdin.tourstamprally.model.AllReviewDTO;
 import com.sdin.tourstamprally.model.UserModel;
 import com.sdin.tourstamprally.ui.activity.LoginActivity;
+import com.sdin.tourstamprally.ui.dialog.UserWithdrawalDialog;
+import com.sdin.tourstamprally.ui.dialog.UserWithdrawalSuccessDialog;
 import com.sdin.tourstamprally.utill.FtpThread;
+import com.sdin.tourstamprally.utill.ItemOnClickAb;
 
 import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
@@ -61,8 +65,13 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 import java.util.regex.Pattern;
 
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.annotations.NonNull;
+import io.reactivex.rxjava3.observers.DisposableSingleObserver;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -195,7 +204,7 @@ public class AccountFragment extends BaseFragment {
         if (TextUtils.isEmpty(binding.editPhone.getText().toString())
                 || binding.editPhone.getText().toString().length() < 11
                 || binding.editPhone.getText().toString().length() > 11) {
-            showToast("휴대폰번호를 정확히 입력해 주세요");
+            showToast("전화번호를 정확히 입력해 주세요");
             return;
         }
 
@@ -289,7 +298,7 @@ public class AccountFragment extends BaseFragment {
         //Log.wtf("signUp", "signUp");
 
         if (!isAuth) {
-            showToast("휴대폰 번호를 인증해 주세요");
+            showToast("전화번호를 인증해 주세요");
             return;
         }
 
@@ -326,7 +335,7 @@ public class AccountFragment extends BaseFragment {
         if (!TextUtils.isEmpty(binding.editAuth.getText().toString())) {
             if (binding.editAuth.getText().toString().equals(auth)) {
                 isAuth = true;
-                showToast("휴대폰번호 인증에 성공하셨습니다.");
+                showToast("전화번호 인증에 성공하셨습니다.");
                 binding.editPhone.setEnabled(false);
                 binding.btnRequestAuth.setEnabled(false);
                 binding.editAuth.setEnabled(false);
@@ -387,8 +396,18 @@ public class AccountFragment extends BaseFragment {
                                     Utils.User_Profile = userModel.getUser_profile();
                                     Utils.UserPassword = userModel.getPassword();
 
-                                    setShearedString("phone", binding.editPhone.getText().toString());
-                                    setShearedString("password", binding.editPassword.getText().toString());
+                                    SharedPreferences preferences = setSharedPref();
+                                    final String phone = preferences.getString("phone", "");
+                                    final String psw = preferences.getString("password", "");
+                                    if (!TextUtils.isEmpty(phone)){
+                                        setShearedString("phone", binding.editPhone.getText().toString());
+                                    }
+
+                                    if (!TextUtils.isEmpty(psw)){
+                                        setShearedString("password", binding.editPassword.getText().toString());
+                                    }
+
+
 
                                     showToast("업데이트 성공");
 
@@ -432,104 +451,74 @@ public class AccountFragment extends BaseFragment {
 
     }
 
-    /*ActivityResultLauncher<Intent> requestGallery = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
-        Uri uri = result.getData().getData();
-        Log.d("uri??", uri.toString());
-
-        File file = new File(uri.getPath());
-        if (file == null) {
-            Log.d("file is null?", "null..");
-        } else {
-            String realPath = getRealPathFromURI(uri);
-
-            model.setImgUri(uri);
-            uploadImage(uri, 0, realPath);
-
-        }
 
 
-    });*/
+    public void signout(){
+        UserWithdrawalDialog dialog = new UserWithdrawalDialog(requireContext());
+        dialog.setClickListener(new ItemOnClickAb() {
+            @Override
+            public void signOutListener() {
+                showSuccessDialog();
 
-    /*@Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == REQUEST_CODE) {
-            //new FtpThread(imgeUri.toString());
-            //uploadProfile();
-            if (resultCode == RESULT_OK)
-                if (data != null) {
-                    Glide.with(requireContext()).load(data.getData()).circleCrop()
-                            .error(ContextCompat.getDrawable(requireContext(), R.drawable.sample_profile_image))
-                            .into(binding.profileImb);
-
-                    imgeUri = data.getData();
-                    isChange = true;
-                } else {
-                    Toast.makeText(requireContext(), "사진을 가져오는데 실패하였습니다.", Toast.LENGTH_LONG).show();
-                }
-
-            else if (resultCode == RESULT_CANCELED) {
-
-                Toast.makeText(requireContext(), "사진 선택 취소", Toast.LENGTH_LONG).show();
+                //realSignOut();
             }
-        }
-    }*/
+        });
+        dialog.show();
+    }
 
-
-    /*private class SpinnerAdapter extends BaseAdapter {
-
-        private final ArrayList<String> data;
-
-        public SpinnerAdapter(ArrayList<String> data) {
-            this.data = data;
-        }
-
-        @Override
-        public int getCount() {
-            if (data != null) return data.size();
-            else return 0;
-        }
-
-        @Override
-        public Object getItem(int position) {
-            return data.get(position);
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return position;
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            if (convertView == null) {
-                convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.spinner_title_item, parent, false);
+    private void showSuccessDialog(){
+        UserWithdrawalSuccessDialog successDialog = new UserWithdrawalSuccessDialog(requireContext());
+        successDialog.setListener(new ItemOnClickAb() {
+            @Override
+            public void signOutListener() {
+                realSignOut();
             }
+        });
+        successDialog.show();
 
-            if (data != null) {
-                String text = data.get(position);
-                ((TextView) convertView.findViewById(R.id.spinnerTitleText)).setText(text);
-            }
-            return convertView;
-        }
 
-        @Override
-        public View getDropDownView(int position, View convertView, ViewGroup parent) {
-            if (convertView == null) {
-                convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.spinner_item, parent, false);
-            }
+    }
 
-            String text = data.get(position);
-            ((TextView) convertView.findViewById(R.id.spinnerText)).setText(text);
-            DisplayMetrics dm = getResources().getDisplayMetrics();
-            int size = Math.round(20 * dm.density);
-            TextView textView = convertView.findViewById(R.id.spinnerText);
-            ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-            params.leftMargin = size;
-            textView.setLayoutParams(params);
+    private void realSignOut(){
 
-            return convertView;
-        }
-    }*/
+
+
+        apiService.userwithdrawal(Utils.User_Idx).subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(new DisposableSingleObserver<Integer>() {
+                    @Override
+                    public void onSuccess(@NonNull Integer integer) {
+
+                        SharedPreferences preferences = setSharedPref();
+                        final String phone = preferences.getString("phone", "");
+                        final String psw = preferences.getString("password", "");
+                        if (!TextUtils.isEmpty(phone)){
+                            removePrefer("phone");
+
+                        }
+                        if (!TextUtils.isEmpty(psw)){
+                            removePrefer("password");
+                        }
+
+                        startActivity(new Intent(requireActivity(), LoginActivity.class));
+                        requireActivity().finish();
+
+
+                    }
+
+                    @Override
+                    public void onError(@NonNull Throwable e) {
+                    }
+                });
+    }
+
+
+    private void removePrefer(String name){
+        SharedPreferences preferences = setSharedPref();
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.remove(name);
+        editor.apply();
+    }
+
+
 }
