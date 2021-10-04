@@ -68,7 +68,7 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHo
             if (position == 1 || position == 2){
                 listener.ItemGuid(position);
             }else {
-                listener.ItemGuidForPoint(send_model);
+                //listener.ItemGuidForPoint(send_model);
             }
         }
     };

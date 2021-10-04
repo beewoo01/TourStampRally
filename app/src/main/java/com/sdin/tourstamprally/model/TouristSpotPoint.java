@@ -18,9 +18,9 @@ public class TouristSpotPoint implements Serializable {
     @Expose
     private int touristspotpoint_idx;
 
-    @SerializedName("touristspotpoint_touristspot_idx")
+    /*@SerializedName("touristspotpoint_touristspot_idx")
     @Expose
-    private int touristspotpoint_touristspot_idx;
+    private int touristspotpoint_touristspot_idx;*/
 
     @SerializedName("touristspotpoint_latitude")
     @Expose
@@ -38,19 +38,27 @@ public class TouristSpotPoint implements Serializable {
     @Expose
     private String touristspotpoint_explan;
 
-    @SerializedName("touristspotpoint_tag")
+    /*@SerializedName("touristspotpoint_tag")
     @Expose
     private String touristspotpoint_tag;
 
 
     @SerializedName("touristspotpoint_taggin_info")
     @Expose
-    private String touristspotpoint_taggin_info;
+    private String touristspotpoint_taggin_info;*/
 
 
     @SerializedName("touristspotpoint_img")
     @Expose
     private String touristspotpoint_img;
+
+    @SerializedName("touristspotpoint_contactinfo")
+    @Expose
+    private String touristspotpoint_contactinfo;
+
+    @SerializedName("touristspotpoint_course_number")
+    @Expose
+    private int touristspotpoint_course_number;
 
 
 
@@ -58,9 +66,17 @@ public class TouristSpotPoint implements Serializable {
 
     @SerializedName("touristhistory_idx")
     @Expose
-    private String touristhistory_idx;
+    private int touristhistory_idx;
 
-    @SerializedName("touristhistory_touristspotpoint_idx")
+    @SerializedName("touristspotpoint_address")
+    @Expose
+    private String touristspotpoint_address;
+
+    @SerializedName("touristspotpoint_link")
+    @Expose
+    private String touristspotpoint_link;
+
+    /*@SerializedName("touristhistory_touristspotpoint_idx")
     @Expose
     private String touristhistory_touristspotpoint_idx;
 
@@ -74,6 +90,6 @@ public class TouristSpotPoint implements Serializable {
 
     @SerializedName("touristhistory_updatetime")
     @Expose
-    private long touristhistory_updatetime;
+    private long touristhistory_updatetime;*/
 
 }

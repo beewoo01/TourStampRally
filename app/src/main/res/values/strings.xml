@@ -91,5 +91,9 @@
     <string name="fail_sms">SMS발송 요청을 실패하였습니다.</string>
     <string name="user_withdrawal">지금까지 BSR 서비스를 이용해주셔서 감사합니다. \n 회원을 탈퇴하면 BSR 서비스 내 나의 계정 정보 및 \n 기록 내역이 삭제 되고 복고 할 수 없습니다.</string>
     <string name="imagree">위 내용을 숙지하였으며, 동의합니다.</string>
+    <string name="home">홈</string>
+    <string name="store">매장</string>
+    <string name="report">기록</string>
+    <string name="stamp">스탬프</string>
 
 </resources>

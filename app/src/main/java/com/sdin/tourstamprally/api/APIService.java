@@ -9,6 +9,7 @@ import com.sdin.tourstamprally.model.InterestModel;
 import com.sdin.tourstamprally.model.Location;
 import com.sdin.tourstamprally.model.Location_four;
 import com.sdin.tourstamprally.model.Notice;
+import com.sdin.tourstamprally.model.RallyMapDTO;
 import com.sdin.tourstamprally.model.ReveiwCommentsDC;
 import com.sdin.tourstamprally.model.ReviewDetailDC;
 import com.sdin.tourstamprally.model.TourTagModel;
@@ -174,7 +175,8 @@ public interface APIService {
     Call<List<Tour_Spot>> getTourOrderBy(@Query("userIdx") int idx);
 
     @GET("getTourist_location_for_spot")
-    Call<List<Tour_Spot>> getTourLocation_for_spot(@QueryMap Map<String, Integer> map);
+    Call<List<RallyMapDTO>> getTourLocation_for_spot(@Query("user_idx") int user_idx,
+                                                     @Query("location_idx") int location_idx);
 
     @GET("getTourist_spotpoint")
     Call<List<TouristSpotPoint>> getTourLocation_spotpoint(@QueryMap Map<String, Integer> map);
@@ -221,7 +223,7 @@ public interface APIService {
     Call<HashMap<String, Integer>> check_in(@Query("taggin_info") String taggin_info, @Query("userIdx") String userIdx );
 
     @GET("select_success_data")
-    Call<Tour_Spot> select_success_data( @Query("touristspotpoint_idx") String touristspotpoint_idx);
+    Call<RallyMapDTO> select_success_data( @Query("touristspotpoint_idx") String touristspotpoint_idx);
 
     @GET("select_history_spot")
     Call<List<history_spotModel>> getHistorySpot( @Query("user_idx") int user_idx);

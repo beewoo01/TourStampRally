@@ -2,6 +2,7 @@ package com.sdin.tourstamprally.utill;
 
 import com.sdin.tourstamprally.model.AllReviewDTO;
 import com.sdin.tourstamprally.model.Location_four;
+import com.sdin.tourstamprally.model.RallyMapDTO;
 import com.sdin.tourstamprally.model.Tour_Spot;
 import com.sdin.tourstamprally.model.TouristSpotPoint;
 
@@ -20,7 +21,7 @@ public abstract class ItemOnClickAb implements ItemOnClick{
     }
 
     @Override
-    public void ItemGuidForPoint(Tour_Spot model){
+    public void ItemGuidForPoint(RallyMapDTO model){
 
     }
 

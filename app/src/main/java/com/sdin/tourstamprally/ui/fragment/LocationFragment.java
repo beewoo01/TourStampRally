@@ -4,12 +4,15 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.databinding.DataBindingUtil;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -22,6 +25,8 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.LinearLayout;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.google.gson.Gson;
@@ -29,8 +34,10 @@ import com.google.gson.reflect.TypeToken;
 import com.sdin.tourstamprally.R;
 import com.sdin.tourstamprally.Utils;
 import com.sdin.tourstamprally.databinding.FragmentLocationBinding;
+import com.sdin.tourstamprally.databinding.ItemReRallyMapBinding;
 import com.sdin.tourstamprally.databinding.LocationReItemBinding;
 import com.sdin.tourstamprally.model.Location_four;
+import com.sdin.tourstamprally.model.RallyMapDTO;
 import com.sdin.tourstamprally.model.Tour_Spot;
 import com.sdin.tourstamprally.model.TouristSpotPoint;
 import com.sdin.tourstamprally.ui.activity.MainActivity;
@@ -40,6 +47,7 @@ import com.sdin.tourstamprally.utill.ItemOnClickAb;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -57,7 +65,7 @@ public class LocationFragment extends BaseFragment {
     private FragmentLocationBinding binding;
     private String location_name;
     private Location_four location_four;
-    private List<Tour_Spot> list;
+    private List<RallyMapDTO> list;
     private Map<Integer, Integer> spot_poinMap;
     private Map<Integer, Integer> spot_HistoryMap;
 
@@ -79,7 +87,7 @@ public class LocationFragment extends BaseFragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             //location_four = (Location_four) getArguments().getSerializable("model");
-            location_four = (Location_four) getArguments().getParcelable("model");
+            location_four = getArguments().getParcelable("model");
             location_name = location_four.getLocation_name();
             Log.wtf("Locationa", String.valueOf(MainActivity.keyboardState));
 
@@ -90,24 +98,11 @@ public class LocationFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-        /*new TedKeyboardObserver(requireActivity())
-                .listen(isShow -> {
-                    keyboardState = isShow;
-                    Log.wtf("setFragment!!!!", String.valueOf(keyboardState));
-                    if (keyboardState) {
-                        InputMethodManager inputMethodManager = (InputMethodManager)
-                                requireActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
-                        inputMethodManager.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
-                    }
-                });*/
     }
 
     @Override
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-
-
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_location, container, false);
         binding.locationTxv.setText(location_name);
@@ -135,148 +130,99 @@ public class LocationFragment extends BaseFragment {
 
     private void getData(){
         binding.locationPgb.setVisibility(View.VISIBLE);
-        Map<String, Integer> dataMap = new HashMap<>();
-        dataMap.put("user_idx", Utils.User_Idx);
-        dataMap.put("location_idx", location_four.getLocation_idx());
-        apiService.getTourLocation_for_spot(dataMap).enqueue(new Callback<List<Tour_Spot>>() {
+        apiService.getTourLocation_for_spot(Utils.User_Idx, location_four.getLocation_idx()).enqueue(new Callback<List<RallyMapDTO>>() {
             @Override
-            public void onResponse(@NotNull Call<List<Tour_Spot>> call, @NotNull Response<List<Tour_Spot>> response) {
+            public void onResponse(@NotNull Call<List<RallyMapDTO>> call, @NotNull Response<List<RallyMapDTO>> response) {
                 list = response.body();
                 setRecylcerviewAdapter();
-
             }
 
             @Override
-            public void onFailure(@NotNull Call<List<Tour_Spot>> call, @NotNull Throwable t) {
-                t.printStackTrace();
+            public void onFailure(@NotNull Call<List<RallyMapDTO>> call, @NotNull Throwable t) {
+
             }
         });
+
 
     }
 
     private void setRecylcerviewAdapter(){
-        Map<Integer, Tour_Spot> map = new HashMap<>();
-        for (Tour_Spot tour_spot : list){
-            map.put(tour_spot.getTouristspot_idx(), tour_spot);
-        }
 
-        Gson gson = new Gson();
-        String gStr = gson.toJson(list);
-        Type listType = new TypeToken<ArrayList<TouristSpotPoint>>(){}.getType();
-        ArrayList<TouristSpotPoint> arrayList = gson.fromJson(gStr, listType);
+        LocationFragAdapter adapter = new LocationFragAdapter(new ArrayList<>(list));
 
-
-        spot_poinMap = new HashMap<>();
-        spot_HistoryMap = new HashMap<>();
-        for (TouristSpotPoint touristSpotPoint : arrayList){
-            spot_poinMap.put(touristSpotPoint.getTouristspotpoint_touristspot_idx(),
-                    spot_poinMap.get(touristSpotPoint.getTouristspotpoint_touristspot_idx()) == null ?
-                            1 : spot_poinMap.get(touristSpotPoint.getTouristspotpoint_touristspot_idx()) +1);
-
-
-            if (touristSpotPoint.getTouristhistory_idx() != null){
-                spot_HistoryMap.put(touristSpotPoint.getTouristspotpoint_touristspot_idx(),
-                        spot_HistoryMap.get(touristSpotPoint.getTouristspotpoint_touristspot_idx()) == null?
-                                1 : spot_HistoryMap.get(touristSpotPoint.getTouristspotpoint_touristspot_idx()) +1);
-            }
-
-        }
-
-        LocationFragAdapter adapter = new LocationFragAdapter(
-                new ArrayList<>(map.values()),
-                spot_poinMap,
-                spot_HistoryMap
-        );
         binding.recyclerviewLocationRe.setAdapter(adapter);
-        binding.recyclerviewLocationRe.setLayoutManager(new LinearLayoutManager(requireContext()));
+        binding.recyclerviewLocationRe.setLayoutManager(new GridLayoutManager(requireContext(), 2));
         setProgress();
     }
 
     @SuppressLint("SetTextI18n")
     private void setProgress(){
 
-        int clear = 0;
+        //int clear = 0;
 
-        for(int key : spot_poinMap.keySet()) {
-            int value = spot_poinMap.get(key);
-            if (spot_HistoryMap.get(key) != null){
-                int clearCount = spot_HistoryMap.get(key);
-                if (value == clearCount){
-                    clear++;
-                }
-            }
+        int AllLocationPercent = 0;
+        int MyLocationPercent = 0;
+        for (RallyMapDTO model : list){
+            AllLocationPercent += model.getAllCount();
+            MyLocationPercent += model.getMyCount();
         }
+        int allCountd = (int) ((double) MyLocationPercent / AllLocationPercent * 100);
 
-        double percent = spot_poinMap.size() * 100 / 100;
-        binding.seekBarLocation.setMax(100);
-        binding.seekBarLocation.setProgress( (int)((double) clear /  (double) spot_poinMap.size() * 100.0), true);
-
-        binding.seekPercentTxv.setText(((int) (clear / percent * 100)) +"%");
+        binding.seekBarLocation.setMax(AllLocationPercent);
+        binding.seekBarLocation.setProgress(MyLocationPercent);
+        binding.seekPercentTxv.setText(allCountd + "%");
         binding.locationPgb.setVisibility(View.GONE);
 
     }
 
-
     class LocationFragAdapter extends RecyclerView.Adapter<LocationFragAdapter.ViewHolder> {
 
-        private final ArrayList<Tour_Spot> arrayList;
-        private final Map<Integer, Integer> spotPoint_map;
-        private final Map<Integer, Integer> history_map;
+        private final ArrayList<RallyMapDTO> arrayList;
         private final ItemOnClick listener;
-        private Tour_Spot send_model;
+        private RallyMapDTO send_model;
+        private Geocoder geocoder;
 
 
 
-        public LocationFragAdapter(ArrayList<Tour_Spot> arrayList, Map<Integer, Integer> spotPoint_map,
-                                   Map<Integer, Integer> history_map) {
+        public LocationFragAdapter(ArrayList<RallyMapDTO> arrayList) {
             this.arrayList = arrayList;
-            this.spotPoint_map = spotPoint_map;
-            this.history_map = history_map;
             listener = (MainActivity) requireActivity();
+            geocoder = new Geocoder(requireContext());
         }
 
         @NonNull
         @Override
         public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+
             return new ViewHolder(
-                    LocationReItemBinding.inflate(
-                            LayoutInflater.from(requireContext()), parent,  false)
-            );
+                    ItemReRallyMapBinding.inflate(
+                            LayoutInflater.from(requireContext()), parent, false)
+                    );
         }
 
         @Override
         public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-            /*if (position == 0) {
-                ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) holder.binding.topLayout.getLayoutParams();
-                layoutParams.topMargin = 10;
-                binding.topLayout.setLayoutParams(layoutParams);
-            }*/
 
-            holder.binding.topLine.setVisibility(position == 0 ? View.INVISIBLE : View.VISIBLE );
-            holder.binding.bottomLine.setVisibility(position == arrayList.size() -1 ? View.GONE : View.VISIBLE);
-            holder.binding.bottomLayout.setVisibility(position == arrayList.size() -1 ? View.GONE : View.VISIBLE);
             Glide.with(holder.itemView.getContext()).load(position % 2 == 0 ? R.drawable.icon_deep_blue : R.drawable.icon_sky_blue).into(holder.binding.locationImv);
-            Glide.with(holder.itemView.getContext()).load(setProgress(position) ? R.drawable.mainlogo : R.drawable.logo_gray).into(holder.binding.logoImv);
+            Glide.with(holder.itemView.getContext()).load(setProgress(position) ? R.drawable.stemp_ic : R.drawable.logo_gray).into(holder.binding.logoImv);
             holder.binding.spotName.setText(arrayList.get(position).getTouristspot_name());
-            holder.binding.explanTxv.setText(arrayList.get(position).getTouristspot_explan());
+            if (arrayList.get(position).getTouristspot_address() != null
+                    && arrayList.get(position).getTouristspot_address().equalsIgnoreCase("null")){
+                holder.binding.explanTxv.setText(arrayList.get(position).getTouristspot_address());
+            }
+
+            Glide.with(holder.binding.spotImv.getContext())
+                    .load("http://coratest.kr/imagefile/bsr/" + arrayList.get(position).getTouristspot_img())
+                    /*.apply(RequestOptions.bitmapTransform(new RoundedCorners(25)))*/
+                    .error(R.drawable.sample_bg)
+                    .into(holder.binding.spotImv);
 
         }
 
         private boolean setProgress(int position){
 
-            if (spotPoint_map.get(Integer.parseInt(arrayList.get(position).getTouristspotpoint_touristspot_idx())) != null
-                    &&  history_map.get(Integer.parseInt(arrayList.get(position).getTouristspotpoint_touristspot_idx())) != null) {
+            return arrayList.get(position).getAllCount() <= arrayList.get(position).getMyCount();
 
-                int allContents = spotPoint_map.get(Integer.parseInt(arrayList.get(position).getTouristspotpoint_touristspot_idx()));
-                int clearCount = history_map.get(Integer.parseInt(arrayList.get(position).getTouristspotpoint_touristspot_idx()));
-
-                return allContents - clearCount == 0;
-
-            } else {
-
-                return false;
-
-            }
         }
 
         @Override
@@ -285,8 +231,8 @@ public class LocationFragment extends BaseFragment {
         }
 
         class ViewHolder extends RecyclerView.ViewHolder{
-            private final LocationReItemBinding binding;
-            public ViewHolder(@NonNull LocationReItemBinding binding) {
+            private final ItemReRallyMapBinding binding;
+            public ViewHolder(@NonNull ItemReRallyMapBinding binding) {
                 super(binding.getRoot());
                 this.binding = binding;
 

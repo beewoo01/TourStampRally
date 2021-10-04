@@ -40,9 +40,12 @@ import com.sdin.tourstamprally.adapter.DrawaRecyclerViewAdapter;
 import com.sdin.tourstamprally.databinding.ActivityMainBinding;
 import com.sdin.tourstamprally.model.AllReviewDTO;
 import com.sdin.tourstamprally.model.Location_four;
+import com.sdin.tourstamprally.model.RallyMapDTO;
 import com.sdin.tourstamprally.model.Tour_Spot;
 import com.sdin.tourstamprally.model.TouristSpotPoint;
 import com.sdin.tourstamprally.model.UserModel;
+import com.sdin.tourstamprally.ui.dialog.GuidDialog;
+import com.sdin.tourstamprally.ui.dialog.StampDialog;
 import com.sdin.tourstamprally.ui.fragment.AccountFragment;
 import com.sdin.tourstamprally.ui.fragment.CouponMainFragment;
 import com.sdin.tourstamprally.ui.fragment.DeabsFragment;
@@ -287,8 +290,11 @@ public class MainActivity extends BaseActivity implements NavigationBarView.OnIt
         } else if (item.getItemId() == R.id.page_report) {
             fragment = new VisitHistoryFragment();
             tag = "방문기록";
-        } else if (item.getItemId() == R.id.page_navi) {
-            setKaKaoNavi();
+        } else if (item.getItemId() == R.id.page_stamp) {
+            //setKaKaoNavi();
+            StampDialog stampDialog = new StampDialog(this);
+            stampDialog.show();
+            stampDialog.setClickListener(this);
         }
 
         if (fragment != null) {
@@ -539,7 +545,7 @@ public class MainActivity extends BaseActivity implements NavigationBarView.OnIt
     }
 
     @Override
-    public void ItemGuidForPoint(Tour_Spot model) {
+    public void ItemGuidForPoint(RallyMapDTO model) {
 
         //관광지 포인트 화면 이동
         setFragment(model.getTouristspot_name(), TourSpotPointFragment.newInstance(model));
@@ -607,7 +613,7 @@ public class MainActivity extends BaseActivity implements NavigationBarView.OnIt
         setFragment(spot_name, ReviewComentsFragment.newInstance(review_idx));
     }
 
-    private void setKaKaoNavi() {
+    /*private void setKaKaoNavi() {
         if (NaviClient.getInstance().isKakaoNaviInstalled(this)) {
             //Log.wtf(TAG, "카카오내비 앱으로 길안내 가능");
             startActivity(NaviClient.getInstance().navigateIntent(
@@ -624,7 +630,7 @@ public class MainActivity extends BaseActivity implements NavigationBarView.OnIt
 
             KakaoCustomTabsClient.INSTANCE.openWithDefault(this, uri);
         }
-    }
+    }*/
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {

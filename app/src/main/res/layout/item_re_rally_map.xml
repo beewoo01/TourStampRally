@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/topLayout"
+        android:layout_width="@dimen/_130sdp"
+        android:layout_height="@dimen/_130sdp"
+        android:layout_margin="@dimen/_10sdp"
+        app:cardElevation="@dimen/_10sdp"
+        app:cardCornerRadius="@dimen/_10sdp"
+        >
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+            >
+
+            <ImageView
+                android:id="@+id/spot_imv"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/sample_bg"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <ImageView
+                android:id="@+id/logo_imv"
+                android:layout_width="@dimen/_50sdp"
+                android:layout_height="@dimen/_50sdp"
+                android:layout_margin="@dimen/_20sdp"
+                android:src="@drawable/logo_gray"
+                app:layout_constraintBottom_toTopOf="@id/spot_container"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/spot_container"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_rounded_01"
+                android:paddingVertical="@dimen/_10sdp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+
+                >
+
+                <ImageView
+                    android:id="@+id/location_imv"
+                    android:layout_width="@dimen/_20sdp"
+                    android:layout_height="@dimen/_20sdp"
+                    android:src="@drawable/icon_deep_blue"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/spotText_container"
+                    app:layout_constraintHorizontal_chainStyle="packed"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+                <LinearLayout
+                    android:id="@+id/spotText_container"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_5sdp"
+                    android:orientation="vertical"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/location_imv"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <TextView
+                        android:id="@+id/spot_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:maxLength="12"
+                        android:maxLines="1"
+                        android:text="부산포 개항가도 일번임"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_10sdp" />
+
+                    <TextView
+                        android:id="@+id/explan_txv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:maxLength="16"
+                        android:maxLines="1"
+                        android:text="부산광역시 동구 초량동"
+                        android:textColor="@color/gray"
+                        android:textSize="@dimen/_6sdp" />
+
+                </LinearLayout>
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+</layout>

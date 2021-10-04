@@ -19,6 +19,11 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.kakao.sdk.common.util.KakaoCustomTabsClient;
+import com.kakao.sdk.navi.NaviClient;
+import com.kakao.sdk.navi.model.CoordType;
+import com.kakao.sdk.navi.model.Location;
+import com.kakao.sdk.navi.model.NaviOption;
 import com.sdin.tourstamprally.R;
 import com.sdin.tourstamprally.Utils;
 import com.sdin.tourstamprally.databinding.FragmentTourDetailBinding;
@@ -34,6 +39,8 @@ import org.jetbrains.annotations.NotNull;
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -85,11 +92,78 @@ public class TourDetailFragment extends BaseFragment/* implements MapView.MapVie
 
     public void onClick(View view){
         if (view.getId() == binding.phoneTxv.getId()){
-            /*if (!TextUtils.isEmpty(binding.phoneTxv.getText().toString())){
-                //전화 걸기
-                Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + touristSpotPoint));
-                requireActivity().startActivity(intent);
-            }*/
+            Pattern pattern1 = Pattern.compile("\\d{3}-\\d{4}-\\d{4}");
+            Pattern pattern2 = Pattern.compile("\\d{3}-\\d{3}-\\d{4}");
+            Pattern pattern3 = Pattern.compile("\\d{11}");
+            Pattern pattern4 = Pattern.compile("\\d{10}");
+
+            if (!TextUtils.isEmpty(binding.phoneTxv.getText().toString())){
+                String phone = touristSpotPoint.getTouristspotpoint_contactinfo();
+                Log.wtf("phone", phone);
+                boolean isVailable;
+                if (pattern1.matcher(phone).matches()){
+                    isVailable = true;
+                }else if (pattern2.matcher(phone).matches()){
+                    isVailable = true;
+                }else if (pattern3.matcher(phone).matches()){
+                    isVailable = true;
+                }else if (pattern4.matcher(phone).matches()){
+                    isVailable = true;
+                }else {
+                    isVailable = false;
+                }
+
+                if (isVailable){
+                    try {
+                        Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + phone));
+                        requireActivity().startActivity(intent);
+                    }catch (Exception e){
+                        e.printStackTrace();
+                        Toast.makeText(requireContext(), "요청중 에러 발생.", Toast.LENGTH_SHORT).show();
+                    }
+
+                }else {
+                    Toast.makeText(requireContext(), "해당 관광지는 전화번호가 없습니다.", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }else if (view.getId() == binding.detailTxv.getId()){
+            String link = touristSpotPoint.getTouristspotpoint_link();
+            Log.wtf("LINK", link);
+            if (!TextUtils.isEmpty(link) && !link.equalsIgnoreCase("null")){
+                try {
+                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(link));
+                    requireActivity().startActivity(intent);
+                }catch (Exception e){
+                    e.printStackTrace();
+                    Toast.makeText(requireContext(), "요청중 에러 발생.", Toast.LENGTH_SHORT).show();
+                }
+
+            }else {
+                Toast.makeText(requireContext(), "해당 관광지는 관련링크가 없습니다.", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    public void naviClick(){
+
+        Log.wtf(TAG, "naviClick naviClick");
+        if (NaviClient.getInstance().isKakaoNaviInstalled(requireContext())) {
+            //Log.wtf(TAG, "카카오내비 앱으로 길안내 가능");
+            requireActivity().startActivity(NaviClient.getInstance().navigateIntent(
+
+                    new Location("카카오 하이루", String.valueOf(touristSpotPoint.getTouristspotpoint_latitude()), String.valueOf(touristSpotPoint.getTouristspotpoint_longitude())),
+                    new NaviOption(CoordType.WGS84)
+                    )
+            );
+        } else {
+            //Log.wtf(TAG, "카카오내비 미설치 : 웹 길안내 사용 권장");
+            Uri uri = NaviClient.getInstance().navigateWebUrl(
+                    new Location("카카오 하이루", String.valueOf(touristSpotPoint.getTouristspotpoint_latitude()), String.valueOf(touristSpotPoint.getTouristspotpoint_longitude())),
+                    /*new Location("카카오 하이루", "127.108640", "37.402111"),*/
+                    new NaviOption(CoordType.WGS84)
+            );
+
+            KakaoCustomTabsClient.INSTANCE.openWithDefault(requireContext(), uri);
         }
     }
 
@@ -101,40 +175,10 @@ public class TourDetailFragment extends BaseFragment/* implements MapView.MapVie
 
         //Log.wtf("imgimgimg", touristSpotPoint.getTouristspotpoint_img());
         Glide.with(requireContext())
-                //.load("http://zzipbbong.cafe24.com/imagefile/bsr/" + touristSpotPoint.getTouristspotpoint_img())
                 .load("http://coratest.kr/imagefile/bsr/" + touristSpotPoint.getTouristspotpoint_img())
                 .error(ContextCompat.getDrawable(requireContext(), R.drawable.sample_bg))
                 .into(binding.bgImv);
 
-        binding.saveTxv.setOnClickListener( v -> {
-            // TODO: 8/11/21 찜하기
-            /*apiService.select_interest_status(Utils.User_Idx, touristSpotPoint.getTouristspot_idx()).enqueue(new Callback<Integer>() {
-                @Override
-                public void onResponse(Call<Integer> call, Response<Integer> response) {
-                    if (response.isSuccessful()){
-                        //ShowToast("찜하기에 성공 하셨습니다.", requireContext());
-                        Log.wtf("response.body()", String.valueOf(response.body()));
-                        if (response.body() == 0) {
-                            Log.wtf("onResponse", "찜하기 000000");
-                            insert_intest();
-                        }
-
-                    } else {
-                        Log.wtf("찜하기 실패", response.toString());
-                        ShowToast("찜하기에 실패 하셨습니다.", requireContext());
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<Integer> call, Throwable t) {
-                    ShowToast("찜하기에 실패 하셨습니다.", requireContext());
-                    t.printStackTrace();
-                }
-
-            });*/
-
-
-        });
 
         MapView mapView = new MapView(requireActivity());
         ViewGroup mapViewContainer = binding.mapView;
@@ -158,24 +202,6 @@ public class TourDetailFragment extends BaseFragment/* implements MapView.MapVie
         mapView.addPOIItem(customMarker);
     }
 
-    /*private void insert_intest(){
-        apiService.insert_intest(Utils.User_Idx, touristSpotPoint.getTouristspot_idx()).enqueue(new Callback<Integer>() {
-            @Override
-            public void onResponse(Call<Integer> call, Response<Integer> response) {
-                if (response.isSuccessful()){
-                    ShowToast("찜하기에 성공 하셨습니다.", requireContext());
-                }else {
-                    Log.wtf("찜하기 실패", response.toString());
-                    ShowToast("찜하기에 실패 하셨습니다.", requireContext());
-                }
-            }
-
-            @Override
-            public void onFailure(Call<Integer> call, Throwable t) {
-                t.printStackTrace();
-            }
-        });
-    }*/
 
     private String getAddress(){
         Geocoder geocoder = new Geocoder(requireContext(), Locale.getDefault());
@@ -194,7 +220,6 @@ public class TourDetailFragment extends BaseFragment/* implements MapView.MapVie
             }
 
             Address address = addresses.get(0);
-            //Log.wtf("주소는?", address.getAddressLine(0).toString()+"\n");
             return address.getAddressLine(0);
         } catch (IOException | IllegalArgumentException ioException) {
             //네트워크 문제
@@ -203,51 +228,4 @@ public class TourDetailFragment extends BaseFragment/* implements MapView.MapVie
         } //Log.wtf("addresses", "잘못된 GPS 좌표");
 
     }
-
-    /*@Override
-    public void onMapViewInitialized(MapView mapView) {
-
-    }
-
-    @Override
-    public void onMapViewCenterPointMoved(MapView mapView, MapPoint mapPoint) {
-
-    }
-
-    @Override
-    public void onMapViewZoomLevelChanged(MapView mapView, int i) {
-
-    }
-
-    @Override
-    public void onMapViewSingleTapped(MapView mapView, MapPoint mapPoint) {
-        Log.wtf("latitude!!!!", String.valueOf(mapPoint.getMapPointGeoCoord().latitude));
-
-        Log.wtf("latitude!!!!", String.valueOf(mapPoint.getMapPointGeoCoord().longitude));
-    }
-
-    @Override
-    public void onMapViewDoubleTapped(MapView mapView, MapPoint mapPoint) {
-
-    }
-
-    @Override
-    public void onMapViewLongPressed(MapView mapView, MapPoint mapPoint) {
-
-    }
-
-    @Override
-    public void onMapViewDragStarted(MapView mapView, MapPoint mapPoint) {
-
-    }
-
-    @Override
-    public void onMapViewDragEnded(MapView mapView, MapPoint mapPoint) {
-
-    }
-
-    @Override
-    public void onMapViewMoveFinished(MapView mapView, MapPoint mapPoint) {
-
-    }*/
 }

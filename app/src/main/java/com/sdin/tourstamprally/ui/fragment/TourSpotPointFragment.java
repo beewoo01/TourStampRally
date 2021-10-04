@@ -7,6 +7,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,7 @@ import com.sdin.tourstamprally.R;
 import com.sdin.tourstamprally.Utils;
 import com.sdin.tourstamprally.databinding.FragmentTourSpotPointBinding;
 import com.sdin.tourstamprally.databinding.LocationReItemBinding;
+import com.sdin.tourstamprally.model.RallyMapDTO;
 import com.sdin.tourstamprally.model.Tour_Spot;
 import com.sdin.tourstamprally.model.TouristSpotPoint;
 import com.sdin.tourstamprally.ui.activity.MainActivity;
@@ -24,6 +26,8 @@ import com.sdin.tourstamprally.utill.ItemOnClick;
 import net.daum.mf.map.api.MapPOIItem;
 import net.daum.mf.map.api.MapPoint;
 import net.daum.mf.map.api.MapView;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -39,19 +43,18 @@ public class TourSpotPointFragment extends BaseFragment {
 
     private FragmentTourSpotPointBinding binding;
     private List<TouristSpotPoint> list;
-    private Tour_Spot tour_spot;
+    private RallyMapDTO rallyMapDTO;
 
     // 상세 랠리 맵
-    // 구글맵 이나 카카오맵 구현 하자
 
     public TourSpotPointFragment() {
         // Required empty public constructor
     }
 
-    public static TourSpotPointFragment newInstance(Tour_Spot tour_spot) {
+    public static TourSpotPointFragment newInstance(RallyMapDTO rallyMapDTO) {
         TourSpotPointFragment fragment = new TourSpotPointFragment();
         Bundle bundle = new Bundle();
-        bundle.putSerializable("model", tour_spot);
+        bundle.putSerializable("model", rallyMapDTO);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -60,15 +63,15 @@ public class TourSpotPointFragment extends BaseFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            tour_spot = (Tour_Spot) getArguments().getSerializable("model");
+            rallyMapDTO = (RallyMapDTO) getArguments().getSerializable("model");
         }
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_tour_spot_point, container,false);
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_tour_spot_point, container, false);
         binding.tourSpotPointPgb.setVisibility(View.VISIBLE);
 
         getData();
@@ -76,14 +79,14 @@ public class TourSpotPointFragment extends BaseFragment {
         return binding.getRoot();
     }
 
-    private void getData(){
+    private void getData() {
         Map<String, Integer> map = new HashMap<>();
         map.put("user_idx", Utils.User_Idx);
-        map.put("touristspot_idx", Integer.valueOf(tour_spot.getTouristspotpoint_touristspot_idx()));
+        map.put("touristspot_idx", rallyMapDTO.getTouristspot_idx());
         apiService.getTourLocation_spotpoint(map).enqueue(new Callback<List<TouristSpotPoint>>() {
             @Override
-            public void onResponse(Call<List<TouristSpotPoint>> call, Response<List<TouristSpotPoint>> response) {
-                if (response.isSuccessful()){
+            public void onResponse(@NotNull Call<List<TouristSpotPoint>> call, @NotNull Response<List<TouristSpotPoint>> response) {
+                if (response.isSuccessful()) {
                     list = new ArrayList<>();
                     list = response.body();
                     ArrayList<TouristSpotPoint> arrayList = new ArrayList<>(list);
@@ -92,23 +95,23 @@ public class TourSpotPointFragment extends BaseFragment {
                     binding.recyclerviewLocationRe.setHasFixedSize(true);
                     setMap(arrayList);
 
-                }else {
+                } else {
 
                 }
             }
 
             @Override
-            public void onFailure(Call<List<TouristSpotPoint>> call, Throwable t) {
+            public void onFailure(@NotNull Call<List<TouristSpotPoint>> call, @NotNull Throwable t) {
                 t.printStackTrace();
             }
         });
     }
 
-    private void setMap(ArrayList<TouristSpotPoint> arrayList){
+    private void setMap(ArrayList<TouristSpotPoint> arrayList) {
         MapView mapView = new MapView(requireActivity());
         ViewGroup mapViewContainer = binding.mapView;
 
-        mapView.setMapCenterPointAndZoomLevel(MapPoint.mapPointWithGeoCoord(tour_spot.getTouristspot_latitude(), tour_spot.getTouristspot_longitude()), 2, true);
+        mapView.setMapCenterPointAndZoomLevel(MapPoint.mapPointWithGeoCoord(rallyMapDTO.getTouristspot_latitude(), rallyMapDTO.getTouristspot_longitude()), 2, true);
         mapView.zoomIn(true);
         mapView.zoomOut(true);
 
@@ -117,7 +120,7 @@ public class TourSpotPointFragment extends BaseFragment {
 
         ArrayList<MapPoint> pointArrayList = new ArrayList<>();
         MapPOIItem[] markers = new MapPOIItem[arrayList.size()];
-        for (int i = 0; i < arrayList.size(); i ++){
+        for (int i = 0; i < arrayList.size(); i++) {
             pointArrayList.add(MapPoint.mapPointWithGeoCoord(arrayList.get(i).getTouristspotpoint_latitude(), arrayList.get(i).getTouristspotpoint_longitude()));
             markers[i] = new MapPOIItem();
             markers[i].setMapPoint(pointArrayList.get(i));
@@ -133,14 +136,14 @@ public class TourSpotPointFragment extends BaseFragment {
 
     }
 
-    private void removeMapView(){
+    private void removeMapView() {
         binding.topLayout.removeAllViews();
     }
 
-    class TourSpotPointAdapter extends RecyclerView.Adapter<TourSpotPointAdapter.ViewHolder>{
+    class TourSpotPointAdapter extends RecyclerView.Adapter<TourSpotPointAdapter.ViewHolder> {
 
-        private ArrayList<TouristSpotPoint> arrayList;
-        private ItemOnClick listener;
+        private final ArrayList<TouristSpotPoint> arrayList;
+        private final ItemOnClick listener;
 
         public TourSpotPointAdapter(ArrayList<TouristSpotPoint> arrayList) {
             this.arrayList = arrayList;
@@ -157,14 +160,14 @@ public class TourSpotPointFragment extends BaseFragment {
 
         @Override
         public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-            holder.binding.topLine.setVisibility(position == 0 ? View.INVISIBLE : View.VISIBLE );
-            holder.binding.bottomLine.setVisibility(position == arrayList.size() -1 ? View.GONE : View.VISIBLE);
-            holder.binding.bottomLayout.setVisibility(position == arrayList.size() -1 ? View.GONE : View.VISIBLE);
+            holder.binding.topLine.setVisibility(position == 0 ? View.INVISIBLE : View.VISIBLE);
+            holder.binding.bottomLine.setVisibility(position == arrayList.size() - 1 ? View.GONE : View.VISIBLE);
+            holder.binding.bottomLayout.setVisibility(position == arrayList.size() - 1 ? View.GONE : View.VISIBLE);
 
             Glide.with(holder.itemView.getContext()).load(position % 2 == 0 ? R.drawable.icon_deep_blue : R.drawable.icon_sky_blue).into(holder.binding.locationImv);
 
-
-            Glide.with(holder.itemView.getContext()).load(list.get(position).getTouristhistory_idx() != null ? R.drawable.mainlogo : R.drawable.logo_gray).into(holder.binding.logoImv);
+            Log.wtf("history_idx", String.valueOf(list.get(position).getTouristhistory_idx()));
+            Glide.with(holder.itemView.getContext()).load(list.get(position).getTouristhistory_idx() > 0 ? R.drawable.mainlogo : R.drawable.logo_gray).into(holder.binding.logoImv);
             holder.binding.spotName.setText(arrayList.get(position).getTouristspotpoint_name());
             holder.binding.explanTxv.setText(arrayList.get(position).getTouristspotpoint_explan());
         }
@@ -174,16 +177,17 @@ public class TourSpotPointFragment extends BaseFragment {
             return arrayList.size();
         }
 
-        class ViewHolder extends RecyclerView.ViewHolder{
+        class ViewHolder extends RecyclerView.ViewHolder {
 
-            private LocationReItemBinding binding;
+            private final LocationReItemBinding binding;
+
             public ViewHolder(@NonNull LocationReItemBinding binding) {
                 super(binding.getRoot());
                 this.binding = binding;
-                
-                binding.topLayout.setOnClickListener( v -> {
+
+                binding.topLayout.setOnClickListener(v -> {
                     removeMapView();
-                    listener.ItemGuidForDetail(arrayList.get(getAdapterPosition()));
+                    listener.ItemGuidForDetail(arrayList.get(getAbsoluteAdapterPosition()));
                 });
 
             }

@@ -27,6 +27,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.sdin.tourstamprally.R;
+import com.sdin.tourstamprally.model.RallyMapDTO;
 import com.sdin.tourstamprally.model.Tour_Spot;
 import com.sdin.tourstamprally.utill.DialogListener;
 import com.sdin.tourstamprally.utill.ItemOnClick;
@@ -190,9 +191,9 @@ public class ScanResultDialog extends BaseDialog {
             dialogListener.onDissMiss();
         }
 
-        apiService.select_success_data(String.valueOf(touristhistory_touristspotpoint_idx)).enqueue(new Callback<Tour_Spot>() {
+        apiService.select_success_data(String.valueOf(touristhistory_touristspotpoint_idx)).enqueue(new Callback<RallyMapDTO>() {
             @Override
-            public void onResponse(@NotNull Call<Tour_Spot> call, @NotNull Response<Tour_Spot> response) {
+            public void onResponse(@NotNull Call<RallyMapDTO> call, @NotNull Response<RallyMapDTO> response) {
                 if (response.isSuccessful()) {
                     itemOnClick.ItemGuidForPoint(response.body());
                 } else {
@@ -203,7 +204,7 @@ public class ScanResultDialog extends BaseDialog {
             }
 
             @Override
-            public void onFailure(@NotNull Call<Tour_Spot> call, @NotNull Throwable t) {
+            public void onFailure(@NotNull Call<RallyMapDTO> call, @NotNull Throwable t) {
                 showToast();
                 dismiss();
                 t.printStackTrace();

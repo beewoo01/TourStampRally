@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="dialog"
+            type="com.sdin.tourstamprally.ui.dialog.StampDialog" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/_4sdp"
+        >
+
+        <Button
+            android:id="@+id/close_btn"
+            android:layout_width="@dimen/_40sdp"
+            android:layout_height="@dimen/_40sdp"
+            android:background="@drawable/quit_icon"
+            app:layout_constraintTop_toTopOf="@id/content_layout"
+            app:layout_constraintBottom_toTopOf="@id/content_layout"
+            app:layout_constraintStart_toEndOf="@id/content_layout"
+            app:layout_constraintEnd_toEndOf="@id/content_layout"
+            />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/content_layout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/_50sdp"
+            android:background="@drawable/bg_rounded_12"
+            android:orientation="vertical"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            >
+
+
+
+            <TextView
+                android:id="@+id/nfc_txv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_30sdp"
+                android:layout_marginTop="@dimen/_30sdp"
+                android:background="@drawable/button_selector_drawable"
+                android:elevation="@dimen/_3sdp"
+                android:gravity="center"
+                android:padding="@dimen/_10sdp"
+                android:text="@string/nfc_scan"
+                android:textSize="@dimen/_13sdp"
+                android:textColor="@drawable/button_selector_text_color"
+                android:tag="1"
+                android:onClick="@{dialog::itemClick}"
+                app:layout_constraintBottom_toTopOf="@id/qrscan_txv"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/qrscan_txv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_30sdp"
+                android:background="@drawable/button_selector_drawable"
+                android:elevation="@dimen/_3sdp"
+                android:gravity="center"
+                android:padding="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:text="@string/qrscan"
+                android:textColor="@drawable/button_selector_text_color"
+                android:textSize="@dimen/_13sdp"
+                android:tag="2"
+                android:onClick="@{dialog::itemClick}"
+                app:layout_constraintBottom_toTopOf="@id/gull_imv"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/nfc_txv" />
+
+
+
+            <ImageView
+                android:id="@+id/gull_imv"
+                android:layout_width="@dimen/_50sdp"
+                android:layout_height="@dimen/_30sdp"
+                android:layout_marginEnd="@dimen/_5sdp"
+                android:src="@drawable/gull"
+                android:layout_marginTop="@dimen/_10sdp"
+                app:layout_constraintTop_toBottomOf="@id/qrscan_txv"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:contentDescription="@null" />
+
+
+            <!--<TextView
+                android:id="@+id/cancle_txv"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_40sdp"
+                android:background="@drawable/bg_rounded_13"
+                android:gravity="center"
+                android:text="@string/cancle"
+                android:textColor="@color/mainColor"
+                android:textSize="@dimen/_13sdp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/confirm_txv"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/confirm_txv"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_40sdp"
+                android:background="@drawable/bg_rounded_14"
+                android:gravity="center"
+                android:text="@string/check"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_13sdp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/cancle_txv"-->
+
+                />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</layout>

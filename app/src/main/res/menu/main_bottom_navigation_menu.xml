@@ -5,28 +5,28 @@
         android:id="@+id/page_home"
         android:enabled="true"
         android:icon="@drawable/home_ic"
-        android:title="홈"
+        android:title="@string/home"
         />
 
     <item
         android:id="@+id/page_store"
         android:enabled="true"
         android:icon="@drawable/store_ic"
-        android:title="매장"
+        android:title="@string/store"
         />
 
     <item
         android:id="@+id/page_report"
         android:enabled="true"
-        android:icon="@drawable/report_ic"
-        android:title="기록"
+        android:icon="@drawable/folder_ic"
+        android:title="@string/report"
         />
 
     <item
-        android:id="@+id/page_navi"
+        android:id="@+id/page_stamp"
         android:enabled="true"
-        android:icon="@drawable/navi_ic"
-        android:title="내비"
+        android:icon="@drawable/report_ic"
+        android:title="@string/stamp"
         />
 
 </menu>
