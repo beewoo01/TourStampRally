@@ -30,6 +30,7 @@ import com.sdin.tourstamprally.Utils;
 import com.sdin.tourstamprally.databinding.FragmentTourDetailBinding;
 import com.sdin.tourstamprally.model.Tour_Spot;
 import com.sdin.tourstamprally.model.TouristSpotPoint;
+import com.sdin.tourstamprally.ui.dialog.ReadyDialog;
 
 import net.daum.mf.map.api.MapPOIItem;
 import net.daum.mf.map.api.MapPoint;
@@ -130,7 +131,7 @@ public class TourDetailFragment extends BaseFragment/* implements MapView.MapVie
         } else if (view.getId() == binding.detailTxv.getId()) {
             String link = touristSpotPoint.getTouristspotpoint_link();
             Log.wtf("LINK", link);
-            Toast.makeText(requireContext(), "서비스 준비 중 입니다.", Toast.LENGTH_SHORT).show();
+            showReadyDialog();
             /* 해당 기능은 이미 구현 완료되었으나 잠시 주석처리 해둔 상태 구현해야한다면 주석 풀면됨*/
             /*if (!TextUtils.isEmpty(link) && !link.equalsIgnoreCase("null")) {
                 try {
@@ -171,7 +172,13 @@ public class TourDetailFragment extends BaseFragment/* implements MapView.MapVie
 
     public void kakaoLink() {
         //KakaoLink
-        Toast.makeText(requireContext(), "서비스 준비 중 입니다.", Toast.LENGTH_SHORT).show();
+        showReadyDialog();
+        /*Toast.makeText(requireContext(), "서비스 준비 중 입니다.", Toast.LENGTH_SHORT).show();*/
+    }
+
+    private void showReadyDialog(){
+        ReadyDialog dialog = new ReadyDialog(requireContext());
+        dialog.show();
     }
 
     /*fun kakaoLink() {

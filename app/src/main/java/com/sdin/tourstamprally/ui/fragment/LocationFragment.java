@@ -238,15 +238,16 @@ public class LocationFragment extends BaseFragment {
 
                 binding.topLayout.setOnClickListener( v -> {
                     send_model = arrayList.get(getAbsoluteAdapterPosition());
-                    GuidDialog guidDialog = new GuidDialog(requireContext());
+                    listener.ItemGuidForPoint(send_model);
+                    /*GuidDialog guidDialog = new GuidDialog(requireContext());
                     guidDialog.show();
-                    guidDialog.setClickListener(itemOnClick);
+                    guidDialog.setClickListener(itemOnClick);*/
                 });
             }
         }
 
 
-        private final ItemOnClick itemOnClick = new ItemOnClickAb() {
+        /*private final ItemOnClick itemOnClick = new ItemOnClickAb() {
             @Override
             public void ItemGuid(int position) {
                 Log.d("dialog Onclick Listener", String.valueOf(position));
@@ -256,7 +257,7 @@ public class LocationFragment extends BaseFragment {
                     listener.ItemGuidForPoint(send_model);
                 }
             }
-        };
+        };*/
     }
 
 

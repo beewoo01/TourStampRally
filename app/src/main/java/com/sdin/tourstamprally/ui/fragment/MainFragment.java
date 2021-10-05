@@ -127,9 +127,7 @@ public class MainFragment extends BaseFragment {
                     @Override
                     public void onSuccess(@io.reactivex.rxjava3.annotations.NonNull List<AllReviewDTO> allReviewDTOS) {
                         binding.reviewReProgressbar.setVisibility(View.GONE);
-                        if (allReviewDTOS != null){
-                            initReviewData(new ArrayList<>(allReviewDTOS));
-                        }
+                        initReviewData(new ArrayList<>(allReviewDTOS));
 
                     }
 

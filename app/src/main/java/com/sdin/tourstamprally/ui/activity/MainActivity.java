@@ -45,6 +45,7 @@ import com.sdin.tourstamprally.model.Tour_Spot;
 import com.sdin.tourstamprally.model.TouristSpotPoint;
 import com.sdin.tourstamprally.model.UserModel;
 import com.sdin.tourstamprally.ui.dialog.GuidDialog;
+import com.sdin.tourstamprally.ui.dialog.ReadyDialog;
 import com.sdin.tourstamprally.ui.dialog.StampDialog;
 import com.sdin.tourstamprally.ui.fragment.AccountFragment;
 import com.sdin.tourstamprally.ui.fragment.CouponMainFragment;
@@ -124,6 +125,7 @@ public class MainActivity extends BaseActivity implements NavigationBarView.OnIt
         String name = hashMap.get(fragmentcount);
 
         if (name != null) {
+
             switch (name) {
                 case "NFC":
                 case "QR":
@@ -241,8 +243,6 @@ public class MainActivity extends BaseActivity implements NavigationBarView.OnIt
             }*/
 
 
-
-
         } else {
 
         }
@@ -285,8 +285,10 @@ public class MainActivity extends BaseActivity implements NavigationBarView.OnIt
             tag = "Main";
             //setFragment("Main", MainFragment.newInstance("", ""));
         } else if (item.getItemId() == R.id.page_store) {
-            fragment = new StoreListFragment();
-            tag = "매장 리스트";
+            ReadyDialog readyDialog = new ReadyDialog(this);
+            readyDialog.show();
+            /*fragment = new StoreListFragment();
+            tag = "매장 리스트";*/
         } else if (item.getItemId() == R.id.page_report) {
             fragment = new VisitHistoryFragment();
             tag = "방문기록";
@@ -311,7 +313,7 @@ public class MainActivity extends BaseActivity implements NavigationBarView.OnIt
         Log.wtf("fragmentTag", fragment.getTag());
         if (!Objects.equals(hashMap.get(fragmentcount), "Main")) {
             backClick();
-        } else if (Objects.equals(hashMap.get(fragmentcount), "Main")){
+        } else if (Objects.equals(hashMap.get(fragmentcount), "Main")) {
             finish();
         }
 
@@ -333,22 +335,17 @@ public class MainActivity extends BaseActivity implements NavigationBarView.OnIt
         Log.wtf("setFragment!!!!", "just");
 
 
-
-
-
-
         //hashMap.put();
 
         if (tag != null) {
 
-            if (!tag.equals("QR")){
+            if (!tag.equals("QR")) {
                 new TedKeyboardObserver(this)
-                    .listen(isShow -> {
-                        Log.wtf("setFragment!!!!", String.valueOf(isShow));
-                        keyboardState = isShow;
-                    });
+                        .listen(isShow -> {
+                            Log.wtf("setFragment!!!!", String.valueOf(isShow));
+                            keyboardState = isShow;
+                        });
             }
-
 
 
             if (tag.equals("Main")) {
@@ -509,7 +506,9 @@ public class MainActivity extends BaseActivity implements NavigationBarView.OnIt
                 break;
 
             case 2:
-                setFragment("쿠폰현황", couponMainFragment);
+                ReadyDialog readyDialog = new ReadyDialog(this);
+                readyDialog.show();
+                //setFragment("쿠폰현황", couponMainFragment);
                 //쿠폰현황
                 break;
 
@@ -558,22 +557,10 @@ public class MainActivity extends BaseActivity implements NavigationBarView.OnIt
         setFragment(model.getTouristspotpoint_name(), TourDetailFragment.newInstance(model));
     }
 
-    /*@Override
-    public void SetFragment(String tag) {
-        if (tag.equals("direction_guid")) {
-
-            DirectionGuidFragment directionGuidFragment = new DirectionGuidFragment;
-            setFragment("direction_guid", directionGuidFragment);
-
-        } else if (tag.equals("notice")) {
-
-
-        }
-    }*/
 
     @Override
     public void SetFragment(ArrayList<Location_four> location_four) {
-        DirectionGuidFragment directionGuidFragment =  DirectionGuidFragment.newInstance(location_four);
+        DirectionGuidFragment directionGuidFragment = DirectionGuidFragment.newInstance(location_four);
         setFragment("direction_guid", directionGuidFragment);
     }
 
@@ -584,12 +571,6 @@ public class MainActivity extends BaseActivity implements NavigationBarView.OnIt
         setToolbar(3);
     }
 
-    /*@Override
-    public void onItemClick(Tour_Spot tour_spot) {
-        //Log.wtf("onItemClick", tour_spot.toString());
-        setFragment(tour_spot.getLocation_name() + " 랠리 맵", LocationFragment.newInstance(tour_spot));
-        setToolbar(3);
-    }*/
 
     @Override
     public void onWriteRewviewClick(int spotIdx, String spotName) {
@@ -612,24 +593,6 @@ public class MainActivity extends BaseActivity implements NavigationBarView.OnIt
         setFragment(spot_name, ReviewComentsFragment.newInstance(review_idx));
     }
 
-    /*private void setKaKaoNavi() {
-        if (NaviClient.getInstance().isKakaoNaviInstalled(this)) {
-            //Log.wtf(TAG, "카카오내비 앱으로 길안내 가능");
-            startActivity(NaviClient.getInstance().navigateIntent(
-                    new Location("카카오 판교오피스", "127.108640", "37.402111"),
-                    new NaviOption(CoordType.WGS84)
-                    )
-            );
-        } else {
-            //Log.wtf(TAG, "카카오내비 미설치 : 웹 길안내 사용 권장");
-            Uri uri = NaviClient.getInstance().navigateWebUrl(
-                    new Location("카카오 판교오피스", "127.108640", "37.402111"),
-                    new NaviOption(CoordType.WGS84)
-            );
-
-            KakaoCustomTabsClient.INSTANCE.openWithDefault(this, uri);
-        }
-    }*/
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
