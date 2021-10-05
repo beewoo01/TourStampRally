@@ -113,10 +113,9 @@
                     android:layout_width="@dimen/_55sdp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/_20sdp"
-
                     android:textColor="@color/seekColor"
                     android:textStyle="bold"
-                    android:maxLength="8"
+                    android:maxLength="14"
                     android:gravity="center"
                     app:layout_constraintStart_toEndOf="@id/seekBar"
                     app:layout_constraintBottom_toBottomOf="@id/visitHistory_Imv"

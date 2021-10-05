@@ -36,7 +36,7 @@ public class VisitReAdapter extends RecyclerView.Adapter<VisitReAdapter.SwipeVie
     private SparseBooleanArray selectedItems = new SparseBooleanArray();
     private int prePosition = -1;
     private ItemCliclListener listener;
-    private SimpleDateFormat oldSdf, newSdf;
+    private SimpleDateFormat oldSdf, newSdf, timeSdf;
     //private ToggleAnimation toggleAnimation;
 
     private ItemOnClick onWriteReviewListener;
@@ -55,6 +55,7 @@ public class VisitReAdapter extends RecyclerView.Adapter<VisitReAdapter.SwipeVie
         oldSdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
         oldSdf.setTimeZone(TimeZone.getTimeZone("KST"));
         newSdf = new SimpleDateFormat("yy.MM.dd");
+        timeSdf = new SimpleDateFormat("HH:mm");
       //  toggleAnimation = new ToggleAnimation();
     }
 
@@ -109,14 +110,14 @@ public class VisitReAdapter extends RecyclerView.Adapter<VisitReAdapter.SwipeVie
 
             binding.gotoReview.setOnClickListener( v -> {
                 //Log.wtf("onWriteRewviewClick", "gotoReview");
-                onWriteReviewListener.onWriteRewviewClick(historySpotList.get(getAdapterPosition()).getTouristspot_idx(),
-                        historySpotList.get(getAdapterPosition()).getTouristspot_name());
+                onWriteReviewListener.onWriteRewviewClick(historySpotList.get(getAbsoluteAdapterPosition()).getTouristspot_idx(),
+                        historySpotList.get(getAbsoluteAdapterPosition()).getTouristspot_name());
             });
 
 
         }
 
-        @SuppressLint("ClickableViewAccessibility")
+        @SuppressLint({"ClickableViewAccessibility", "SetTextI18n"})
         public void bind(history_spotModel model, int position , SparseBooleanArray selectedItems){
 
             binding.seekBar.setEnabled(false);
@@ -124,9 +125,14 @@ public class VisitReAdapter extends RecyclerView.Adapter<VisitReAdapter.SwipeVie
             binding.explanTxv.setText(model.getTouristspot_explan());
             try {
 
+
                 Date old_date = oldSdf.parse(model.getTouristhistory_updatetime());
-                String n_date = newSdf.format(old_date);
-                binding.dateTxv.setText(n_date);
+                if (old_date != null){
+                    String n_date = newSdf.format(old_date);
+                    String n_time = timeSdf.format(old_date);
+                    binding.dateTxv.setText(n_date + "\n" + n_time);
+                }
+
             } catch (ParseException e) {
                 e.printStackTrace();
                 binding.dateTxv.setText(model.getTouristhistory_updatetime());

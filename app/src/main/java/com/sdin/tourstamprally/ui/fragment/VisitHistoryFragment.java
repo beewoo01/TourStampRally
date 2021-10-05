@@ -99,7 +99,7 @@ public class VisitHistoryFragment extends BaseFragment {
     private void insert_intest(int touristspot_idx){
         apiService.insert_intest(Utils.User_Idx, touristspot_idx).enqueue(new Callback<Integer>() {
             @Override
-            public void onResponse(Call<Integer> call, Response<Integer> response) {
+            public void onResponse(@NotNull Call<Integer> call, @NotNull Response<Integer> response) {
                 if (response.isSuccessful()){
                     ShowToast("찜하기에 성공 하셨습니다.", requireContext());
                 }else {
@@ -109,7 +109,7 @@ public class VisitHistoryFragment extends BaseFragment {
             }
 
             @Override
-            public void onFailure(Call<Integer> call, Throwable t) {
+            public void onFailure(@NotNull Call<Integer> call, @NotNull Throwable t) {
                 t.printStackTrace();
             }
         });
@@ -180,34 +180,36 @@ public class VisitHistoryFragment extends BaseFragment {
                         List<VisitCountModel> list = response.body();
                         //adapter.setCountList(new ArrayList<>(list));
 
+                        if (list != null){
+                            SwipeHelperCallback callback = new SwipeHelperCallback();
+                            callback.setClamp(-200f);
+                            ItemTouchHelper itemTouchHelper = new ItemTouchHelper(callback);
+                            itemTouchHelper.attachToRecyclerView(binding.visitRecyclerView);
 
-                        SwipeHelperCallback callback = new SwipeHelperCallback();
-                        callback.setClamp(-200f);
-                        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(callback);
-                        itemTouchHelper.attachToRecyclerView(binding.visitRecyclerView);
-
-                        ArrayList<history_spotModel> arrayList = new ArrayList<>(map.values());
-                        for (history_spotModel model : arrayList){
-                            for (VisitCountModel model1 : list){
-                                if (model.getTouristspot_idx() == Integer.parseInt(model1.getTouristspotpoint_touristspot_idx())){
-                                    int percent = (int)((double) Integer.parseInt(model1.getMycount()) /  (double) Integer.parseInt(model1.getAllcount()) * 100.0);
-                                    model.setPercent(percent);
+                            ArrayList<history_spotModel> arrayList = new ArrayList<>(map.values());
+                            for (history_spotModel model : arrayList){
+                                for (VisitCountModel model1 : list){
+                                    if (model.getTouristspot_idx() == Integer.parseInt(model1.getTouristspotpoint_touristspot_idx())){
+                                        int percent = (int)((double) Integer.parseInt(model1.getMycount()) /  (double) Integer.parseInt(model1.getAllcount()) * 100.0);
+                                        model.setPercent(percent);
+                                    }
                                 }
+                                //if (model.getTouristspot_idx() == )
                             }
-                            //if (model.getTouristspot_idx() == )
+
+                            adapter = new VisitReAdapter(arrayList);
+
+                            binding.visitRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+                            binding.visitRecyclerView.setAdapter(adapter);
+                            binding.visitRecyclerView.addItemDecoration(new ItemDecoration());
+                            binding.visitRecyclerView.setOnTouchListener((v, event) -> {
+                                //  swipeHelperCallback2.removePreviousClamp(binding.visitRecyclerView);
+                                callback.removePreviousClamp(binding.visitRecyclerView);
+                                return false;
+                            });
+                            setRecyclerView();
                         }
 
-                        adapter = new VisitReAdapter(arrayList);
-
-                        binding.visitRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
-                        binding.visitRecyclerView.setAdapter(adapter);
-                        binding.visitRecyclerView.addItemDecoration(new ItemDecoration());
-                        binding.visitRecyclerView.setOnTouchListener((v, event) -> {
-                            //  swipeHelperCallback2.removePreviousClamp(binding.visitRecyclerView);
-                            callback.removePreviousClamp(binding.visitRecyclerView);
-                            return false;
-                        });
-                        setRecyclerView();
 
                         binding.progressBar.setVisibility(View.GONE);
 
@@ -306,7 +308,7 @@ public class VisitHistoryFragment extends BaseFragment {
 
     class CaterotyAdaper extends RecyclerView.Adapter<CaterotyAdaper.ViewHolder>{
 
-        private ArrayList<String> arrayList;
+        private final ArrayList<String> arrayList;
 
         private ItemOnClick itemOnClick;
 

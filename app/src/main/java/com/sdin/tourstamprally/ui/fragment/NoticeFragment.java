@@ -22,6 +22,8 @@ import com.sdin.tourstamprally.databinding.FragmentNoticeBinding;
 import com.sdin.tourstamprally.databinding.NoticeItemBinding;
 import com.sdin.tourstamprally.model.Notice;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -53,7 +55,7 @@ public class NoticeFragment extends BaseFragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_notice , container, false);
@@ -80,9 +82,9 @@ public class NoticeFragment extends BaseFragment {
                 if (noticeAdapter != null){
                     // 0 - 공지 1 - 이벤트
                     // 0 - 전체 1 - 공지 - 2 이벤트
-                    ArrayList arrayList = new ArrayList();
+                    ArrayList<Notice> arrayList = new ArrayList<>();
                     if (position == 0){
-                        arrayList = new ArrayList(list);
+                        arrayList = new ArrayList<>(list);
 
                     }else if (position == 1){
                         for (int i = 0; i < list.size(); i++){
@@ -113,10 +115,10 @@ public class NoticeFragment extends BaseFragment {
     private void getData(){
         apiService.getNotice().enqueue(new Callback<List<Notice>>() {
             @Override
-            public void onResponse(Call<List<Notice>> call, Response<List<Notice>> response) {
+            public void onResponse(@NotNull Call<List<Notice>> call, @NotNull Response<List<Notice>> response) {
                 if (response.isSuccessful()){
                     list = response.body();
-                    ArrayList arrayList = new ArrayList(list);
+                    ArrayList<Notice> arrayList = new ArrayList<>(list);
                     noticeAdapter = new NoticeAdapter(arrayList);
                     binding.noticeRe.setAdapter(noticeAdapter);
                     binding.noticeRe.setLayoutManager(new LinearLayoutManager(requireContext()));
@@ -127,7 +129,7 @@ public class NoticeFragment extends BaseFragment {
             }
 
             @Override
-            public void onFailure(Call<List<Notice>> call, Throwable t) {
+            public void onFailure(@NotNull Call<List<Notice>> call, @NotNull Throwable t) {
                 t.printStackTrace();
             }
         });
@@ -148,7 +150,7 @@ public class NoticeFragment extends BaseFragment {
 
         }
 
-        public void setNoticeList(ArrayList arrayList){
+        public void setNoticeList(ArrayList<Notice> arrayList){
             this.arrayList = arrayList;
             notifyDataSetChanged();
         }
@@ -185,6 +187,7 @@ public class NoticeFragment extends BaseFragment {
             }
 
             String oriDate = arrayList.get(position).getNotice_updatetime();
+            Log.wtf("oridata", oriDate);
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
             try {
                 Date date = format.parse(oriDate);
