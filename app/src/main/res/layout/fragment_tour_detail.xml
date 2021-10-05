@@ -157,6 +157,7 @@
                         android:drawablePadding="@dimen/_5sdp"
                         android:gravity="center"
                         android:text="공유"
+                        android:onClick="@{()-> fragment.kakaoLink()}"
                         android:textSize="@dimen/_10sdp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toStartOf="@id/detail_txv"

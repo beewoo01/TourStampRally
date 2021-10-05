@@ -34,7 +34,7 @@ class ReviewComentsFragment : BaseFragment() {
     private var likeState = false
 
     val mutableList = arrayListOf<ReveiwCommentsDC>()
-    lateinit var commentAdapter : ReviewCommentsAdapter
+    lateinit var commentAdapter: ReviewCommentsAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,14 +55,14 @@ class ReviewComentsFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         getData()
-        bining?.let {
+        bining?.let { it ->
             it.likeImb.setOnClickListener { view ->
                 if (likeState) {
                     Glide.with(view.context)
                             .load(R.drawable.heart_resize)
                             .error(R.drawable.heart_resize)
                             .into(it.likeImb)
-                }else {
+                } else {
                     Glide.with(view.context)
                             .load(R.drawable.full_heart_resize)
                             .error(R.drawable.heart_resize)
@@ -74,8 +74,8 @@ class ReviewComentsFragment : BaseFragment() {
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribeWith(object : DisposableSingleObserver<Int>() {
                                 override fun onSuccess(t: Int?) {
-                                    t?.let {
-                                        if (it > 0) {
+                                    t?.let { result ->
+                                        if (result > 0) {
                                             Log.wtf("like OR Delete", "성공")
                                         }
                                     }
@@ -90,7 +90,7 @@ class ReviewComentsFragment : BaseFragment() {
             }
 
             it.writeImb.setOnClickListener { view ->
-                if (!TextUtils.isEmpty(it.writeCommentEdt.text) && it.writeCommentEdt.text.length > 1){
+                if (!TextUtils.isEmpty(it.writeCommentEdt.text) && it.writeCommentEdt.text.isNotEmpty()) {
                     review_idx?.let { reviewidx ->
                         apiService.insert_review_comment(reviewidx, Utils.User_Idx, it.writeCommentEdt.text.toString())
                                 .subscribeOn(Schedulers.newThread())
@@ -114,6 +114,8 @@ class ReviewComentsFragment : BaseFragment() {
 
                     }
 
+                } else {
+                    Toast.makeText(requireContext(), "답글을 작성해 주세요", Toast.LENGTH_SHORT).show()
                 }
 
 

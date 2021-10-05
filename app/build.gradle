@@ -9,8 +9,8 @@ android {
         applicationId "com.sdin.tourstamprally"
         minSdkVersion 26
         targetSdkVersion 30
-        versionCode 7
-        versionName "1.7"
+        versionCode 8
+        versionName "1.8"
         dataBinding {
             enabled = true
         }
@@ -91,6 +91,7 @@ dependencies {
     implementation 'com.budiyev.android:code-scanner:2.1.0'
 
     implementation "com.kakao.sdk:v2-navi:2.5.2" // 카카오내비
+    implementation "com.kakao.sdk:v2-link:2.8.1" // 메시지(카카오링크)
 
     implementation "io.reactivex.rxjava3:rxjava:3.1.1"
     implementation 'io.reactivex.rxjava3:rxandroid:3.0.0'

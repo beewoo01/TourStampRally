@@ -70,8 +70,8 @@ public class DrawaRecyclerViewAdapter extends RecyclerView.Adapter<DrawaRecycler
             super(binding.getRoot());
             this.binding = binding;
             binding.drawaMenuLayout.setOnClickListener(v -> {
-                if (getAdapterPosition() != RecyclerView.NO_POSITION)
-                    if (listener != null) listener.onClick(getAdapterPosition());
+                if (getAbsoluteAdapterPosition() != RecyclerView.NO_POSITION)
+                    if (listener != null) listener.onClick(getAbsoluteAdapterPosition());
             });
 
         }

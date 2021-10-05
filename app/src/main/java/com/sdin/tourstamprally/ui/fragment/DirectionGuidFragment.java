@@ -204,7 +204,7 @@ public class DirectionGuidFragment extends BaseFragment {
             }
 
             for (Location_four location_model : paramArrayList) {
-                if (location_model.getLocation_name().toLowerCase().contains(searchData)) {
+                if (location_model.getLocation_name().toLowerCase().equals(searchData)) {
                     locationIdxes.add(location_model.getLocation_idx());
                 }
             }

@@ -529,7 +529,6 @@ public class MainActivity extends BaseActivity implements NavigationBarView.OnIt
 
     @Override
     public void ItemGuid(int position) {
-        Log.d("ItemGuid_MainAct111", String.valueOf(position));
         if (position == 1) {
             if (ISNfcInable) {
                 //testSetFragment("NFC", nfcFragment);
