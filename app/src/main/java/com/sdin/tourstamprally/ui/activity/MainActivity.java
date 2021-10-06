@@ -41,6 +41,7 @@ import com.sdin.tourstamprally.databinding.ActivityMainBinding;
 import com.sdin.tourstamprally.model.AllReviewDTO;
 import com.sdin.tourstamprally.model.Location_four;
 import com.sdin.tourstamprally.model.RallyMapDTO;
+import com.sdin.tourstamprally.model.ReviewWriter;
 import com.sdin.tourstamprally.model.Tour_Spot;
 import com.sdin.tourstamprally.model.TouristSpotPoint;
 import com.sdin.tourstamprally.model.UserModel;
@@ -573,9 +574,12 @@ public class MainActivity extends BaseActivity implements NavigationBarView.OnIt
 
 
     @Override
-    public void onWriteRewviewClick(int spotIdx, String spotName) {
+    public void onWriteRewviewClick(
+            ReviewWriter reviewWriter
+            /*int spotIdx, String spotName, float review_score, String review_contents*/) {
         //Log.wtf("onWriteRewviewClick", "mainActivity");
-        setFragment("리뷰작성", WriteReviewFragment.newInstance(spotIdx, spotName));
+        setFragment("리뷰작성", WriteReviewFragment.newInstance(reviewWriter));
+        /*public static            WriteReviewFragment newInstance(int spotIdx, String spotName, int review_idx ,float review_score, String review_contents, boolean isFirst)*/
     }
 
     @Override

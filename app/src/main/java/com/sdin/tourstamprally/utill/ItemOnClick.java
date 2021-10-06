@@ -3,6 +3,7 @@ package com.sdin.tourstamprally.utill;
 import com.sdin.tourstamprally.model.AllReviewDTO;
 import com.sdin.tourstamprally.model.Location_four;
 import com.sdin.tourstamprally.model.RallyMapDTO;
+import com.sdin.tourstamprally.model.ReviewWriter;
 import com.sdin.tourstamprally.model.Tour_Spot;
 import com.sdin.tourstamprally.model.TouristSpotPoint;
 
@@ -16,7 +17,8 @@ public interface ItemOnClick {
     void SetFragment(ArrayList<Location_four> location_fours);
     //void onItemClick(Tour_Spot tour_spot);
     void onItemClick(Location_four location_four);
-    void onWriteRewviewClick(int spotIdx, String spotName);
+    /*void onWriteRewviewClick(int spotIdx, String spotName, float review_score, String review_contents);*/
+    void onWriteRewviewClick(ReviewWriter reviewWriter);
     void onWriteReviewSuccess();
 
     void reviewMoreClick();

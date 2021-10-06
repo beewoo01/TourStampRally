@@ -1,13 +1,18 @@
 package com.sdin.tourstamprally.ui.fragment;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -30,6 +35,9 @@ import com.sdin.tourstamprally.model.Tour_Spot;
 import com.sdin.tourstamprally.model.VisitCountModel;
 import com.sdin.tourstamprally.model.VisitHistory_Model;
 import com.sdin.tourstamprally.model.history_spotModel;
+import com.sdin.tourstamprally.model.history_spotModel2;
+import com.sdin.tourstamprally.ui.activity.LoginActivity;
+import com.sdin.tourstamprally.utill.ItemCliclListener;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -40,6 +48,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.core.Scheduler;
+import io.reactivex.rxjava3.observers.DisposableSingleObserver;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -47,7 +59,7 @@ import retrofit2.Response;
 public class VisitHistoryFragment extends BaseFragment {
 
     private FragmentVisithistoryBinding binding;
-    private List<history_spotModel> history_spotList;
+    private List<history_spotModel2> history_spotList;
     private VisitReAdapter adapter;
 
 
@@ -92,17 +104,15 @@ public class VisitHistoryFragment extends BaseFragment {
         });
 
 
-
-
     }
 
-    private void insert_intest(int touristspot_idx){
+    private void insert_intest(int touristspot_idx) {
         apiService.insert_intest(Utils.User_Idx, touristspot_idx).enqueue(new Callback<Integer>() {
             @Override
             public void onResponse(@NotNull Call<Integer> call, @NotNull Response<Integer> response) {
-                if (response.isSuccessful()){
+                if (response.isSuccessful()) {
                     ShowToast("찜하기에 성공 하셨습니다.", requireContext());
-                }else {
+                } else {
                     //Log.wtf("찜하기 실패", response.toString());
                     ShowToast("찜하기에 실패 하셨습니다.", requireContext());
                 }
@@ -115,89 +125,32 @@ public class VisitHistoryFragment extends BaseFragment {
         });
     }
 
-    @SuppressLint("ClickableViewAccessibility")
-    private void setVisitInit(){
-
-
-        apiService.getHistorySpot(Utils.User_Idx).enqueue(new Callback<List<history_spotModel>>() {
+    private void setVisitInit() {
+        apiService.getHistorySpot(Utils.User_Idx).enqueue(new Callback<List<history_spotModel2>>() {
+            @SuppressLint("ClickableViewAccessibility")
             @Override
-            public void onResponse(@NotNull Call<List<history_spotModel>> call, @NotNull Response<List<history_spotModel>> response) {
+            public void onResponse(@NotNull Call<List<history_spotModel2>> call, @NotNull Response<List<history_spotModel2>> response) {
+                binding.progressBar.setVisibility(View.GONE);
                 try {
-                    if (response.isSuccessful()){
+
+                    if (response.isSuccessful()) {
 
                         if (response.body() != null) {
+
                             history_spotList = new ArrayList<>(response.body());
-                        }
 
-
-                        Map<Integer, history_spotModel> map = new HashMap<>();
-
-                        history_spotModel saveModel = null;
-                        for (history_spotModel model : history_spotList){
-                            if (model.getReview_user_user_idx() == Utils.User_Idx){
-                                saveModel = model;
-                            }
-                            if (model.getTouristspot_idx() > 0){
-                                map.put(model.getTouristspot_idx(), model);
+                            for (int i = 0; i < history_spotList.size(); i++) {
+                                Log.wtf("spotNAm222e", history_spotList.get(i).getTouristspot_name());
+                                Log.wtf("getAllCount!!!", String.valueOf(history_spotList.get(i).getAllCount()));
+                                Log.wtf("getMyCount!!!", String.valueOf(history_spotList.get(i).getMyCount()));
                             }
 
-                        }
-
-                        if (saveModel != null){
-                            map.put(saveModel.getTouristspot_idx(), saveModel);
-                        }
-
-                        history_spotList = new ArrayList<>(map.values());
-
-                        getVisitCountData(map);
-
-
-                    }
-                }catch (Exception e){
-                    e.printStackTrace();
-                }
-            }
-
-            @Override
-            public void onFailure(@NotNull Call<List<history_spotModel>> call, @NotNull Throwable t) {
-                t.printStackTrace();
-            }
-        });
-
-
-    }
-
-
-    @SuppressLint("ClickableViewAccessibility")
-    private void getVisitCountData(Map map){
-        apiService.getVisitCount(Utils.User_Idx).enqueue(new Callback<List<VisitCountModel>>() {
-
-            @Override
-            public void onResponse(@NotNull Call<List<VisitCountModel>> call, @NotNull Response<List<VisitCountModel>> response) {
-                try {
-                    if (response.isSuccessful()){
-                        //Log.wtf("getTourParticipants", "1111111111");
-                        List<VisitCountModel> list = response.body();
-                        //adapter.setCountList(new ArrayList<>(list));
-
-                        if (list != null){
                             SwipeHelperCallback callback = new SwipeHelperCallback();
                             callback.setClamp(-200f);
                             ItemTouchHelper itemTouchHelper = new ItemTouchHelper(callback);
                             itemTouchHelper.attachToRecyclerView(binding.visitRecyclerView);
-
-                            ArrayList<history_spotModel> arrayList = new ArrayList<>(map.values());
-                            for (history_spotModel model : arrayList){
-                                for (VisitCountModel model1 : list){
-                                    if (model.getTouristspot_idx() == Integer.parseInt(model1.getTouristspotpoint_touristspot_idx())){
-                                        int percent = (int)((double) Integer.parseInt(model1.getMycount()) /  (double) Integer.parseInt(model1.getAllcount()) * 100.0);
-                                        model.setPercent(percent);
-                                    }
-                                }
-                                //if (model.getTouristspot_idx() == )
-                            }
-
-                            adapter = new VisitReAdapter(arrayList);
+                            ArrayList<history_spotModel2> arrayList = new ArrayList<>(history_spotList);
+                            adapter = new VisitReAdapter(arrayList, requireContext());
 
                             binding.visitRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
                             binding.visitRecyclerView.setAdapter(adapter);
@@ -208,89 +161,107 @@ public class VisitHistoryFragment extends BaseFragment {
                                 return false;
                             });
                             setRecyclerView();
+
                         }
 
 
-                        binding.progressBar.setVisibility(View.GONE);
-
-                    }else {
-
                     }
-                }catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
-
             }
 
             @Override
-            public void onFailure(@NotNull Call<List<VisitCountModel>> call, @NotNull Throwable t) {
+            public void onFailure(@NotNull Call<List<history_spotModel2>> call, @NotNull Throwable t) {
                 t.printStackTrace();
             }
         });
     }
 
-    private void setRecyclerView(){
-        adapter.itemCilcListener((position, model) -> {
-            apiService.select_interest_status(Utils.User_Idx, model.getTouristspot_idx()).enqueue(new Callback<Integer>() {
-                @Override
-                public void onResponse(@NotNull Call<Integer> call, @NotNull Response<Integer> response) {
-                    if (response.isSuccessful()){
-                        //ShowToast("찜하기에 성공 하셨습니다.", requireContext());
-                        //Log.wtf("response.body()", String.valueOf(response.body()));
-                        if (response.body() == 0) {
-                          //  Log.wtf("onResponse", "찜하기 000000");
-                            insert_intest(model.getTouristspot_idx());
+    private void setRecyclerView() {
+        adapter.itemCilcListener(new ItemCliclListener() {
+            @Override
+            public void deapsClick(int position, history_spotModel2 model) {
+                apiService.select_interest_status(Utils.User_Idx, model.getTouristspot_idx()).enqueue(new Callback<Integer>() {
+                    @Override
+                    public void onResponse(@NotNull Call<Integer> call, @NotNull Response<Integer> response) {
+                        if (response.isSuccessful()) {
+                            //ShowToast("찜하기에 성공 하셨습니다.", requireContext());
+                            //Log.wtf("response.body()", String.valueOf(response.body()));
+                            if (response.body() == 0) {
+                                //  Log.wtf("onResponse", "찜하기 000000");
+                                insert_intest(model.getTouristspot_idx());
+                            }
+
+                        } else {
+                            //Log.wtf("찜하기 실패", response.toString());
+                            ShowToast("찜하기에 실패 하셨습니다.", requireContext());
                         }
-
-                    } else {
-                        //Log.wtf("찜하기 실패", response.toString());
-                        ShowToast("찜하기에 실패 하셨습니다.", requireContext());
                     }
-                }
 
-                @Override
-                public void onFailure(@NotNull Call<Integer> call, @NotNull Throwable t) {
-                    ShowToast("찜하기에 실패 하셨습니다.", requireContext());
-                    t.printStackTrace();
-                }
+                    @Override
+                    public void onFailure(@NotNull Call<Integer> call, @NotNull Throwable t) {
+                        ShowToast("찜하기에 실패 하셨습니다.", requireContext());
+                        t.printStackTrace();
+                    }
 
-            });
+                });
+            }
+
+            @Override
+            public void delReview(int review_idx, int position) {
+                //리뷰 삭제
+                apiService.deleteReview(review_idx).subscribeOn(Schedulers.newThread())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribeWith(new DisposableSingleObserver<Integer>() {
+                            @Override
+                            public void onSuccess(@io.reactivex.rxjava3.annotations.NonNull Integer integer) {
+                                if (integer > 0){
+                                    adapter.setChange(position);
+                                    Toast.makeText(requireContext(), "리뷰 삭제에 성공하였습니다.", Toast.LENGTH_SHORT).show();
+                                }
+
+                            }
+
+                            @Override
+                            public void onError(@io.reactivex.rxjava3.annotations.NonNull Throwable e) {
+
+                            }
+                        });
+            }
+
         });
     }
 
 
+    private void setCatecory() {
 
-    private void setCatecory(){
         CaterotyAdaper caterotyAdaper = new CaterotyAdaper(new ArrayList<>(Arrays.asList(requireContext().getResources().getStringArray(R.array.area_direction))));
         binding.categoryRecyclerView.setAdapter(caterotyAdaper);
         caterotyAdaper.itemOnClick = location -> {
-            if (location.equals("전체")){
+            if (location.equals("전체")) {
                 location = "";
             }
             search(location);
         };
-
-
     }
 
-    private void search(String searchData){
 
-        ArrayList<history_spotModel> arrayList = new ArrayList<>();
-        if (searchData.length() == 0){
-            //Log.wtf("searchData2", String.valueOf(searchData.length()));
+    private void search(String searchData) {
+
+        ArrayList<history_spotModel2> arrayList = new ArrayList<>();
+        if (searchData.length() == 0) {
 
             arrayList.addAll(history_spotList);
 
-            //tagAdpater.setList(arrayList);
+        } else {
 
-        }else {
-
-            for (int i = 0; i < history_spotList.size(); i++){
-                if (history_spotList.get(i).getLocation_name().toLowerCase().contains(searchData)){
+            for (int i = 0; i < history_spotList.size(); i++) {
+                if (history_spotList.get(i).getLocation_name().toLowerCase().contains(searchData)) {
                     arrayList.add(history_spotList.get(i));
                 }
 
-                if (history_spotList.get(i).getTouristspot_name().toLowerCase().contains(searchData)){
+                if (history_spotList.get(i).getTouristspot_name().toLowerCase().contains(searchData)) {
                     arrayList.add(history_spotList.get(i));
                 }
 
@@ -306,7 +277,7 @@ public class VisitHistoryFragment extends BaseFragment {
         void onCategoryClick(String location);
     }
 
-    class CaterotyAdaper extends RecyclerView.Adapter<CaterotyAdaper.ViewHolder>{
+    private class CaterotyAdaper extends RecyclerView.Adapter<CaterotyAdaper.ViewHolder> {
 
         private final ArrayList<String> arrayList;
 
@@ -333,12 +304,12 @@ public class VisitHistoryFragment extends BaseFragment {
         }
 
 
-        private void setBackground(int position, CaterotyAdaper.ViewHolder holder){
-            if (selectedItem == position){
+        private void setBackground(int position, CaterotyAdaper.ViewHolder holder) {
+            if (selectedItem == position) {
                 holder.binding.tagItemTxv.setBackground(ContextCompat.getDrawable(holder.binding.tagItemTxv.getContext(), R.drawable.bg_rounded_category_selected));
                 holder.binding.tagItemTxv.setTextColor(ContextCompat.getColor(holder.binding.tagItemTxv.getContext(), R.color.white));
 
-            }else {
+            } else {
                 holder.binding.tagItemTxv.setBackground(ContextCompat.getDrawable(holder.binding.tagItemTxv.getContext(), R.drawable.bg_rounded_category));
                 holder.binding.tagItemTxv.setTextColor(ContextCompat.getColor(holder.binding.tagItemTxv.getContext(), R.color.mainColor));
             }
@@ -351,14 +322,15 @@ public class VisitHistoryFragment extends BaseFragment {
 
         public class ViewHolder extends RecyclerView.ViewHolder {
             DirectionGuidTagItemBinding binding;
+
             public ViewHolder(@NonNull DirectionGuidTagItemBinding binding) {
                 super(binding.getRoot());
                 this.binding = binding;
-                binding.tagItemTxv.setOnClickListener( v -> {
+                binding.tagItemTxv.setOnClickListener(v -> {
                     prevSelected = selectedItem;
                     selectedItem = getAbsoluteAdapterPosition();
-                    if (getAbsoluteAdapterPosition() != RecyclerView.NO_POSITION){
-                        if (itemOnClick != null){
+                    if (getAbsoluteAdapterPosition() != RecyclerView.NO_POSITION) {
+                        if (itemOnClick != null) {
                             itemOnClick.onCategoryClick(arrayList.get(getAbsoluteAdapterPosition()));
                             notifyItemChanged(selectedItem);
                             notifyItemChanged(prevSelected);

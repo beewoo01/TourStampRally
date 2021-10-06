@@ -19,6 +19,7 @@ import com.sdin.tourstamprally.model.TouristSpotPoint;
 import com.sdin.tourstamprally.model.UserModel;
 import com.sdin.tourstamprally.model.VisitCountModel;
 import com.sdin.tourstamprally.model.history_spotModel;
+import com.sdin.tourstamprally.model.history_spotModel2;
 
 import java.util.HashMap;
 import java.util.List;
@@ -226,7 +227,7 @@ public interface APIService {
     Call<RallyMapDTO> select_success_data( @Query("touristspotpoint_idx") String touristspotpoint_idx);
 
     @GET("select_history_spot")
-    Call<List<history_spotModel>> getHistorySpot( @Query("user_idx") int user_idx);
+    Call<List<history_spotModel2>> getHistorySpot(@Query("user_idx") int user_idx);
 
     @GET("select_visit_count")
     Call<List<VisitCountModel>> getVisitCount(@Query("user_idx") int user_idx);
@@ -261,5 +262,15 @@ public interface APIService {
 
     @GET("userwithdrawal")
     Single<Integer> userwithdrawal(@Query("user_idx") int user_idx);
+
+    @GET("deleteReview")
+    Single<Integer> deleteReview(@Query("review_idx") int review_idx);
+
+    @GET("updateReview")
+    Single<Integer> updateReview(
+            @Query("review_score") float review_score,
+            @Query("review_contents") String review_contents,
+            @Query("review_idx") int review_idx
+    );
 
 }

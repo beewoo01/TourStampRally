@@ -227,13 +227,27 @@
                     android:id="@+id/gotoReview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="리뷰작성하기 >"
+                    android:text="리뷰 작성하기 >"
                     android:textSize="@dimen/_10sdp"
                     android:textColor="@color/popupColor"
                     android:textStyle="bold"
                     android:layout_marginTop="@dimen/_10sdp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/review_layout"
+                    app:layout_constraintBottom_toTopOf="@id/delReview"
+                    />
+
+                <TextView
+                    android:id="@+id/delReview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="리뷰 삭제하기 >"
+                    android:textSize="@dimen/_10sdp"
+                    android:textColor="@color/popupColor"
+                    android:textStyle="bold"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/gotoReview"
                     app:layout_constraintBottom_toBottomOf="parent"
                     />
 

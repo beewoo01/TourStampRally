@@ -53,18 +53,12 @@ public class DirectionGuid_Adapter extends RecyclerView.Adapter<DirectionGuid_Ad
     } */
 
     private final ItemOnClick itemOnClick;
-    private Context context;
+    private final Context context;
 
-    public DirectionGuid_Adapter(ArrayList<Location_four> list, Activity activity/*,
-                                 Map<Integer, Integer> location_Progress_Map,
-                                 Map<Integer, Integer> location_history_Map,
-                                 Map<Integer, Integer> particiMap*/) {
+    public DirectionGuid_Adapter(ArrayList<Location_four> list, Activity activity) {
         this.list = list;
         this.itemOnClick = (ItemOnClick) activity;
         this.context = activity.getApplicationContext();
-        /*this.location_history_Map = location_history_Map;
-        this.location_Progress_Map = location_Progress_Map;
-        this.particiMap = particiMap*/;
         getGps();
     }
 
@@ -137,52 +131,12 @@ public class DirectionGuid_Adapter extends RecyclerView.Adapter<DirectionGuid_Ad
             holder.binding.seekBarDirectionItem.setProgress(clearCount);
             holder.binding.seekPercentTxv.setText(allCountd + "%");
         }
-        /*if (list.get(list.get(position).getLocation_idx()) != null
-                &&  location_history_Map.get(list.get(position).getLocation_idx()) != null) {
 
-
-            int allContents = location_Progress_Map.get(list.get(position).getLocation_idx());
-            int clearCount = location_history_Map.get(list.get(position).getLocation_idx());
-
-            holder.binding.seekBarDirectionItem.setMax(allContents);
-            holder.binding.seekBarDirectionItem.setProgress(clearCount);
-            int allCountd = (int) ((double) clearCount /  (double) allContents * 100);
-            holder.binding.seekPercentTxv.setText(allCountd + "%");
-            //Log.wtf("persentage", String.valueOf(allCountd));
-
-        }else {
-            holder.binding.seekBarDirectionItem.setProgress(0);
-            holder.binding.seekPercentTxv.setText(0 + "%");
-        }*/
-
-
-        /*if (location_Progress_Map.get(list.get(position).getLocation_idx()) != null
-                &&  location_history_Map.get(list.get(position).getLocation_idx()) != null) {
-
-
-            int allContents = location_Progress_Map.get(list.get(position).getLocation_idx());
-            int clearCount = location_history_Map.get(list.get(position).getLocation_idx());
-
-            holder.binding.seekBarDirectionItem.setMax(allContents);
-            holder.binding.seekBarDirectionItem.setProgress(clearCount);
-            int allCountd = (int) ((double) clearCount /  (double) allContents * 100);
-            holder.binding.seekPercentTxv.setText(allCountd + "%");
-            //Log.wtf("persentage", String.valueOf(allCountd));
-
-        }else {
-            holder.binding.seekBarDirectionItem.setProgress(0);
-            holder.binding.seekPercentTxv.setText(0 + "%");
-        }*/
 
 
         //참여자 데이터 적용
         holder.binding.joinnerNumberTxv.setText(String.valueOf(list.get(position).getPopular()));
 
-        /*if (particiMap.get(list.get(position).getLocation_idx()) != null){
-            holder.binding.joinnerNumberTxv.setText(particiMap.get(list.get(position).getLocation_idx()).toString());
-        }else {
-            holder.binding.joinnerNumberTxv.setText("0");
-        }*/
 
 
     }

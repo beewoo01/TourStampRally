@@ -2,11 +2,13 @@ package com.sdin.tourstamprally.adapter;
 
 import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
@@ -15,12 +17,19 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
+import com.google.gson.annotations.SerializedName;
 import com.sdin.tourstamprally.R;
+import com.sdin.tourstamprally.Utils;
 import com.sdin.tourstamprally.databinding.VisithistoryItemBinding;
+import com.sdin.tourstamprally.model.ReviewWriter;
 import com.sdin.tourstamprally.model.history_spotModel;
+import com.sdin.tourstamprally.model.history_spotModel2;
 import com.sdin.tourstamprally.ui.activity.MainActivity;
+import com.sdin.tourstamprally.ui.dialog.Del_Review_Dialog;
+import com.sdin.tourstamprally.ui.dialog.NoReview_Dialog;
 import com.sdin.tourstamprally.utill.ItemCliclListener;
 import com.sdin.tourstamprally.utill.ItemOnClick;
+import com.sdin.tourstamprally.utill.ReviewDelListener;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -28,9 +37,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.TimeZone;
 
-public class VisitReAdapter extends RecyclerView.Adapter<VisitReAdapter.SwipeViewHolder>{
+public class VisitReAdapter extends RecyclerView.Adapter<VisitReAdapter.SwipeViewHolder> implements ReviewDelListener {
 
-    private ArrayList<history_spotModel> historySpotList;
+    private ArrayList<history_spotModel2> historySpotList;
 
 
     private SparseBooleanArray selectedItems = new SparseBooleanArray();
@@ -40,31 +49,47 @@ public class VisitReAdapter extends RecyclerView.Adapter<VisitReAdapter.SwipeVie
     //private ToggleAnimation toggleAnimation;
 
     private ItemOnClick onWriteReviewListener;
+    private Context context;
+    private int delPosition = -1;
 
-    public void itemCilcListener(ItemCliclListener listener){
+    public void itemCilcListener(ItemCliclListener listener) {
         this.listener = listener;
     }
 
-    public void setList(ArrayList<history_spotModel> historySpotList){
+    public void setList(ArrayList<history_spotModel2> historySpotList) {
         this.historySpotList = historySpotList;
     }
 
     @SuppressLint("SimpleDateFormat")
-    public VisitReAdapter(ArrayList<history_spotModel> historySpotList){
+    public VisitReAdapter(ArrayList<history_spotModel2> historySpotList, Context context) {
         this.historySpotList = historySpotList;
         oldSdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
         oldSdf.setTimeZone(TimeZone.getTimeZone("KST"));
         newSdf = new SimpleDateFormat("yy.MM.dd");
         timeSdf = new SimpleDateFormat("HH:mm");
-      //  toggleAnimation = new ToggleAnimation();
+        this.context = context;
     }
 
     @NonNull
     @Override
     public SwipeViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        VisithistoryItemBinding binding = VisithistoryItemBinding.inflate(LayoutInflater.from(parent.getContext()),parent, false);
+        VisithistoryItemBinding binding = VisithistoryItemBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
         onWriteReviewListener = (MainActivity) parent.getContext();
         return new SwipeViewHolder(binding);
+    }
+
+
+    public void setChange(int position){
+
+        history_spotModel2 model = historySpotList.get(position);
+        model = new history_spotModel2(model.getAllCount(), model.getMyCount(),
+                model.getLocation_idx(), model.getLocation_name() , model.getTouristspot_idx(),
+                model.getTouristspot_name(), model.getTouristspot_explan(), model.getTouristspot_latitude(),
+                model.getTouristspot_longitude(), model.getTouristspot_img(), model.getTouristhistory_updatetime(),
+                0, 0, null);
+
+        historySpotList.set(position, model);
+        notifyItemChanged(position);
     }
 
 
@@ -96,59 +121,69 @@ public class VisitReAdapter extends RecyclerView.Adapter<VisitReAdapter.SwipeVie
         return historySpotList.size();
     }
 
-    interface OnViewHolderItemClickListener{
+    @Override
+    public void delOnClick() {
+        listener.delReview(historySpotList.get(delPosition).getReview_idx(), delPosition);
+        historySpotList.get(delPosition).setReview_idx(0);
+        historySpotList.get(delPosition).setReview_contents("");
+
+    }
+
+    interface OnViewHolderItemClickListener {
         void onViewHolderItemClick();
     }
 
 
-    public class SwipeViewHolder extends RecyclerView.ViewHolder{
+    public class SwipeViewHolder extends RecyclerView.ViewHolder {
         public VisithistoryItemBinding binding;
-        private OnViewHolderItemClickListener onViewHolderItemClickListener;
+        public OnViewHolderItemClickListener onViewHolderItemClickListener;
+
         public SwipeViewHolder(@NonNull VisithistoryItemBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
 
-            binding.gotoReview.setOnClickListener( v -> {
-                //Log.wtf("onWriteRewviewClick", "gotoReview");
-                onWriteReviewListener.onWriteRewviewClick(historySpotList.get(getAbsoluteAdapterPosition()).getTouristspot_idx(),
-                        historySpotList.get(getAbsoluteAdapterPosition()).getTouristspot_name());
-            });
-
-
         }
 
         @SuppressLint({"ClickableViewAccessibility", "SetTextI18n"})
-        public void bind(history_spotModel model, int position , SparseBooleanArray selectedItems){
+        public void bind(history_spotModel2 model, int position, SparseBooleanArray selectedItems) {
 
             binding.seekBar.setEnabled(false);
             binding.titleTxv.setText(model.getTouristspot_name());
             binding.explanTxv.setText(model.getTouristspot_explan());
-            try {
 
+            int allCount = model.getAllCount();
+            int myCount = model.getMyCount();
+            int allCountd = (int) ((double) myCount / (double) allCount * 100);
+            binding.seekBar.setMax(allCount);
+            binding.seekBar.setProgress(myCount);
+            if (allCountd != 100) {
+                binding.dateTxv.setText(allCountd + "%");
 
-                Date old_date = oldSdf.parse(model.getTouristhistory_updatetime());
-                if (old_date != null){
-                    String n_date = newSdf.format(old_date);
-                    String n_time = timeSdf.format(old_date);
-                    binding.dateTxv.setText(n_date + "\n" + n_time);
+            } else {
+
+                try {
+                    Date old_date = oldSdf.parse(model.getTouristhistory_updatetime());
+                    if (old_date != null) {
+                        String n_date = newSdf.format(old_date);
+                        String n_time = timeSdf.format(old_date);
+                        binding.dateTxv.setText(n_date + "\n" + n_time);
+                    }
+
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                    binding.dateTxv.setText(model.getTouristhistory_updatetime());
                 }
-
-            } catch (ParseException e) {
-                e.printStackTrace();
-                binding.dateTxv.setText(model.getTouristhistory_updatetime());
             }
 
             binding.ratingbar.setOnTouchListener((v, event) -> true);
 
-            binding.heartImv.setOnClickListener( v -> {
-                //Log.wtf("heartImv click", String.valueOf(position));
-                if (listener != null && getAbsoluteAdapterPosition() > -1){
-                    //binding.seekBar.setProgress(40);
+            binding.heartImv.setOnClickListener(v -> {
+                if (listener != null && getAbsoluteAdapterPosition() > -1) {
                     listener.deapsClick(getAbsoluteAdapterPosition(), historySpotList.get(getAbsoluteAdapterPosition()));
                 }
 
             });
-            binding.swipeView.setOnClickListener(v-> {
+            binding.swipeView.setOnClickListener(v -> {
                 //Log.wtf("swipeView click", String.valueOf(position));
                 onViewHolderItemClickListener.onViewHolderItemClick();
             });
@@ -159,28 +194,65 @@ public class VisitReAdapter extends RecyclerView.Adapter<VisitReAdapter.SwipeVie
                     .apply(RequestOptions.bitmapTransform(new RoundedCorners(20)))
                     .into(binding.visitHistoryImv);
 
-            binding.seekBar.setMax(100);
-            binding.seekBar.setProgress(model.getPercent());
-            //Log.wtf("percent", String.valueOf(model.getPercent()));
-            if (model.getPercent() < 100){
-                binding.dateTxv.setText(model.getPercent() + "%");
-            }
-
-            if (model.getReview_idx() > 0){
+            if (model.getReview_idx() > 0) {
                 binding.reviewLayout.setVisibility(View.VISIBLE);
-                binding.nameTxv.setText(model.getUser_name());
-                Glide.with(binding.profileIcon.getContext()).load("http://coratest.kr/imagefile/bsr/" + model.getUser_profile()).circleCrop()
+                binding.nameTxv.setText(Utils.User_Name);
+                Glide.with(binding.profileIcon.getContext()).load("http://coratest.kr/imagefile/bsr/" + Utils.User_Profile).circleCrop()
                         .error(ContextCompat.getDrawable(binding.visitHistoryImv.getContext(), R.drawable.sample_profile_image))
                         .into(binding.profileIcon);
 
                 binding.ratingbar.setRating(model.getReview_score());
                 binding.reviewExplan.setText(model.getReview_contents());
-            }else {
+            } else {
                 binding.reviewLayout.setVisibility(View.GONE);
 
             }
 
+            if (model.getReview_idx() > 0){
+                binding.delReview.setOnClickListener( v -> {
+                    delPosition = getAbsoluteAdapterPosition();
+                    Del_Review_Dialog dialog = new Del_Review_Dialog(context);
+                    dialog.setClickListener(() -> {
+                        listener.delReview(historySpotList.get(delPosition).getReview_idx(), delPosition);
+                        historySpotList.get(delPosition).setReview_idx(0);
+                        historySpotList.get(delPosition).setReview_contents("");
+                        onViewHolderItemClickListener.onViewHolderItemClick();
 
+                    });
+                    dialog.show();
+                });
+
+                binding.gotoReview.setOnClickListener( v -> {
+                    onWriteReviewListener.onWriteRewviewClick(
+                            new ReviewWriter(
+                                    model.getTouristspot_idx(),
+                                    model.getTouristspot_name(),
+                                    false,
+                                    model.getReview_idx(),
+                                    model.getReview_score(),
+                                    model.getReview_contents()
+                            )
+                    );
+                });
+            } else {
+
+                binding.gotoReview.setOnClickListener(v -> {
+                    onWriteReviewListener.onWriteRewviewClick(
+                            new ReviewWriter(
+                                    model.getTouristspot_idx(),
+                                    model.getTouristspot_name(),
+                                    true
+                            )
+
+                    );
+                });
+
+                binding.delReview.setOnClickListener( v -> {
+                    // TODO: 10/6/21 팝업
+                    NoReview_Dialog dialog = new NoReview_Dialog(context);
+                    dialog.show();
+                });
+            }
 
             changeVisibility(selectedItems.get(position));
         }
@@ -200,6 +272,7 @@ public class VisitReAdapter extends RecyclerView.Adapter<VisitReAdapter.SwipeVie
             // Animation start
             va.start();
         }
+
 
         public void setOnViewHolderItemClickListener(OnViewHolderItemClickListener onViewHolderItemClickListener) {
             this.onViewHolderItemClickListener = onViewHolderItemClickListener;
