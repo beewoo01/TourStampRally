@@ -241,6 +241,8 @@ public class TourDetailFragment extends BaseFragment/* implements MapView.MapVie
 
         binding.tourNameTxv.setText(touristSpotPoint.getTouristspotpoint_name());
         binding.tourContentTxv.setText(touristSpotPoint.getTouristspotpoint_explan());
+        //getTouristspotpoint_detail_explan 값 팝업창에 전달 예정
+        /*binding.tourContentTxv.setText(touristSpotPoint.getTouristspotpoint_detail_explan());*/
 
         //Log.wtf("imgimgimg", touristSpotPoint.getTouristspotpoint_img());
         Glide.with(requireContext())

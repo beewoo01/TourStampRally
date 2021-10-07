@@ -38,6 +38,11 @@ public class TouristSpotPoint implements Serializable {
     @Expose
     private String touristspotpoint_explan;
 
+
+    @SerializedName("touristspotpoint_detail_explan")
+    @Expose
+    private String touristspotpoint_detail_explan;
+
     /*@SerializedName("touristspotpoint_tag")
     @Expose
     private String touristspotpoint_tag;
