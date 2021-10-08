@@ -87,7 +87,6 @@
                     app:layout_constraintBottom_toBottomOf="@id/seekBar_Location"
                     />
 
-
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.recyclerview.widget.RecyclerView
@@ -120,7 +119,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 />
-            <!--todo 배경사진 띄우고 퍼센테이지 띄우고 하단에 리싸이클러뷰 ㄱㄱ-->
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

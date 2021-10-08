@@ -139,11 +139,11 @@ public class VisitHistoryFragment extends BaseFragment {
 
                             history_spotList = new ArrayList<>(response.body());
 
-                            for (int i = 0; i < history_spotList.size(); i++) {
+                            /*for (int i = 0; i < history_spotList.size(); i++) {
                                 Log.wtf("spotNAm222e", history_spotList.get(i).getTouristspot_name());
                                 Log.wtf("getAllCount!!!", String.valueOf(history_spotList.get(i).getAllCount()));
                                 Log.wtf("getMyCount!!!", String.valueOf(history_spotList.get(i).getMyCount()));
-                            }
+                            }*/
 
                             SwipeHelperCallback callback = new SwipeHelperCallback();
                             callback.setClamp(-200f);

@@ -228,12 +228,12 @@ public class MainActivity extends BaseActivity implements NavigationBarView.OnIt
 
 
             if (keyboardState) {
-                InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
-                inputMethodManager.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+                InputMethodManager manager = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
+                manager.hideSoftInputFromWindow(binding.drawaLayout.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
                 keyboardState = false;
             }
 
-            /*if (hashMap.get(fragmentcount) != null) {
+            if (hashMap.get(fragmentcount) != null) {
                 if (Objects.equals(hashMap.get(fragmentcount), "NFC") || Objects.equals(hashMap.get(fragmentcount), "QR")) {
                     fragmentManager.popBackStack();
                     fragmentManager.beginTransaction().remove(fragment).commit();
@@ -241,7 +241,7 @@ public class MainActivity extends BaseActivity implements NavigationBarView.OnIt
 
 
                 }
-            }*/
+            }
 
 
         } else {
@@ -338,15 +338,15 @@ public class MainActivity extends BaseActivity implements NavigationBarView.OnIt
 
         //hashMap.put();
 
+        // TODO: 10/8/21 여기여기;
+
         if (tag != null) {
 
-            if (!tag.equals("QR")) {
-                new TedKeyboardObserver(this)
-                        .listen(isShow -> {
-                            Log.wtf("setFragment!!!!", String.valueOf(isShow));
-                            keyboardState = isShow;
-                        });
-            }
+            new TedKeyboardObserver(this)
+                    .listen(isShow -> {
+                        Log.wtf("setFragment!!!!", String.valueOf(isShow));
+                        keyboardState = isShow;
+                    });
 
 
             if (tag.equals("Main")) {
@@ -358,16 +358,6 @@ public class MainActivity extends BaseActivity implements NavigationBarView.OnIt
             }
             fragmentManager = getSupportFragmentManager();
 
-            if (hashMap.get(fragmentcount) != null) {
-                if (Objects.equals(hashMap.get(fragmentcount), "NFC") || Objects.equals(hashMap.get(fragmentcount), "QR")) {
-                    Log.wtf("setFragment", "QR");
-                    fragmentManager.popBackStack();
-                    fragmentManager.beginTransaction().remove(fragment).commit();
-                    fragmentcount--;
-
-
-                }
-            }
 
             fragmentManager.beginTransaction().replace(binding.framelayout.getId(), this.fragment, tag)
                     .addToBackStack(tag)
@@ -382,8 +372,8 @@ public class MainActivity extends BaseActivity implements NavigationBarView.OnIt
             setToolbar(1);
         }
         if (keyboardState) {
-            InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
-            inputMethodManager.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+            InputMethodManager manager = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
+            manager.hideSoftInputFromWindow(binding.drawaLayout.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
             keyboardState = false;
         }
 
@@ -471,8 +461,6 @@ public class MainActivity extends BaseActivity implements NavigationBarView.OnIt
                     }
                 } else {
 
-                    /*testSetFragment("NFC", nfcFragment);*/
-                    //testSetFragment("NFC", nfcFragment);
                     setFragment("NFC", nfcFragment);
                     listener.onReadTag(msgs);
                 }

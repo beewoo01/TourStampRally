@@ -158,9 +158,11 @@ public class VisitReAdapter extends RecyclerView.Adapter<VisitReAdapter.SwipeVie
             binding.seekBar.setProgress(myCount);
             if (allCountd != 100) {
                 binding.dateTxv.setText(allCountd + "%");
+                Glide.with(binding.logoImv.getContext()).load(R.drawable.logo_gray).into(binding.logoImv);
+
 
             } else {
-
+                Glide.with(binding.logoImv.getContext()).load(R.drawable.visit_logo).into(binding.logoImv);
                 try {
                     Date old_date = oldSdf.parse(model.getTouristhistory_updatetime());
                     if (old_date != null) {
@@ -183,6 +185,7 @@ public class VisitReAdapter extends RecyclerView.Adapter<VisitReAdapter.SwipeVie
                 }
 
             });
+
             binding.swipeView.setOnClickListener(v -> {
                 //Log.wtf("swipeView click", String.valueOf(position));
                 onViewHolderItemClickListener.onViewHolderItemClick();
@@ -248,7 +251,7 @@ public class VisitReAdapter extends RecyclerView.Adapter<VisitReAdapter.SwipeVie
                 });
 
                 binding.delReview.setOnClickListener( v -> {
-                    // TODO: 10/6/21 팝업
+
                     NoReview_Dialog dialog = new NoReview_Dialog(context);
                     dialog.show();
                 });

@@ -3,6 +3,7 @@ package com.sdin.tourstamprally.ui.fragment;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -44,6 +45,7 @@ public class TourSpotPointFragment extends BaseFragment {
     private FragmentTourSpotPointBinding binding;
     private List<TouristSpotPoint> list;
     private RallyMapDTO rallyMapDTO;
+    private MapView mapView = null;
 
     // 상세 랠리 맵
 
@@ -72,11 +74,27 @@ public class TourSpotPointFragment extends BaseFragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_tour_spot_point, container, false);
-        binding.tourSpotPointPgb.setVisibility(View.VISIBLE);
 
-        getData();
 
         return binding.getRoot();
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstancdState) {
+        super.onViewCreated(view, savedInstancdState);
+        binding.tourSpotPointPgb.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getData();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        removeMapView();
     }
 
     private void getData() {
@@ -108,14 +126,21 @@ public class TourSpotPointFragment extends BaseFragment {
     }
 
     private void setMap(ArrayList<TouristSpotPoint> arrayList) {
-        MapView mapView = new MapView(requireActivity());
-        ViewGroup mapViewContainer = binding.mapView;
+        if (mapView != null){
+            Log.wtf("mapview", "not_null");
+            binding.mapLayout.removeView(mapView);
+        }else
+            Log.wtf("mapview", "null");{
+            mapView = new MapView(requireActivity());
+        }
+
+
 
         mapView.setMapCenterPointAndZoomLevel(MapPoint.mapPointWithGeoCoord(rallyMapDTO.getTouristspot_latitude(), rallyMapDTO.getTouristspot_longitude()), 2, true);
         mapView.zoomIn(true);
         mapView.zoomOut(true);
 
-        mapViewContainer.addView(mapView);
+        binding.mapLayout.addView(mapView, 0);
 
 
         ArrayList<MapPoint> pointArrayList = new ArrayList<>();
@@ -137,7 +162,7 @@ public class TourSpotPointFragment extends BaseFragment {
     }
 
     private void removeMapView() {
-        binding.topLayout.removeAllViews();
+        binding.mapLayout.removeView(mapView);
     }
 
     class TourSpotPointAdapter extends RecyclerView.Adapter<TourSpotPointAdapter.ViewHolder> {

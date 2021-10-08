@@ -117,7 +117,7 @@ public class ScanResultDialog extends BaseDialog {
             resulButton.setTextColor(ContextCompat.getColor(context, R.color.scan_dialog_text_color));
             resulButton.setText("확인하러가기 >");
             resulButton.setOnClickListener(v -> {
-                // TODO: 8/10/21 선택 랠리맵으로 이동
+
                 getData();
 
             });
@@ -167,7 +167,6 @@ public class ScanResultDialog extends BaseDialog {
             resulButton.setTextColor(ContextCompat.getColor(context, R.color.scan_Al_text_color));
             resulButton.setText("확인하러가기 >");
             resulButton.setOnClickListener(v -> {
-                // TODO: 8/10/21 선택 랠리맵으로 이동
                 getData();
 
             });

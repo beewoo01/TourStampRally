@@ -195,7 +195,7 @@
                     app:layout_constraintTop_toBottomOf="@id/top_contentLayout">
 
                     <RelativeLayout
-                        android:id="@+id/map_view"
+                        android:id="@+id/mapview_layout"
                         android:layout_width="0dp"
                         android:layout_height="@dimen/_140sdp"
                         android:layout_marginHorizontal="@dimen/_30sdp"
@@ -209,7 +209,7 @@
                         android:id="@+id/location_address_txv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/map_view"
+                        android:layout_below="@+id/map_layout"
                         android:layout_centerHorizontal="true"
                         android:layout_gravity="center"
                         android:layout_marginVertical="@dimen/_15sdp"
@@ -221,7 +221,7 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/map_view" />
+                        app:layout_constraintTop_toBottomOf="@id/mapview_layout" />
 
 
                 </androidx.constraintlayout.widget.ConstraintLayout>

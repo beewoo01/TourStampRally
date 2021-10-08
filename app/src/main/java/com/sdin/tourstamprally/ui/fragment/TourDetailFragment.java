@@ -54,6 +54,7 @@ public class TourDetailFragment extends BaseFragment/* implements MapView.MapVie
     private static final String ARG_PARAM1 = "model";
     private FragmentTourDetailBinding binding;
     private TouristSpotPoint touristSpotPoint;
+    private MapView mapView;
 
 
     public TourDetailFragment() {
@@ -90,6 +91,12 @@ public class TourDetailFragment extends BaseFragment/* implements MapView.MapVie
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstancdState) {
         super.onViewCreated(view, savedInstancdState);
         setData();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
     }
 
     public void onClick(View view) {
@@ -251,14 +258,13 @@ public class TourDetailFragment extends BaseFragment/* implements MapView.MapVie
                 .into(binding.bgImv);
 
 
-        MapView mapView = new MapView(requireActivity());
-        ViewGroup mapViewContainer = binding.mapView;
+        mapView = new MapView(requireActivity());
         //mapView.setMapViewEventListener(this);
 
         mapView.setMapCenterPointAndZoomLevel(MapPoint.mapPointWithGeoCoord(touristSpotPoint.getTouristspotpoint_latitude(), touristSpotPoint.getTouristspotpoint_longitude()), 2, true);
 
 
-        mapViewContainer.addView(mapView);
+        binding.mapviewLayout.addView(mapView);
 
         MapPOIItem customMarker = new MapPOIItem();
         customMarker.setItemName(touristSpotPoint.getTouristspotpoint_name());
@@ -273,6 +279,15 @@ public class TourDetailFragment extends BaseFragment/* implements MapView.MapVie
         mapView.addPOIItem(customMarker);
     }
 
+    private void removeMapView() {
+        binding.mapviewLayout.removeView(mapView);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        removeMapView();
+    }
 
     private String getAddress() {
         Geocoder geocoder = new Geocoder(requireContext(), Locale.getDefault());
