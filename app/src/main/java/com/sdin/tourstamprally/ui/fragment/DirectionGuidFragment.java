@@ -89,26 +89,34 @@ public class DirectionGuidFragment extends BaseFragment {
         apiService.getHashTag().enqueue(new Callback<List<TourTagModel>>() {
             @Override
             public void onResponse(@NotNull Call<List<TourTagModel>> call, @NotNull Response<List<TourTagModel>> response) {
-                if (response.isSuccessful()) {
-                    List<TourTagModel> hashTagModels = response.body();
+                try {
+                    if (response.isSuccessful()) {
+                        List<TourTagModel> hashTagModels = response.body();
 
-                    if (hashTagModels != null) {
+                        if (hashTagModels != null) {
 
-                        for (TourTagModel model : hashTagModels) {
-                            if (model.getHashTag() != null){
-                                String[] array = Arrays.stream(model.getHashTag().split("#")).map(String::trim).toArray(String[]::new);
-                                Arrays.stream(array)
-                                        .filter(s -> (s != null && s.length() > 0))
-                                        .distinct()
-                                        .forEach(data -> hashTagList.add(new TourTagModel(data, model.getLocation_idx())));
+                            for (TourTagModel model : hashTagModels) {
+                                if (model == null){
+                                    Log.wtf("TourTagModel", "NULL!!" );
+                                }
+                                if (model != null && model.getHashTag() != null){
+                                    String[] array = Arrays.stream(model.getHashTag().split("#")).map(String::trim).toArray(String[]::new);
+                                    Arrays.stream(array)
+                                            .filter(s -> (s != null && s.length() > 0))
+                                            .distinct()
+                                            .forEach(data -> hashTagList.add(new TourTagModel(data, model.getLocation_idx())));
+                                }
+
+
                             }
-
-
                         }
-                    }
 
-                    setHashTag();
+                        setHashTag();
+                    }
+                }catch (Exception e){
+                    e.printStackTrace();
                 }
+
             }
 
             @Override
