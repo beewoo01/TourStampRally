@@ -105,6 +105,8 @@ public class MainActivity extends BaseActivity implements NavigationBarView.OnIt
     private final Map<Integer, String> hashMap = new HashMap<>();
     private int fragmentcount = 0;
 
+    private boolean isDrawerOpen = false;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -228,7 +230,7 @@ public class MainActivity extends BaseActivity implements NavigationBarView.OnIt
 
 
             if (keyboardState) {
-                InputMethodManager manager = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
+                InputMethodManager manager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
                 manager.hideSoftInputFromWindow(binding.drawaLayout.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
                 keyboardState = false;
             }
@@ -257,6 +259,7 @@ public class MainActivity extends BaseActivity implements NavigationBarView.OnIt
                 .into(binding.navigationLayout.profileIcon);
 
         binding.navigationLayout.userNameTxv.setText(Utils.User_Name);
+        isDrawerOpen = true;
 
     }
 
@@ -312,11 +315,17 @@ public class MainActivity extends BaseActivity implements NavigationBarView.OnIt
     public void onBackPressed() {
         backKeyPressedTime = System.currentTimeMillis();
         Log.wtf("fragmentTag", fragment.getTag());
-        if (!Objects.equals(hashMap.get(fragmentcount), "Main")) {
-            backClick();
-        } else if (Objects.equals(hashMap.get(fragmentcount), "Main")) {
-            finish();
+        if (isDrawerOpen) {
+            binding.drawaLayout.closeDrawer(GravityCompat.END);
+            isDrawerOpen = false;
+        } else {
+            if (!Objects.equals(hashMap.get(fragmentcount), "Main")) {
+                backClick();
+            } else if (Objects.equals(hashMap.get(fragmentcount), "Main")) {
+                finish();
+            }
         }
+
 
 
         /*if (System.currentTimeMillis() > backKeyPressedTime + 1000) {
@@ -372,7 +381,7 @@ public class MainActivity extends BaseActivity implements NavigationBarView.OnIt
             setToolbar(1);
         }
         if (keyboardState) {
-            InputMethodManager manager = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
+            InputMethodManager manager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
             manager.hideSoftInputFromWindow(binding.drawaLayout.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
             keyboardState = false;
         }
@@ -482,6 +491,7 @@ public class MainActivity extends BaseActivity implements NavigationBarView.OnIt
         //ItemOnClcik Listener
         Log.d("onClick", String.valueOf(position));
         binding.drawaLayout.closeDrawer(GravityCompat.END);
+        isDrawerOpen = false;
 
         switch (position) {
             case 0:
