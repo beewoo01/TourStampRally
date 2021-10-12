@@ -42,14 +42,16 @@ public class VisitReAdapter extends RecyclerView.Adapter<VisitReAdapter.SwipeVie
     private ArrayList<history_spotModel2> historySpotList;
 
 
-    private SparseBooleanArray selectedItems = new SparseBooleanArray();
+    private final SparseBooleanArray selectedItems = new SparseBooleanArray();
     private int prePosition = -1;
     private ItemCliclListener listener;
-    private SimpleDateFormat oldSdf, newSdf, timeSdf;
+    private final SimpleDateFormat oldSdf;
+    private final SimpleDateFormat newSdf;
+    private final SimpleDateFormat timeSdf;
     //private ToggleAnimation toggleAnimation;
 
     private ItemOnClick onWriteReviewListener;
-    private Context context;
+    private final Context context;
     private int delPosition = -1;
 
     public void itemCilcListener(ItemCliclListener listener) {
@@ -64,7 +66,6 @@ public class VisitReAdapter extends RecyclerView.Adapter<VisitReAdapter.SwipeVie
     public VisitReAdapter(ArrayList<history_spotModel2> historySpotList, Context context) {
         this.historySpotList = historySpotList;
         oldSdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
-        oldSdf.setTimeZone(TimeZone.getTimeZone("KST"));
         newSdf = new SimpleDateFormat("yy.MM.dd");
         timeSdf = new SimpleDateFormat("HH:mm");
         this.context = context;
@@ -160,11 +161,12 @@ public class VisitReAdapter extends RecyclerView.Adapter<VisitReAdapter.SwipeVie
                 binding.dateTxv.setText(allCountd + "%");
                 Glide.with(binding.logoImv.getContext()).load(R.drawable.logo_gray).into(binding.logoImv);
 
-
             } else {
                 Glide.with(binding.logoImv.getContext()).load(R.drawable.visit_logo).into(binding.logoImv);
                 try {
+
                     Date old_date = oldSdf.parse(model.getTouristhistory_updatetime());
+
                     if (old_date != null) {
                         String n_date = newSdf.format(old_date);
                         String n_time = timeSdf.format(old_date);
@@ -225,30 +227,26 @@ public class VisitReAdapter extends RecyclerView.Adapter<VisitReAdapter.SwipeVie
                     dialog.show();
                 });
 
-                binding.gotoReview.setOnClickListener( v -> {
-                    onWriteReviewListener.onWriteRewviewClick(
-                            new ReviewWriter(
-                                    model.getTouristspot_idx(),
-                                    model.getTouristspot_name(),
-                                    false,
-                                    model.getReview_idx(),
-                                    model.getReview_score(),
-                                    model.getReview_contents()
-                            )
-                    );
-                });
+                binding.gotoReview.setOnClickListener( v -> onWriteReviewListener.onWriteRewviewClick(
+                        new ReviewWriter(
+                                model.getTouristspot_idx(),
+                                model.getTouristspot_name(),
+                                false,
+                                model.getReview_idx(),
+                                model.getReview_score(),
+                                model.getReview_contents()
+                        )
+                ));
             } else {
 
-                binding.gotoReview.setOnClickListener(v -> {
-                    onWriteReviewListener.onWriteRewviewClick(
-                            new ReviewWriter(
-                                    model.getTouristspot_idx(),
-                                    model.getTouristspot_name(),
-                                    true
-                            )
+                binding.gotoReview.setOnClickListener(v -> onWriteReviewListener.onWriteRewviewClick(
+                        new ReviewWriter(
+                                model.getTouristspot_idx(),
+                                model.getTouristspot_name(),
+                                true
+                        )
 
-                    );
-                });
+                ));
 
                 binding.delReview.setOnClickListener( v -> {
 
