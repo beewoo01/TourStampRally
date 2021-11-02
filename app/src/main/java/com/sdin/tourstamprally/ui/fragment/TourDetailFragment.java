@@ -30,6 +30,7 @@ import com.sdin.tourstamprally.Utils;
 import com.sdin.tourstamprally.databinding.FragmentTourDetailBinding;
 import com.sdin.tourstamprally.model.Tour_Spot;
 import com.sdin.tourstamprally.model.TouristSpotPoint;
+import com.sdin.tourstamprally.ui.dialog.DetailDialog;
 import com.sdin.tourstamprally.ui.dialog.ReadyDialog;
 
 import net.daum.mf.map.api.MapPOIItem;
@@ -138,7 +139,10 @@ public class TourDetailFragment extends BaseFragment/* implements MapView.MapVie
         } else if (view.getId() == binding.detailTxv.getId()) {
             String link = touristSpotPoint.getTouristspotpoint_link();
             Log.wtf("LINK", link);
-            showReadyDialog();
+            showDetailPopup();
+            //showReadyDialog();
+
+
             /* 해당 기능은 이미 구현 완료되었으나 잠시 주석처리 해둔 상태 구현해야한다면 주석 풀면됨*/
             /*if (!TextUtils.isEmpty(link) && !link.equalsIgnoreCase("null")) {
                 try {
@@ -181,6 +185,10 @@ public class TourDetailFragment extends BaseFragment/* implements MapView.MapVie
         //KakaoLink
         showReadyDialog();
         /*Toast.makeText(requireContext(), "서비스 준비 중 입니다.", Toast.LENGTH_SHORT).show();*/
+    }
+
+    private void showDetailPopup(){
+        new DetailDialog(requireContext(), touristSpotPoint).show();
     }
 
     private void showReadyDialog(){
@@ -256,7 +264,6 @@ public class TourDetailFragment extends BaseFragment/* implements MapView.MapVie
                 .load("http://coratest.kr/imagefile/bsr/" + touristSpotPoint.getTouristspotpoint_img())
                 .error(ContextCompat.getDrawable(requireContext(), R.drawable.sample_bg))
                 .into(binding.bgImv);
-
 
         mapView = new MapView(requireActivity());
         //mapView.setMapViewEventListener(this);

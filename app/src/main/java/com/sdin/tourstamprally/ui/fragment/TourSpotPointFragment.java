@@ -129,8 +129,8 @@ public class TourSpotPointFragment extends BaseFragment {
         if (mapView != null){
             Log.wtf("mapview", "not_null");
             binding.mapLayout.removeView(mapView);
-        }else
-            Log.wtf("mapview", "null");{
+        }else{
+            Log.wtf("mapview", "null");
             mapView = new MapView(requireActivity());
         }
 
@@ -146,12 +146,19 @@ public class TourSpotPointFragment extends BaseFragment {
         ArrayList<MapPoint> pointArrayList = new ArrayList<>();
         MapPOIItem[] markers = new MapPOIItem[arrayList.size()];
         for (int i = 0; i < arrayList.size(); i++) {
+
             pointArrayList.add(MapPoint.mapPointWithGeoCoord(arrayList.get(i).getTouristspotpoint_latitude(), arrayList.get(i).getTouristspotpoint_longitude()));
             markers[i] = new MapPOIItem();
             markers[i].setMapPoint(pointArrayList.get(i));
             markers[i].setItemName(arrayList.get(i).getTouristspotpoint_name());
             markers[i].setMarkerType(MapPOIItem.MarkerType.CustomImage);
-            markers[i].setCustomImageResourceId(R.drawable.marker_icon);
+            if (arrayList.get(i).getTouristhistory_idx() > 1){
+                markers[i].setCustomImageResourceId(R.drawable.marker_icon_success);
+            }else {
+                markers[i].setCustomImageResourceId(R.drawable.marker_icon_prev);
+            }
+
+
             markers[i].setCustomImageAutoscale(true);
         }
 

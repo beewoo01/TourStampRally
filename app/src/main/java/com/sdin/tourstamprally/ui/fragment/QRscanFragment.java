@@ -16,13 +16,17 @@ import com.sdin.tourstamprally.R;
 import com.sdin.tourstamprally.Utils;
 import com.sdin.tourstamprally.databinding.FragmentQrScanBinding;
 import com.sdin.tourstamprally.model.TouristSpotPoint;
+import com.sdin.tourstamprally.ui.activity.MainActivity;
 import com.sdin.tourstamprally.ui.dialog.ScanResultDialog;
 import com.sdin.tourstamprally.utill.DialogListener;
 import com.sdin.tourstamprally.utill.GpsTracker;
+import com.sdin.tourstamprally.utill.ItemCliclListener;
+import com.sdin.tourstamprally.utill.ItemOnClick;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
+import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -36,10 +40,9 @@ public class QRscanFragment extends BaseFragment implements DialogListener {
     private TouristSpotPoint touristSpotPoint ;
     private GpsTracker gpsTracker;
     private ScanResultDialog scanResultDialog = null;
+    private ItemOnClick listner = null;
 
-    public QRscanFragment() {
 
-    }
 
 
     @Override
@@ -73,8 +76,8 @@ public class QRscanFragment extends BaseFragment implements DialogListener {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_qr_scan, container, false);
+        listner = (ItemOnClick) requireActivity();
         Log.wtf("onCreateView", "onCreateView");
-
         return binding.getRoot();
     }
 
@@ -82,8 +85,9 @@ public class QRscanFragment extends BaseFragment implements DialogListener {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstancdState) {
         super.onViewCreated(view, savedInstancdState);
         Log.wtf("onViewCreated", "onViewCreated");
-        codeScanner = new CodeScanner(getActivity(), binding.scannerView);
-        codeScanner.setDecodeCallback(result -> getActivity().runOnUiThread(()
+
+        codeScanner = new CodeScanner(requireActivity(), binding.scannerView);
+        codeScanner.setDecodeCallback(result -> requireActivity().runOnUiThread(()
                 -> {
             //showDialog(result == null? false : true);
             //Log.wtf("QR_RESULT", result.getText());
@@ -91,6 +95,7 @@ public class QRscanFragment extends BaseFragment implements DialogListener {
             //Toast.makeText(getActivity(), result.getText(), Toast.LENGTH_SHORT).show();
         }));
 
+        binding.moveNfcBtn.setOnClickListener( ignore -> listner.ItemGuid(1));
 
 
         //binding.scannerView.setOnClickListener( v -> codeScanner.startPreview());

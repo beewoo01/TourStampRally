@@ -298,9 +298,10 @@ public class MainActivity extends BaseActivity implements NavigationBarView.OnIt
             tag = "방문기록";
         } else if (item.getItemId() == R.id.page_stamp) {
             //setKaKaoNavi();
-            StampDialog stampDialog = new StampDialog(this);
+            /*StampDialog stampDialog = new StampDialog(this);
             stampDialog.show();
-            stampDialog.setClickListener(this);
+            stampDialog.setClickListener(this);*/
+            setFragment("QR", new QRscanFragment());
         }
 
         if (fragment != null) {
@@ -345,10 +346,6 @@ public class MainActivity extends BaseActivity implements NavigationBarView.OnIt
         Log.wtf("setFragment!!!!", "just");
 
 
-        //hashMap.put();
-
-        // TODO: 10/8/21 여기여기;
-
         if (tag != null) {
 
             new TedKeyboardObserver(this)
@@ -380,6 +377,7 @@ public class MainActivity extends BaseActivity implements NavigationBarView.OnIt
 
             setToolbar(1);
         }
+
         if (keyboardState) {
             InputMethodManager manager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
             manager.hideSoftInputFromWindow(binding.drawaLayout.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);

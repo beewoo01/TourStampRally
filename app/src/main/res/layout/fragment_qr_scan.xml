@@ -13,91 +13,126 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/content_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:cardCornerRadius="@dimen/_10sdp"
+                    android:layout_above="@+id/moveNfc_btn">
 
-                <com.budiyev.android.codescanner.CodeScannerView
-                    android:id="@+id/scanner_view"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    app:autoFocusButtonColor="@android:color/white"
-                    app:autoFocusButtonVisible="false"
-                    app:flashButtonColor="@android:color/white"
-                    app:flashButtonVisible="false"
-                    app:frameAspectRatioHeight="1"
-                    app:frameAspectRatioWidth="1"
-                    app:frameColor="@color/mainColor"
-                    app:frameCornersRadius="0dp"
-                    app:frameCornersSize="50dp"
-                    app:frameSize="0.75"
-                    app:frameThickness="2dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:maskColor="#77000000" />
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        >
 
-                <com.google.android.material.internal.BaselineLayout
-                    android:id="@+id/baseline"
-                    android:layout_width="0dp"
-                    android:layout_height="@dimen/_250sdp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
-                    android:layout_width="130dp"
-                    android:layout_height="@dimen/_35sdp"
-                    android:layout_marginTop="@dimen/_40sdp"
-                    android:background="@drawable/bg_rounded_full_scanalram"
-                    android:gravity="center"
-                    android:text="QR SCAN"
+                        <com.budiyev.android.codescanner.CodeScannerView
+                            android:id="@+id/scanner_view"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            app:autoFocusButtonColor="@android:color/white"
+                            app:autoFocusButtonVisible="false"
+                            app:flashButtonColor="@android:color/white"
+                            app:flashButtonVisible="false"
+                            app:frameAspectRatioHeight="1"
+                            app:frameAspectRatioWidth="1"
+                            app:frameColor="@color/mainColor"
+                            app:frameCornersRadius="0dp"
+                            app:frameCornersSize="50dp"
+                            app:frameSize="0.75"
+                            app:frameThickness="2dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:maskColor="#77000000" />
+
+                        <com.google.android.material.internal.BaselineLayout
+                            android:id="@+id/baseline"
+                            android:layout_width="0dp"
+                            android:layout_height="@dimen/_230sdp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:layout_width="130dp"
+                            android:layout_height="@dimen/_35sdp"
+                            android:layout_marginTop="@dimen/_40sdp"
+                            android:background="@drawable/bg_rounded_full_scanalram"
+                            android:gravity="center"
+                            android:text="QR SCAN"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/_15sdp"
+                            android:textStyle="bold"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+
+                        <TextView
+                            android:id="@+id/qrText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="qr코드를 자동으로 인식합니다"
+                            android:textColor="@color/popupColor"
+                            android:textSize="@dimen/_16sdp"
+                            app:layout_constraintBottom_toTopOf="@id/bottom_txv"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/baseline"
+                            app:layout_constraintVertical_chainStyle="packed" />
+
+                        <TextView
+                            android:id="@+id/bottom_txv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_10sdp"
+                            android:text="사각 틀 안에 QR코드를 위치 시켜주세요"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/_10sdp"
+                            app:layout_constraintBottom_toBottomOf="@id/scanner_view"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/qrText" />
+
+                        <ProgressBar
+                            android:id="@+id/progressBar"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:visibility="gone"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                </androidx.cardview.widget.CardView>
+
+                <Button
+                    android:id="@+id/moveNfc_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/_30sdp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginVertical="@dimen/_10sdp"
+                    android:text="NFC 태그하기"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/_15sdp"
-                    android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-
-                <TextView
-                    android:id="@+id/qrText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="qr코드를 자동으로 인식합니다"
-                    android:textColor="@color/popupColor"
-                    android:textSize="@dimen/_16sdp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/baseline" />
-
-                <TextView
-                    android:id="@+id/bottom_txv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:text="사각 틀 안에 QR코드를 위치 시켜주세요"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/_10sdp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/qrText" />
-
-                <ProgressBar
-                    android:id="@+id/progressBar"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:visibility="gone"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
+                    android:background="@drawable/bg_movenfc_btn"
+                    android:paddingHorizontal="@dimen/_10sdp"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+            </RelativeLayout>
         </FrameLayout>
 
     </LinearLayout>

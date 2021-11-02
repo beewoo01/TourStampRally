@@ -27,6 +27,7 @@ import com.sdin.tourstamprally.model.history_spotModel2;
 import com.sdin.tourstamprally.ui.activity.MainActivity;
 import com.sdin.tourstamprally.ui.dialog.Del_Review_Dialog;
 import com.sdin.tourstamprally.ui.dialog.NoReview_Dialog;
+import com.sdin.tourstamprally.ui.dialog.PopUp_Image;
 import com.sdin.tourstamprally.utill.ItemCliclListener;
 import com.sdin.tourstamprally.utill.ItemOnClick;
 import com.sdin.tourstamprally.utill.ReviewDelListener;
@@ -157,6 +158,16 @@ public class VisitReAdapter extends RecyclerView.Adapter<VisitReAdapter.SwipeVie
             int allCountd = (int) ((double) myCount / (double) allCount * 100);
             binding.seekBar.setMax(allCount);
             binding.seekBar.setProgress(myCount);
+
+            binding.logoImv.setOnClickListener( v -> {
+                Log.wtf("logoImv", "allCount!!");
+                Log.wtf("logoImv", "allCount = " + allCountd);
+                if (allCountd == 100){
+                    Log.wtf("logoImv", "allCount100");
+                    new PopUp_Image(context).show();
+                }
+            });
+
             if (allCountd != 100) {
                 binding.dateTxv.setText(allCountd + "%");
                 Glide.with(binding.logoImv.getContext()).load(R.drawable.logo_gray).into(binding.logoImv);
@@ -166,7 +177,7 @@ public class VisitReAdapter extends RecyclerView.Adapter<VisitReAdapter.SwipeVie
                 try {
 
                     Date old_date = oldSdf.parse(model.getTouristhistory_updatetime());
-
+                    Log.wtf("update", model.getTouristhistory_updatetime());
                     if (old_date != null) {
                         String n_date = newSdf.format(old_date);
                         String n_time = timeSdf.format(old_date);
