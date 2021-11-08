@@ -126,15 +126,14 @@ public class TourSpotPointFragment extends BaseFragment {
     }
 
     private void setMap(ArrayList<TouristSpotPoint> arrayList) {
-        if (mapView != null){
+        /*if (mapView != null){
             Log.wtf("mapview", "not_null");
             binding.mapLayout.removeView(mapView);
         }else{
             Log.wtf("mapview", "null");
             mapView = new MapView(requireActivity());
-        }
-
-
+        }*/
+        mapView = new MapView(requireActivity());
 
         mapView.setMapCenterPointAndZoomLevel(MapPoint.mapPointWithGeoCoord(rallyMapDTO.getTouristspot_latitude(), rallyMapDTO.getTouristspot_longitude()), 2, true);
         mapView.zoomIn(true);

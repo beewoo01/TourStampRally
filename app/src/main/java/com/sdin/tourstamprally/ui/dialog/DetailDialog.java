@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
@@ -35,7 +36,6 @@ public class DetailDialog extends BaseDialog{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.inflate(LayoutInflater.from(getContext()), R.layout.dialog_detail, null, false);
-        //binding.setDialog(this);
         setContentView(binding.getRoot());
 
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING);
@@ -47,7 +47,9 @@ public class DetailDialog extends BaseDialog{
     }
 
     private void initView(){
+
         binding.titleTxv.setText(touristSpotPoint.getTouristspotpoint_name());
+        binding.contentTxv.setMovementMethod(new ScrollingMovementMethod());
         if (touristSpotPoint.getTouristspotpoint_detail_explan() != null && !TextUtils.isEmpty(touristSpotPoint.getTouristspotpoint_detail_explan())){
             binding.contentTxv.setText(touristSpotPoint.getTouristspotpoint_detail_explan());
 
@@ -57,6 +59,7 @@ public class DetailDialog extends BaseDialog{
 
         Glide.with(context)
                 .load("http://coratest.kr/imagefile/bsr/"+ touristSpotPoint.getTouristspotpoint_img())
+                .error(R.drawable.sample_bg)
                 .apply(RequestOptions.bitmapTransform(new RoundedCorners(20)))
                 .into(binding.tourspotImv);
 
