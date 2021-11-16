@@ -110,74 +110,93 @@
                         android:layout_height="1dp"
                         android:layout_marginHorizontal="@dimen/_20sdp"
                         android:layout_marginTop="@dimen/_10sdp"
-                        android:background="@color/gray"
+                        android:background="@color/gray_e"
                         app:layout_constraintBottom_toTopOf="@id/phone_txv"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/tour_content_txv"
-
                         />
 
 
                     <TextView
                         android:id="@+id/phone_txv"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:drawableTop="@drawable/phone_icon_resize"
                         android:drawablePadding="@dimen/_5sdp"
                         android:gravity="center"
                         android:text="전화"
                         android:onClick="@{fragment::onClick}"
-                        android:textSize="@dimen/_12sdp"
+                        android:textSize="@dimen/_9sdp"
+                        android:textColor="@color/textColor"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toStartOf="@id/save_txv"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/baseline2" />
+                        app:layout_constraintStart_toStartOf="@id/baseline2"
+                        app:layout_constraintTop_toBottomOf="@id/baseline2"
+                        app:drawableTopCompat="@drawable/phone_icon_resize" />
 
                     <TextView
                         android:id="@+id/save_txv"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:drawableTop="@drawable/navi_ic2_resize"
                         android:drawablePadding="@dimen/_5sdp"
                         android:gravity="center"
                         android:text="길안내"
                         android:onClick="@{() -> fragment.naviClick()}"
-                        android:textSize="@dimen/_10sdp"
+                        android:textSize="@dimen/_9sdp"
+                        android:textColor="@color/textColor"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toStartOf="@id/share_txv"
                         app:layout_constraintStart_toEndOf="@id/phone_txv"
-                        app:layout_constraintTop_toBottomOf="@id/baseline2" />
+                        app:layout_constraintTop_toBottomOf="@id/baseline2"
+                        app:drawableTopCompat="@drawable/navi_ic2_resize" />
 
                     <TextView
                         android:id="@+id/share_txv"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:drawableTop="@drawable/sharing_icon_resize"
                         android:drawablePadding="@dimen/_5sdp"
                         android:gravity="center"
                         android:text="공유"
                         android:onClick="@{()-> fragment.kakaoLink()}"
-                        android:textSize="@dimen/_10sdp"
+                        android:textSize="@dimen/_9sdp"
+                        android:textColor="@color/textColor"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toStartOf="@id/detail_txv"
                         app:layout_constraintStart_toEndOf="@id/save_txv"
-                        app:layout_constraintTop_toBottomOf="@id/baseline2" />
+                        app:layout_constraintTop_toBottomOf="@id/baseline2"
+                        app:drawableTopCompat="@drawable/sharing_icon_resize" />
 
                     <TextView
                         android:id="@+id/detail_txv"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:drawableTop="@drawable/readmore_icon_resize"
                         android:drawablePadding="@dimen/_5sdp"
                         android:gravity="center"
                         android:text="자세히보기"
                         android:onClick="@{fragment::onClick}"
-                        android:textSize="@dimen/_10sdp"
+                        android:textSize="@dimen/_9sdp"
+                        android:textColor="@color/textColor"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/watch_movie_txv"
                         app:layout_constraintStart_toEndOf="@id/share_txv"
-                        app:layout_constraintTop_toBottomOf="@id/baseline2" />
+                        app:layout_constraintTop_toBottomOf="@id/baseline2"
+                        app:drawableTopCompat="@drawable/readmore_icon_resize" />
+
+                    <TextView
+                        android:id="@+id/watch_movie_txv"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="영상보기"
+                        android:textSize="@dimen/_9sdp"
+                        android:gravity="center"
+                        android:drawablePadding="@dimen/_5sdp"
+                        android:textColor="@color/textColor"
+                        android:onClick="@{ () -> fragment.watchMovie()}"
+                        app:layout_constraintEnd_toEndOf="@id/baseline2"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/baseline2"
+                        app:layout_constraintStart_toEndOf="@id/detail_txv"
+                        app:drawableTopCompat="@drawable/movie_resize" />
 
 
                 </androidx.constraintlayout.widget.ConstraintLayout>

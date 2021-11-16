@@ -210,6 +210,7 @@ public class MainActivity extends BaseActivity implements NavigationBarView.OnIt
         binding.drawaLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
         fragmentManager = getSupportFragmentManager();
 
+
         Glide.with(this).load("http://coratest.kr/imagefile/bsr/" + Utils.User_Profile)
                 .error(ContextCompat.getDrawable(this, R.drawable.sample_profile_image)).circleCrop()
                 .into(binding.navigationLayout.profileIcon);
@@ -283,6 +284,8 @@ public class MainActivity extends BaseActivity implements NavigationBarView.OnIt
 
         Fragment fragment = null;
         String tag = null;
+
+
 
         if (item.getItemId() == R.id.page_home) {
             fragment = MainFragment.newInstance("", "");

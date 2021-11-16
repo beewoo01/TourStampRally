@@ -31,6 +31,7 @@ public class FtpThread extends Thread{
         this.context = context;
         this.fileName = fileName;
     }
+
     @Override
     public void run() {
         FTPClient ftpClient = new FTPClient();

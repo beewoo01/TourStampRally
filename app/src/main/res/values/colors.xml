@@ -14,6 +14,8 @@
     <color name="lightColor">#F5F8F8</color>
     <color name="deepGrayColor">#E6616766</color>
 
+    <color name="textColor">#767676</color>
+
     <color name="lightGrayColor">#E5E5E5</color>
     <color name="agencyItemClickedBackgroundColor">#E7E6E6</color>
     <color name="agencyHeaderBackgroundColor">#F0F0F0</color>

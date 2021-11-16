@@ -159,6 +159,14 @@ public class TourDetailFragment extends BaseFragment/* implements MapView.MapVie
         }
     }
 
+    public void watchMovie() {
+        try {
+            requireActivity().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.youtube.com/channel/UCNQDd7xWs6faDK4WW-zMcPg")));
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
     public void naviClick() {
 
         Log.wtf(TAG, "naviClick naviClick");
