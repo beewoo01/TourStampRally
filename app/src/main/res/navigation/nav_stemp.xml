@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_stemp"
+    app:startDestination="@layout/fragment_qr_scan"
+    >
+
+    <fragment
+        android:id="@+id/fragment_qr_scan"
+        android:name="com.sdin.tourstamprally.ui.fragment.QRscanFragment"
+        tools:layout="@layout/fragment_qr_scan">
+
+        <action
+            android:id="@+id/action_fragment_qr_scan_to_fragment_nfc"
+            app:destination="@id/fragment_nfc" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/fragment_nfc"
+        android:name="com.sdin.tourstamprally.ui.fragment.NFCFragment"
+        tools:layout="@layout/fragment_nfc">
+
+    </fragment>
+
+</navigation>

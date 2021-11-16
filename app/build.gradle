@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
+apply plugin: 'androidx.navigation.safeargs'
 
 android {
     compileSdkVersion 30
@@ -64,6 +65,10 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok:1.18.12'
     //머테리얼 
     implementation 'com.google.android.material:material:1.4.0'
+
+    //botomNavigation
+    implementation("androidx.navigation:navigation-fragment-ktx:2.3.5")
+    implementation("androidx.navigation:navigation-ui-ktx:2.3.5")
 
 
     implementation'com.squareup.retrofit2:retrofit:2.9.0'

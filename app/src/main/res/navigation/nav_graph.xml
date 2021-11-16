@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:startDestination="@id/mainfragment"
+    android:id="@+id/nav_graph">
+
+    <fragment android:id="@+id/mainfragment"
+        android:name="com.sdin.tourstamprally.ui.fragment.MainFragment"
+        android:label="@string/home"
+        tools:layout="@layout/fragment_main"
+        >
+        <action
+            android:id="@+id/action_mainfragment_to_fragment_direction_guid"
+            app:destination="@id/fragment_direction_guid" >
+
+            <argument android:name="model"
+                app:argType="com.sdin.tourstamprally.model.Location_four[]"
+                app:nullable="false"
+                />
+        </action>
+        <action
+            android:id="@+id/action_mainfragment_to_fragment_location"
+            app:destination="@id/fragment_location" >
+
+            <argument android:name="model"
+                app:nullable="false"
+                app:argType="com.sdin.tourstamprally.model.Location_four"
+                />
+        </action>
+        <action
+            android:id="@+id/action_mainfragment_to_fragment_more_review"
+            app:destination="@id/fragment_more_review" />
+        <action
+            android:id="@+id/action_mainfragment_to_fragment_review_coments"
+            app:destination="@id/fragment_review_coments" >
+
+            <argument android:name="review_idx"
+                app:nullable="false"
+                app:argType="integer"/>
+        </action>
+    </fragment>
+
+    <fragment android:id="@+id/fragment_direction_guid"
+        android:name="com.sdin.tourstamprally.ui.fragment.DirectionGuidFragment"
+        tools:layout="@layout/fragment_direction_guid"
+        >
+
+        <action
+            android:id="@+id/action_fragment_direction_guid_to_fragment_location"
+            app:destination="@id/fragment_location" >
+
+            <argument
+                app:nullable="false"
+                android:name="model"
+                app:argType="com.sdin.tourstamprally.model.Location_four" />
+
+        </action>
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/fragment_location"
+        android:name="com.sdin.tourstamprally.ui.fragment.LocationFragment"
+        tools:layout="@layout/fragment_location">
+
+        <action
+            android:id="@+id/action_fragment_location_to_fragment_tour_spot_point"
+            app:destination="@id/fragment_tour_spot_point" >
+
+            <argument
+                android:name="model"
+                app:nullable="false"
+                app:argType="com.sdin.tourstamprally.model.RallyMapDTO"/>
+
+        </action>
+
+    </fragment>
+
+    <fragment android:id="@+id/fragment_tour_spot_point"
+        tools:layout="@layout/fragment_tour_spot_point"
+        android:name="com.sdin.tourstamprally.ui.fragment.TourSpotPointFragment"
+        >
+
+        <action
+            android:id="@+id/action_fragment_tour_spot_point_to_fragment_tour_detail"
+            app:destination="@id/fragment_tour_detail" >
+
+            <argument
+                app:nullable="false"
+                app:argType="com.sdin.tourstamprally.model.TouristSpotPoint"
+                android:name="model"
+                />
+
+        </action>
+    </fragment>
+
+    <fragment android:id="@+id/fragment_tour_detail"
+        tools:layout="@layout/fragment_tour_detail"
+        android:name="com.sdin.tourstamprally.ui.fragment.TourDetailFragment"
+        >
+
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/fragment_more_review"
+        android:name="com.sdin.tourstamprally.ui.fragment.MoreReviewFragment"
+        tools:layout="@layout/fragment_more_review"
+        >
+
+        <action
+            android:id="@+id/action_fragment_more_review_to_fragment_review_coments"
+            app:destination="@id/fragment_review_coments" >
+
+            <argument android:name="review_idx"
+                app:nullable="false"
+                app:argType="integer"/>
+
+        </action>
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/fragment_review_coments"
+        android:name="com.sdin.tourstamprally.ui.fragment.ReviewComentsFragment"
+        tools:layout="@layout/fragment_review_coments">
+
+    </fragment>
+
+
+
+    <fragment
+        android:id="@+id/fragment_visithistory"
+        android:name="com.sdin.tourstamprally.ui.fragment.VisitHistoryFragment"
+        tools:layout="@layout/fragment_visithistory"
+        >
+
+        <action
+            android:id="@+id/action_fragment_visithistory_to_fragment_write_review"
+            app:destination="@id/fragment_write_review" >
+
+            <argument
+                app:nullable="false"
+                app:argType="com.sdin.tourstamprally.model.ReviewWriter"
+                android:name="model"
+                />
+
+        </action>
+    </fragment>
+
+    <fragment
+        android:id="@+id/fragment_write_review"
+        android:name="com.sdin.tourstamprally.ui.fragment.WriteReviewFragment"
+        tools:layout="@layout/fragment_write_review"
+        >
+
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/fragment_qr_scan"
+        android:name="com.sdin.tourstamprally.ui.fragment.QRscanFragment"
+        tools:layout="@layout/fragment_qr_scan">
+
+        <action
+            android:id="@+id/action_fragment_qr_scan_to_fragment_nfc"
+            app:destination="@id/fragment_nfc" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/fragment_nfc"
+        android:name="com.sdin.tourstamprally.ui.fragment.NFCFragment"
+        tools:layout="@layout/fragment_nfc">
+
+    </fragment>
+
+
+</navigation>

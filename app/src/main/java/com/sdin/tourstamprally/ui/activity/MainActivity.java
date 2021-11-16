@@ -204,7 +204,7 @@ public class MainActivity extends BaseActivity implements NavigationBarView.OnIt
         DrawaRecyclerViewAdapter adapter = new DrawaRecyclerViewAdapter(this);
         binding.setActivity(this);
         binding.toolbarLayout.setActivity(this);
-        binding.navigationLayout.setActivity(this);
+        //binding.navigationLayout.setActivity(this);
         binding.navigationLayout.drawaRecyclerview.setHasFixedSize(true);
         binding.navigationLayout.drawaRecyclerview.setAdapter(adapter);
         binding.drawaLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
