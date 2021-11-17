@@ -22,13 +22,12 @@
                     android:id="@+id/content_container"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    app:cardCornerRadius="@dimen/_10sdp"
-                    android:layout_above="@+id/moveNfc_btn">
+                    android:layout_above="@+id/moveNfc_btn"
+                    app:cardCornerRadius="@dimen/_10sdp">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        >
+                        android:layout_height="match_parent">
 
 
                         <com.budiyev.android.codescanner.CodeScannerView
@@ -125,10 +124,10 @@
                     android:layout_alignParentBottom="true"
                     android:layout_centerHorizontal="true"
                     android:layout_marginVertical="@dimen/_10sdp"
-                    android:text="NFC 태그하기"
-                    android:textColor="@color/white"
                     android:background="@drawable/bg_movenfc_btn"
                     android:paddingHorizontal="@dimen/_10sdp"
+                    android:text="NFC 태그하기"
+                    android:textColor="@color/white"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />
