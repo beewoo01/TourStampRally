@@ -11,6 +11,7 @@ import android.nfc.NdefMessage;
 import android.nfc.NfcAdapter;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
@@ -18,6 +19,10 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
@@ -299,6 +304,12 @@ public class MainActivity extends BaseActivity implements NavigationBarView.OnIt
         } else if (item.getItemId() == R.id.page_report) {
             fragment = new VisitHistoryFragment();
             tag = "방문기록";
+        } else if (item.getItemId() == R.id.camera) {
+            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            intent.putExtra("CallType", 1);
+            resultLauncher.launch(intent);
+
+
         } else if (item.getItemId() == R.id.page_stamp) {
             //setKaKaoNavi();
             /*StampDialog stampDialog = new StampDialog(this);
@@ -313,6 +324,27 @@ public class MainActivity extends BaseActivity implements NavigationBarView.OnIt
 
         return true;
     }
+
+    private ActivityResultLauncher<Intent> resultLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if (result.getResultCode() == RESULT_OK) {
+                    Intent intent = result.getData();
+                    int callType = 0;
+                    if (intent != null) {
+                        callType = intent.getIntExtra("CallType", 0);
+                        if (callType == 0){
+                            Log.wtf("callType", "0");
+                        }else if (callType == 1) {
+                            Log.wtf("callType", "1");
+                        }else if (callType == 2) {
+                            Log.wtf("callType", "2");
+                        }
+                    }
+
+                }
+            }
+    );
 
 
     @Override
