@@ -10,9 +10,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
 public class UserModel implements Serializable {
 
     @SerializedName("user_idx")
@@ -55,6 +52,10 @@ public class UserModel implements Serializable {
     @Expose
     private String enable;
 
+    public UserModel(){
+
+    }
+
     public UserModel(int userIdx, String phone, String name, String password, String email, String location, String user_profile) {
         this.userIdx = userIdx;
         this.phone = phone;
@@ -74,37 +75,97 @@ public class UserModel implements Serializable {
         this.user_profile = user_profile;
     }
 
-    /*@SerializedName("historyidx")
-    @Expose
-    public Integer historyIdx;
+    public UserModel(int userIdx, String phone, String name, String password, String email, String location, String user_profile, boolean agree2, boolean agree1, String enable) {
+        this.userIdx = userIdx;
+        this.phone = phone;
+        this.name = name;
+        this.password = password;
+        this.email = email;
+        this.location = location;
+        this.user_profile = user_profile;
+        this.agree2 = agree2;
+        this.agree1 = agree1;
+        this.enable = enable;
+    }
 
-    @SerializedName("adminidx")
-    @Expose
-    public int adminIdx;
+    public int getUserIdx() {
+        return userIdx;
+    }
 
-    @SerializedName("adminid")
-    @Expose
-    public String adminId;
+    public void setUserIdx(int userIdx) {
+        this.userIdx = userIdx;
+    }
 
-    @SerializedName("colorcode")
-    @Expose
-    public String colorCode;
+    public String getPhone() {
+        return phone;
+    }
 
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
 
-    @SerializedName("userid")
-    @Expose
-    public String userId;
+    public String getName() {
+        return name;
+    }
 
-    @SerializedName("createdate")
-    @Expose
-    public String createDate;
+    public void setName(String name) {
+        this.name = name;
+    }
 
-    @SerializedName("history_date")
-    @Expose
-    public String historyDate;
+    public String getPassword() {
+        return password;
+    }
 
-    @SerializedName("updatedate")
-    @Expose
-    public String updateDate;*/
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public String getUser_profile() {
+        return user_profile;
+    }
+
+    public void setUser_profile(String user_profile) {
+        this.user_profile = user_profile;
+    }
+
+    public boolean isAgree2() {
+        return agree2;
+    }
+
+    public void setAgree2(boolean agree2) {
+        this.agree2 = agree2;
+    }
+
+    public boolean isAgree1() {
+        return agree1;
+    }
+
+    public void setAgree1(boolean agree1) {
+        this.agree1 = agree1;
+    }
+
+    public String getEnable() {
+        return enable;
+    }
+
+    public void setEnable(String enable) {
+        this.enable = enable;
+    }
 
 }
