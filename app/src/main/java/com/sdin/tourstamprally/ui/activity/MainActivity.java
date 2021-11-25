@@ -1,15 +1,22 @@
 package com.sdin.tourstamprally.ui.activity;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.PendingIntent;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
+import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.nfc.NdefMessage;
 import android.nfc.NfcAdapter;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.os.ParcelFileDescriptor;
 import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.text.TextUtils;
@@ -25,9 +32,11 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
 import androidx.core.view.GravityCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.exifinterface.media.ExifInterface;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
@@ -41,6 +50,7 @@ import com.kakao.sdk.navi.model.Location;
 import com.kakao.sdk.navi.model.NaviOption;
 import com.sdin.tourstamprally.R;
 import com.sdin.tourstamprally.Utils;
+import com.sdin.tourstamprally.adapter.CustomMediaScannerConnectionClient;
 import com.sdin.tourstamprally.adapter.DrawaRecyclerViewAdapter;
 import com.sdin.tourstamprally.databinding.ActivityMainBinding;
 import com.sdin.tourstamprally.model.AllReviewDTO;
@@ -72,11 +82,21 @@ import com.sdin.tourstamprally.ui.fragment.VisitHistoryFragment;
 import com.sdin.tourstamprally.ui.fragment.WriteReviewFragment;
 import com.sdin.tourstamprally.utill.ItemOnClick;
 import com.sdin.tourstamprally.utill.NFCListener;
+import com.sdin.tourstamprally.utill.SingleMediaScanner;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -105,6 +125,8 @@ public class MainActivity extends BaseActivity implements NavigationBarView.OnIt
     private long backKeyPressedTime = 0;
 
     public static boolean keyboardState = false;
+
+    private String currentPhotoPath = null;
 
 
     private final Map<Integer, String> hashMap = new HashMap<>();
@@ -216,9 +238,9 @@ public class MainActivity extends BaseActivity implements NavigationBarView.OnIt
         fragmentManager = getSupportFragmentManager();
 
 
-        Glide.with(this).load("http://coratest.kr/imagefile/bsr/" + Utils.User_Profile)
+        /*Glide.with(this).load("http://coratest.kr/imagefile/bsr/" + Utils.User_Profile)
                 .error(ContextCompat.getDrawable(this, R.drawable.sample_profile_image)).circleCrop()
-                .into(binding.navigationLayout.profileIcon);
+                .into(binding.navigationLayout.profileIcon);*/
 
 
         binding.navigationLayout.userNameTxv.setText(Utils.User_Name);
@@ -260,9 +282,9 @@ public class MainActivity extends BaseActivity implements NavigationBarView.OnIt
 
     public void openDrawa() {
         binding.drawaLayout.openDrawer(GravityCompat.END);
-        Glide.with(this).load("http://coratest.kr/imagefile/bsr/" + Utils.User_Profile)
+        /*Glide.with(this).load("http://coratest.kr/imagefile/bsr/" + Utils.User_Profile)
                 .error(ContextCompat.getDrawable(this, R.drawable.sample_profile_image)).circleCrop()
-                .into(binding.navigationLayout.profileIcon);
+                .into(binding.navigationLayout.profileIcon);*/
 
         binding.navigationLayout.userNameTxv.setText(Utils.User_Name);
         isDrawerOpen = true;
@@ -291,7 +313,6 @@ public class MainActivity extends BaseActivity implements NavigationBarView.OnIt
         String tag = null;
 
 
-
         if (item.getItemId() == R.id.page_home) {
             fragment = MainFragment.newInstance("", "");
             tag = "Main";
@@ -305,9 +326,11 @@ public class MainActivity extends BaseActivity implements NavigationBarView.OnIt
             fragment = new VisitHistoryFragment();
             tag = "방문기록";
         } else if (item.getItemId() == R.id.camera) {
-            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            /*Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
             intent.putExtra("CallType", 1);
-            resultLauncher.launch(intent);
+            resultLauncher.launch(intent);*/
+
+            dispatchTakePictureIntent();
 
 
         } else if (item.getItemId() == R.id.page_stamp) {
@@ -325,27 +348,232 @@ public class MainActivity extends BaseActivity implements NavigationBarView.OnIt
         return true;
     }
 
-    private ActivityResultLauncher<Intent> resultLauncher = registerForActivityResult(
+    private void dispatchTakePictureIntent() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            File photoFile = null;
+            photoFile = createImageFile();
+
+            if (photoFile != null) {
+                Uri photoURI = FileProvider.getUriForFile(this,
+                        "com.sdin.tourstamprally.fileprovider",
+                        photoFile);
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                resultLauncher.launch(takePictureIntent);
+            }
+
+        }
+    }
+
+    /*private void dispatchTakePictureIntent() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        resultLauncher.launch(takePictureIntent);
+    }*/
+
+    private final ActivityResultLauncher<Intent> resultLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             result -> {
                 if (result.getResultCode() == RESULT_OK) {
-                    Intent intent = result.getData();
-                    int callType = 0;
-                    if (intent != null) {
-                        callType = intent.getIntExtra("CallType", 0);
-                        if (callType == 0){
-                            Log.wtf("callType", "0");
-                        }else if (callType == 1) {
-                            Log.wtf("callType", "1");
-                        }else if (callType == 2) {
-                            Log.wtf("callType", "2");
-                        }
-                    }
 
+                    File file = new File(currentPhotoPath);
+                    Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+                    saveMediaToStorage(bitmap);
                 }
             }
     );
 
+
+    @SuppressLint("SimpleDateFormat")
+    private File createImageFile() {
+        try {
+
+            String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+            String imageFileName = "JPEG_" + timeStamp + "_";
+            File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+            File image = File.createTempFile(
+                    imageFileName,  /* prefix */
+                    ".jpg",         /* suffix */
+                    storageDir      /* directory */
+            );
+
+            currentPhotoPath = image.getAbsolutePath();
+            Log.wtf("currentPhotoPath", currentPhotoPath);
+            return image;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+
+
+        // Save a file: path for use with ACTION_VIEW intents
+    }
+
+
+    // TODO: 2021/11/25 성공한 코드 근데 이미지 돌아감
+    @SuppressLint("SimpleDateFormat")
+    private void saveMediaToStorage(Bitmap bitmap) {
+
+        ExifInterface exif = null;
+        try {
+            exif = new ExifInterface(currentPhotoPath);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION,
+                ExifInterface.ORIENTATION_UNDEFINED);
+
+        binding.navigationLayout.profileIcon.setImageBitmap(bitmap);
+        Log.wtf("orientation", String.valueOf(orientation));
+        Bitmap bmRotated = rotateBitmap(bitmap, orientation);
+        binding.navigationLayout.profileIcon.setImageBitmap(bmRotated);
+
+
+
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "jpeg_" + timeStamp + "_";
+        OutputStream outputStream = null;
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            ContentValues contentValues = new ContentValues();
+            contentValues.put(MediaStore.Images.Media.DISPLAY_NAME, imageFileName);
+            contentValues.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
+            contentValues.put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_PICTURES);
+            contentValues.put(MediaStore.Images.Media.WIDTH, bmRotated.getWidth());
+            contentValues.put(MediaStore.Images.Media.HEIGHT, bmRotated.getHeight());
+
+            Uri imageUri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues);
+            if (imageUri != null) {
+                try {
+                    outputStream = getContentResolver().openOutputStream(imageUri);
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        } else {
+
+            File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+            File image = new File(storageDir, imageFileName);
+            try {
+                outputStream = new FileOutputStream(image);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+
+        if (outputStream != null) {
+            bmRotated.compress(Bitmap.CompressFormat.JPEG, 95, outputStream);
+            try {
+                outputStream.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            //bitmap.recycle();
+            Toast.makeText(this, "저장성공", Toast.LENGTH_SHORT).show();
+            Log.wtf("outputStream", "notnull");
+        }else {
+            Log.wtf("outputStream", "null....");
+        }
+
+
+    }
+
+    private Bitmap rotateBitmap(Bitmap bitmap, int orientation) {
+        Matrix matrix = new Matrix();
+        switch (orientation) {
+            case ExifInterface.ORIENTATION_NORMAL:
+                return bitmap;
+            case ExifInterface.ORIENTATION_FLIP_HORIZONTAL:
+                matrix.setScale(-1, 1);
+                break;
+            case ExifInterface.ORIENTATION_ROTATE_180:
+                matrix.setRotate(180);
+                break;
+            case ExifInterface.ORIENTATION_FLIP_VERTICAL:
+                matrix.setRotate(180);
+                matrix.postScale(-1, 1);
+                break;
+            case ExifInterface.ORIENTATION_TRANSPOSE:
+                matrix.setRotate(90);
+                matrix.postScale(-1, 1);
+                break;
+            case ExifInterface.ORIENTATION_ROTATE_90:
+                matrix.setRotate(90);
+                break;
+            case ExifInterface.ORIENTATION_TRANSVERSE:
+                matrix.setRotate(-90);
+                matrix.postScale(-1, 1);
+                break;
+            case ExifInterface.ORIENTATION_ROTATE_270:
+                matrix.setRotate(-90);
+                break;
+            default:
+                return bitmap;
+        }
+        try {
+            Bitmap bmRotated = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+            bitmap.recycle();
+            return bmRotated;
+        }
+        catch (OutOfMemoryError e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+
+    /*@SuppressLint("SimpleDateFormat")
+    private void saveMediaToStorage(Bitmap bitmap) {
+
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "jpeg_" + timeStamp + "_";
+        OutputStream outputStream = null;
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            ContentValues contentValues = new ContentValues();
+            contentValues.put(MediaStore.Images.Media.DISPLAY_NAME, imageFileName);
+            contentValues.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
+            contentValues.put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_PICTURES);
+            *//*contentValues.put(MediaStore.Images.Media.WIDTH, bitmap.getWidth());
+            contentValues.put(MediaStore.Images.Media.HEIGHT, bitmap.getHeight());*//*
+
+            Uri imageUri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues);
+            if (imageUri != null) {
+                try {
+                    outputStream = getContentResolver().openOutputStream(imageUri);
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        } else {
+
+            File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+            File image = new File(storageDir, imageFileName);
+            try {
+                outputStream = new FileOutputStream(image);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+
+        if (outputStream != null) {
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 95, outputStream);
+            try {
+                outputStream.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            //bitmap.recycle();
+            Toast.makeText(this, "저장성공", Toast.LENGTH_SHORT).show();
+            Log.wtf("outputStream", "notnull");
+        }else {
+            Log.wtf("outputStream", "null....");
+        }
+
+
+    }*/
 
     @Override
     public void onBackPressed() {

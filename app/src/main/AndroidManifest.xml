@@ -70,6 +70,19 @@
         <meta-data
             android:name="com.kakao.sdk.AppKey"
             android:value="e8301ff2af31ff1516d8e761cbcadd1b" />
+        
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.sdin.tourstamprally.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths"/>
+
+        </provider>
+        
     </application>
     <uses-feature
         android:name="android.hardware.nfc"
