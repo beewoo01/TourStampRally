@@ -9,9 +9,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
 public class TouristSpotPoint implements Serializable {
 
     @SerializedName("touristspotpoint_idx")
@@ -97,4 +94,120 @@ public class TouristSpotPoint implements Serializable {
     @Expose
     private long touristhistory_updatetime;*/
 
+    public TouristSpotPoint() {
+
+    }
+
+    public TouristSpotPoint(int touristspotpoint_idx, double touristspotpoint_latitude, double touristspotpoint_longitude, String touristspotpoint_name,
+                            String touristspotpoint_explan, String touristspotpoint_detail_explan, String touristspotpoint_img, String touristspotpoint_contactinfo,
+                            int touristspotpoint_course_number, int touristhistory_idx, String touristspotpoint_address, String touristspotpoint_link) {
+        this.touristspotpoint_idx = touristspotpoint_idx;
+        this.touristspotpoint_latitude = touristspotpoint_latitude;
+        this.touristspotpoint_longitude = touristspotpoint_longitude;
+        this.touristspotpoint_name = touristspotpoint_name;
+        this.touristspotpoint_explan = touristspotpoint_explan;
+        this.touristspotpoint_detail_explan = touristspotpoint_detail_explan;
+        this.touristspotpoint_img = touristspotpoint_img;
+        this.touristspotpoint_contactinfo = touristspotpoint_contactinfo;
+        this.touristspotpoint_course_number = touristspotpoint_course_number;
+        this.touristhistory_idx = touristhistory_idx;
+        this.touristspotpoint_address = touristspotpoint_address;
+        this.touristspotpoint_link = touristspotpoint_link;
+    }
+
+    public int getTouristspotpoint_idx() {
+        return touristspotpoint_idx;
+    }
+
+    public void setTouristspotpoint_idx(int touristspotpoint_idx) {
+        this.touristspotpoint_idx = touristspotpoint_idx;
+    }
+
+    public double getTouristspotpoint_latitude() {
+        return touristspotpoint_latitude;
+    }
+
+    public void setTouristspotpoint_latitude(double touristspotpoint_latitude) {
+        this.touristspotpoint_latitude = touristspotpoint_latitude;
+    }
+
+    public double getTouristspotpoint_longitude() {
+        return touristspotpoint_longitude;
+    }
+
+    public void setTouristspotpoint_longitude(double touristspotpoint_longitude) {
+        this.touristspotpoint_longitude = touristspotpoint_longitude;
+    }
+
+    public String getTouristspotpoint_name() {
+        return touristspotpoint_name;
+    }
+
+    public void setTouristspotpoint_name(String touristspotpoint_name) {
+        this.touristspotpoint_name = touristspotpoint_name;
+    }
+
+    public String getTouristspotpoint_explan() {
+        return touristspotpoint_explan;
+    }
+
+    public void setTouristspotpoint_explan(String touristspotpoint_explan) {
+        this.touristspotpoint_explan = touristspotpoint_explan;
+    }
+
+    public String getTouristspotpoint_detail_explan() {
+        return touristspotpoint_detail_explan;
+    }
+
+    public void setTouristspotpoint_detail_explan(String touristspotpoint_detail_explan) {
+        this.touristspotpoint_detail_explan = touristspotpoint_detail_explan;
+    }
+
+    public String getTouristspotpoint_img() {
+        return touristspotpoint_img;
+    }
+
+    public void setTouristspotpoint_img(String touristspotpoint_img) {
+        this.touristspotpoint_img = touristspotpoint_img;
+    }
+
+    public String getTouristspotpoint_contactinfo() {
+        return touristspotpoint_contactinfo;
+    }
+
+    public void setTouristspotpoint_contactinfo(String touristspotpoint_contactinfo) {
+        this.touristspotpoint_contactinfo = touristspotpoint_contactinfo;
+    }
+
+    public int getTouristspotpoint_course_number() {
+        return touristspotpoint_course_number;
+    }
+
+    public void setTouristspotpoint_course_number(int touristspotpoint_course_number) {
+        this.touristspotpoint_course_number = touristspotpoint_course_number;
+    }
+
+    public int getTouristhistory_idx() {
+        return touristhistory_idx;
+    }
+
+    public void setTouristhistory_idx(int touristhistory_idx) {
+        this.touristhistory_idx = touristhistory_idx;
+    }
+
+    public String getTouristspotpoint_address() {
+        return touristspotpoint_address;
+    }
+
+    public void setTouristspotpoint_address(String touristspotpoint_address) {
+        this.touristspotpoint_address = touristspotpoint_address;
+    }
+
+    public String getTouristspotpoint_link() {
+        return touristspotpoint_link;
+    }
+
+    public void setTouristspotpoint_link(String touristspotpoint_link) {
+        this.touristspotpoint_link = touristspotpoint_link;
+    }
 }
