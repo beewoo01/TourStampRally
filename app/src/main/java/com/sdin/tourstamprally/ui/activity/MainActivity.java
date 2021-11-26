@@ -169,6 +169,7 @@ public class MainActivity extends BaseActivity implements NavigationBarView.OnIt
                     Glide.with(this).load(ContextCompat.getDrawable(this, R.drawable.ic_backspace_white_24)).into(binding.toolbarLayout.backBtn);
                     binding.toolbarLayout.tapImb.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_hamburger_white_24));
                     break;
+
                 case "Main":
                     binding.toolbarLayout.toolbarLayout.setBackgroundColor(ContextCompat.getColor(this, R.color.White));
                     binding.toolbarLayout.backBtn.setVisibility(View.GONE);
@@ -176,6 +177,7 @@ public class MainActivity extends BaseActivity implements NavigationBarView.OnIt
                     binding.toolbarLayout.logoMainToolbar.setVisibility(View.VISIBLE);
                     binding.toolbarLayout.tapImb.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.hamberger_menu_resize));
                     break;
+
                 case "계정수정":
                 case "공지사항":
                 case "쿠폰현황":
@@ -238,9 +240,9 @@ public class MainActivity extends BaseActivity implements NavigationBarView.OnIt
         fragmentManager = getSupportFragmentManager();
 
 
-        /*Glide.with(this).load("http://coratest.kr/imagefile/bsr/" + Utils.User_Profile)
+        Glide.with(this).load("http://coratest.kr/imagefile/bsr/" + Utils.User_Profile)
                 .error(ContextCompat.getDrawable(this, R.drawable.sample_profile_image)).circleCrop()
-                .into(binding.navigationLayout.profileIcon);*/
+                .into(binding.navigationLayout.profileIcon);
 
 
         binding.navigationLayout.userNameTxv.setText(Utils.User_Name);
@@ -282,9 +284,9 @@ public class MainActivity extends BaseActivity implements NavigationBarView.OnIt
 
     public void openDrawa() {
         binding.drawaLayout.openDrawer(GravityCompat.END);
-        /*Glide.with(this).load("http://coratest.kr/imagefile/bsr/" + Utils.User_Profile)
+        Glide.with(this).load("http://coratest.kr/imagefile/bsr/" + Utils.User_Profile)
                 .error(ContextCompat.getDrawable(this, R.drawable.sample_profile_image)).circleCrop()
-                .into(binding.navigationLayout.profileIcon);*/
+                .into(binding.navigationLayout.profileIcon);
 
         binding.navigationLayout.userNameTxv.setText(Utils.User_Name);
         isDrawerOpen = true;
@@ -423,10 +425,7 @@ public class MainActivity extends BaseActivity implements NavigationBarView.OnIt
         int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION,
                 ExifInterface.ORIENTATION_UNDEFINED);
 
-        binding.navigationLayout.profileIcon.setImageBitmap(bitmap);
-        Log.wtf("orientation", String.valueOf(orientation));
         Bitmap bmRotated = rotateBitmap(bitmap, orientation);
-        binding.navigationLayout.profileIcon.setImageBitmap(bmRotated);
 
 
 
@@ -470,10 +469,9 @@ public class MainActivity extends BaseActivity implements NavigationBarView.OnIt
                 e.printStackTrace();
             }
             //bitmap.recycle();
-            Toast.makeText(this, "저장성공", Toast.LENGTH_SHORT).show();
-            Log.wtf("outputStream", "notnull");
+            Toast.makeText(this, "저장 성공", Toast.LENGTH_SHORT).show();
         }else {
-            Log.wtf("outputStream", "null....");
+            Toast.makeText(this, "저장에 실패하였습니다.", Toast.LENGTH_SHORT).show();
         }
 
 
