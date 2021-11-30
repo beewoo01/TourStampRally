@@ -824,7 +824,6 @@ public class MainActivity extends BaseActivity implements NavigationBarView.OnIt
 
     @Override
     public void onItemClick(Location_four location_four) {
-
         setFragment(location_four.getLocation_name() + " 랠리 맵", LocationFragment.newInstance(location_four));
         setToolbar(3);
     }

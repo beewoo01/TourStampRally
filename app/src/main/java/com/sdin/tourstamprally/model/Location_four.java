@@ -7,10 +7,6 @@ import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
 public class Location_four implements Comparable<Tour_Spot>, Parcelable {
 
     private int myInterCount;

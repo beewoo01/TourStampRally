@@ -8,8 +8,6 @@ import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
 
 public class Tour_Spot implements Comparable<Tour_Spot>, Serializable {
 

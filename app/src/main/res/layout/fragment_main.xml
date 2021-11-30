@@ -236,6 +236,6 @@
 
         <variable
             name="fragment"
-            type="com.sdin.tourstamprally.ui.fragment.MainFragment" />
+            type="com.sdin.tourstamprally.ui.fragment.MainFragment2" />
     </data>
 </layout>

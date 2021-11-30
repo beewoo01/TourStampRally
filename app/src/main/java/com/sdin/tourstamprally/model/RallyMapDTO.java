@@ -4,11 +4,6 @@ import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
-
 public class RallyMapDTO implements Serializable {
     @SerializedName("touristspot_idx")
     private int touristspot_idx;

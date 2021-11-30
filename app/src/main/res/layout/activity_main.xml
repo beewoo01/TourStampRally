@@ -6,7 +6,6 @@
     xmlns:bind="http://schemas.android.com/apk/res-auto">
 
     <data>
-
         <variable
             name="activity"
             type="com.sdin.tourstamprally.ui.activity.MainActivity" />

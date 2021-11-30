@@ -2,8 +2,6 @@ package com.sdin.tourstamprally.model;
 
 import java.io.Serializable;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
 
 public class TourTagModel implements Serializable {
     private String hashTag;

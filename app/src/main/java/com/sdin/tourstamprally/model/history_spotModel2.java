@@ -2,11 +2,6 @@ package com.sdin.tourstamprally.model;
 
 import com.google.gson.annotations.SerializedName;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
-
 public class history_spotModel2 {
 
     @SerializedName("allCount")
