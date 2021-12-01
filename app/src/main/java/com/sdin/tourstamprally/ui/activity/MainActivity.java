@@ -314,11 +314,13 @@ public class MainActivity extends BaseActivity implements NavigationBarView.OnIt
         Fragment fragment = null;
         String tag = null;
 
-
         if (item.getItemId() == R.id.page_home) {
             fragment = MainFragment.newInstance("", "");
             tag = "Main";
             //setFragment("Main", MainFragment.newInstance("", ""));
+            item.setChecked(true);
+
+
         } else if (item.getItemId() == R.id.page_store) {
             ReadyDialog readyDialog = new ReadyDialog(this);
             readyDialog.show();

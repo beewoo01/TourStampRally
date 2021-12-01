@@ -53,7 +53,7 @@ class MainFragment2 : BaseFragment() {
         savedInstanceState: Bundle?
     ): View {
         viewBind = DataBindingUtil.inflate(inflater, R.layout.fragment_main, container, false)
-        viewBind.fragment = this@MainFragment2
+        //viewBind.fragment = this@MainFragment2
 
         viewBind.rallyRecyclerview.layoutManager = object : GridLayoutManager(requireContext(), 2) {
             override fun canScrollVertically(): Boolean {
@@ -139,11 +139,11 @@ class MainFragment2 : BaseFragment() {
     ) : RecyclerView.Adapter<RallyRecyclerviewAdapter.ViewHolder>() {
         inner class ViewHolder(private val holderBinding: StepRallyLocationItemBinding) :
             RecyclerView.ViewHolder(holderBinding.root) {
-            init {
+            /*init {
                 holderBinding.holder = this
-            }
+            }*/
             fun onBind(model: Location_four) {
-                holderBinding.item = model
+              //  holderBinding.item = model
                 holderBinding.location.text = model.location_name
 
                 Glide.with(context)
