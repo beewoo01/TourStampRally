@@ -33,6 +33,7 @@ import com.sdin.tourstamprally.model.AllReviewDTO;
 import com.sdin.tourstamprally.model.Location_four;
 import com.sdin.tourstamprally.model.Tour_Spot;
 import com.sdin.tourstamprally.ui.activity.MainActivity;
+import com.sdin.tourstamprally.ui.activity.MainActivity2;
 import com.sdin.tourstamprally.utill.ItemOnClick;
 
 import org.jetbrains.annotations.NotNull;
@@ -197,7 +198,8 @@ public class MainFragment extends BaseFragment2 {
     private class RallyRecyclerviewAdapter extends RecyclerView.Adapter<RallyRecyclerviewAdapter.ViewHolder> {
 
         private final ArrayList<Location_four> adapterList;
-        private final ItemOnClick itemOnClick = (MainActivity) requireActivity();
+        private final ItemOnClick itemOnClick = (MainActivity2) requireActivity();
+        // TODO: 2021/12/15 MainActivity 로 전횐
 
         public RallyRecyclerviewAdapter(ArrayList<Location_four> adapterList) {
             this.adapterList = adapterList;

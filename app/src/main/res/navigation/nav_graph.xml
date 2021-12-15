@@ -175,5 +175,34 @@
 
     </fragment>
 
+    <dialog
+        android:id="@+id/page_store"
+        android:name="com.sdin.tourstamprally.ui.sample.ReadyDialogFragment"
+        tools:layout="@layout/dialog_ready_fragment"
+        />
+
+    <fragment
+        android:id="@+id/account_admin"
+        android:name="com.sdin.tourstamprally.ui.fragment.AccountFragment"
+        tools:layout="@layout/fragment_account"
+        />
+
+    <fragment
+        android:id="@+id/notice"
+        android:name="com.sdin.tourstamprally.ui.fragment.NoticeFragment"
+        tools:layout="@layout/fragment_notice"
+        />
+
+    <fragment
+        android:id="@+id/notify_setting"
+        android:name="com.sdin.tourstamprally.ui.fragment.SetAlarmFragment"
+        tools:layout="@layout/fragment_set_alarm"
+        />
+
+    <fragment
+        android:id="@+id/bascet_list"
+        android:name="com.sdin.tourstamprally.ui.fragment.DeabsFragment"
+        tools:layout="@layout/fragment_deabs"
+        />
 
 </navigation>

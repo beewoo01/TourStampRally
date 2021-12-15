@@ -161,7 +161,8 @@ public class TourDetailFragment extends BaseFragment/* implements MapView.MapVie
 
     public void watchMovie() {
         try {
-            requireActivity().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.youtube.com/channel/UCNQDd7xWs6faDK4WW-zMcPg")));
+            //requireActivity().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.youtube.com/channel/UCNQDd7xWs6faDK4WW-zMcPg")));
+            requireActivity().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(touristSpotPoint.getTouristspotpoint_videolink())));
         }catch (Exception e){
             e.printStackTrace();
         }

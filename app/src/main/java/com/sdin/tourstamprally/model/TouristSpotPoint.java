@@ -75,6 +75,11 @@ public class TouristSpotPoint implements Serializable {
     @Expose
     private String touristspotpoint_link;
 
+
+    @SerializedName("touristspotpoint_videolink")
+    @Expose
+    private String touristspotpoint_videolink;
+
     /*@SerializedName("touristhistory_touristspotpoint_idx")
     @Expose
     private String touristhistory_touristspotpoint_idx;
@@ -97,7 +102,7 @@ public class TouristSpotPoint implements Serializable {
 
     public TouristSpotPoint(int touristspotpoint_idx, double touristspotpoint_latitude, double touristspotpoint_longitude, String touristspotpoint_name,
                             String touristspotpoint_explan, String touristspotpoint_detail_explan, String touristspotpoint_img, String touristspotpoint_contactinfo,
-                            int touristspotpoint_course_number, int touristhistory_idx, String touristspotpoint_address, String touristspotpoint_link) {
+                            int touristspotpoint_course_number, int touristhistory_idx, String touristspotpoint_address, String touristspotpoint_link, String touristspotpoint_videolink) {
         this.touristspotpoint_idx = touristspotpoint_idx;
         this.touristspotpoint_latitude = touristspotpoint_latitude;
         this.touristspotpoint_longitude = touristspotpoint_longitude;
@@ -110,6 +115,7 @@ public class TouristSpotPoint implements Serializable {
         this.touristhistory_idx = touristhistory_idx;
         this.touristspotpoint_address = touristspotpoint_address;
         this.touristspotpoint_link = touristspotpoint_link;
+        this.touristspotpoint_videolink = touristspotpoint_videolink;
     }
 
     public int getTouristspotpoint_idx() {
@@ -206,5 +212,13 @@ public class TouristSpotPoint implements Serializable {
 
     public void setTouristspotpoint_link(String touristspotpoint_link) {
         this.touristspotpoint_link = touristspotpoint_link;
+    }
+
+    public String getTouristspotpoint_videolink() {
+        return touristspotpoint_videolink;
+    }
+
+    public void setTouristspotpoint_videolink(String touristspotpoint_videolink) {
+        this.touristspotpoint_videolink = touristspotpoint_videolink;
     }
 }

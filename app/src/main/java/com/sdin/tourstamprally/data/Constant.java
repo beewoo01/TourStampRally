@@ -10,7 +10,7 @@ public class Constant {
     //public static final String SERVER_URL = "http://raon-soft.com/palette/";
     //public static final String SERVER_URL = "http://192.168.1.11:8080/project/";
 
-    //public static final String SERVER_URL = "http://192.168.1.18:8080/project/";
+    //public static final String SERVER_URL = "http://192.168.1.9:8080/project/";
     /*로컬 용*/
 
     //public static final String SERVER_URL = "http://192.168.219.106:8005/project/";
@@ -18,6 +18,7 @@ public class Constant {
 
     public static final String SERVER_URL = "http://coratest.kr/base_project_brs/";
     /*실제 업로드용2*/
+
 
     //  http://raon-soft.com/firstcare_mobile/
     //  http://112.173.80.179:8080/firstcare_mobile/

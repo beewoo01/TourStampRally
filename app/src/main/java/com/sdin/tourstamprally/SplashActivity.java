@@ -36,6 +36,7 @@ import com.sdin.tourstamprally.model.UserModel;
 import com.sdin.tourstamprally.ui.activity.BaseActivity;
 import com.sdin.tourstamprally.ui.activity.LoginActivity;
 import com.sdin.tourstamprally.ui.activity.MainActivity;
+import com.sdin.tourstamprally.ui.activity.MainActivity2;
 import com.sdin.tourstamprally.ui.dialog.DefaultDialog;
 
 import retrofit2.Call;
@@ -247,7 +248,7 @@ public class SplashActivity extends BaseActivity {
 
                             //Log.wtf("UserIDX!!", String.valueOf(Utils.User_Idx));
 
-                            moveActivity(MainActivity.class, "로그인에 성공하셨습니다.");
+                            moveActivity(MainActivity2.class, "로그인에 성공하셨습니다.");
                         }else {
                             moveActivity(LoginActivity.class, "로그인에 실패하셨습니다.");
                         }
