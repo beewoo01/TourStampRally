@@ -29,14 +29,17 @@ import com.sdin.tourstamprally.adapter.VisitReAdapter;
 import com.sdin.tourstamprally.adapter.swipe.ItemDecoration;
 
 import com.sdin.tourstamprally.adapter.swipe.SwipeHelperCallback;
+import com.sdin.tourstamprally.data.UserInfo;
 import com.sdin.tourstamprally.databinding.DirectionGuidTagItemBinding;
 import com.sdin.tourstamprally.databinding.FragmentVisithistoryBinding;
+import com.sdin.tourstamprally.model.CouponModel;
 import com.sdin.tourstamprally.model.Tour_Spot;
 import com.sdin.tourstamprally.model.VisitCountModel;
 import com.sdin.tourstamprally.model.VisitHistory_Model;
 import com.sdin.tourstamprally.model.history_spotModel;
 import com.sdin.tourstamprally.model.history_spotModel2;
 import com.sdin.tourstamprally.ui.activity.LoginActivity;
+import com.sdin.tourstamprally.ui.dialog.PopUp_Image;
 import com.sdin.tourstamprally.utill.ItemCliclListener;
 
 import org.jetbrains.annotations.NotNull;
@@ -182,7 +185,8 @@ public class VisitHistoryFragment extends BaseFragment {
                         if (response.isSuccessful()) {
                             //ShowToast("찜하기에 성공 하셨습니다.", requireContext());
                             //Log.wtf("response.body()", String.valueOf(response.body()));
-                            if (response.body() == 0) {
+
+                            if (response.body()!= null && response.body() == 0) {
                                 //  Log.wtf("onResponse", "찜하기 000000");
                                 insert_intest(model.getTouristspot_idx());
                             }
@@ -219,7 +223,37 @@ public class VisitHistoryFragment extends BaseFragment {
 
                             @Override
                             public void onError(@io.reactivex.rxjava3.annotations.NonNull Throwable e) {
+                                e.printStackTrace();
+                            }
+                        });
+            }
 
+            @Override
+            public void clearClick(int touristspot_idx) {
+                apiService.selectCoupon(touristspot_idx, Utils.User_Idx).subscribeOn(Schedulers.newThread())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribeWith(new DisposableSingleObserver<CouponModel>() {
+                            @Override
+                            public void onSuccess(@io.reactivex.rxjava3.annotations.NonNull CouponModel couponModel) {
+                                Log.wtf("selectCoupon","onSuccess");
+                                try {
+                                    if (couponModel != null) {
+                                    new PopUp_Image(requireContext(), couponModel).show();
+                                    } else  {
+                                        Toast.makeText(requireContext(), "해당 관광지의 쿠폰이 발급되지 않았습니다.", Toast.LENGTH_SHORT).show();
+                                    }
+                                }catch (Exception e){
+                                    e.printStackTrace();
+                                    Toast.makeText(requireContext(), "해당 관광지의 쿠폰이 발급되지 않았습니다.", Toast.LENGTH_SHORT).show();
+                                }
+
+
+                            }
+
+                            @Override
+                            public void onError(@io.reactivex.rxjava3.annotations.NonNull Throwable e) {
+                                e.printStackTrace();
+                                Toast.makeText(requireContext(), "해당 관광지의 쿠폰이 발급되지 않았습니다.", Toast.LENGTH_SHORT).show();
                             }
                         });
             }
@@ -241,6 +275,7 @@ public class VisitHistoryFragment extends BaseFragment {
     }
 
 
+    @SuppressLint("NotifyDataSetChanged")
     private void search(String searchData) {
 
         ArrayList<history_spotModel2> arrayList = new ArrayList<>();

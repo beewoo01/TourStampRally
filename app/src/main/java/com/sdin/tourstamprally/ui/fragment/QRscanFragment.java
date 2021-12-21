@@ -116,7 +116,6 @@ public class QRscanFragment extends BaseFragment implements DialogListener {
                     //Log.wtf("isAvailable", "isSuccessful");
 
                     touristSpotPoint = response.body();
-                   // Log.wtf("isAvailable11111", touristSpotPoint.toString());
                     if (touristSpotPoint == null) {
                         showFailDialog();
                     } else {
@@ -174,7 +173,7 @@ public class QRscanFragment extends BaseFragment implements DialogListener {
 
     private void sendTagging(String text){
 
-        apiService.check_in(text, String.valueOf(Utils.User_Idx)).enqueue(new Callback<HashMap<String, Integer>>() {
+        apiService.check_in(text, String.valueOf(Utils.User_Idx), Utils.UserPhone).enqueue(new Callback<HashMap<String, Integer>>() {
             @Override
             public void onResponse(@NotNull Call<HashMap<String, Integer>> call, @NotNull Response<HashMap<String, Integer>> response) {
                 Log.wtf("체크인 ", "체크인 ");

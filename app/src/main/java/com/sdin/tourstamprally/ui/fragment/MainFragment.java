@@ -92,8 +92,8 @@ public class MainFragment extends BaseFragment2 {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_main, container, false);
-        /////binding.setFragment(this);
-        //binding.tourRallyPgb.setVisibility(View.VISIBLE);
+        binding.setFragment(this);
+        binding.tourRallyPgb.setVisibility(View.VISIBLE);
 
         binding.rallyRecyclerview.setLayoutManager(new GridLayoutManager(requireContext(), 2) {
 
@@ -198,7 +198,7 @@ public class MainFragment extends BaseFragment2 {
     private class RallyRecyclerviewAdapter extends RecyclerView.Adapter<RallyRecyclerviewAdapter.ViewHolder> {
 
         private final ArrayList<Location_four> adapterList;
-        private final ItemOnClick itemOnClick = (MainActivity2) requireActivity();
+        private final ItemOnClick itemOnClick = (MainActivity) requireActivity();
         // TODO: 2021/12/15 MainActivity 로 전횐
 
         public RallyRecyclerviewAdapter(ArrayList<Location_four> adapterList) {

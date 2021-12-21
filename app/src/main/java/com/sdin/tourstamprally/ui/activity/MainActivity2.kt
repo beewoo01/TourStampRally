@@ -53,10 +53,10 @@ class MainActivity2 : AppCompatActivity(), ItemOnClick {
         binding = DataBindingUtil.setContentView(this@MainActivity2, R.layout.activity_main2)
         binding.activity = this@MainActivity2
         binding.toolbarLayout.activity = this
-        binding.navigationLayout.drawaRecyclerview.apply {
+        /*binding.navigationLayout.drawaRecyclerview.apply {
             setHasFixedSize(true)
             adapter = DrawaRecyclerViewAdapter(this@MainActivity2)
-        }
+        }*/
         binding.drawaLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
         appBarConfiguration = AppBarConfiguration(
             setOf(R.id.account_admin, R.id.notice, R.id.coupon_list, R.id.notify_setting, R.id.bascet_list),

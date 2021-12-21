@@ -171,7 +171,7 @@ public class NFCFragment extends BaseFragment implements NFCListener {
 
     private void sendTagging(String text) {
 
-        apiService.check_in(text, String.valueOf(Utils.User_Idx)).enqueue(new Callback<HashMap<String, Integer>>() {
+        apiService.check_in(text, String.valueOf(Utils.User_Idx), Utils.UserPhone).enqueue(new Callback<HashMap<String, Integer>>() {
             @Override
             public void onResponse(@NotNull Call<HashMap<String, Integer>> call, @NotNull Response<HashMap<String, Integer>> response) {
                 if (response.isSuccessful()) {

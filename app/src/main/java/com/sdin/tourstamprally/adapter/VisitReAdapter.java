@@ -80,25 +80,29 @@ public class VisitReAdapter extends RecyclerView.Adapter<VisitReAdapter.SwipeVie
         return new SwipeViewHolder(binding);
     }
 
-
-    public void setChange(int position){
-
-        history_spotModel2 model = historySpotList.get(position);
-        model = new history_spotModel2(model.getAllCount(), model.getMyCount(),
-                model.getLocation_idx(), model.getLocation_name() , model.getTouristspot_idx(),
-                model.getTouristspot_name(), model.getTouristspot_explan(), model.getTouristspot_latitude(),
-                model.getTouristspot_longitude(), model.getTouristspot_img(), model.getTouristhistory_updatetime(),
-                0, 0, null);
-
-        historySpotList.set(position, model);
-        notifyItemChanged(position);
-    }
-
-
     @Override
     public void onBindViewHolder(@NonNull SwipeViewHolder holder, int position) {
         holder.bind(historySpotList.get(position), position, selectedItems);
         holder.setOnViewHolderItemClickListener(() -> {
+            if (selectedItems.get(position)) {
+                // 펼쳐진 Item을 클릭 시
+                selectedItems.delete(position);
+            } else {
+                // 직전의 클릭됐던 Item의 클릭상태를 지움
+                selectedItems.delete(prePosition);
+                // 클릭한 Item의 position을 저장
+                selectedItems.put(position, true);
+            }
+
+            // 해당 포지션의 변화를 알림
+            if (prePosition != -1) notifyItemChanged(prePosition);
+            // 클릭된 position 저장
+            notifyItemChanged(position);
+            prePosition = holder.getAbsoluteAdapterPosition();
+
+        });
+
+        /*holder.setOnViewHolderItemClickListener(() -> {
             if (selectedItems.get(position)) {
                 // 펼쳐진 Item을 클릭 시
                 selectedItems.delete(position);
@@ -113,9 +117,21 @@ public class VisitReAdapter extends RecyclerView.Adapter<VisitReAdapter.SwipeVie
             notifyItemChanged(position);
             // 클릭된 position 저장
             prePosition = position;
-        });
+        });*/
+    }
 
 
+    public void setChange(int position) {
+
+        history_spotModel2 model = historySpotList.get(position);
+        model = new history_spotModel2(model.getAllCount(), model.getMyCount(),
+                model.getLocation_idx(), model.getLocation_name() , model.getTouristspot_idx(),
+                model.getTouristspot_name(), model.getTouristspot_explan(), model.getTouristspot_latitude(),
+                model.getTouristspot_longitude(), model.getTouristspot_img(), model.getTouristhistory_updatetime(),
+                0, 0, null);
+
+        historySpotList.set(position, model);
+        notifyItemChanged(position);
     }
 
     @Override
@@ -164,7 +180,9 @@ public class VisitReAdapter extends RecyclerView.Adapter<VisitReAdapter.SwipeVie
                 Log.wtf("logoImv", "allCount = " + allCountd);
                 if (allCountd == 100){
                     Log.wtf("logoImv", "allCount100");
-                    new PopUp_Image(context).show();
+                    // TODO: 2021/12/17 여기 쿠폰 보기 클릭
+                    //new PopUp_Image(context).show();
+                    listener.clearClick(model.getTouristspot_idx());
                 }
             });
 

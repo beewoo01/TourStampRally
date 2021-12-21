@@ -34,6 +34,8 @@
 
     <color name="popupbackground">#EBEBEB</color>
 
+    <color name="allclear_coupon_bg_color">#3549CB</color>
+
     <color name="popupColor">#009EE2</color>
     <color name="seekColor">#52BDFC</color>
     <color name="peachColor">#FFBFB4</color>

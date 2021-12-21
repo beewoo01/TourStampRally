@@ -94,8 +94,10 @@ import java.io.OutputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -140,6 +142,23 @@ public class MainActivity extends BaseActivity implements NavigationBarView.OnIt
         super.onCreate(savedInstanceState);
         Log.d("MainActivity", "onCreate ");
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String gew =  "2021-11-02 16:20:42";
+        Calendar calendar = Calendar.getInstance();
+        try {
+            Date to = sdf.parse(gew);
+            calendar.setTime(to);
+            System.out.println("YEAR = " + calendar.get(Calendar.YEAR));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+
+        /*calendar.setTime(date);
+
+        Calendar.getInstance();*/
+        //Log.wtf("", );
 
         initView();
         setNFC();

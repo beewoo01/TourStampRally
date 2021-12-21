@@ -4,6 +4,7 @@ package com.sdin.tourstamprally.api;
 
 import com.google.gson.Gson;
 import com.sdin.tourstamprally.model.AllReviewDTO;
+import com.sdin.tourstamprally.model.CouponModel;
 import com.sdin.tourstamprally.model.HashTagModel;
 import com.sdin.tourstamprally.model.InterestModel;
 import com.sdin.tourstamprally.model.Location;
@@ -221,7 +222,7 @@ public interface APIService {
     Call<TouristSpotPoint> getDistance( @Query("tag_info") String taggin_info);
 
     @GET("check_in")
-    Call<HashMap<String, Integer>> check_in(@Query("taggin_info") String taggin_info, @Query("userIdx") String userIdx );
+    Call<HashMap<String, Integer>> check_in(@Query("taggin_info") String taggin_info, @Query("userIdx") String userIdx, @Query("user_phone") String user_phone);
 
     @GET("select_success_data")
     Call<RallyMapDTO> select_success_data( @Query("touristspotpoint_idx") String touristspotpoint_idx);
@@ -271,6 +272,12 @@ public interface APIService {
             @Query("review_score") float review_score,
             @Query("review_contents") String review_contents,
             @Query("review_idx") int review_idx
+    );
+
+    @GET("selectCoupon")
+    Single<CouponModel> selectCoupon(
+            @Query("coupon_touristspot_idx") int coupon_touristspot_idx,
+            @Query("coupon_user_idx") int coupon_user_idx
     );
 
 }
