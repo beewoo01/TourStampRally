@@ -77,8 +77,11 @@ public class DirectionGuidFragment extends BaseFragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             paramArrayList = getArguments().getParcelableArrayList(ARG_PARAM);
+            Log.wtf("넘어옴?", String.valueOf(paramArrayList.size()));
             /*Log.wtf("paramArrayList", paramArrayList.toString());
             Log.wtf("paramArrayListsize", String.valueOf(paramArrayList.size()));*/
+        }else {
+            Log.wtf("넘어옴 ㄴㄴ?", "0");
         }
     }
 

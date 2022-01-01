@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.databinding.DataBindingUtil;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -108,8 +109,7 @@ public class LocationFragment extends BaseFragment {
         binding.locationTxv.setText(location_name);
 
 
-
-        if (!TextUtils.isEmpty(location_four.getLocation_img())){
+        if (!TextUtils.isEmpty(location_four.getLocation_img())) {
             Glide.with(requireContext()).load("http://coratest.kr/imagefile/bsr/" + location_four.getLocation_img()).into(new CustomTarget<Drawable>() {
                 @Override
                 public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
@@ -128,7 +128,7 @@ public class LocationFragment extends BaseFragment {
         return binding.getRoot();
     }
 
-    private void getData(){
+    private void getData() {
         binding.locationPgb.setVisibility(View.VISIBLE);
         apiService.getTourLocation_for_spot(Utils.User_Idx, location_four.getLocation_idx()).enqueue(new Callback<List<RallyMapDTO>>() {
             @Override
@@ -146,7 +146,7 @@ public class LocationFragment extends BaseFragment {
 
     }
 
-    private void setRecylcerviewAdapter(){
+    private void setRecylcerviewAdapter() {
 
         LocationFragAdapter adapter = new LocationFragAdapter(new ArrayList<>(list));
 
@@ -156,13 +156,13 @@ public class LocationFragment extends BaseFragment {
     }
 
     @SuppressLint("SetTextI18n")
-    private void setProgress(){
+    private void setProgress() {
 
         //int clear = 0;
 
         int AllLocationPercent = 0;
         int MyLocationPercent = 0;
-        for (RallyMapDTO model : list){
+        for (RallyMapDTO model : list) {
             AllLocationPercent += model.getAllCount();
             MyLocationPercent += model.getMyCount();
         }
@@ -178,15 +178,14 @@ public class LocationFragment extends BaseFragment {
     class LocationFragAdapter extends RecyclerView.Adapter<LocationFragAdapter.ViewHolder> {
 
         private final ArrayList<RallyMapDTO> arrayList;
-        private final ItemOnClick listener;
+        //private final ItemOnClick listener;
         private RallyMapDTO send_model;
         private Geocoder geocoder;
 
 
-
         public LocationFragAdapter(ArrayList<RallyMapDTO> arrayList) {
             this.arrayList = arrayList;
-            listener = (MainActivity) requireActivity();
+            //listener = (MainActivity) requireActivity();
             geocoder = new Geocoder(requireContext());
         }
 
@@ -197,7 +196,7 @@ public class LocationFragment extends BaseFragment {
             return new ViewHolder(
                     ItemReRallyMapBinding.inflate(
                             LayoutInflater.from(requireContext()), parent, false)
-                    );
+            );
         }
 
         @Override
@@ -207,7 +206,7 @@ public class LocationFragment extends BaseFragment {
             Glide.with(holder.itemView.getContext()).load(setProgress(position) ? R.drawable.stemp_ic : R.drawable.logo_gray).into(holder.binding.logoImv);
             holder.binding.spotName.setText(arrayList.get(position).getTouristspot_name());
             if (arrayList.get(position).getTouristspot_address() != null
-                    && arrayList.get(position).getTouristspot_address().equalsIgnoreCase("null")){
+                    && arrayList.get(position).getTouristspot_address().equalsIgnoreCase("null")) {
                 holder.binding.explanTxv.setText(arrayList.get(position).getTouristspot_address());
             }
 
@@ -219,7 +218,7 @@ public class LocationFragment extends BaseFragment {
 
         }
 
-        private boolean setProgress(int position){
+        private boolean setProgress(int position) {
 
             return arrayList.get(position).getAllCount() <= arrayList.get(position).getMyCount();
 
@@ -230,15 +229,21 @@ public class LocationFragment extends BaseFragment {
             return arrayList.size();
         }
 
-        class ViewHolder extends RecyclerView.ViewHolder{
+        class ViewHolder extends RecyclerView.ViewHolder {
             private final ItemReRallyMapBinding binding;
+
             public ViewHolder(@NonNull ItemReRallyMapBinding binding) {
                 super(binding.getRoot());
                 this.binding = binding;
 
-                binding.topLayout.setOnClickListener( v -> {
+                binding.topLayout.setOnClickListener(v -> {
                     send_model = arrayList.get(getAbsoluteAdapterPosition());
-                    listener.ItemGuidForPoint(send_model);
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("model", arrayList.get(getAbsoluteAdapterPosition()));
+                    Navigation
+                            .findNavController(requireActivity(), R.id.nav_host)
+                            .navigate(R.id.action_fragment_location_to_fragment_tour_spot_point, bundle);
+                    //listener.ItemGuidForPoint(send_model);
                     /*GuidDialog guidDialog = new GuidDialog(requireContext());
                     guidDialog.show();
                     guidDialog.setClickListener(itemOnClick);*/

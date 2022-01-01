@@ -17,7 +17,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fitsSystemWindows="true"
-
+        tools:openDrawer="end"
         >
 
         <RelativeLayout
@@ -66,12 +66,11 @@
                 android:name="androidx.navigation.fragment.NavHostFragment"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:tag="container"
-                app:defaultNavHost="true"
-                app:navGraph="@navigation/nav_graph"
                 android:layout_above="@+id/bottom_navigation_view"
                 android:layout_below="@+id/toolbar_layout"
-                />
+                android:tag="container"
+                app:defaultNavHost="true"
+                app:navGraph="@navigation/nav_graph" />
 
 
 
@@ -82,7 +81,7 @@
                 android:background="@color/white"
                 android:layout_alignParentBottom="true"
                 app:labelVisibilityMode="labeled"
-                app:menu="@menu/test_menu" />
+                app:menu="@menu/main_bottom_navigation_menu" />
 
 
         </RelativeLayout>

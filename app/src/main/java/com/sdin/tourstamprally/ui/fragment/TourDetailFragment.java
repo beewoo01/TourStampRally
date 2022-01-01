@@ -102,12 +102,14 @@ public class TourDetailFragment extends BaseFragment/* implements MapView.MapVie
 
     public void onClick(View view) {
         if (view.getId() == binding.phoneTxv.getId()) {
+
             Pattern pattern1 = Pattern.compile("\\d{3}-\\d{4}-\\d{4}");
             Pattern pattern2 = Pattern.compile("\\d{3}-\\d{3}-\\d{4}");
             Pattern pattern3 = Pattern.compile("\\d{11}");
             Pattern pattern4 = Pattern.compile("\\d{10}");
 
-            if (!TextUtils.isEmpty(binding.phoneTxv.getText().toString())) {
+            if (touristSpotPoint.getTouristspotpoint_contactinfo() != null &&
+                    !TextUtils.isEmpty(binding.phoneTxv.getText().toString())) {
                 String phone = touristSpotPoint.getTouristspotpoint_contactinfo();
                 Log.wtf("phone", phone);
                 boolean isVailable;
@@ -135,7 +137,11 @@ public class TourDetailFragment extends BaseFragment/* implements MapView.MapVie
                 } else {
                     Toast.makeText(requireContext(), "해당 관광지는 등록된 전화번호가 없습니다.", Toast.LENGTH_SHORT).show();
                 }
+            }else {
+                Toast.makeText(requireContext(), "해당 관광지는 등록된 전화번호가 없습니다.", Toast.LENGTH_SHORT).show();
             }
+
+
         } else if (view.getId() == binding.detailTxv.getId()) {
             String link = touristSpotPoint.getTouristspotpoint_link();
             Log.wtf("LINK", link);
@@ -157,13 +163,14 @@ public class TourDetailFragment extends BaseFragment/* implements MapView.MapVie
                 Toast.makeText(requireContext(), "서비스 준비 중 입니다.", Toast.LENGTH_SHORT).show();
             }*/
         }
+
     }
 
     public void watchMovie() {
         try {
             //requireActivity().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.youtube.com/channel/UCNQDd7xWs6faDK4WW-zMcPg")));
             requireActivity().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(touristSpotPoint.getTouristspotpoint_videolink())));
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -196,11 +203,11 @@ public class TourDetailFragment extends BaseFragment/* implements MapView.MapVie
         /*Toast.makeText(requireContext(), "서비스 준비 중 입니다.", Toast.LENGTH_SHORT).show();*/
     }
 
-    private void showDetailPopup(){
+    private void showDetailPopup() {
         new DetailDialog(requireContext(), touristSpotPoint).show();
     }
 
-    private void showReadyDialog(){
+    private void showReadyDialog() {
         ReadyDialog dialog = new ReadyDialog(requireContext());
         dialog.show();
     }

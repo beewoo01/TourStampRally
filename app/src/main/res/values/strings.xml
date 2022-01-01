@@ -76,7 +76,6 @@
     <string name="notify_setting">알림설정</string>
     <string name="bascet_list">찜한목록</string>
     <string name="logout">로그아웃</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="select_service_dialog">원하는 서비스를 선택해주세요</string>
     <string name="more_tour">관광지 자세히 보기</string>
@@ -97,5 +96,6 @@
     <string name="report">기록</string>
     <string name="stamp">스탬프</string>
     <string name="camera">카메라</string>
+    <string name="profile">profile</string>
 
 </resources>

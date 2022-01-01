@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    >
 
     <data>
         <variable
@@ -7,9 +10,7 @@
             type="com.sdin.tourstamprally.ui.activity.MainActivity2" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -32,7 +33,8 @@
                 app:layout_constraintBottom_toTopOf="@id/user_name_layout"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                android:contentDescription="@string/profile" />
 
             <LinearLayout
                 android:id="@+id/user_name_layout"
@@ -111,6 +113,127 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
+        <TextView
+            android:id="@+id/account_txv"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_45sdp"
+            app:layout_constraintTop_toBottomOf="@id/headerLayout"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:background="@color/white"
+            android:text="계정관리"
+            android:gravity="start|center_vertical"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_14sdp"
+            android:textStyle="bold"
+            android:elevation="@dimen/_5sdp"
+            android:outlineAmbientShadowColor="#98A2AA"
+            android:outlineSpotShadowColor="#9EB6CC"
+            android:outlineProvider="background"
+            android:paddingHorizontal="@dimen/_10sdp"
+            android:drawablePadding="@dimen/_10sdp"
+            android:onClick="@{() -> activity.drawerItemClick(0)}"
+            app:drawableEndCompat="@drawable/ic_arrow_right_24"
+            app:drawableStartCompat="@drawable/setting_ic_resize"
+            tools:targetApi="p" />
+
+        <TextView
+            android:id="@+id/notice_txv"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_45sdp"
+            app:layout_constraintTop_toBottomOf="@id/account_txv"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:background="@color/white"
+            android:text="공지사항"
+            android:gravity="start|center_vertical"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_14sdp"
+            android:textStyle="bold"
+            android:layout_marginTop="@dimen/_3sdp"
+            android:elevation="@dimen/_5sdp"
+            android:outlineAmbientShadowColor="#98A2AA"
+            android:outlineSpotShadowColor="#9EB6CC"
+            android:outlineProvider="background"
+            android:paddingHorizontal="@dimen/_10sdp"
+            android:drawablePadding="@dimen/_10sdp"
+            android:onClick="@{() -> activity.drawerItemClick(1)}"
+            app:drawableEndCompat="@drawable/ic_arrow_right_24"
+            app:drawableStartCompat="@drawable/notice_icon_resize" />
+
+        <TextView
+            android:id="@+id/coupon_txv"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_45sdp"
+            app:layout_constraintTop_toBottomOf="@id/notice_txv"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:background="@color/white"
+            android:text="쿠폰현황"
+            android:gravity="start|center_vertical"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_14sdp"
+            android:textStyle="bold"
+            android:layout_marginTop="@dimen/_3sdp"
+            android:elevation="@dimen/_5sdp"
+            android:outlineAmbientShadowColor="#98A2AA"
+            android:outlineSpotShadowColor="#9EB6CC"
+            android:outlineProvider="background"
+            android:paddingHorizontal="@dimen/_10sdp"
+            android:drawablePadding="@dimen/_10sdp"
+            android:onClick="@{() -> activity.drawerItemClick(2)}"
+            app:drawableEndCompat="@drawable/ic_arrow_right_24"
+            app:drawableStartCompat="@drawable/coupon_status_icon_resize" />
+
+
+        <TextView
+            android:id="@+id/alram_txv"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_45sdp"
+            app:layout_constraintTop_toBottomOf="@id/coupon_txv"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:background="@color/white"
+            android:text="알림설정"
+            android:gravity="start|center_vertical"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_14sdp"
+            android:textStyle="bold"
+            android:layout_marginTop="@dimen/_3sdp"
+            android:elevation="@dimen/_5sdp"
+            android:outlineAmbientShadowColor="#98A2AA"
+            android:outlineSpotShadowColor="#9EB6CC"
+            android:outlineProvider="background"
+            android:paddingHorizontal="@dimen/_10sdp"
+            android:drawablePadding="@dimen/_10sdp"
+            android:onClick="@{() -> activity.drawerItemClick(3)}"
+            app:drawableEndCompat="@drawable/ic_arrow_right_24"
+            app:drawableStartCompat="@drawable/alarm_settings_icon_resize" />
+
+
+        <TextView
+            android:id="@+id/deab_txv"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_45sdp"
+            app:layout_constraintTop_toBottomOf="@id/alram_txv"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:background="@color/white"
+            android:text="찜한목록"
+            android:gravity="start|center_vertical"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_14sdp"
+            android:textStyle="bold"
+            android:layout_marginTop="@dimen/_3sdp"
+            android:elevation="@dimen/_5sdp"
+            android:outlineAmbientShadowColor="#98A2AA"
+            android:outlineSpotShadowColor="#9EB6CC"
+            android:outlineProvider="background"
+            android:paddingHorizontal="@dimen/_10sdp"
+            android:drawablePadding="@dimen/_10sdp"
+            android:onClick="@{() -> activity.drawerItemClick(4)}"
+            app:drawableEndCompat="@drawable/ic_arrow_right_24"
+            app:drawableStartCompat="@drawable/notice_icon_resize" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

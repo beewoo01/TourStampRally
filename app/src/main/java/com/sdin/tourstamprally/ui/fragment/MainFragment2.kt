@@ -1,15 +1,16 @@
 package com.sdin.tourstamprally.ui.fragment
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.databinding.DataBindingUtil
-import androidx.databinding.library.baseAdapters.BR
-import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -23,9 +24,7 @@ import com.sdin.tourstamprally.databinding.FragmentMainBinding
 import com.sdin.tourstamprally.databinding.StepRallyLocationItemBinding
 import com.sdin.tourstamprally.model.AllReviewDTO
 import com.sdin.tourstamprally.model.Location_four
-import com.sdin.tourstamprally.model.Tour_Spot
 import com.sdin.tourstamprally.ui.activity.MainActivity
-import com.sdin.tourstamprally.utill.ItemOnClick
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.observers.DisposableSingleObserver
 import io.reactivex.rxjava3.schedulers.Schedulers
@@ -35,13 +34,8 @@ import retrofit2.Response
 
 class MainFragment2 : BaseFragment() {
 
-    companion object {
-        private const val param1 = "param1"
-        private const val param2 = "param2"
-    }
-
     private lateinit var viewBind: FragmentMainBinding
-    private val tourList_test: MutableList<Location_four> = mutableListOf()
+    private val tourList: MutableList<Location_four> = mutableListOf()
     private val listener by lazy {
         requireActivity() as MainActivity
     }
@@ -53,27 +47,19 @@ class MainFragment2 : BaseFragment() {
         savedInstanceState: Bundle?
     ): View {
         viewBind = DataBindingUtil.inflate(inflater, R.layout.fragment_main, container, false)
-        //viewBind.fragment = this@MainFragment2
-
+        viewBind.fragment = this@MainFragment2
+        viewBind.tourRallyPgb.visibility = View.VISIBLE
         viewBind.rallyRecyclerview.layoutManager = object : GridLayoutManager(requireContext(), 2) {
             override fun canScrollVertically(): Boolean {
                 return false
             }
         }
 
-
-        /*binding.rallyRecyclerview.setLayoutManager(new GridLayoutManager(requireContext(), 2) {
-
-            @Override
-            public boolean canScrollVertically() {
-                return false;
-            }
-        });
-
         getTop4Location();
-        getAllReview();*/
+        getAllReview();
         return viewBind.root
     }
+
 
     private fun getTop4Location() {
         apiService.getFourLocations(Utils.User_Idx).enqueue(object : Callback<List<Location_four>> {
@@ -81,13 +67,17 @@ class MainFragment2 : BaseFragment() {
                 call: Call<List<Location_four>>,
                 response: Response<List<Location_four>>
             ) {
-                if (tourList_test != null) {
-                    //setData()
+                viewBind.tourRallyPgb.visibility = View.GONE
+                response.body()?.let {
+                    tourList.addAll(it)
+                    setData(tourList)
                 }
+
             }
 
             override fun onFailure(call: Call<List<Location_four>>, t: Throwable) {
-                TODO("Not yet implemented")
+                t.printStackTrace()
+                viewBind.tourRallyPgb.visibility = View.GONE
             }
 
 
@@ -95,7 +85,10 @@ class MainFragment2 : BaseFragment() {
     }
 
     private fun setData(list: MutableList<Location_four>) {
-        //val adapter = RallyRecyclerviewAdapter()
+        val adapter = RallyRecyclerviewAdapter(context = requireContext(), list)
+        viewBind.rallyRecyclerview.apply {
+            this.adapter = adapter
+        }
     }
 
     private fun getAllReview() {
@@ -116,6 +109,27 @@ class MainFragment2 : BaseFragment() {
             })
     }
 
+    fun cuverClick() {
+        //공지사항
+        findNavController().navigate(R.id.notice)
+    }
+
+    fun moreClick() {
+        //더보기
+        findNavController().navigate(R.id.action_mainfragment_to_fragment_direction_guid,
+            Bundle().apply {
+                putParcelableArrayList("model", ArrayList<Location_four>().apply {
+                    addAll(tourList)
+                })
+            }
+        )
+    }
+
+    fun reviewMoreClick() {
+
+        findNavController().navigate(R.id.action_mainfragment_to_fragment_more_review)
+    }
+
     private fun initReviewData(reviewDataList: MutableList<AllReviewDTO>) {
         viewBind.mainReviewRecyclerview.apply {
             adapter =
@@ -133,7 +147,7 @@ class MainFragment2 : BaseFragment() {
     }
 
 
-    class RallyRecyclerviewAdapter(
+    inner class RallyRecyclerviewAdapter(
         val context: Context,
         val adapterList: MutableList<Location_four>
     ) : RecyclerView.Adapter<RallyRecyclerviewAdapter.ViewHolder>() {
@@ -142,9 +156,16 @@ class MainFragment2 : BaseFragment() {
             /*init {
                 holderBinding.holder = this
             }*/
+            @SuppressLint("SetTextI18n")
             fun onBind(model: Location_four) {
-              //  holderBinding.item = model
+                //  holderBinding.item = model
                 holderBinding.location.text = model.location_name
+                holderBinding.stepRallyBg.setOnClickListener {
+                    findNavController().navigate(R.id.action_mainfragment_to_fragment_location,
+                        Bundle().apply {
+                            putParcelable("model",adapterList[absoluteAdapterPosition])
+                        })
+                }
 
                 Glide.with(context)
                     .load("http://coratest.kr/imagefile/bsr/" + model.location_img)
@@ -166,15 +187,70 @@ class MainFragment2 : BaseFragment() {
                     setFavorite(model)
                 }
 
-            }
+                holderBinding.dibsImv.setOnClickListener {
+                    Log.wtf("dibsImv", "model.myInterCount ${model.myInterCount}")
+                    holderBinding.dibsImv.isEnabled = false
+                    if (model.allSpotCount == model.myInterCount) {
+                        Log.wtf("dibsImv", "allSpotCount100")
 
-            fun deapClicl(model: Location_four) {
-                holderBinding.dibsImv.isEnabled = false
-                if (model.allSpotCount == model.myInterCount) {
-                    setGlide(holderBinding.dibsImv, R.drawable.heart_resize)
+                        Glide.with(it.context).load(R.drawable.heart_resize)
+                            .into(holderBinding.dibsImv)
 
+                        apiService.multipleDelDeaps(
+                            Utils.User_Idx,
+                            model.location_idx
+                        ).subscribeOn(Schedulers.newThread())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribeWith(object : DisposableSingleObserver<Int>() {
+
+                                override fun onSuccess(t: Int) {
+                                    holderBinding.dibsImv.isEnabled = true
+                                    model.myInterCount = 0
+                                }
+
+                                override fun onError(e: Throwable) {
+                                    Glide.with(it.context).load(R.drawable.full_heart_resize)
+                                        .into(holderBinding.dibsImv)
+                                    holderBinding.dibsImv.isEnabled = true
+                                    e.printStackTrace()
+                                }
+                            })
+                    } else {
+                        //DEAP 추가
+                        Log.wtf("dibsImv", "allSpotCount else")
+                        Glide.with(it.context).load(R.drawable.full_heart_resize)
+                            .into(holderBinding.dibsImv)
+
+                        apiService.multipleInserDeaps(
+                            Utils.User_Idx,
+                            model.location_idx
+                        ).subscribeOn(Schedulers.newThread())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribeWith(object : DisposableSingleObserver<Int>() {
+                                override fun onSuccess(integer: Int) {
+                                    model.myInterCount = model.allSpotCount
+                                    holderBinding.dibsImv.isEnabled = true
+                                    Log.wtf("Result===", integer.toString())
+                                }
+
+                                override fun onError(e: Throwable) {
+                                    Glide.with(it.context).load(R.drawable.heart_resize)
+                                        .into(holderBinding.dibsImv)
+                                    holderBinding.dibsImv.isEnabled = true
+                                    e.printStackTrace()
+                                }
+                            })
+                    }
                 }
+
+                val allCountd =
+                    (model.myHistoryCount.toDouble() / model.allPointCount.toDouble() * 100).toInt()
+                holderBinding.seekbar.max = model.allPointCount
+                holderBinding.seekbar.progress = model.myHistoryCount
+                holderBinding.seekTxv.text = "$allCountd%"
+
             }
+
 
             private fun setPopular(model: Location_four) {
                 if (model.popular > model.allPointCount) {
@@ -196,15 +272,6 @@ class MainFragment2 : BaseFragment() {
                 }
             }
 
-            private val deapClick: View.OnClickListener =
-                View.OnClickListener {
-
-                }
-
-            private fun deapClick() {
-
-            }
-
 
             private fun setGlide(target: ImageView, img: Int) {
                 Glide.with(context).load(img).into(target)
@@ -213,7 +280,13 @@ class MainFragment2 : BaseFragment() {
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-            TODO("Not yet implemented")
+            return ViewHolder(
+                StepRallyLocationItemBinding.inflate(
+                    LayoutInflater.from(requireContext()),
+                    parent,
+                    false
+                )
+            )
         }
 
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {

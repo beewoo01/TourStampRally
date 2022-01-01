@@ -7,7 +7,7 @@
     <data>
         <variable
             name="fragment"
-            type="com.sdin.tourstamprally.ui.fragment.MainFragment" />
+            type="com.sdin.tourstamprally.ui.fragment.MainFragment2" />
     </data>
 
     <androidx.constraintlayout.motion.widget.MotionLayout
@@ -183,8 +183,6 @@
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toEndOf="@id/coupon_imv"
                             app:layout_constraintTop_toTopOf="parent" />
-
-                        <!--todo 아이콘 변경해야함-->
 
 
                         <TextView

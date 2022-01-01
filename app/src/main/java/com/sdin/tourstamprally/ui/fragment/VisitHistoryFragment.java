@@ -18,6 +18,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -25,6 +26,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.sdin.tourstamprally.R;
 import com.sdin.tourstamprally.Utils;
 import com.sdin.tourstamprally.adapter.DirectionGuid_Tag_Adapter;
+import com.sdin.tourstamprally.adapter.ViSitReAdapterV2;
 import com.sdin.tourstamprally.adapter.VisitReAdapter;
 import com.sdin.tourstamprally.adapter.swipe.ItemDecoration;
 
@@ -33,6 +35,7 @@ import com.sdin.tourstamprally.data.UserInfo;
 import com.sdin.tourstamprally.databinding.DirectionGuidTagItemBinding;
 import com.sdin.tourstamprally.databinding.FragmentVisithistoryBinding;
 import com.sdin.tourstamprally.model.CouponModel;
+import com.sdin.tourstamprally.model.ReviewWriter;
 import com.sdin.tourstamprally.model.Tour_Spot;
 import com.sdin.tourstamprally.model.VisitCountModel;
 import com.sdin.tourstamprally.model.VisitHistory_Model;
@@ -63,7 +66,7 @@ public class VisitHistoryFragment extends BaseFragment {
 
     private FragmentVisithistoryBinding binding;
     private List<history_spotModel2> history_spotList;
-    private VisitReAdapter adapter;
+    private ViSitReAdapterV2 adapter;
 
 
     @Nullable
@@ -147,7 +150,9 @@ public class VisitHistoryFragment extends BaseFragment {
                             ItemTouchHelper itemTouchHelper = new ItemTouchHelper(callback);
                             itemTouchHelper.attachToRecyclerView(binding.visitRecyclerView);
                             ArrayList<history_spotModel2> arrayList = new ArrayList<>(history_spotList);
-                            adapter = new VisitReAdapter(arrayList, requireContext());
+                            adapter = new ViSitReAdapterV2(arrayList, requireContext(), model -> {
+                                onWriteReviewClick(model);
+                            });
 
                             binding.visitRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
                             binding.visitRecyclerView.setAdapter(adapter);
@@ -175,8 +180,17 @@ public class VisitHistoryFragment extends BaseFragment {
         });
     }
 
+    private void onWriteReviewClick(@NonNull ReviewWriter model) {
+        //setFragment("리뷰작성", WriteReviewFragment.newInstance(reviewWriter));
+        //Navigation.findNavController().navigate(R.id.);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("model", model);
+        Navigation.findNavController(requireActivity(), R.id.nav_host)
+                .navigate(R.id.action_fragment_visithistory_to_fragment_write_review, bundle);
+    }
+
     private void setRecyclerView() {
-        adapter.itemCilcListener(new ItemCliclListener() {
+        adapter.itemClickListener(new ItemCliclListener() {
             @Override
             public void deapsClick(int position, history_spotModel2 model) {
                 apiService.select_interest_status(Utils.User_Idx, model.getTouristspot_idx()).enqueue(new Callback<Integer>() {

@@ -1,27 +1,47 @@
 package com.sdin.tourstamprally.ui.activity
 
+import android.annotation.SuppressLint
+import android.app.Activity
 import android.app.PendingIntent
+import android.content.ContentValues
 import android.content.Intent
 import android.content.IntentFilter
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.Matrix
 import android.nfc.NdefMessage
 import android.nfc.NfcAdapter
 import android.nfc.tech.Ndef
+import android.os.Build
 import android.os.Bundle
+import android.os.Environment
 import android.os.Parcelable
+import android.provider.MediaStore
 import android.util.Log
+import android.view.MenuItem
+import android.widget.Toast
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.ActivityResultCallback
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.content.FileProvider
 import androidx.core.view.GravityCompat
 import androidx.databinding.DataBindingUtil
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.exifinterface.media.ExifInterface
 import androidx.lifecycle.LiveData
 import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.bumptech.glide.Glide
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.navigation.NavigationBarView
 import com.sdin.tourstamprally.R
 import com.sdin.tourstamprally.Utils
 import com.sdin.tourstamprally.adapter.DrawaRecyclerViewAdapter
@@ -32,9 +52,13 @@ import com.sdin.tourstamprally.model.ReviewWriter
 import com.sdin.tourstamprally.model.TouristSpotPoint
 import com.sdin.tourstamprally.utill.ItemOnClick
 import com.sdin.tourstamprally.utill.NFCListener
-import java.util.ArrayList
+import com.sdin.tourstamprally.utill.navutil.DialogNavigator
+import java.io.*
+import java.lang.Exception
+import java.text.SimpleDateFormat
+import java.util.*
 
-class MainActivity2 : AppCompatActivity(), ItemOnClick {
+class MainActivity2 : AppCompatActivity(), NavigationBarView.OnItemSelectedListener, ItemOnClick {
 
     private lateinit var binding: ActivityMain2Binding
     private var currentnavController: LiveData<NavController>? = null
@@ -48,21 +72,18 @@ class MainActivity2 : AppCompatActivity(), ItemOnClick {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
 
+    private var currentPhotoPath: String? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this@MainActivity2, R.layout.activity_main2)
         binding.activity = this@MainActivity2
         binding.toolbarLayout.activity = this
-        /*binding.navigationLayout.drawaRecyclerview.apply {
-            setHasFixedSize(true)
-            adapter = DrawaRecyclerViewAdapter(this@MainActivity2)
-        }*/
         binding.drawaLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
         appBarConfiguration = AppBarConfiguration(
-            setOf(R.id.account_admin, R.id.notice, R.id.coupon_list, R.id.notify_setting, R.id.bascet_list),
+            setOf(R.id.account_admin, R.id.notice/*, R.id.coupon_list*/, R.id.notify_setting, R.id.bascet_list),
             binding.drawaLayout
         )
-
 
         initView()
 
@@ -79,7 +100,8 @@ class MainActivity2 : AppCompatActivity(), ItemOnClick {
             }
 
             2 -> {
-                navController.navigate(R.id.page_store)
+                navController.navigate(R.id.ready_dialog)
+                //navController.navigate(R.id.page_store)
             }
 
             3 -> {
@@ -90,6 +112,8 @@ class MainActivity2 : AppCompatActivity(), ItemOnClick {
                 navController.navigate(R.id.bascet_list)
             }
         }
+
+        binding.drawaLayout.closeDrawer(GravityCompat.END)
 
     }
 
@@ -103,6 +127,7 @@ class MainActivity2 : AppCompatActivity(), ItemOnClick {
         //isDrawerOpen = true
     }
 
+    @SuppressLint("UnspecifiedImmutableFlag")
     private fun setNFC() {
         nfcAdapter = NfcAdapter.getDefaultAdapter(this@MainActivity2)
         nfcAdapter?.let {
@@ -190,6 +215,7 @@ class MainActivity2 : AppCompatActivity(), ItemOnClick {
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host) as NavHostFragment
         navController = navHostFragment.navController
+
         navController.addOnDestinationChangedListener(navListener)
 
         supportFragmentManager.addOnBackStackChangedListener {
@@ -201,13 +227,20 @@ class MainActivity2 : AppCompatActivity(), ItemOnClick {
 
         //setupActionBarWithNavController(navController, appBarConfiguration)
         binding.navigationview.setupWithNavController(navController)
-        binding.bottomNavigationView.setupWithNavController(navController)
+        binding.bottomNavigationView.setupWithCustomNavController(navController)
+        //binding.bottomNavigationView.setOnItemSelectedListener(this@MainActivity2)
+    }
+
+    private fun BottomNavigationView.setupWithCustomNavController(navController: NavController) {
+        DialogNavigator.setupWithNavController( bottomNavigationView = this, navController = navController)
     }
 
     private val navListener =
         NavController.OnDestinationChangedListener { _, destination, _ ->
             Log.wtf("navListener", "navListener")
+            Log.wtf("navListener destination.id", destination.id.toString())
         }
+
 
     /*private fun setupBottomNavigationBar() {
         val controller = binding.bottomNavigationView.setupWithNavController(
@@ -216,6 +249,184 @@ class MainActivity2 : AppCompatActivity(), ItemOnClick {
 
 
     }*/
+
+    override fun onNavigationItemSelected(item: MenuItem): Boolean {
+        when(item.itemId) {
+
+            R.id.mainfragment -> {
+                Log.wtf("mainfragment", "mainfragment")
+                findNavController(binding.navHost.id).navigate(R.id.page_home)
+            }
+
+            R.id.page_store -> {
+                Log.wtf("page_store", "page_store")
+                //findNavController(binding.navHost.id).navigate(R.id.page_home)
+            }
+
+            R.id.page_report -> {
+                Log.wtf("page_report", "page_report")
+                findNavController(binding.navHost.id).navigate(R.id.page_report)
+            }
+
+            R.id.camera -> {
+                Log.wtf("camera", "camera")
+                dispatchTakePictureIntent()
+            }
+
+            R.id.fragment_qr_scan -> {
+                findNavController(binding.navHost.id).navigate(R.id.page_stamp)
+                Log.wtf("fragment_qr_scan", "fragment_qr_scan")
+            }
+
+
+        }
+
+        return true
+    }
+
+    private fun dispatchTakePictureIntent() {
+        val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        if (takePictureIntent.resolveActivity(packageManager) != null) {
+            var photoFile: File? = null
+            photoFile = createImageFile()
+            if (photoFile != null) {
+                val photoURI = FileProvider.getUriForFile(
+                    this,
+                    "com.sdin.tourstamprally.fileprovider",
+                    photoFile
+                )
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
+                resultLauncher.launch(takePictureIntent)
+            }
+        }
+    }
+
+    /*private void dispatchTakePictureIntent() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        resultLauncher.launch(takePictureIntent);
+    }*/
+    private val resultLauncher = registerForActivityResult(
+        StartActivityForResult()
+    ) { result: ActivityResult ->
+        if (result.resultCode == RESULT_OK) {
+            val file: File = File(currentPhotoPath)
+            val bitmap = BitmapFactory.decodeFile(file.absolutePath)
+            saveMediaToStorage(bitmap)
+        }
+    }
+
+
+    @SuppressLint("SimpleDateFormat")
+    private fun saveMediaToStorage(bitmap: Bitmap) {
+        var exif: ExifInterface? = null
+        try {
+            exif = ExifInterface(currentPhotoPath!!)
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
+        val orientation = exif!!.getAttributeInt(
+            ExifInterface.TAG_ORIENTATION,
+            ExifInterface.ORIENTATION_UNDEFINED
+        )
+        val bmRotated: Bitmap? = rotateBitmap(bitmap, orientation)
+        val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
+        val imageFileName = "jpeg_" + timeStamp + "_"
+        var outputStream: OutputStream? = null
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            val contentValues = ContentValues()
+            contentValues.put(MediaStore.Images.Media.DISPLAY_NAME, imageFileName)
+            contentValues.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg")
+            contentValues.put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_PICTURES)
+            contentValues.put(MediaStore.Images.Media.WIDTH, bmRotated?.width)
+            contentValues.put(MediaStore.Images.Media.HEIGHT, bmRotated?.height)
+            val imageUri =
+                contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues)
+            if (imageUri != null) {
+                try {
+                    outputStream = contentResolver.openOutputStream(imageUri)
+                } catch (e: FileNotFoundException) {
+                    e.printStackTrace()
+                }
+            }
+        } else {
+            val storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+            val image = File(storageDir, imageFileName)
+            try {
+                outputStream = FileOutputStream(image)
+            } catch (e: FileNotFoundException) {
+                e.printStackTrace()
+            }
+        }
+        if (outputStream != null) {
+            bmRotated?.compress(Bitmap.CompressFormat.JPEG, 95, outputStream)
+            try {
+                outputStream.close()
+            } catch (e: IOException) {
+                e.printStackTrace()
+            }
+            //bitmap.recycle();
+            Toast.makeText(this, "저장 성공", Toast.LENGTH_SHORT).show()
+        } else {
+            Toast.makeText(this, "저장에 실패하였습니다.", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+
+    private fun rotateBitmap(bitmap: Bitmap, orientation: Int): Bitmap? {
+        val matrix = Matrix()
+        when (orientation) {
+            ExifInterface.ORIENTATION_NORMAL -> return bitmap
+            ExifInterface.ORIENTATION_FLIP_HORIZONTAL -> matrix.setScale(-1f, 1f)
+            ExifInterface.ORIENTATION_ROTATE_180 -> matrix.setRotate(180f)
+            ExifInterface.ORIENTATION_FLIP_VERTICAL -> {
+                matrix.setRotate(180f)
+                matrix.postScale(-1f, 1f)
+            }
+            ExifInterface.ORIENTATION_TRANSPOSE -> {
+                matrix.setRotate(90f)
+                matrix.postScale(-1f, 1f)
+            }
+            ExifInterface.ORIENTATION_ROTATE_90 -> matrix.setRotate(90f)
+            ExifInterface.ORIENTATION_TRANSVERSE -> {
+                matrix.setRotate(-90f)
+                matrix.postScale(-1f, 1f)
+            }
+            ExifInterface.ORIENTATION_ROTATE_270 -> matrix.setRotate(-90f)
+            else -> return bitmap
+        }
+        return try {
+            val bmRotated =
+                Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
+            bitmap.recycle()
+            bmRotated
+        } catch (e: OutOfMemoryError) {
+            e.printStackTrace()
+            null
+        }
+    }
+
+    @SuppressLint("SimpleDateFormat")
+    private fun createImageFile(): File? {
+        return try {
+            val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
+            val imageFileName = "JPEG_" + timeStamp + "_"
+            val storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+            val image = File.createTempFile(
+                imageFileName,  /* prefix */
+                ".jpg",  /* suffix */
+                storageDir /* directory */
+            )
+            currentPhotoPath = image.absolutePath
+            Log.wtf("currentPhotoPath", currentPhotoPath)
+            image
+        } catch (e: Exception) {
+            e.printStackTrace()
+            null
+        }
+
+
+        // Save a file: path for use with ACTION_VIEW intents
+    }
 
     override fun onClick(position: Int) {
 
@@ -255,5 +466,7 @@ class MainActivity2 : AppCompatActivity(), ItemOnClick {
     override fun reviewItemClick(review_idx: Int, spot_name: String?) {
 
     }
+
+
 
 }

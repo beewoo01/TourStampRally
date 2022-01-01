@@ -227,7 +227,7 @@ public class SplashActivity extends BaseActivity {
 
         apiService.userLogin(phone, psw).enqueue(new Callback<UserModel>() {
             @Override
-            public void onResponse(Call<UserModel> call, Response<UserModel> response) {
+            public void onResponse(@NonNull Call<UserModel> call, @NonNull Response<UserModel> response) {
                 UserModel result = response.body();
                 try {
                     if (result == null || result.equals("null")){
@@ -248,7 +248,7 @@ public class SplashActivity extends BaseActivity {
 
                             //Log.wtf("UserIDX!!", String.valueOf(Utils.User_Idx));
 
-                            moveActivity(MainActivity.class, "로그인에 성공하셨습니다.");
+                            moveActivity(MainActivity2.class, "로그인에 성공하셨습니다.");
                         }else {
                             moveActivity(LoginActivity.class, "로그인에 실패하셨습니다.");
                         }

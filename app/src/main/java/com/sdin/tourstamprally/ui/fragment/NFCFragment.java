@@ -19,6 +19,7 @@ import com.sdin.tourstamprally.R;
 import com.sdin.tourstamprally.Utils;
 import com.sdin.tourstamprally.model.TouristSpotPoint;
 import com.sdin.tourstamprally.ui.activity.MainActivity;
+import com.sdin.tourstamprally.ui.activity.MainActivity2;
 import com.sdin.tourstamprally.ui.dialog.ScanResultDialog;
 import com.sdin.tourstamprally.utill.GpsTracker;
 import com.sdin.tourstamprally.utill.NFCListener;
@@ -54,7 +55,7 @@ public class NFCFragment extends BaseFragment implements NFCListener {
             buildtagViews(dataArray);
             //mParam2 = getArguments().getString(ARG_PARAM2);
         } else {
-            MainActivity mainActivity = (MainActivity) getActivity();
+            MainActivity2 mainActivity = (MainActivity2) getActivity();
             if (mainActivity != null) {
                 mainActivity.setOnListener(this);
             }

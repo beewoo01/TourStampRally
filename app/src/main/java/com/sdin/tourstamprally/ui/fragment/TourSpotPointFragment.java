@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -151,9 +152,9 @@ public class TourSpotPointFragment extends BaseFragment {
             markers[i].setMapPoint(pointArrayList.get(i));
             markers[i].setItemName(arrayList.get(i).getTouristspotpoint_name());
             markers[i].setMarkerType(MapPOIItem.MarkerType.CustomImage);
-            if (arrayList.get(i).getTouristhistory_idx() > 1){
+            if (arrayList.get(i).getTouristhistory_idx() > 1) {
                 markers[i].setCustomImageResourceId(R.drawable.marker_icon_success);
-            }else {
+            } else {
                 markers[i].setCustomImageResourceId(R.drawable.marker_icon_prev);
             }
 
@@ -174,11 +175,11 @@ public class TourSpotPointFragment extends BaseFragment {
     class TourSpotPointAdapter extends RecyclerView.Adapter<TourSpotPointAdapter.ViewHolder> {
 
         private final ArrayList<TouristSpotPoint> arrayList;
-        private final ItemOnClick listener;
+        //private final ItemOnClick listener;
 
         public TourSpotPointAdapter(ArrayList<TouristSpotPoint> arrayList) {
             this.arrayList = arrayList;
-            listener = (MainActivity) requireContext();
+            //listener = (MainActivity) requireContext();
         }
 
         @NonNull
@@ -218,7 +219,11 @@ public class TourSpotPointFragment extends BaseFragment {
 
                 binding.topLayout.setOnClickListener(v -> {
                     removeMapView();
-                    listener.ItemGuidForDetail(arrayList.get(getAbsoluteAdapterPosition()));
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("model", arrayList.get(getAbsoluteAdapterPosition()));
+                    Navigation.findNavController(requireActivity(), R.id.nav_host)
+                            .navigate(R.id.action_fragment_tour_spot_point_to_fragment_tour_detail, bundle);
+                    //listener.ItemGuidForDetail(arrayList.get(getAbsoluteAdapterPosition()));
                 });
 
             }

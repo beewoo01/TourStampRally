@@ -1,5 +1,6 @@
 package com.sdin.tourstamprally.ui.activity;
 
+import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 
 import android.content.Context;
@@ -165,7 +166,7 @@ public class LoginActivity extends BaseActivity {
             }
 
             @Override
-            public void onFailure(Call<UserModel> call, Throwable t) {
+            public void onFailure(@NonNull Call<UserModel> call, @NonNull Throwable t) {
                 t.printStackTrace();
                 Toast.makeText(LoginActivity.this, "로그인에 실패하셨습니다.", Toast.LENGTH_SHORT).show();
             }
@@ -176,7 +177,7 @@ public class LoginActivity extends BaseActivity {
     }
 
     private void movoToMain(){
-        startActivity(new Intent(LoginActivity.this, MainActivity.class));
+        startActivity(new Intent(LoginActivity.this, MainActivity2.class));
         finish();
     }
 

@@ -2,11 +2,11 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    app:startDestination="@id/mainfragment"
+    app:startDestination="@id/page_home"
     android:id="@+id/nav_graph">
 
-    <fragment android:id="@+id/mainfragment"
-        android:name="com.sdin.tourstamprally.ui.fragment.MainFragment"
+    <fragment android:id="@+id/page_home"
+        android:name="com.sdin.tourstamprally.ui.fragment.MainFragment2"
         android:label="@string/home"
         tools:layout="@layout/fragment_main"
         >
@@ -131,7 +131,7 @@
 
 
     <fragment
-        android:id="@+id/fragment_visithistory"
+        android:id="@+id/page_report"
         android:name="com.sdin.tourstamprally.ui.fragment.VisitHistoryFragment"
         tools:layout="@layout/fragment_visithistory"
         >
@@ -159,7 +159,7 @@
 
 
     <fragment
-        android:id="@+id/fragment_qr_scan"
+        android:id="@+id/page_stamp"
         android:name="com.sdin.tourstamprally.ui.fragment.QRscanFragment"
         tools:layout="@layout/fragment_qr_scan">
 
@@ -174,6 +174,9 @@
         tools:layout="@layout/fragment_nfc">
 
     </fragment>
+
+
+    <!--<NoOp android:id="@+id/page_store"/>-->
 
     <dialog
         android:id="@+id/page_store"
@@ -199,10 +202,21 @@
         tools:layout="@layout/fragment_set_alarm"
         />
 
+    <dialog
+        android:id="@+id/ready_dialog"
+        android:name="com.sdin.tourstamprally.ui.sample.ReadyDialogFragment"
+        tools:layout="@layout/dialog_ready_fragment"
+        />
+
     <fragment
         android:id="@+id/bascet_list"
         android:name="com.sdin.tourstamprally.ui.fragment.DeabsFragment"
         tools:layout="@layout/fragment_deabs"
         />
+    <fragment
+        android:id="@+id/camera"
+        android:name="com.sdin.tourstamprally.CameraFragment"
+        android:label="fragment_camera"
+        tools:layout="@layout/fragment_camera" />
 
 </navigation>

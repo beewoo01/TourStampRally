@@ -78,7 +78,7 @@ public class WriteReviewFragment extends BaseFragment {
 
             }
 
-            itemOnClick = (MainActivity) requireActivity();
+            //itemOnClick = (MainActivity) requireActivity();
 
         }
     }

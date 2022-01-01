@@ -7,11 +7,12 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.ItemTouchHelper.*
 import androidx.recyclerview.widget.RecyclerView
 import com.sdin.tourstamprally.R
+import com.sdin.tourstamprally.adapter.ViSitReAdapterV2
 import com.sdin.tourstamprally.adapter.VisitReAdapter
 import kotlin.math.max
 import kotlin.math.min
 
-class SwipeHelperCallback : ItemTouchHelper.Callback(){
+class SwipeHelperCallback : ItemTouchHelper.Callback() {
 
     private var currentPosition: Int? = null
     private var previousPosition: Int? = null
@@ -20,16 +21,16 @@ class SwipeHelperCallback : ItemTouchHelper.Callback(){
 
 
     override fun getMovementFlags(
-            recyclerView: RecyclerView,
-            viewHolder: RecyclerView.ViewHolder
+        recyclerView: RecyclerView,
+        viewHolder: RecyclerView.ViewHolder
     ): Int {
         return makeMovementFlags(0, LEFT or RIGHT)
     }
 
     override fun onMove(
-            recyclerView: RecyclerView,
-            viewHolder: RecyclerView.ViewHolder,
-            target: RecyclerView.ViewHolder
+        recyclerView: RecyclerView,
+        viewHolder: RecyclerView.ViewHolder,
+        target: RecyclerView.ViewHolder
     ): Boolean {
         return false
     }
@@ -68,57 +69,75 @@ class SwipeHelperCallback : ItemTouchHelper.Callback(){
     }
 
     override fun onChildDraw(
-            c: Canvas,
-            recyclerView: RecyclerView,
-            viewHolder: RecyclerView.ViewHolder,
-            dX: Float,
-            dY: Float,
-            actionState: Int,
-            isCurrentlyActive: Boolean
+        c: Canvas,
+        recyclerView: RecyclerView,
+        viewHolder: RecyclerView.ViewHolder,
+        dX: Float,
+        dY: Float,
+        actionState: Int,
+        isCurrentlyActive: Boolean
     ) {
         if (actionState == ACTION_STATE_SWIPE) {
             val view = getView(viewHolder)
             val isClamped = getTag(viewHolder)
-            val x =  clampViewPositionHorizontal(view, dX, isClamped, isCurrentlyActive)
+            val x = clampViewPositionHorizontal(view, dX, isClamped, isCurrentlyActive)
 
-            (viewHolder as VisitReAdapter.SwipeViewHolder).binding?.let {
+            (viewHolder as ViSitReAdapterV2.ViewHolder).binding.let {
                 if (isClamped) {
-                    it.titleTxv.setTextColor(ContextCompat.getColor(viewHolder.binding.titleTxv.context, R.color.mainColor))
-                    it.backgroundContainer.setBackgroundColor(ContextCompat.getColor(it.backgroundContainer.context, R.color.gray_e))
-                }
-                else {
-                    it.titleTxv.setTextColor(ContextCompat.getColor(viewHolder.binding.titleTxv.context, R.color.black))
-                    it.backgroundContainer.setBackgroundColor(ContextCompat.getColor(it.backgroundContainer.context, R.color.white))
+                    it.titleTxv.setTextColor(
+                        ContextCompat.getColor(
+                            viewHolder.binding.titleTxv.context,
+                            R.color.mainColor
+                        )
+                    )
+                    it.backgroundContainer.setBackgroundColor(
+                        ContextCompat.getColor(
+                            it.backgroundContainer.context,
+                            R.color.gray_e
+                        )
+                    )
+                } else {
+                    it.titleTxv.setTextColor(
+                        ContextCompat.getColor(
+                            viewHolder.binding.titleTxv.context,
+                            R.color.black
+                        )
+                    )
+                    it.backgroundContainer.setBackgroundColor(
+                        ContextCompat.getColor(
+                            it.backgroundContainer.context,
+                            R.color.white
+                        )
+                    )
                 }
 
             }
 
             currentDx = x
             getDefaultUIUtil().onDraw(
-                    c,
-                    recyclerView,
-                    view,
-                    x,
-                    dY,
-                    actionState,
-                    isCurrentlyActive
+                c,
+                recyclerView,
+                view,
+                x,
+                dY,
+                actionState,
+                isCurrentlyActive
             )
-
 
 
         }
     }
 
     private fun clampViewPositionHorizontal(
-            view: View,
-            dX: Float,
-            isClamped: Boolean,
-            isCurrentlyActive: Boolean
-    ) : Float {
+        view: View,
+        dX: Float,
+        isClamped: Boolean,
+        isCurrentlyActive: Boolean
+    ): Float {
 
         val min: Float = 0f
         // LTFT 방향으로 swipe 막기
-        val max: Float = view.width.toFloat()/2
+        val max: Float = view.width.toFloat() / 2
         // View의 가로 길이의 절반까지만 swipe 되도록
 
 
@@ -141,13 +160,13 @@ class SwipeHelperCallback : ItemTouchHelper.Callback(){
         viewHolder.itemView.tag = isClamped
     }
 
-    private fun getTag(viewHolder: RecyclerView.ViewHolder) : Boolean {
+    private fun getTag(viewHolder: RecyclerView.ViewHolder): Boolean {
         // isClamped를 view의 tag로 관리
         return viewHolder.itemView.tag as? Boolean ?: false
     }
 
-    private fun getView(viewHolder: RecyclerView.ViewHolder) : View {
-        return (viewHolder as VisitReAdapter.SwipeViewHolder).binding.swipeView
+    private fun getView(viewHolder: RecyclerView.ViewHolder): View {
+        return (viewHolder as ViSitReAdapterV2.ViewHolder).binding.swipeView
     }
 
     fun setClamp(clamp: Float) {
@@ -162,9 +181,19 @@ class SwipeHelperCallback : ItemTouchHelper.Callback(){
             getView(viewHolder).translationX = 0f
             setTag(viewHolder, false)
             previousPosition = null
-            (viewHolder as VisitReAdapter.SwipeViewHolder).binding?.let {
-                it.titleTxv.setTextColor(ContextCompat.getColor(viewHolder.binding.titleTxv.context, R.color.Black))
-                it.backgroundContainer.setBackgroundColor(ContextCompat.getColor(it.backgroundContainer.context, R.color.white))
+            (viewHolder as ViSitReAdapterV2.ViewHolder).binding.let { holderBinding ->
+                holderBinding.titleTxv.setTextColor(
+                    ContextCompat.getColor(
+                        viewHolder.binding.titleTxv.context,
+                        R.color.Black
+                    )
+                )
+                holderBinding.backgroundContainer.setBackgroundColor(
+                    ContextCompat.getColor(
+                        holderBinding.backgroundContainer.context,
+                        R.color.white
+                    )
+                )
             }
         }
     }

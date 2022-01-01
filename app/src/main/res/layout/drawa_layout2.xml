@@ -108,7 +108,6 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
 
-
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
@@ -132,7 +131,8 @@
             android:paddingHorizontal="@dimen/_10sdp"
             android:drawablePadding="@dimen/_10sdp"
             app:drawableEndCompat="@drawable/ic_arrow_right_24"
-            app:drawableStartCompat="@drawable/setting_ic_resize" />
+            app:drawableStartCompat="@drawable/setting_ic_resize"
+            tools:targetApi="p" />
 
         <TextView
             android:id="@+id/notice_txv"
