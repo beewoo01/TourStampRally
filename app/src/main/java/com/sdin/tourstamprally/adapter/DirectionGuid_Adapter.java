@@ -27,6 +27,7 @@ import com.sdin.tourstamprally.ui.activity.MainActivity;
 import com.sdin.tourstamprally.ui.fragment.DirectionGuidFragment;
 import com.sdin.tourstamprally.utill.GpsTracker;
 import com.sdin.tourstamprally.utill.ItemOnClick;
+import com.sdin.tourstamprally.v2.RecyclerViewListener;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -51,13 +52,17 @@ public class DirectionGuid_Adapter extends RecyclerView.Adapter<DirectionGuid_Ad
         void onClick(Tour_Spot tour_spot);
     } */
 
-    private final ItemOnClick itemOnClick;
+    //private final ItemOnClick itemOnClick;
+    private final RecyclerViewListener recyclerViewListener;
     private final Context context;
 
-    public DirectionGuid_Adapter(ArrayList<Location_four> list, Activity activity) {
+    public DirectionGuid_Adapter(ArrayList<Location_four> list, RecyclerViewListener recyclerViewListener, Context context
+            /*Activity activity*/) {
         this.list = list;
-        this.itemOnClick = (ItemOnClick) activity;
-        this.context = activity.getApplicationContext();
+        this.recyclerViewListener = recyclerViewListener;
+        this.context = context;
+        /*this.itemOnClick = (ItemOnClick) activity;
+        this.context = activity.getApplicationContext();*/
         getGps();
     }
 
@@ -152,7 +157,8 @@ public class DirectionGuid_Adapter extends RecyclerView.Adapter<DirectionGuid_Ad
             super(binding.getRoot());
             this.binding = binding;
             binding.locationBg.setOnClickListener( v-> {
-                itemOnClick.onItemClick(list.get(getAbsoluteAdapterPosition()));
+                //itemOnClick.onItemClick(list.get(getAbsoluteAdapterPosition()));
+                recyclerViewListener.onLocationItemClick(list.get(getAbsoluteAdapterPosition()));
             });
         }
     }

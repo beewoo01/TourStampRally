@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.ScrollView
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
@@ -60,7 +61,6 @@ class MainFragment2 : BaseFragment() {
         return viewBind.root
     }
 
-
     private fun getTop4Location() {
         apiService.getFourLocations(Utils.User_Idx).enqueue(object : Callback<List<Location_four>> {
             override fun onResponse(
@@ -111,7 +111,12 @@ class MainFragment2 : BaseFragment() {
 
     fun cuverClick() {
         //공지사항
-        findNavController().navigate(R.id.notice)
+        findNavController().navigate(
+            R.id.notice,
+            Bundle().apply {
+                putInt("state", 3)
+                putString("title", "공지사항")
+            })
     }
 
     fun moreClick() {
@@ -126,8 +131,13 @@ class MainFragment2 : BaseFragment() {
     }
 
     fun reviewMoreClick() {
-
-        findNavController().navigate(R.id.action_mainfragment_to_fragment_more_review)
+        //리뷰보기
+        findNavController().navigate(
+            R.id.action_mainfragment_to_fragment_more_review,
+            Bundle().apply {
+                putString("title", "리뷰보기")
+            }
+        )
     }
 
     private fun initReviewData(reviewDataList: MutableList<AllReviewDTO>) {
@@ -136,7 +146,15 @@ class MainFragment2 : BaseFragment() {
                 Review_Main_ReAdapter(arrayListOf<AllReviewDTO>().apply { addAll(reviewDataList) })
                     .apply {
                         setListener { model ->
-                            listener.reviewItemClick(model.review_idx, model.touristspot_name)
+                            findNavController().navigate(
+                                R.id.action_mainfragment_to_fragment_review_coments,
+                                Bundle().apply {
+                                    putInt("review_idx", model.review_idx)
+                                    putString("title", model.touristspot_name)
+                                    putInt("state", 4)
+                                }
+                            )
+                            //listener.reviewItemClick(model.review_idx, model.touristspot_name)
                         }
                     }
 
@@ -163,7 +181,11 @@ class MainFragment2 : BaseFragment() {
                 holderBinding.stepRallyBg.setOnClickListener {
                     findNavController().navigate(R.id.action_mainfragment_to_fragment_location,
                         Bundle().apply {
-                            putParcelable("model",adapterList[absoluteAdapterPosition])
+                            putParcelable("model", adapterList[absoluteAdapterPosition])
+                            putString(
+                                "title",
+                                adapterList[absoluteAdapterPosition].location_name + " 랠리 맵"
+                            )
                         })
                 }
 

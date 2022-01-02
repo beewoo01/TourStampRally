@@ -25,19 +25,19 @@
         />
 
     <item
-        android:id="@+id/camera"
-        android:enabled="true"
-        android:icon="@drawable/menu_camera"
-        android:menuCategory="secondary"
-        android:title="@string/camera"
-        />
-
-    <item
         android:id="@+id/page_stamp"
         android:enabled="true"
         android:icon="@drawable/report_ic"
         android:menuCategory="secondary"
         android:title="@string/stamp"
+        />
+
+    <item
+        android:id="@+id/camera"
+        android:enabled="true"
+        android:icon="@drawable/menu_camera"
+        android:menuCategory="secondary"
+        android:title="@string/camera"
         />
 
 </menu>

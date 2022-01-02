@@ -1,50 +1,28 @@
 package com.sdin.tourstamprally.ui.activity
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.app.PendingIntent
-import android.content.ContentValues
 import android.content.Intent
 import android.content.IntentFilter
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.graphics.Matrix
 import android.nfc.NdefMessage
 import android.nfc.NfcAdapter
-import android.nfc.tech.Ndef
-import android.os.Build
 import android.os.Bundle
-import android.os.Environment
-import android.os.Parcelable
-import android.provider.MediaStore
 import android.util.Log
-import android.view.MenuItem
-import android.widget.Toast
-import androidx.activity.result.ActivityResult
-import androidx.activity.result.ActivityResultCallback
-import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.core.content.FileProvider
 import androidx.core.view.GravityCompat
 import androidx.databinding.DataBindingUtil
 import androidx.drawerlayout.widget.DrawerLayout
-import androidx.exifinterface.media.ExifInterface
 import androidx.lifecycle.LiveData
 import androidx.navigation.NavController
-import androidx.navigation.Navigation
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.bumptech.glide.Glide
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.android.material.navigation.NavigationBarView
 import com.sdin.tourstamprally.R
 import com.sdin.tourstamprally.Utils
-import com.sdin.tourstamprally.adapter.DrawaRecyclerViewAdapter
 import com.sdin.tourstamprally.databinding.ActivityMain2Binding
 import com.sdin.tourstamprally.model.Location_four
 import com.sdin.tourstamprally.model.RallyMapDTO
@@ -52,13 +30,14 @@ import com.sdin.tourstamprally.model.ReviewWriter
 import com.sdin.tourstamprally.model.TouristSpotPoint
 import com.sdin.tourstamprally.utill.ItemOnClick
 import com.sdin.tourstamprally.utill.NFCListener
+import com.sdin.tourstamprally.utill.Quadruple
 import com.sdin.tourstamprally.utill.navutil.DialogNavigator
 import java.io.*
-import java.lang.Exception
-import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.HashMap
 
-class MainActivity2 : AppCompatActivity(), NavigationBarView.OnItemSelectedListener, ItemOnClick {
+class MainActivity2 : AppCompatActivity()/*, NavigationBarView.OnItemSelectedListener,
+    ItemOnClick*/ {
 
     private lateinit var binding: ActivityMain2Binding
     private var currentnavController: LiveData<NavController>? = null
@@ -74,14 +53,58 @@ class MainActivity2 : AppCompatActivity(), NavigationBarView.OnItemSelectedListe
 
     private var currentPhotoPath: String? = null
 
+    private var currentBottomMenu: Int = R.id.page_home
+
+    private val toolbarItem: Map<Int, Quadruple<Int, Int, Int, Int>> =
+        hashMapOf(
+
+            //1번 Normal
+            1 to Quadruple(
+                background = R.color.White,
+                title_color = R.color.Black,
+                backBtn_ic = R.drawable.back_ic_resize,
+                tab_ic = R.drawable.ic_menu_black
+            ),
+
+            //2번 Scan
+            2 to Quadruple(
+                background = R.color.popup_buttonColor,
+                title_color = R.color.White,
+                backBtn_ic = R.drawable.ic_backspace_white_24,
+                tab_ic = R.drawable.ic_menu_white
+            ),
+
+            //3번 Menu
+            3 to Quadruple(
+                background = R.color.mainColor,
+                title_color = R.color.White,
+                backBtn_ic = R.drawable.ic_backspace_white_24,
+                tab_ic = R.drawable.ic_menu_white
+            ),
+
+            4 to Quadruple(
+                background = R.color.comment_mainColor,
+                title_color = R.color.Black,
+                backBtn_ic = R.drawable.back_ic_resize,
+                tab_ic = R.drawable.ic_menu_black
+            )
+        )
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this@MainActivity2, R.layout.activity_main2)
         binding.activity = this@MainActivity2
         binding.toolbarLayout.activity = this
         binding.drawaLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
+
         appBarConfiguration = AppBarConfiguration(
-            setOf(R.id.account_admin, R.id.notice/*, R.id.coupon_list*/, R.id.notify_setting, R.id.bascet_list),
+            setOf(
+                R.id.account_admin,
+                R.id.notice/*, R.id.coupon_list*/,
+                R.id.notify_setting,
+                R.id.bascet_list
+            ),
             binding.drawaLayout
         )
 
@@ -89,29 +112,60 @@ class MainActivity2 : AppCompatActivity(), NavigationBarView.OnItemSelectedListe
 
     }
 
+    override fun onBackPressed() {
+        super.onBackPressed()
+        updateBottomMenu()
+    }
+
+    private fun updateBottomMenu() {
+        binding.bottomNavigationView.menu.findItem(currentBottomMenu).isChecked = true
+    }
+
+    fun backBtnClick() {
+        navController.navigateUp()
+    }
+
     fun drawerItemClick(position: Int) {
-        when(position){
+        var navigate = 0
+        var title = ""
+        when (position) {
             0 -> {
-                navController.navigate(R.id.account_admin)
+                navigate = R.id.account_admin
+                title = "계정관리"
+                //navController.navigate(R.id.account_admin)
             }
 
             1 -> {
-                navController.navigate(R.id.notice)
+                navigate = R.id.notice
+                title = "공지사항"
+                //navController.navigate(R.id.notice)
             }
 
             2 -> {
-                navController.navigate(R.id.ready_dialog)
+                navigate = R.id.ready_dialog
+                title = "쿠폰현황"
+                //navController.navigate(R.id.ready_dialog)
                 //navController.navigate(R.id.page_store)
             }
 
             3 -> {
-                navController.navigate(R.id.notify_setting)
+                navigate = R.id.notify_setting
+                title = "알림설정"
+                //navController.navigate(R.id.notify_setting)
             }
 
             4 -> {
-                navController.navigate(R.id.bascet_list)
+                navigate = R.id.bascet_list
+                title = "찜한목록"
+                //navController.navigate(R.id.bascet_list)
             }
         }
+
+        navController.navigate(navigate, Bundle().apply {
+            putInt("state", 3)
+            //putBoolean("menu", true)
+            putString("title", title)
+        })
 
         binding.drawaLayout.closeDrawer(GravityCompat.END)
 
@@ -232,14 +286,120 @@ class MainActivity2 : AppCompatActivity(), NavigationBarView.OnItemSelectedListe
     }
 
     private fun BottomNavigationView.setupWithCustomNavController(navController: NavController) {
-        DialogNavigator.setupWithNavController( bottomNavigationView = this, navController = navController)
+        DialogNavigator.setupWithNavController(
+            bottomNavigationView = this,
+            navController = navController
+        )
+    }
+
+    private fun testMenuId(id: Int) {
+        when (id) {
+            R.id.page_home -> {
+                currentBottomMenu = R.id.page_home
+            }
+
+            R.id.page_report -> {
+                currentBottomMenu = R.id.page_report
+            }
+
+            R.id.page_stamp -> {
+                currentBottomMenu = R.id.page_stamp
+            }
+
+        }
     }
 
     private val navListener =
-        NavController.OnDestinationChangedListener { _, destination, _ ->
-            Log.wtf("navListener", "navListener")
+        NavController.OnDestinationChangedListener { _, destination, arguments ->
+            /*Log.wtf("navListener", "navListener")
             Log.wtf("navListener destination.id", destination.id.toString())
+            Log.wtf("navigatorName", destination.navigatorName)
+            //Log.wtf("label", destination.label.toString())
+            Log.wtf("arguments model", destination.arguments["model"].toString())
+            Log.wtf("arguments", destination.arguments.values.toString())
+            Log.wtf("real arguments", arguments?.get("model").toString())*/
+
+            var title: String
+            val locate: Int
+            testMenuId(destination.id)
+            if (destination.label == "홈") {
+                binding.webViewLayout.visibility = View.VISIBLE
+                binding.toolbarLayout.logoMainToolbar.visibility = View.VISIBLE
+                binding.toolbarLayout.titleTxv.visibility = View.INVISIBLE
+                binding.toolbarLayout.backBtn.visibility = View.INVISIBLE
+            } else {
+                binding.webViewLayout.visibility = View.GONE
+                binding.toolbarLayout.logoMainToolbar.visibility = View.INVISIBLE
+                binding.toolbarLayout.titleTxv.visibility = View.VISIBLE
+                binding.toolbarLayout.backBtn.visibility = View.VISIBLE
+            }
+
+            if (arguments?.getString("title") != null
+                && arguments.getString("title") != "null"
+            ) {
+                //binding.toolbarLayout.titleTxv.text = arguments.getString("title")
+                title = arguments.getString("title", "")
+                locate = arguments.getInt("state", 0)
+                /*val isMenu: Boolean = arguments.getBoolean("menu", false)
+
+                locate = if (isMenu) {
+                    3
+                } else {
+                    1
+                }*/
+
+            } else {
+                if (destination.label == "QR" || destination.label == "NFC") {
+                    title = destination.label.toString() + " 스캔"
+                    locate = 2
+                } else {
+                    title = destination.label.toString()
+                    locate = 1
+                }
+            }
+
+            setScanToolbar(locate = locate)
+            binding.toolbarLayout.titleTxv.text = title
+            Log.wtf("title~!!", arguments?.getString("title"))
+
         }
+
+
+    private fun setScanToolbar(locate: Int) {
+
+        val item = toolbarItem[locate]
+        item?.let {
+
+            //배경
+            binding.toolbarLayout.toolbarLayout.setBackgroundColor(
+                ContextCompat.getColor(
+                    this@MainActivity2,
+                    item.background
+                )
+            )
+
+            //제목
+            binding.toolbarLayout.titleTxv.setTextColor(
+                ContextCompat.getColor(
+                    this@MainActivity2,
+                    item.title_color
+                )
+            )
+
+            //뒤로가기
+            Glide.with(this@MainActivity2)
+                .load(ContextCompat.getDrawable(this, item.backBtn_ic))
+                .into(binding.toolbarLayout.backBtn)
+
+
+            //메뉴
+            Glide.with(this@MainActivity2)
+                .load(ContextCompat.getDrawable(this@MainActivity2, item.tab_ic))
+                .into(binding.toolbarLayout.tapImb)
+        }
+
+
+    }
 
 
     /*private fun setupBottomNavigationBar() {
@@ -250,41 +410,36 @@ class MainActivity2 : AppCompatActivity(), NavigationBarView.OnItemSelectedListe
 
     }*/
 
-    override fun onNavigationItemSelected(item: MenuItem): Boolean {
+    /*override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when(item.itemId) {
 
             R.id.mainfragment -> {
-                Log.wtf("mainfragment", "mainfragment")
                 findNavController(binding.navHost.id).navigate(R.id.page_home)
             }
 
             R.id.page_store -> {
-                Log.wtf("page_store", "page_store")
-                //findNavController(binding.navHost.id).navigate(R.id.page_home)
+
             }
 
             R.id.page_report -> {
-                Log.wtf("page_report", "page_report")
                 findNavController(binding.navHost.id).navigate(R.id.page_report)
             }
 
             R.id.camera -> {
-                Log.wtf("camera", "camera")
                 dispatchTakePictureIntent()
             }
 
             R.id.fragment_qr_scan -> {
                 findNavController(binding.navHost.id).navigate(R.id.page_stamp)
-                Log.wtf("fragment_qr_scan", "fragment_qr_scan")
             }
 
 
         }
 
         return true
-    }
+    }*/
 
-    private fun dispatchTakePictureIntent() {
+    /*private fun dispatchTakePictureIntent() {
         val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         if (takePictureIntent.resolveActivity(packageManager) != null) {
             var photoFile: File? = null
@@ -301,10 +456,6 @@ class MainActivity2 : AppCompatActivity(), NavigationBarView.OnItemSelectedListe
         }
     }
 
-    /*private void dispatchTakePictureIntent() {
-        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        resultLauncher.launch(takePictureIntent);
-    }*/
     private val resultLauncher = registerForActivityResult(
         StartActivityForResult()
     ) { result: ActivityResult ->
@@ -412,9 +563,9 @@ class MainActivity2 : AppCompatActivity(), NavigationBarView.OnItemSelectedListe
             val imageFileName = "JPEG_" + timeStamp + "_"
             val storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
             val image = File.createTempFile(
-                imageFileName,  /* prefix */
-                ".jpg",  /* suffix */
-                storageDir /* directory */
+                imageFileName,  *//* prefix *//*
+                ".jpg",  *//* suffix *//*
+                storageDir *//* directory *//*
             )
             currentPhotoPath = image.absolutePath
             Log.wtf("currentPhotoPath", currentPhotoPath)
@@ -426,9 +577,9 @@ class MainActivity2 : AppCompatActivity(), NavigationBarView.OnItemSelectedListe
 
 
         // Save a file: path for use with ACTION_VIEW intents
-    }
+    }*/
 
-    override fun onClick(position: Int) {
+    /*override fun onClick(position: Int) {
 
     }
 
@@ -465,8 +616,7 @@ class MainActivity2 : AppCompatActivity(), NavigationBarView.OnItemSelectedListe
 
     override fun reviewItemClick(review_idx: Int, spot_name: String?) {
 
-    }
-
+    }*/
 
 
 }

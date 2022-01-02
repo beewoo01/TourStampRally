@@ -44,6 +44,7 @@
     <fragment android:id="@+id/fragment_direction_guid"
         android:name="com.sdin.tourstamprally.ui.fragment.DirectionGuidFragment"
         tools:layout="@layout/fragment_direction_guid"
+        android:label="길안내 관광지"
         >
 
         <action
@@ -133,6 +134,7 @@
     <fragment
         android:id="@+id/page_report"
         android:name="com.sdin.tourstamprally.ui.fragment.VisitHistoryFragment"
+        android:label="방문기록"
         tools:layout="@layout/fragment_visithistory"
         >
 
@@ -152,6 +154,7 @@
     <fragment
         android:id="@+id/fragment_write_review"
         android:name="com.sdin.tourstamprally.ui.fragment.WriteReviewFragment"
+        android:label="리뷰작성"
         tools:layout="@layout/fragment_write_review"
         >
 
@@ -161,6 +164,7 @@
     <fragment
         android:id="@+id/page_stamp"
         android:name="com.sdin.tourstamprally.ui.fragment.QRscanFragment"
+        android:label="QR"
         tools:layout="@layout/fragment_qr_scan">
 
         <action
@@ -171,6 +175,7 @@
     <fragment
         android:id="@+id/fragment_nfc"
         android:name="com.sdin.tourstamprally.ui.fragment.NFCFragment"
+        android:label="NFC"
         tools:layout="@layout/fragment_nfc">
 
     </fragment>

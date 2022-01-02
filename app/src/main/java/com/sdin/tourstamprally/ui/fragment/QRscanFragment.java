@@ -41,7 +41,7 @@ public class QRscanFragment extends BaseFragment implements DialogListener {
     private TouristSpotPoint touristSpotPoint;
     private GpsTracker gpsTracker;
     private ScanResultDialog scanResultDialog = null;
-    private ItemOnClick listner = null;
+    //private ItemOnClick listner = null;
 
 
     @Override
@@ -75,7 +75,7 @@ public class QRscanFragment extends BaseFragment implements DialogListener {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_qr_scan, container, false);
-        listner = (ItemOnClick) requireActivity();
+        //listner = (ItemOnClick) requireActivity();
         Log.wtf("onCreateView", "onCreateView");
         return binding.getRoot();
     }

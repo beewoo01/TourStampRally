@@ -1,52 +1,44 @@
 
 package com.sdin.tourstamprally.ui.fragment;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
-import androidx.databinding.ObservableArrayList;
+import androidx.navigation.Navigation;
 
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 
 import com.sdin.tourstamprally.R;
-import com.sdin.tourstamprally.Utils;
 import com.sdin.tourstamprally.adapter.DirectionGuid_Adapter;
 import com.sdin.tourstamprally.adapter.DirectionGuid_Tag_Adapter;
 import com.sdin.tourstamprally.adapter.SelectLocationAdapter;
 import com.sdin.tourstamprally.databinding.FragmentDirectionGuidBinding;
-import com.sdin.tourstamprally.model.HashTagModel;
 import com.sdin.tourstamprally.model.Location_four;
 import com.sdin.tourstamprally.model.TourTagModel;
-import com.sdin.tourstamprally.model.Tour_Spot;
+import com.sdin.tourstamprally.v2.RecyclerViewListener;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
-import io.reactivex.rxjava3.core.Observable;
-import io.reactivex.rxjava3.core.Observer;
-import kotlin.collections.AbstractMutableList;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class DirectionGuidFragment extends BaseFragment {
+public class DirectionGuidFragment extends BaseFragment implements RecyclerViewListener {
     //길안내 관광지
 
     private static final String ARG_PARAM = "model";
@@ -54,11 +46,11 @@ public class DirectionGuidFragment extends BaseFragment {
     //private List<Tour_Spot> tourList;
 
     private DirectionGuid_Adapter adapter;
-    private DirectionGuid_Tag_Adapter tagAdpater;
+    private DirectionGuid_Tag_Adapter tagAdapter;
     // 총 참여자
 
     private ArrayList<Location_four> paramArrayList;
-    private ArrayList<TourTagModel> hashTagList = new ArrayList<>();
+    private final ArrayList<TourTagModel> hashTagList = new ArrayList<>();
 
     public DirectionGuidFragment() {
 
@@ -80,7 +72,7 @@ public class DirectionGuidFragment extends BaseFragment {
             Log.wtf("넘어옴?", String.valueOf(paramArrayList.size()));
             /*Log.wtf("paramArrayList", paramArrayList.toString());
             Log.wtf("paramArrayListsize", String.valueOf(paramArrayList.size()));*/
-        }else {
+        } else {
             Log.wtf("넘어옴 ㄴㄴ?", "0");
         }
     }
@@ -99,10 +91,10 @@ public class DirectionGuidFragment extends BaseFragment {
                         if (hashTagModels != null) {
 
                             for (TourTagModel model : hashTagModels) {
-                                if (model == null){
-                                    Log.wtf("TourTagModel", "NULL!!" );
+                                if (model == null) {
+                                    Log.wtf("TourTagModel", "NULL!!");
                                 }
-                                if (model != null && model.getHashTag() != null){
+                                if (model != null && model.getHashTag() != null) {
                                     String[] array = Arrays.stream(model.getHashTag().split("#")).map(String::trim).toArray(String[]::new);
                                     Arrays.stream(array)
                                             .filter(s -> (s != null && s.length() > 0))
@@ -116,7 +108,7 @@ public class DirectionGuidFragment extends BaseFragment {
 
                         setHashTag();
                     }
-                }catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
 
@@ -135,7 +127,9 @@ public class DirectionGuidFragment extends BaseFragment {
 
         adapter = new DirectionGuid_Adapter(
                 paramArrayList,
-                requireActivity()/*,
+                this,
+                requireContext()
+                /*requireActivity()*//*,
                 location_Progress_Map,
                 location_history_Map,
                 particiMap*/);
@@ -147,12 +141,12 @@ public class DirectionGuidFragment extends BaseFragment {
 
     private void setHashTag() {
 
-        tagAdpater = new DirectionGuid_Tag_Adapter(hashTagList);
-        tagAdpater.setOnItemClickListener(param -> {
+        tagAdapter = new DirectionGuid_Tag_Adapter(hashTagList);
+        tagAdapter.setOnItemClickListener(param -> {
             //Log.wtf("setOnItemClickListener", "param = " + param +"1");
             search(param.getHashTag());
         });
-        binding.tagRe.setAdapter(tagAdpater);
+        binding.tagRe.setAdapter(tagAdapter);
         binding.tagRe.setHasFixedSize(true);
         binding.directionGuidPgb.setVisibility(View.GONE);
     }
@@ -194,6 +188,7 @@ public class DirectionGuidFragment extends BaseFragment {
         binding.searchBtn.setOnClickListener(v -> search(binding.searchEdt.getText().toString()));
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private void search(String searchData) {
 
         ArrayList<Location_four> arrayList = new ArrayList<>();
@@ -232,7 +227,6 @@ public class DirectionGuidFragment extends BaseFragment {
         }
 
 
-
         adapter.setList(arrayList);
         adapter.notifyDataSetChanged();
     }
@@ -259,4 +253,15 @@ public class DirectionGuidFragment extends BaseFragment {
     };
 
 
+    @Override
+    public void onLocationItemClick(@NonNull Location_four location_four) {
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("model", location_four);
+        bundle.putString("title", location_four.getLocation_name() + " 랠리 맵");
+        Navigation.findNavController(requireActivity(), R.id.nav_host)
+                .navigate(R.id.action_fragment_direction_guid_to_fragment_location, bundle);
+
+
+
+    }
 }

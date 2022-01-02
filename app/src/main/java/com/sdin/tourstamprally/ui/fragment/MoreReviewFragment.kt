@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.navigation.fragment.findNavController
 import com.sdin.tourstamprally.R
 import com.sdin.tourstamprally.adapter.More_Frag_LocationAdapter
 import com.sdin.tourstamprally.adapter.swipe.More_Frag_ReviewAdapter
@@ -37,7 +38,7 @@ class MoreReviewFragment : BaseFragment() {
     var locationAdapter: More_Frag_LocationAdapter? = null
     private var textint = 0
     private val reviewList = ArrayList<AllReviewDTO>()
-    private var listener : ItemOnClick? = null
+    //private var listener : ItemOnClick? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,8 +49,8 @@ class MoreReviewFragment : BaseFragment() {
     }
 
     override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?,
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?,
     ): View? {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_more_review, container, false)
@@ -63,7 +64,8 @@ class MoreReviewFragment : BaseFragment() {
 
 
         binding?.searchEdt?.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) = Unit
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) =
+                Unit
 
             override fun afterTextChanged(s: Editable?) {
                 search(binding?.searchEdt?.text.toString())
@@ -83,23 +85,23 @@ class MoreReviewFragment : BaseFragment() {
     private fun getData() {
 
         apiService.select_all_review().subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(object : DisposableSingleObserver<List<AllReviewDTO>>() {
-                    override fun onSuccess(t: List<AllReviewDTO>?) {
-                        t?.let {
-                            val arrayList = arrayListOf<AllReviewDTO>()
-                            arrayList.addAll(t)
-                            reviewList.addAll(t)
-                            initData(arrayList)
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeWith(object : DisposableSingleObserver<List<AllReviewDTO>>() {
+                override fun onSuccess(t: List<AllReviewDTO>?) {
+                    t?.let {
+                        val arrayList = arrayListOf<AllReviewDTO>()
+                        arrayList.addAll(t)
+                        reviewList.addAll(t)
+                        initData(arrayList)
 
-                        }
                     }
+                }
 
-                    override fun onError(e: Throwable?) {
-                        e?.printStackTrace()
-                    }
+                override fun onError(e: Throwable?) {
+                    e?.printStackTrace()
+                }
 
-                })
+            })
 
     }
 
@@ -124,8 +126,16 @@ class MoreReviewFragment : BaseFragment() {
         reviewAdapter?.apply {
             setListener(object : More_Frag_ReviewAdapter.MoreReviewListener {
                 override fun onItemClick(data: AllReviewDTO) {
-                    listener = requireActivity() as MainActivity
-                    (listener as MainActivity).reviewItemClick(data.review_idx, data.touristspot_name)
+                    /*listener = requireActivity() as MainActivity
+                    (listener as MainActivity).reviewItemClick(data.review_idx, data.touristspot_name)*/
+                    findNavController().navigate(
+                        R.id.action_fragment_more_review_to_fragment_review_coments,
+                        Bundle().apply {
+                            putInt("review_idx", data.review_idx)
+                            putString("title", data.touristspot_name)
+                            putInt("state", 4)
+                        }
+                    )
                 }
             })
             binding?.reviewRecyclerview?.adapter = this
@@ -174,53 +184,57 @@ class MoreReviewFragment : BaseFragment() {
     private fun search(data: String) {
         val arrayList = ArrayList<AllReviewDTO>()
 
-            for (i in reviewList) {
-                if (data.isNotEmpty()) {
-                    if (i.location_name.toLowerCase(Locale.ROOT).contains(data)) {
+        for (i in reviewList) {
+            if (data.isNotEmpty()) {
+                if (i.location_name.toLowerCase(Locale.ROOT).contains(data)) {
 
-                        if (selectedLocationIdx != 0 &&
-                                reviewList[reviewList.indexOf(i)].location_idx == selectedLocationIdx) {
-                            arrayList.add(i)
-                        } else if (selectedLocationIdx == 0) {
-                            arrayList.add(i)
-                        }
-
-                    }
-
-                    if (i.touristspot_name.toLowerCase(Locale.ROOT).contains(data)) {
-                        Log.wtf("search", "touristspot_name")
-
-                        if (selectedLocationIdx != 0 &&
-                                reviewList[reviewList.indexOf(i)].location_idx == selectedLocationIdx) {
-                            arrayList.add(i)
-
-                        } else if (selectedLocationIdx == 0) {
-                            arrayList.add(i)
-                        }
-                    }
-
-                    if (i.review_contents.toLowerCase(Locale.ROOT).contains(data)) {
-                        Log.wtf("search", "review_contents")
-
-                        if (selectedLocationIdx != 0 &&
-                                reviewList[reviewList.indexOf(i)].location_idx == selectedLocationIdx) {
-                            arrayList.add(i)
-                        } else if (selectedLocationIdx == 0) {
-                            arrayList.add(i)
-                        }
-                    }
-
-                }else {
                     if (selectedLocationIdx != 0 &&
-                            reviewList[reviewList.indexOf(i)].location_idx == selectedLocationIdx){
-
+                        reviewList[reviewList.indexOf(i)].location_idx == selectedLocationIdx
+                    ) {
                         arrayList.add(i)
-                    }else if (selectedLocationIdx == 0){
+                    } else if (selectedLocationIdx == 0) {
+                        arrayList.add(i)
+                    }
+
+                }
+
+                if (i.touristspot_name.toLowerCase(Locale.ROOT).contains(data)) {
+                    Log.wtf("search", "touristspot_name")
+
+                    if (selectedLocationIdx != 0 &&
+                        reviewList[reviewList.indexOf(i)].location_idx == selectedLocationIdx
+                    ) {
+                        arrayList.add(i)
+
+                    } else if (selectedLocationIdx == 0) {
                         arrayList.add(i)
                     }
                 }
 
+                if (i.review_contents.toLowerCase(Locale.ROOT).contains(data)) {
+                    Log.wtf("search", "review_contents")
+
+                    if (selectedLocationIdx != 0 &&
+                        reviewList[reviewList.indexOf(i)].location_idx == selectedLocationIdx
+                    ) {
+                        arrayList.add(i)
+                    } else if (selectedLocationIdx == 0) {
+                        arrayList.add(i)
+                    }
+                }
+
+            } else {
+                if (selectedLocationIdx != 0 &&
+                    reviewList[reviewList.indexOf(i)].location_idx == selectedLocationIdx
+                ) {
+
+                    arrayList.add(i)
+                } else if (selectedLocationIdx == 0) {
+                    arrayList.add(i)
+                }
             }
+
+        }
 
         reviewAdapter?.changeList(arrayList)
 
@@ -231,7 +245,7 @@ class MoreReviewFragment : BaseFragment() {
 
         @JvmStatic
         fun newInstance() =
-                MoreReviewFragment()
+            MoreReviewFragment()
     }
 
 

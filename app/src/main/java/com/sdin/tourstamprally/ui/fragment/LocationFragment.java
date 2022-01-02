@@ -239,7 +239,8 @@ public class LocationFragment extends BaseFragment {
                 binding.topLayout.setOnClickListener(v -> {
                     send_model = arrayList.get(getAbsoluteAdapterPosition());
                     Bundle bundle = new Bundle();
-                    bundle.putSerializable("model", arrayList.get(getAbsoluteAdapterPosition()));
+                    bundle.putSerializable("model", send_model);
+                    bundle.putString("title", send_model.getTouristspot_name());
                     Navigation
                             .findNavController(requireActivity(), R.id.nav_host)
                             .navigate(R.id.action_fragment_location_to_fragment_tour_spot_point, bundle);

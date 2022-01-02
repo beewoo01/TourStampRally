@@ -51,6 +51,14 @@
                 android:layout_height="?attr/actionBarSize"
                 android:layout_below="@+id/webView_layout" />
 
+            <View
+                android:id="@+id/toolbar_line"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@+id/toolbar_layout"
+                android:background="@color/textColor"
+                />
+
             <!--<androidx.fragment.app.FragmentContainerView
                 android:id="@+id/nav_host_fragmnet"
                 android:layout_width="match_parent"
@@ -67,7 +75,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_above="@+id/bottom_navigation_view"
-                android:layout_below="@+id/toolbar_layout"
+                android:layout_below="@+id/toolbar_line"
                 android:tag="container"
                 app:defaultNavHost="true"
                 app:navGraph="@navigation/nav_graph" />
