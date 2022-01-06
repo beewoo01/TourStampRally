@@ -35,7 +35,6 @@ public class Del_Review_Dialog extends Dialog {
 
     public void setClickListener(ReviewDelListener itemOnClick){
         this.itemOnClick = itemOnClick;
-        Log.d("DefaultDialog ", "setClickListener");
     }
 
 

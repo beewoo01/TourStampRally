@@ -176,11 +176,10 @@ public class VisitReAdapter extends RecyclerView.Adapter<VisitReAdapter.SwipeVie
             binding.seekBar.setProgress(myCount);
 
             binding.logoImv.setOnClickListener( v -> {
-                Log.wtf("logoImv", "allCount!!");
-                Log.wtf("logoImv", "allCount = " + allCountd);
+                /*Log.wtf("logoImv", "allCount!!");
+                Log.wtf("logoImv", "allCount = " + allCountd);*/
                 if (allCountd == 100){
-                    Log.wtf("logoImv", "allCount100");
-                    // TODO: 2021/12/17 여기 쿠폰 보기 클릭
+                    //Log.wtf("logoImv", "allCount100");
                     //new PopUp_Image(context).show();
                     listener.clearClick(model.getTouristspot_idx());
                 }
@@ -195,7 +194,7 @@ public class VisitReAdapter extends RecyclerView.Adapter<VisitReAdapter.SwipeVie
                 try {
 
                     Date old_date = oldSdf.parse(model.getTouristhistory_updatetime());
-                    Log.wtf("update", model.getTouristhistory_updatetime());
+                    //Log.wtf("update", model.getTouristhistory_updatetime());
                     if (old_date != null) {
                         String n_date = newSdf.format(old_date);
                         String n_time = timeSdf.format(old_date);

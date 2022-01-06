@@ -111,7 +111,7 @@ public class SignUpActivity extends BaseActivity {
                 t.printStackTrace();
                 binding.btnRequestAuth.setEnabled(true);
                 showToast("SMS발송 요청을 실패하였습니다.");
-                Log.e("getToken", t.getMessage());
+
             }
         });
     }
@@ -126,8 +126,6 @@ public class SignUpActivity extends BaseActivity {
                     binding.btnRequestAuth.setEnabled(false);
 
                     auth = response.body();
-                    Log.wtf("succss", "!!!");
-                    Log.wtf("succss", auth);
 
                 } else {
                     showToast(getString(R.string.fail_sms));

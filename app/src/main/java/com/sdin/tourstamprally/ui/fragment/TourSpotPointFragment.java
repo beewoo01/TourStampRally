@@ -196,9 +196,13 @@ public class TourSpotPointFragment extends BaseFragment {
             holder.binding.bottomLine.setVisibility(position == arrayList.size() - 1 ? View.GONE : View.VISIBLE);
             holder.binding.bottomLayout.setVisibility(position == arrayList.size() - 1 ? View.GONE : View.VISIBLE);
 
-            Glide.with(holder.itemView.getContext()).load(position % 2 == 0 ? R.drawable.icon_deep_blue : R.drawable.icon_sky_blue).into(holder.binding.locationImv);
+            Glide.with(holder.itemView.getContext())
+                    .load(position % 2 == 0 ?
+                                    R.drawable.icon_deep_blue :
+                                    R.drawable.icon_sky_blue)
+                    .into(holder.binding.locationImv);
 
-            Log.wtf("history_idx", String.valueOf(list.get(position).getTouristhistory_idx()));
+            //Log.wtf("history_idx", String.valueOf(list.get(position).getTouristhistory_idx()));
             Glide.with(holder.itemView.getContext()).load(list.get(position).getTouristhistory_idx() > 0 ? R.drawable.mainlogo : R.drawable.logo_gray).into(holder.binding.logoImv);
             holder.binding.spotName.setText(arrayList.get(position).getTouristspotpoint_name());
             holder.binding.explanTxv.setText(arrayList.get(position).getTouristspotpoint_explan());
@@ -221,6 +225,7 @@ public class TourSpotPointFragment extends BaseFragment {
                     removeMapView();
                     Bundle bundle = new Bundle();
                     bundle.putSerializable("model", arrayList.get(getAbsoluteAdapterPosition()));
+                    bundle.putString("title", arrayList.get(getAbsoluteAdapterPosition()).getTouristspotpoint_name());
                     Navigation.findNavController(requireActivity(), R.id.nav_host)
                             .navigate(R.id.action_fragment_tour_spot_point_to_fragment_tour_detail, bundle);
                     //listener.ItemGuidForDetail(arrayList.get(getAbsoluteAdapterPosition()));

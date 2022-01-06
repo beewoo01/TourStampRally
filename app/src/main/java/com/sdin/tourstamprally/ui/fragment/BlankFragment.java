@@ -1,7 +1,9 @@
 package com.sdin.tourstamprally.ui.fragment;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 
@@ -56,7 +58,7 @@ public class BlankFragment extends BaseFragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_tour_record, container, false);
@@ -73,7 +75,7 @@ public class BlankFragment extends BaseFragment {
 
         apiService.getTour(Utils.User_Idx).enqueue(new Callback<List<Tour_Spot>>() {
             @Override
-            public void onResponse(Call<List<Tour_Spot>> call, Response<List<Tour_Spot>> response) {
+            public void onResponse(@NonNull Call<List<Tour_Spot>> call, @NonNull Response<List<Tour_Spot>> response) {
                 if (response.isSuccessful()) {
                     list = response.body();
                     HashMap<Integer, Tour_Spot> hashMap = new HashMap<>();
@@ -170,12 +172,12 @@ public class BlankFragment extends BaseFragment {
     }
 
 
+    @SuppressLint("NonConstantResourceId")
     public void sortList(int form) {
         arrayList = locationAdapter.getList();
 
         switch (form) {
             case R.id.popular_btn:
-                Log.d(TAG, "popular_btn");
                 arrayList.sort((o1, o2) -> {
 
                     if (o1.getTouristspot_checkin_count() == o2.getTouristspot_checkin_count())
@@ -188,7 +190,6 @@ public class BlankFragment extends BaseFragment {
                 break;
 
             case R.id.recent_btn:
-                Log.d(TAG, "recent_btn");
                 //myList();
 
                 arrayList = (ArrayList<Tour_Spot>) arrayList.stream()
@@ -197,7 +198,6 @@ public class BlankFragment extends BaseFragment {
                 break;
 
             case R.id.near_btn:
-                Log.d(TAG, "near_btn");
                 arrayList.sort((o1, o2) -> {
 
                     double o1_distance = distance(o1.getTouristspot_latitude(), o1.getTouristspot_longitude());
@@ -227,11 +227,9 @@ public class BlankFragment extends BaseFragment {
     }
 
 
-    private AdapterView.OnItemSelectedListener selectedListener = new AdapterView.OnItemSelectedListener() {
+    private final AdapterView.OnItemSelectedListener selectedListener = new AdapterView.OnItemSelectedListener() {
         @Override
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-            Log.d("getSelectedItem", parent.getSelectedItem().toString());
-
             locationSort(parent.getSelectedItem().toString());
         }
 

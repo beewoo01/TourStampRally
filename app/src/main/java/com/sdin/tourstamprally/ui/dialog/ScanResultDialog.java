@@ -22,6 +22,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
+import androidx.navigation.Navigation;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.CustomTarget;
@@ -31,6 +32,7 @@ import com.sdin.tourstamprally.model.RallyMapDTO;
 import com.sdin.tourstamprally.model.Tour_Spot;
 import com.sdin.tourstamprally.utill.DialogListener;
 import com.sdin.tourstamprally.utill.ItemOnClick;
+import com.sdin.tourstamprally.v2.ScanListener;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -46,7 +48,8 @@ public class ScanResultDialog extends BaseDialog {
     private final int isSucess;
     private final String title;
     private final String msg;
-    private ItemOnClick itemOnClick;
+    //private ItemOnClick itemOnClick;
+    private ScanListener scanListener;
     private int touristhistory_touristspotpoint_idx;
     private DialogListener dialogListener = null;
 
@@ -59,24 +62,34 @@ public class ScanResultDialog extends BaseDialog {
         this.msg = msg;
     }
 
-    public ScanResultDialog(@NonNull Context context, int isSucess, String title, String msg, int touristhistory_touristspotpoint_idx) {
+    public ScanResultDialog(@NonNull Context context,
+                            ScanListener scanListener,
+                            int isSucess, String title,
+                            String msg,
+                            int touristhistory_touristspotpoint_idx) {
         //이미 완료
         super(context);
         this.context = context;
         this.isSucess = isSucess;
         this.title = title;
         this.msg = msg;
-        this.itemOnClick = (ItemOnClick) context;
+        this.scanListener = scanListener;
+        //this.itemOnClick = (ItemOnClick) context;
         this.touristhistory_touristspotpoint_idx = touristhistory_touristspotpoint_idx;
     }
 
-    public ScanResultDialog(@NonNull Context context, int isSucess, String title, int touristhistory_touristspotpoint_idx, String msg) {
+    public ScanResultDialog(@NonNull Context context,
+                            ScanListener scanListener,
+                            int isSucess, String title,
+                            int touristhistory_touristspotpoint_idx,
+                            String msg) {
         //실패
         super(context);
         this.context = context;
         this.isSucess = isSucess;
         this.title = title;
-        this.itemOnClick = (ItemOnClick) context;
+        //this.itemOnClick = (ItemOnClick) context;
+        this.scanListener = scanListener;
         this.touristhistory_touristspotpoint_idx = touristhistory_touristspotpoint_idx;
         this.msg = msg;
     }
@@ -122,7 +135,7 @@ public class ScanResultDialog extends BaseDialog {
 
             });
 
-            Glide.with(context).load(R.drawable.nfc_tag_ok_stamp).into((ImageView) findViewById(R.id.title_imv));
+            Glide.with(findViewById(R.id.title_imv).getContext()).load(R.drawable.nfc_tag_ok_stamp).into((ImageView) findViewById(R.id.title_imv));
             Glide.with(context).load(R.drawable.mainlogo).into((ImageView) findViewById(R.id.logo));
 
 
@@ -133,7 +146,7 @@ public class ScanResultDialog extends BaseDialog {
             inner_result.setTextSize(25);
             inner_result.setTextColor(ContextCompat.getColor(context, R.color.scan_dialog_text_color));
 
-        } else if (isSucess == 0){
+        } else if (isSucess == 0) {
 
             setBackgrountImg(R.drawable.nfc_tag_fail_bg, constraintLayout);
 
@@ -157,7 +170,7 @@ public class ScanResultDialog extends BaseDialog {
             inner_result.setText(msg);
             inner_result.setTextSize(15);
             inner_result.setTextColor(ContextCompat.getColor(context, R.color.black));
-        } else if (isSucess == 2){
+        } else if (isSucess == 2) {
 
             // 이미 방문
 
@@ -184,7 +197,7 @@ public class ScanResultDialog extends BaseDialog {
     }
 
     private void getData() {
-        Log.wtf("getData!!", String.valueOf(touristhistory_touristspotpoint_idx));
+        //Log.wtf("getData!!", String.valueOf(touristhistory_touristspotpoint_idx));
 
         if (dialogListener != null) {
             dialogListener.onDissMiss();
@@ -194,7 +207,10 @@ public class ScanResultDialog extends BaseDialog {
             @Override
             public void onResponse(@NotNull Call<RallyMapDTO> call, @NotNull Response<RallyMapDTO> response) {
                 if (response.isSuccessful()) {
-                    itemOnClick.ItemGuidForPoint(response.body());
+                    RallyMapDTO rallyMapDTO = response.body();
+                    if (rallyMapDTO != null) {
+                        scanListener.moveSpotPoint(rallyMapDTO);
+                    }
                 } else {
                     showToast();
                 }

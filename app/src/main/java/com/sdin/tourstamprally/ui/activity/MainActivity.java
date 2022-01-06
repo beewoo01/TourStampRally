@@ -137,10 +137,10 @@ public class MainActivity extends BaseActivity implements NavigationBarView.OnIt
     private boolean isDrawerOpen = false;
 
 
+    @SuppressLint("SimpleDateFormat")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d("MainActivity", "onCreate ");
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -314,7 +314,6 @@ public class MainActivity extends BaseActivity implements NavigationBarView.OnIt
 
 
     public void logout() {
-        Log.d(TAG, "logout");
         SharedPreferences pref = getSharedPreferences("rebuild_preference", MODE_PRIVATE);
         SharedPreferences.Editor editor = pref.edit();
         editor.remove("phone");
@@ -420,7 +419,7 @@ public class MainActivity extends BaseActivity implements NavigationBarView.OnIt
             );
 
             currentPhotoPath = image.getAbsolutePath();
-            Log.wtf("currentPhotoPath", currentPhotoPath);
+
             return image;
 
         } catch (Exception e) {
@@ -597,7 +596,7 @@ public class MainActivity extends BaseActivity implements NavigationBarView.OnIt
     @Override
     public void onBackPressed() {
         backKeyPressedTime = System.currentTimeMillis();
-        Log.wtf("fragmentTag", fragment.getTag());
+        //Log.wtf("fragmentTag", fragment.getTag());
         if (isDrawerOpen) {
             binding.drawaLayout.closeDrawer(GravityCompat.END);
             isDrawerOpen = false;
@@ -625,14 +624,11 @@ public class MainActivity extends BaseActivity implements NavigationBarView.OnIt
     private void setFragment(String tag, Fragment fragment) {
         this.fragment = fragment;
 
-        Log.wtf("setFragment!!!!", "just");
-
 
         if (tag != null) {
 
             new TedKeyboardObserver(this)
                     .listen(isShow -> {
-                        Log.wtf("setFragment!!!!", String.valueOf(isShow));
                         keyboardState = isShow;
                     });
 
@@ -718,7 +714,6 @@ public class MainActivity extends BaseActivity implements NavigationBarView.OnIt
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         setIntent(intent);
-        Log.d("MainActivity", "onNewIntent ");
 
         readfromIntent(intent);
     }
@@ -769,7 +764,6 @@ public class MainActivity extends BaseActivity implements NavigationBarView.OnIt
     @Override
     public void onClick(int position) {
         //ItemOnClcik Listener
-        Log.d("onClick", String.valueOf(position));
         binding.drawaLayout.closeDrawer(GravityCompat.END);
         isDrawerOpen = false;
 

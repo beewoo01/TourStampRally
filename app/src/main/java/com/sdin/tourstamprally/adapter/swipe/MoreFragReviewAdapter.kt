@@ -1,5 +1,6 @@
 package com.sdin.tourstamprally.adapter.swipe
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
@@ -12,8 +13,8 @@ import com.sdin.tourstamprally.R
 import com.sdin.tourstamprally.databinding.ReItemMorereviewBinding
 import com.sdin.tourstamprally.model.AllReviewDTO
 
-class More_Frag_ReviewAdapter(val context: Context, var list: ArrayList<AllReviewDTO>) :
-        RecyclerView.Adapter<More_Frag_ReviewAdapter.ViewHolder>() {
+class MoreFragReviewAdapter(val context: Context, var list: ArrayList<AllReviewDTO>) :
+        RecyclerView.Adapter<MoreFragReviewAdapter.ViewHolder>() {
 
     private var litener : MoreReviewListener? = null
 
@@ -23,11 +24,11 @@ class More_Frag_ReviewAdapter(val context: Context, var list: ArrayList<AllRevie
 
 
     fun setListener(litener: MoreReviewListener){
-        Log.wtf("More_Frag_ReviewAdapter", "setListener")
         this.litener = litener
     }
 
 
+    @SuppressLint("NotifyDataSetChanged")
     fun changeList(list : ArrayList<AllReviewDTO>){
         this.list = list
         notifyDataSetChanged()
@@ -49,8 +50,7 @@ class More_Frag_ReviewAdapter(val context: Context, var list: ArrayList<AllRevie
                         .error(R.drawable.sample_profile_image)
                         .into(binding.userProfileImv)
 
-                Log.wtf("data.user_profile", data.user_profile)
-                Log.wtf("data.touristspot_img", data.touristspot_img)
+
                 Glide.with(binding.tourspotBgImv.context)
                         .load("http://coratest.kr/imagefile/bsr/" + data.touristspot_img)
                         .apply(RequestOptions.bitmapTransform(RoundedCorners(30)))
@@ -58,7 +58,6 @@ class More_Frag_ReviewAdapter(val context: Context, var list: ArrayList<AllRevie
                         .into(binding.tourspotBgImv)
 
                 binding.itemContainer.setOnClickListener{
-                    Log.wtf("itemContainer", "itemContainer")
                     litener?.onItemClick(data = data)
                 }
 

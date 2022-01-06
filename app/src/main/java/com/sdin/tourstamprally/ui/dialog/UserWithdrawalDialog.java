@@ -34,7 +34,6 @@ public class UserWithdrawalDialog extends Dialog {
 
     public void setClickListener(ItemOnClickAb itemOnClick){
         this.itemOnClick = itemOnClick;
-        Log.d("DefaultDialog ", "setClickListener");
     }
 
 

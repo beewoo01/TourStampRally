@@ -51,11 +51,11 @@ public class FtpThread extends Thread{
 
             //세팅후에 서버로부터 연결 여부를 받아와 전송 할 것인지를 판단 한다.
             if (!FTPReply.isPositiveCompletion(reply)) {
-                Log.e("FTP 접속 실패 ", "asdfa");
+                //Log.e("FTP 접속 실패 ", "asdfa");
                 ftpClient.disconnect();
 
             } else {
-                Log.e("FTP 접속 성공 ", "asdfa");
+                //Log.e("FTP 접속 성공 ", "asdfa");
                 ftpClient.enterLocalPassiveMode(); // important!
                 ftpClient.setFileType(FTP.BINARY_FILE_TYPE);
                 ftpClient.changeWorkingDirectory("/tomcat/webapps/imagefile/bsr");
@@ -92,9 +92,9 @@ public class FtpThread extends Thread{
                 if (isSuccess) {
 
 
-                    Log.d("FTP 파일 업로드 성공", "성공 성공!!");
+                    //Log.d("FTP 파일 업로드 성공", "성공 성공!!");
                 } else {
-                    Log.e("FTP 파일 업로드 실패", "실패ㅜㅜ");
+                    //Log.e("FTP 파일 업로드 실패", "실패ㅜㅜ");
                 }
 
                 ftpClient.logout();

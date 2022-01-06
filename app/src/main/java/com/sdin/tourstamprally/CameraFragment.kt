@@ -173,7 +173,6 @@ class CameraFragment : Fragment() {
                 storageDir /* directory */
             )
             currentPhotoPath = image.absolutePath
-            Log.wtf("currentPhotoPath", currentPhotoPath)
             image
         } catch (e: Exception) {
             e.printStackTrace()

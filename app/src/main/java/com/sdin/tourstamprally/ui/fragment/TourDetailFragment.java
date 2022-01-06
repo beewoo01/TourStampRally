@@ -143,8 +143,8 @@ public class TourDetailFragment extends BaseFragment/* implements MapView.MapVie
 
 
         } else if (view.getId() == binding.detailTxv.getId()) {
-            String link = touristSpotPoint.getTouristspotpoint_link();
-            Log.wtf("LINK", link);
+            /*String link = touristSpotPoint.getTouristspotpoint_link();
+            Log.wtf("LINK", link);*/
             showDetailPopup();
             //showReadyDialog();
 
@@ -177,7 +177,6 @@ public class TourDetailFragment extends BaseFragment/* implements MapView.MapVie
 
     public void naviClick() {
 
-        Log.wtf(TAG, "naviClick naviClick");
         if (NaviClient.getInstance().isKakaoNaviInstalled(requireContext())) {
             //Log.wtf(TAG, "카카오내비 앱으로 길안내 가능");
             requireActivity().startActivity(NaviClient.getInstance().navigateIntent(

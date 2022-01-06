@@ -54,7 +54,7 @@ public class Constant {
     /*로그 찍기, DEBUG_MODE = true 일때만 로그 찍힘*/
     public static void LOG(String tag, String text) {
         if (UserInfo.getInstance().DEBUG_MODE) {
-            Log.e(tag, text);
+            //Log.e(tag, text);
         }
     }
 

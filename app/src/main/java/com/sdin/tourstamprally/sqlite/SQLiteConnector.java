@@ -21,19 +21,19 @@ public class SQLiteConnector extends DbOpenHelper {
 
 
     public long insert(AlramState alramState) {
-        Log.wtf("insert", "insert");
+        //Log.wtf("insert", "insert");
         /*String sql =
                 "insert into alram " +
                         "VALUES ("+ alramState.getUser_phone() + ", " + alramState.getEmail_Alram() +
                         ", " + alramState.getPush_Alram() + ", " + alramState.getSms_Alram() + ")";
         db.execSQL(sql);*/
         long result = db.insert(tableName, null, contentValues(alramState));
-        Log.wtf("result", String.valueOf(result));
+        //Log.wtf("result", String.valueOf(result));
         return result;
     }
 
     public void update(AlramState alramState) {
-        Log.d("UID?", String.valueOf(alramState.getUser_phone()));
+        //Log.d("UID?", String.valueOf(alramState.getUser_phone()));
         db.execSQL("UPDATE " + tableName +
                 " SET email_Alram = '" + alramState.getEmail_Alram() + "'" +
                 ", push_Alram = '" + alramState.getPush_Alram() + "'" +
@@ -44,22 +44,22 @@ public class SQLiteConnector extends DbOpenHelper {
 
     public AlramState selectAll(String user_phone) {
         String sql = "SELECT * FROM " + tableName + " WHERE user_Phone = " + user_phone;
-        Log.wtf("selectAll", "왓따");
+        //Log.wtf("selectAll", "왓따");
         Cursor cursor = db.rawQuery(sql, null);
         String phone = "";
         int email_Alram = 0;
         int push_Alram = 0;
         int sms_Alram = 0;
         while (cursor.moveToNext()) {
-            Log.wtf("selectAll", "moveToNext");
             phone = cursor.getString(0);
             email_Alram = cursor.getInt(1);
             push_Alram = cursor.getInt(2);
             sms_Alram = cursor.getInt(2);
+            /*Log.wtf("selectAll", "moveToNext");
             Log.wtf("phone 0", phone);
             Log.wtf("email_Alram 1", String.valueOf(email_Alram));
             Log.wtf("push_Alram 2", String.valueOf(push_Alram));
-            Log.wtf("sms_Alram 3", String.valueOf(sms_Alram));
+            Log.wtf("sms_Alram 3", String.valueOf(sms_Alram));*/
         }
 
         cursor.close();
@@ -73,7 +73,7 @@ public class SQLiteConnector extends DbOpenHelper {
     }
 
     public AlramState selectExits(String user_phone) {
-        Log.wtf("selectExits user_phone", user_phone);
+        //Log.wtf("selectExits user_phone", user_phone);
         String sql = "SELECT * FROM alram WHERE user_Phone ='" + user_phone + "';";
         Cursor cursor = db.rawQuery(sql, null);
         AlramState model = new AlramState();

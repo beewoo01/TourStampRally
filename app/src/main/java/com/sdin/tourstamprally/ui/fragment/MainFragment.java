@@ -300,7 +300,6 @@ public class MainFragment extends BaseFragment2 {
                             @Override
                             public void onSuccess(@io.reactivex.rxjava3.annotations.NonNull Integer integer) {
                                 deapBtn.setEnabled(true);
-                                Log.wtf("Result===", String.valueOf(integer));
                             }
 
                             @Override
@@ -323,7 +322,6 @@ public class MainFragment extends BaseFragment2 {
                             @Override
                             public void onSuccess(@io.reactivex.rxjava3.annotations.NonNull Integer integer) {
                                 deapBtn.setEnabled(true);
-                                Log.wtf("Result===", String.valueOf(integer));
                             }
 
                             @Override

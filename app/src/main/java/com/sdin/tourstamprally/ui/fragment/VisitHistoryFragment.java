@@ -200,7 +200,7 @@ public class VisitHistoryFragment extends BaseFragment {
                             //ShowToast("찜하기에 성공 하셨습니다.", requireContext());
                             //Log.wtf("response.body()", String.valueOf(response.body()));
 
-                            if (response.body()!= null && response.body() == 0) {
+                            if (response.body() != null && response.body() == 0) {
                                 //  Log.wtf("onResponse", "찜하기 000000");
                                 insert_intest(model.getTouristspot_idx());
                             }
@@ -228,7 +228,7 @@ public class VisitHistoryFragment extends BaseFragment {
                         .subscribeWith(new DisposableSingleObserver<Integer>() {
                             @Override
                             public void onSuccess(@io.reactivex.rxjava3.annotations.NonNull Integer integer) {
-                                if (integer > 0){
+                                if (integer > 0) {
                                     adapter.setChange(position);
                                     Toast.makeText(requireContext(), "리뷰 삭제에 성공하였습니다.", Toast.LENGTH_SHORT).show();
                                 }
@@ -249,14 +249,14 @@ public class VisitHistoryFragment extends BaseFragment {
                         .subscribeWith(new DisposableSingleObserver<CouponModel>() {
                             @Override
                             public void onSuccess(@io.reactivex.rxjava3.annotations.NonNull CouponModel couponModel) {
-                                Log.wtf("selectCoupon","onSuccess");
+
                                 try {
                                     if (couponModel != null) {
-                                    new PopUp_Image(requireContext(), couponModel).show();
-                                    } else  {
+                                        new PopUp_Image(requireContext(), couponModel).show();
+                                    } else {
                                         Toast.makeText(requireContext(), "해당 관광지의 쿠폰이 발급되지 않았습니다.", Toast.LENGTH_SHORT).show();
                                     }
-                                }catch (Exception e){
+                                } catch (Exception e) {
                                     e.printStackTrace();
                                     Toast.makeText(requireContext(), "해당 관광지의 쿠폰이 발급되지 않았습니다.", Toast.LENGTH_SHORT).show();
                                 }

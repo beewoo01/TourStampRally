@@ -43,7 +43,7 @@ public class GlobalApplication extends Application {
 
                 return;
             }
-            Log.e("RxJava_HOOK", "Undeliverable exception received, not sure what to do" + e.getMessage());
+            //Log.e("RxJava_HOOK", "Undeliverable exception received, not sure what to do" + e.getMessage());
 
 
         });

@@ -30,10 +30,11 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHo
 
     private ArrayList<Tour_Spot> list;
     public static final String TAG = LocationAdapter.class.getSimpleName();
-    private SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd");
-    private ItemOnClick listener;
+    @SuppressLint("SimpleDateFormat")
+    private final SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd");
+    private final ItemOnClick listener;
     private Tour_Spot send_model;
-    private Context context;
+    private final Context context;
     //private SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd 'T' HH:mm:ss.SSSX " , Locale.US);
 
 
@@ -45,6 +46,7 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHo
 
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     public void locationlistSet(ArrayList<Tour_Spot> list){
         this.list = list;
         notifyDataSetChanged();
@@ -54,6 +56,7 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHo
         return list;
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     public List<Tour_Spot> locaitonSort(ArrayList<Tour_Spot> list, int category){
         this.list = list;
         notifyDataSetChanged();
@@ -61,10 +64,9 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHo
         return list;
     }
 
-    private ItemOnClick itemOnClick = new ItemOnClickAb() {
+    private final ItemOnClick itemOnClick = new ItemOnClickAb() {
         @Override
         public void ItemGuid(int position) {
-            Log.d("dialog Onclick Listener", String.valueOf(position));
             if (position == 1 || position == 2){
                 listener.ItemGuid(position);
             }else {
@@ -84,7 +86,6 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHo
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Log.d("??", list.get(position).toString());
 
         if (TextUtils.isEmpty(list.get(position).getTouristhistory_idx())) list.get(position).setClear(false);
         else list.get(position).setClear(true);

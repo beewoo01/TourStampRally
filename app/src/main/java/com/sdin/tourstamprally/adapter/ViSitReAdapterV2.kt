@@ -74,11 +74,10 @@ class ViSitReAdapterV2(
             binding.seekBar.progress = myCount
 
             binding.logoImv.setOnClickListener {
-                Log.wtf("logoImv", "allCount!!")
-                Log.wtf("logoImv", "allCount = $allCounted")
+                /*Log.wtf("logoImv", "allCount!!")
+                Log.wtf("logoImv", "allCount = $allCounted")*/
                 if (allCounted == 100) {
-                    Log.wtf("logoImv", "allCount100")
-                    // TODO: 2021/12/17 여기 쿠폰 보기 클릭
+                    //Log.wtf("logoImv", "allCount100")
                     listener?.clearClick(model.touristspot_idx)
                     //PopUp_Image(context).show()
                 }

@@ -26,7 +26,7 @@ public class DbOpenHelper extends SQLiteOpenHelper{
                 " sms_Alram INTEGER"+
                 " );";
 
-        Log.wtf("DbOpenHelper", "onCreate");
+        //Log.wtf("DbOpenHelper", "onCreate");
 
         sqLiteDatabase.execSQL(sql);
     }

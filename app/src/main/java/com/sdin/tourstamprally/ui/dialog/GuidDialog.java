@@ -27,7 +27,6 @@ public class GuidDialog extends Dialog {
     private DialogGuidBinding binding;
     //private ItemOnClick itemOnClick;
     private ItemOnClick itemOnClick;
-    private int position = 0;
 
     public GuidDialog(@NonNull Context context) {
         super(context, R.style.FullScreenDialogStyle);
@@ -36,7 +35,6 @@ public class GuidDialog extends Dialog {
 
     public void setClickListener(ItemOnClick itemOnClick){
         this.itemOnClick = itemOnClick;
-        Log.d("DefaultDialog ", "setClickListener");
     }
 
 
@@ -55,7 +53,7 @@ public class GuidDialog extends Dialog {
     }
 
     public void buttonClick(View view){
-        position = Integer.parseInt(String.valueOf(view.getTag()));
+        int position = Integer.parseInt(String.valueOf(view.getTag()));
         itemOnClick.ItemGuid(position);
         dismiss();
     }

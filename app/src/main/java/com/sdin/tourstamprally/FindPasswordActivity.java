@@ -65,12 +65,12 @@ public class FindPasswordActivity extends BaseActivity {
 
                 @Override
                 public void onResponse(Call<Integer> call, Response<Integer> response) {
-                    Log.d("FindPasswordActivity", "onResponse");
+                    //Log.d("FindPasswordActivity", "onResponse");
                     if (response.isSuccessful()) {
                         //String result1 = String.valueOf(response.body());
                         Integer result = response.body();
                         if (result != null) {
-                            Log.d("result", result.toString());
+                            //Log.d("result", result.toString());
 
                             if (result == 1) {
                                 showToast("비밀번호 변경을 완료하였습니다.");

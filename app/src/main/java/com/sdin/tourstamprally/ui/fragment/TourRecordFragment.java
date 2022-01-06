@@ -1,5 +1,6 @@
 package com.sdin.tourstamprally.ui.fragment;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 
 import androidx.core.content.ContextCompat;
@@ -182,12 +183,12 @@ public class TourRecordFragment extends BaseFragment {
     }
 
 
+    @SuppressLint("NonConstantResourceId")
     public void sortList(int form) {
         arrayList = locationAdapter.getList();
 
         switch (form) {
             case R.id.popular_btn:
-                Log.d(TAG, "popular_btn");
                 arrayList.sort((o1, o2) -> {
 
                     if (o1.getTouristspot_checkin_count() == o2.getTouristspot_checkin_count())
@@ -200,7 +201,6 @@ public class TourRecordFragment extends BaseFragment {
                 break;
 
             case R.id.recent_btn:
-                Log.d(TAG, "recent_btn");
                 //myList();
 
                 arrayList = (ArrayList<Tour_Spot>) arrayList.stream()
@@ -209,7 +209,6 @@ public class TourRecordFragment extends BaseFragment {
                 break;
 
             case R.id.near_btn:
-                Log.d(TAG, "near_btn");
                 arrayList.sort((o1, o2) -> {
 
                     double o1_distance = distance(o1.getTouristspot_latitude(), o1.getTouristspot_longitude());
@@ -239,10 +238,10 @@ public class TourRecordFragment extends BaseFragment {
     }
 
 
-    private AdapterView.OnItemSelectedListener selectedListener = new AdapterView.OnItemSelectedListener() {
+    private final AdapterView.OnItemSelectedListener selectedListener = new AdapterView.OnItemSelectedListener() {
         @Override
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-            Log.d("getSelectedItem", parent.getSelectedItem().toString());
+            //Log.d("getSelectedItem", parent.getSelectedItem().toString());
 
             locationSort(parent.getSelectedItem().toString());
         }

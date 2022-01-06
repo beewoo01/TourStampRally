@@ -40,12 +40,10 @@ public class QRActivity extends AppCompatActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
 
-        Log.d("onActivityResult", "onActivityResult: .");
         if (resultCode == Activity.RESULT_OK) {
             IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
             String re = scanResult.getContents();
             String message = re;
-            Log.d("onActivityResult", "onActivityResult: ." + re);
             Toast.makeText(this, re, Toast.LENGTH_LONG).show();
         }else {
             super.onActivityResult(requestCode, resultCode, intent);

@@ -1,17 +1,24 @@
 package com.sdin.tourstamprally.ui.activity
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.app.PendingIntent
+import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.nfc.NdefMessage
 import android.nfc.NfcAdapter
 import android.os.Bundle
+import android.text.TextUtils
 import android.util.Log
+import android.view.MotionEvent
 import android.view.View
+import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
+import androidx.core.view.get
 import androidx.databinding.DataBindingUtil
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.LiveData
@@ -24,17 +31,11 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.sdin.tourstamprally.R
 import com.sdin.tourstamprally.Utils
 import com.sdin.tourstamprally.databinding.ActivityMain2Binding
-import com.sdin.tourstamprally.model.Location_four
-import com.sdin.tourstamprally.model.RallyMapDTO
-import com.sdin.tourstamprally.model.ReviewWriter
-import com.sdin.tourstamprally.model.TouristSpotPoint
-import com.sdin.tourstamprally.utill.ItemOnClick
 import com.sdin.tourstamprally.utill.NFCListener
 import com.sdin.tourstamprally.utill.Quadruple
 import com.sdin.tourstamprally.utill.navutil.DialogNavigator
 import java.io.*
 import java.util.*
-import kotlin.collections.HashMap
 
 class MainActivity2 : AppCompatActivity()/*, NavigationBarView.OnItemSelectedListener,
     ItemOnClick*/ {
@@ -54,6 +55,10 @@ class MainActivity2 : AppCompatActivity()/*, NavigationBarView.OnItemSelectedLis
     private var currentPhotoPath: String? = null
 
     private var currentBottomMenu: Int = R.id.page_home
+    private val _immKeyboard: InputMethodManager
+        get() {
+            return getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        }
 
     private val toolbarItem: Map<Int, Quadruple<Int, Int, Int, Int>> =
         hashMapOf(
@@ -109,19 +114,51 @@ class MainActivity2 : AppCompatActivity()/*, NavigationBarView.OnItemSelectedLis
         )
 
         initView()
+        setNFC()
+        //binding.bottomNavigationView.menu.findItem(R.id.page_home).setChecked(true)
 
     }
 
     override fun onBackPressed() {
         super.onBackPressed()
+        if (navController.currentDestination?.label == "QR") {
+            navController.popBackStack()
+            Log.wtf("label == QR", "label == QR")
+        } else {
+            Log.wtf("label == else", "label == else")
+        }
         updateBottomMenu()
     }
 
+    override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
+        if (_immKeyboard.isAcceptingText) {
+            hideKeyboard()
+        }
+
+        return super.dispatchTouchEvent(ev)
+    }
+
+    private fun hideKeyboard() {
+        var view = currentFocus
+        if (view == null) {
+            view = View(this@MainActivity2)
+        }
+
+        _immKeyboard.hideSoftInputFromWindow(view.windowToken, 0)
+
+    }
+
     private fun updateBottomMenu() {
-        binding.bottomNavigationView.menu.findItem(currentBottomMenu).isChecked = true
+        //binding.bottomNavigationView.menu.findItem(currentBottomMenu).isChecked = true
     }
 
     fun backBtnClick() {
+        if (navController.currentDestination?.label == "NFC") {
+            Log.wtf("label == NFC", "label == NFC")
+            navController.navigateUp()
+        } else {
+            Log.wtf("label == else", "label == else")
+        }
         navController.navigateUp()
     }
 
@@ -171,7 +208,7 @@ class MainActivity2 : AppCompatActivity()/*, NavigationBarView.OnItemSelectedLis
 
     }
 
-    fun openDrawa() {
+    fun openDrawer() {
         binding.drawaLayout.openDrawer(GravityCompat.END)
         Glide.with(this).load("http://coratest.kr/imagefile/bsr/" + Utils.User_Profile)
             .error(ContextCompat.getDrawable(this, R.drawable.sample_profile_image)).circleCrop()
@@ -186,7 +223,7 @@ class MainActivity2 : AppCompatActivity()/*, NavigationBarView.OnItemSelectedLis
         nfcAdapter = NfcAdapter.getDefaultAdapter(this@MainActivity2)
         nfcAdapter?.let {
             ISNfcInable = true
-            readfromIntent(intent)
+            readFromIntent(intent)
             pendingIntent = PendingIntent.getActivity(
                 this@MainActivity2, 0,
                 Intent(this, javaClass).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0
@@ -195,6 +232,15 @@ class MainActivity2 : AppCompatActivity()/*, NavigationBarView.OnItemSelectedLis
             writingTagFilters = arrayOf(tagDetected)
 
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (TextUtils.isEmpty(Utils.UserPhone) || TextUtils.isEmpty(Utils.UserPassword)) {
+            startActivity(Intent(this@MainActivity2, LoginActivity::class.java))
+            finish()
+        }
+        nfcModeOn()
     }
 
     override fun onPause() {
@@ -222,14 +268,13 @@ class MainActivity2 : AppCompatActivity()/*, NavigationBarView.OnItemSelectedLis
 
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
-
         intent?.let {
             setIntent(it)
-            readfromIntent(it)
+            readFromIntent(it)
         }
     }
 
-    private fun readfromIntent(intent: Intent) {
+    private fun readFromIntent(intent: Intent) {
         val action = intent.action
         if (NfcAdapter.ACTION_TAG_DISCOVERED == action
             || NfcAdapter.ACTION_TECH_DISCOVERED == action
@@ -238,12 +283,19 @@ class MainActivity2 : AppCompatActivity()/*, NavigationBarView.OnItemSelectedLis
 
             val rawMsgs = intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES)
             rawMsgs?.size?.let {
-                val msgs = arrayOfNulls<NdefMessage>(it)
-                for (i in 0..it) {
-                    msgs[i] = rawMsgs[i] as NdefMessage
+                val msgs: Array<NdefMessage?> = arrayOfNulls(it)
+                //val msgs = arrayOfNulls<NdefMessage>(it)
+                for ((index, item) in rawMsgs.withIndex()) {
+                    msgs[index] = item as NdefMessage
                 }
 
-                val name = supportFragmentManager.getBackStackEntryAt(
+                nfcListener?.onReadTag(msgs)
+
+                /*for (i in 0..it) {
+                    msgs[i] = rawMsgs[i] as NdefMessage
+                }*/
+
+                /*val name = supportFragmentManager.getBackStackEntryAt(
                     supportFragmentManager.backStackEntryCount - 1
                 ).name
 
@@ -253,7 +305,7 @@ class MainActivity2 : AppCompatActivity()/*, NavigationBarView.OnItemSelectedLis
                     } else {
                         nfcListener?.onReadTag(msgs)
                     }
-                }
+                }*/
             }
 
 
@@ -311,15 +363,8 @@ class MainActivity2 : AppCompatActivity()/*, NavigationBarView.OnItemSelectedLis
 
     private val navListener =
         NavController.OnDestinationChangedListener { _, destination, arguments ->
-            /*Log.wtf("navListener", "navListener")
-            Log.wtf("navListener destination.id", destination.id.toString())
-            Log.wtf("navigatorName", destination.navigatorName)
-            //Log.wtf("label", destination.label.toString())
-            Log.wtf("arguments model", destination.arguments["model"].toString())
-            Log.wtf("arguments", destination.arguments.values.toString())
-            Log.wtf("real arguments", arguments?.get("model").toString())*/
 
-            var title: String
+            val title: String
             val locate: Int
             testMenuId(destination.id)
             if (destination.label == "홈") {
@@ -337,19 +382,17 @@ class MainActivity2 : AppCompatActivity()/*, NavigationBarView.OnItemSelectedLis
             if (arguments?.getString("title") != null
                 && arguments.getString("title") != "null"
             ) {
-                //binding.toolbarLayout.titleTxv.text = arguments.getString("title")
+
                 title = arguments.getString("title", "")
                 locate = arguments.getInt("state", 0)
-                /*val isMenu: Boolean = arguments.getBoolean("menu", false)
-
-                locate = if (isMenu) {
-                    3
-                } else {
-                    1
-                }*/
 
             } else {
+
                 if (destination.label == "QR" || destination.label == "NFC") {
+                    /*if (destination.label == "QR"){
+                        val prevFragment = destination.arguments.size -1
+                    }*/
+
                     title = destination.label.toString() + " 스캔"
                     locate = 2
                 } else {
@@ -360,7 +403,6 @@ class MainActivity2 : AppCompatActivity()/*, NavigationBarView.OnItemSelectedLis
 
             setScanToolbar(locate = locate)
             binding.toolbarLayout.titleTxv.text = title
-            Log.wtf("title~!!", arguments?.getString("title"))
 
         }
 
@@ -563,9 +605,9 @@ class MainActivity2 : AppCompatActivity()/*, NavigationBarView.OnItemSelectedLis
             val imageFileName = "JPEG_" + timeStamp + "_"
             val storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
             val image = File.createTempFile(
-                imageFileName,  *//* prefix *//*
-                ".jpg",  *//* suffix *//*
-                storageDir *//* directory *//*
+                imageFileName,
+                ".jpg",
+                storageDir
             )
             currentPhotoPath = image.absolutePath
             Log.wtf("currentPhotoPath", currentPhotoPath)

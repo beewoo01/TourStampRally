@@ -27,7 +27,6 @@ public class StampDialog extends Dialog{
 
     public void setClickListener(ItemOnClick itemOnClick){
         this.itemOnClick = itemOnClick;
-        Log.d("DefaultDialog ", "setClickListener");
     }
 
     public StampDialog(@NonNull Context context) {

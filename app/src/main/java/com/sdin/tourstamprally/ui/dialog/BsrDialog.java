@@ -27,7 +27,7 @@ public class BsrDialog extends Dialog{
 
     public void setClickListener(ItemOnClick itemOnClick){
         this.itemOnClick = itemOnClick;
-        Log.d("DefaultDialog ", "setClickListener");
+
     }
 
     public BsrDialog(@NonNull Context context) {

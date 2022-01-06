@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
+import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
 import android.util.Log;
@@ -16,6 +17,7 @@ import com.budiyev.android.codescanner.CodeScanner;
 import com.sdin.tourstamprally.R;
 import com.sdin.tourstamprally.Utils;
 import com.sdin.tourstamprally.databinding.FragmentQrScanBinding;
+import com.sdin.tourstamprally.model.RallyMapDTO;
 import com.sdin.tourstamprally.model.TouristSpotPoint;
 import com.sdin.tourstamprally.ui.activity.MainActivity;
 import com.sdin.tourstamprally.ui.dialog.ScanResultDialog;
@@ -23,6 +25,7 @@ import com.sdin.tourstamprally.utill.DialogListener;
 import com.sdin.tourstamprally.utill.GpsTracker;
 import com.sdin.tourstamprally.utill.ItemCliclListener;
 import com.sdin.tourstamprally.utill.ItemOnClick;
+import com.sdin.tourstamprally.v2.ScanListener;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -33,7 +36,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class QRscanFragment extends BaseFragment implements DialogListener {
+public class QRscanFragment extends BaseFragment implements DialogListener, ScanListener {
 
     private FragmentQrScanBinding binding;
 
@@ -60,7 +63,6 @@ public class QRscanFragment extends BaseFragment implements DialogListener {
     public void onPause() {
         super.onPause();
         //capture.onPause();
-        Log.wtf("onPause", "onPause");
         codeScanner.releaseResources();
     }
 
@@ -76,14 +78,12 @@ public class QRscanFragment extends BaseFragment implements DialogListener {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_qr_scan, container, false);
         //listner = (ItemOnClick) requireActivity();
-        Log.wtf("onCreateView", "onCreateView");
         return binding.getRoot();
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstancdState) {
         super.onViewCreated(view, savedInstancdState);
-        Log.wtf("onViewCreated", "onViewCreated");
 
         codeScanner = new CodeScanner(requireActivity(), binding.scannerView);
         codeScanner.setDecodeCallback(result -> requireActivity().runOnUiThread(()
@@ -95,11 +95,13 @@ public class QRscanFragment extends BaseFragment implements DialogListener {
         }));
 
         //binding.moveNfcBtn.setOnClickListener( ignore -> listner.ItemGuid(1));
-        binding.moveNfcBtn.setOnClickListener(ignore ->
-                Navigation
-                        .findNavController(
-                                requireActivity(), R.id.nav_host)
-                        .navigate(R.id.action_fragment_qr_scan_to_fragment_nfc));
+        binding.moveNfcBtn.setOnClickListener(ignore -> {
+
+            NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host);
+            navController.navigate(R.id.action_fragment_qr_scan_to_fragment_nfc);
+            //navController.popBackStack(R.id.page_stamp, true);
+
+        });
 
 
         //binding.scannerView.setOnClickListener( v -> codeScanner.startPreview());
@@ -134,7 +136,6 @@ public class QRscanFragment extends BaseFragment implements DialogListener {
 
                 } else {
                     showFailDialog();
-                    Log.wtf("else", "not isSuccessful");
                 }
             }
 
@@ -179,11 +180,10 @@ public class QRscanFragment extends BaseFragment implements DialogListener {
         apiService.check_in(text, String.valueOf(Utils.User_Idx), Utils.UserPhone).enqueue(new Callback<HashMap<String, Integer>>() {
             @Override
             public void onResponse(@NotNull Call<HashMap<String, Integer>> call, @NotNull Response<HashMap<String, Integer>> response) {
-                Log.wtf("체크인 ", "체크인 ");
+
                 if (response.isSuccessful()) {
 
                     HashMap<String, Integer> result = response.body();
-                    Log.wtf("result!!!!!!", result.toString());
                     if (result != null && result.get("result") != null && result.get("data") != null) {
 
                         int isSuccess = result.get("result");
@@ -218,7 +218,15 @@ public class QRscanFragment extends BaseFragment implements DialogListener {
     }
 
     private void showSuccessDialog(int touristhistory_touristspotpoint_idx) {
-        scanResultDialog = new ScanResultDialog(requireContext(), 1, "QR 스캔 성공", touristhistory_touristspotpoint_idx, "스탬프 랠리 획득!");
+        scanResultDialog =
+                new ScanResultDialog(
+                        requireContext(),
+                        QRscanFragment.this,
+                        1,
+                        "QR 스캔 성공",
+                        touristhistory_touristspotpoint_idx,
+                        "스탬프 랠리 획득!");
+
         scanResultDialog.setDialogListener(this);
         scanResultDialog.show();
 
@@ -228,13 +236,26 @@ public class QRscanFragment extends BaseFragment implements DialogListener {
     }
 
     private void showFailDialog() {
-        scanResultDialog = new ScanResultDialog(requireContext(), 0, "QR 스캔 실패", "QR 확인 하신 후 \n재시도 해주세요.");
+        scanResultDialog =
+                new ScanResultDialog(
+                        requireContext(),
+                        0,
+                        "QR 스캔 실패",
+                        "QR 확인 하신 후 \n재시도 해주세요."
+                );
+
         scanResultDialog.setDialogListener(this);
         scanResultDialog.show();
     }
 
     private void showAlreadyDialog(int touristspotpoint_idx) {
-        scanResultDialog = new ScanResultDialog(requireContext(), 2, "스탬프 확인", " 이미 획득 완료하신\n 스탬프 입니다.", touristspotpoint_idx);
+        scanResultDialog = new ScanResultDialog(
+                requireContext(),
+                QRscanFragment.this,
+                2,
+                "스탬프 확인",
+                " 이미 획득 완료하신\n 스탬프 입니다.",
+                touristspotpoint_idx);
         scanResultDialog.setDialogListener(this);
         scanResultDialog.show();
     }
@@ -243,6 +264,18 @@ public class QRscanFragment extends BaseFragment implements DialogListener {
     @Override
     public void onDissMiss() {
         codeScanner.startPreview();
+    }
+
+    @Override
+    public void moveSpotPoint(@NonNull RallyMapDTO model) {
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("model", model);
+        bundle.putString("title", model.getTouristspot_name());
+        bundle.putInt("state", 1);
+
+        Navigation.findNavController(requireActivity(), R.id.nav_host).popBackStack();
+        Navigation.findNavController(requireActivity(), R.id.nav_host)
+                .navigate(R.id.check_spot_point_qr, bundle);
     }
 }
 

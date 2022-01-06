@@ -40,12 +40,12 @@ public class LoginActivity extends BaseActivity {
 
 
         if (!TextUtils.isEmpty(getIntent().getStringExtra("phone"))){
-            Log.wtf("phone", "phonephonephonephone");
+            //Log.wtf("phone", "phonephonephonephone");
             binding.editPhone.setText(getIntent().getStringExtra("phone"));
         }
 
         if (!TextUtils.isEmpty(getIntent().getStringExtra("psw"))){
-            Log.wtf("psw", "pswpswpswpswpsw");
+            //Log.wtf("psw", "pswpswpswpswpsw");
             binding.editPassword.setText(getIntent().getStringExtra("psw"));
         }
 
@@ -133,15 +133,15 @@ public class LoginActivity extends BaseActivity {
                         Toast.makeText(LoginActivity.this, "로그인에 실패하셨습니다.", Toast.LENGTH_SHORT).show();
                         //Toast.makeText(LoginActivity.this, "로그인 성공!!" + result, Toast.LENGTH_SHORT).show();
                     }else {
-                        Log.d("result!!", result.toString());
+                        //Log.d("result!!", result.toString());
                         if (result.getEnable().equals("0") ){
                             if (binding.autoLoginRbt.isChecked()){
-                                Log.wtf("autoLoginRbt", "checked");
+                                //Log.wtf("autoLoginRbt", "checked");
                                 setShearedString("phone", binding.editPhone.getText().toString());
                                 setShearedString("password", binding.editPassword.getText().toString());
 
                             }else if (binding.saveIdRbt.isChecked()){
-                                Log.wtf("saveIdRbt", "checked");
+                                //Log.wtf("saveIdRbt", "checked");
                                 setShearedString("phone", binding.editPhone.getText().toString());
                             }
                             Utils.UserPhone = binding.editPhone.getText().toString();

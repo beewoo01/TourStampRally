@@ -5,7 +5,9 @@ import android.nfc.NdefMessage;
 import android.nfc.NfcAdapter;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
+import androidx.navigation.Navigation;
 
 import android.text.TextUtils;
 import android.util.Log;
@@ -17,12 +19,14 @@ import android.widget.Toast;
 
 import com.sdin.tourstamprally.R;
 import com.sdin.tourstamprally.Utils;
+import com.sdin.tourstamprally.model.RallyMapDTO;
 import com.sdin.tourstamprally.model.TouristSpotPoint;
 import com.sdin.tourstamprally.ui.activity.MainActivity;
 import com.sdin.tourstamprally.ui.activity.MainActivity2;
 import com.sdin.tourstamprally.ui.dialog.ScanResultDialog;
 import com.sdin.tourstamprally.utill.GpsTracker;
 import com.sdin.tourstamprally.utill.NFCListener;
+import com.sdin.tourstamprally.v2.ScanListener;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -34,7 +38,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class NFCFragment extends BaseFragment implements NFCListener {
+public class NFCFragment extends BaseFragment implements NFCListener, ScanListener {
 
     private static final String DataArray = "param1";
     private static final String Listener = "param2";
@@ -158,7 +162,14 @@ public class NFCFragment extends BaseFragment implements NFCListener {
 
 
     private void showSuccessDialog(int touristhistory_touristspotpoint_idx) {
-        new ScanResultDialog(requireContext(), 1, "NFC 태깅 성공", touristhistory_touristspotpoint_idx, "스탬프 랠리 획득!").show();
+        new ScanResultDialog(
+                requireContext(),
+                NFCFragment.this,
+                1,
+                "NFC 태깅 성공",
+                touristhistory_touristspotpoint_idx,
+                "스탬프 랠리 획득!"
+        ).show();
     }
 
     private void showFailDialog() {
@@ -166,7 +177,14 @@ public class NFCFragment extends BaseFragment implements NFCListener {
     }
 
     private void showAlreadyDialog(int touristspotpoint_idx) {
-        new ScanResultDialog(requireContext(), 2, "스탬프 확인", " 이미 획득 완료하신\n 스탬프 입니다.", touristspotpoint_idx ).show();
+        new ScanResultDialog(
+                requireContext(),
+                NFCFragment.this,
+                2,
+                "스탬프 확인",
+                " 이미 획득 완료하신\n 스탬프 입니다.",
+                touristspotpoint_idx
+        ).show();
     }
 
 
@@ -190,7 +208,7 @@ public class NFCFragment extends BaseFragment implements NFCListener {
                         } else if (isSuccess == 0) {
                             //성공
                             showSuccessDialog(sendData);
-                        }else {
+                        } else {
                             //실패
                             showFailDialog();
                         }
@@ -250,5 +268,16 @@ public class NFCFragment extends BaseFragment implements NFCListener {
     @Override
     public void onReadTag(NdefMessage[] action) {
         buildtagViews(action);
+    }
+
+    @Override
+    public void moveSpotPoint(@NonNull RallyMapDTO model) {
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("model", model);
+        bundle.putString("title", model.getTouristspot_name());
+        bundle.putInt("state", 1);
+
+        Navigation.findNavController(requireActivity(), R.id.nav_host)
+                .navigate(R.id.check_spot_point_nfc, bundle);
     }
 }

@@ -24,12 +24,12 @@ public class CustomMediaScannerConnectionClient
     @Override
     public void onMediaScannerConnected() {
         mediaScanner.scanFile(mFilename, mMimeType);
-        Log.wtf("MediaAdapter", "미디어 스캔 성공");
+        //Log.wtf("MediaAdapter", "미디어 스캔 성공");
     }
 
     @Override
     public void onScanCompleted(String path, Uri uri) {
-        Log.wtf("MediaAdapter", "미디어 스캔 연결 종료처리 uri = " + uri);
+        //Log.wtf("MediaAdapter", "미디어 스캔 연결 종료처리 uri = " + uri);
         mediaScanner.disconnect();
 
     }

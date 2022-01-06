@@ -11,20 +11,13 @@ import androidx.databinding.DataBindingUtil
 import androidx.navigation.fragment.findNavController
 import com.sdin.tourstamprally.R
 import com.sdin.tourstamprally.adapter.More_Frag_LocationAdapter
-import com.sdin.tourstamprally.adapter.swipe.More_Frag_ReviewAdapter
+import com.sdin.tourstamprally.adapter.swipe.MoreFragReviewAdapter
 import com.sdin.tourstamprally.databinding.FragmentMoreReviewBinding
 import com.sdin.tourstamprally.model.AllReviewDTO
-import com.sdin.tourstamprally.ui.activity.MainActivity
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.core.Observable
-import io.reactivex.rxjava3.core.ObservableEmitter
-import io.reactivex.rxjava3.core.Observer
-import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.observers.DisposableSingleObserver
 import io.reactivex.rxjava3.schedulers.Schedulers
 import java.util.*
-import java.util.concurrent.TimeUnit
-import com.sdin.tourstamprally.utill.ItemOnClick
 
 import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
@@ -34,7 +27,7 @@ class MoreReviewFragment : BaseFragment() {
 
     private var binding: FragmentMoreReviewBinding? = null
     private var selectedLocationIdx = 0
-    var reviewAdapter: More_Frag_ReviewAdapter? = null
+    var reviewAdapter: MoreFragReviewAdapter? = null
     var locationAdapter: More_Frag_LocationAdapter? = null
     private var textint = 0
     private val reviewList = ArrayList<AllReviewDTO>()
@@ -110,7 +103,6 @@ class MoreReviewFragment : BaseFragment() {
         val map = HashMap<Int, String>()
 
         for (i in list) {
-            Log.wtf("touristspot_name", i.touristspot_name)
             map[i.location_idx] = i.location_name
         }
 
@@ -122,9 +114,9 @@ class MoreReviewFragment : BaseFragment() {
 
         val reviewList: ArrayList<AllReviewDTO> = ArrayList()
         reviewList.addAll(list)
-        reviewAdapter = More_Frag_ReviewAdapter(requireContext(), reviewList)
+        reviewAdapter = MoreFragReviewAdapter(requireContext(), reviewList)
         reviewAdapter?.apply {
-            setListener(object : More_Frag_ReviewAdapter.MoreReviewListener {
+            setListener(object : MoreFragReviewAdapter.MoreReviewListener {
                 override fun onItemClick(data: AllReviewDTO) {
                     /*listener = requireActivity() as MainActivity
                     (listener as MainActivity).reviewItemClick(data.review_idx, data.touristspot_name)*/
@@ -149,7 +141,6 @@ class MoreReviewFragment : BaseFragment() {
                 : More_Frag_LocationAdapter.MoreLocationItemListener {
 
                 override fun onItemClick(item: Int) {
-                    Log.wtf("locationIDX??", item.toString())
                     //val adList : MutableList<AllReviewDTO> = MutableList()
                     val paramList = ArrayList<AllReviewDTO>()
 
@@ -186,7 +177,8 @@ class MoreReviewFragment : BaseFragment() {
 
         for (i in reviewList) {
             if (data.isNotEmpty()) {
-                if (i.location_name.toLowerCase(Locale.ROOT).contains(data)) {
+
+                if (i.location_name.lowercase(Locale.getDefault()).contains(data)) {
 
                     if (selectedLocationIdx != 0 &&
                         reviewList[reviewList.indexOf(i)].location_idx == selectedLocationIdx
@@ -198,8 +190,7 @@ class MoreReviewFragment : BaseFragment() {
 
                 }
 
-                if (i.touristspot_name.toLowerCase(Locale.ROOT).contains(data)) {
-                    Log.wtf("search", "touristspot_name")
+                if (i.touristspot_name.lowercase(Locale.getDefault()).contains(data)) {
 
                     if (selectedLocationIdx != 0 &&
                         reviewList[reviewList.indexOf(i)].location_idx == selectedLocationIdx
@@ -211,8 +202,7 @@ class MoreReviewFragment : BaseFragment() {
                     }
                 }
 
-                if (i.review_contents.toLowerCase(Locale.ROOT).contains(data)) {
-                    Log.wtf("search", "review_contents")
+                if (i.review_contents.lowercase(Locale.getDefault()).contains(data)) {
 
                     if (selectedLocationIdx != 0 &&
                         reviewList[reviewList.indexOf(i)].location_idx == selectedLocationIdx

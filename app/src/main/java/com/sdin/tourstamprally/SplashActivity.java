@@ -73,8 +73,8 @@ public class SplashActivity extends BaseActivity {
                     SharedPreferences preferences = setSharedPref();
                     final String phone = preferences.getString("phone", "");
                     final String psw = preferences.getString("password", "");
-                    Log.d("isAutoLogin phone", phone);
-                    Log.d("isAutoLogin psw", psw);
+                    /*Log.d("isAutoLogin phone", phone);
+                    Log.d("isAutoLogin psw", psw);*/
                     if (!TextUtils.isEmpty(phone) && !TextUtils.isEmpty(psw))
                     {
                         login(phone, psw);

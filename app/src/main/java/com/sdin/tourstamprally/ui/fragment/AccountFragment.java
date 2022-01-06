@@ -128,7 +128,6 @@ public class AccountFragment extends BaseFragment {
 
 
     public void logout() {
-        Log.d(TAG, "logout");
         SharedPreferences pref = requireContext().getSharedPreferences("rebuild_preference", MODE_PRIVATE);
         SharedPreferences.Editor editor = pref.edit();
         editor.remove("phone");
@@ -165,7 +164,7 @@ public class AccountFragment extends BaseFragment {
     }
 
     public void profileSetOnClick() {
-        Log.wtf("profileSetOnClick", "11111");
+
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);

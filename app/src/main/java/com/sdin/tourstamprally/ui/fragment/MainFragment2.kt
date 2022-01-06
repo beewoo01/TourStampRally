@@ -239,7 +239,6 @@ class MainFragment2 : BaseFragment() {
                             })
                     } else {
                         //DEAP 추가
-                        Log.wtf("dibsImv", "allSpotCount else")
                         Glide.with(it.context).load(R.drawable.full_heart_resize)
                             .into(holderBinding.dibsImv)
 
@@ -252,7 +251,7 @@ class MainFragment2 : BaseFragment() {
                                 override fun onSuccess(integer: Int) {
                                     model.myInterCount = model.allSpotCount
                                     holderBinding.dibsImv.isEnabled = true
-                                    Log.wtf("Result===", integer.toString())
+
                                 }
 
                                 override fun onError(e: Throwable) {
