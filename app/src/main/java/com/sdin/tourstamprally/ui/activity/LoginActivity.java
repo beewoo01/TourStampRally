@@ -52,7 +52,7 @@ public class LoginActivity extends BaseActivity {
     }
 
     /*private void isAutoLogin(){
-        // TODO: 6/29/21 SplashActivity로 이동해야함
+
         SharedPreferences preferences = setSharedPref();
         phone = preferences.getString("phone", "");
         psw = preferences.getString("password", "");

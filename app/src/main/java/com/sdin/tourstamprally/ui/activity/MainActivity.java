@@ -432,7 +432,6 @@ public class MainActivity extends BaseActivity implements NavigationBarView.OnIt
     }
 
 
-    // TODO: 2021/11/25 성공한 코드 근데 이미지 돌아감
     @SuppressLint("SimpleDateFormat")
     private void saveMediaToStorage(Bitmap bitmap) {
 
