@@ -123,9 +123,6 @@ class MainActivity2 : AppCompatActivity()/*, NavigationBarView.OnItemSelectedLis
         super.onBackPressed()
         if (navController.currentDestination?.label == "QR") {
             navController.popBackStack()
-            Log.wtf("label == QR", "label == QR")
-        } else {
-            Log.wtf("label == else", "label == else")
         }
         updateBottomMenu()
     }
@@ -154,10 +151,7 @@ class MainActivity2 : AppCompatActivity()/*, NavigationBarView.OnItemSelectedLis
 
     fun backBtnClick() {
         if (navController.currentDestination?.label == "NFC") {
-            Log.wtf("label == NFC", "label == NFC")
             navController.navigateUp()
-        } else {
-            Log.wtf("label == else", "label == else")
         }
         navController.navigateUp()
     }

@@ -127,7 +127,7 @@ public class DirectionGuid_Adapter extends RecyclerView.Adapter<DirectionGuid_Ad
             });
         }
 
-        if (list.get(position).getLocation_idx() > 0){
+        if (list.get(position).getLocation_idx() > 0) {
             int allContents = list.get(position).getAllPointCount();
             int clearCount = list.get(position).getMyHistoryCount();
             int allCountd = (int) ((double) clearCount /  (double) allContents * 100);
