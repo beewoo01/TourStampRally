@@ -7,12 +7,13 @@
         android:layout_height="wrap_content"
         android:padding="@dimen/_20sdp">
 
-        <ImageView
+        <androidx.constraintlayout.utils.widget.ImageFilterView
             android:id="@+id/store_imv"
             android:layout_width="@dimen/_60sdp"
             android:layout_height="@dimen/_60sdp"
             android:scaleType="centerCrop"
             android:src="@drawable/enjoy_busan"
+            app:round="@dimen/_10sdp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

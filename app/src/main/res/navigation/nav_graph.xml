@@ -201,10 +201,16 @@
 
     <!--<NoOp android:id="@+id/page_store"/>-->
 
-    <dialog
+    <!--<dialog
         android:id="@+id/page_store"
         android:name="com.sdin.tourstamprally.ui.sample.ReadyDialogFragment"
-        tools:layout="@layout/dialog_ready_fragment" />
+        tools:layout="@layout/dialog_ready_fragment" />-->
+
+    <fragment
+        android:id="@+id/page_store"
+        android:name="com.sdin.tourstamprally.ui.fragment.SelectGuidStoreFragment"
+        tools:layout="@layout/fragment_select_guid_store"
+        />
 
     <fragment
         android:id="@+id/account_admin"

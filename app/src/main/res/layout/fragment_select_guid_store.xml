@@ -1,54 +1,192 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".ui.fragment.SelectGuidStoreFragment">
 
-    <LinearLayout
+    <androidx.constraintlayout.motion.widget.MotionLayout
+        android:id="@+id/constraintLayout2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        tools:context=".ui.fragment.SelectGuidStoreFragment">
+        app:layoutDescription="@xml/fragment_select_guid_store_xml_constraintlayout2_scene">
 
-
-        <EditText
-            android:id="@+id/search_store_edt"
-            android:layout_width="match_parent"
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabLayout"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/_25sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="전체" />
+
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="주변" />
+
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="코스별" />
+
+        </com.google.android.material.tabs.TabLayout>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/start_guidline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.1" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/end_guidline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.9" />
+
+        <TextView
+            android:id="@+id/restaurant_txv"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_30sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:background="@drawable/bg_rounded_category_selected"
+            android:gravity="center"
+            android:text="식당"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toStartOf="@id/cafe_txv"
+            app:layout_constraintStart_toStartOf="@id/start_guidline"
+            app:layout_constraintTop_toBottomOf="@id/tabLayout" />
+
+        <TextView
+            android:id="@+id/cafe_txv"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_30sdp"
+            android:layout_marginHorizontal="@dimen/_10sdp"
+            android:background="@drawable/bg_rounded_category"
+            android:gravity="center"
+            android:text="카페"
+            android:textColor="@color/mainColor"
+            app:layout_constraintBottom_toBottomOf="@id/restaurant_txv"
+            app:layout_constraintEnd_toStartOf="@id/accommodation_txv"
+            app:layout_constraintStart_toEndOf="@id/restaurant_txv"
+            app:layout_constraintTop_toTopOf="@id/restaurant_txv" />
+
+        <TextView
+            android:id="@+id/accommodation_txv"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_30sdp"
+            android:background="@drawable/bg_rounded_category"
+            android:gravity="center"
+            android:text="숙박시설"
+            android:textColor="@color/mainColor"
+            app:layout_constraintBottom_toBottomOf="@id/restaurant_txv"
+            app:layout_constraintEnd_toEndOf="@id/end_guidline"
+            app:layout_constraintStart_toEndOf="@id/cafe_txv"
+            app:layout_constraintTop_toTopOf="@id/restaurant_txv" />
+
+        <View
+            android:id="@+id/mappad"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:background="@color/black"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cafe_txv" />
+
+        <RelativeLayout
+            android:id="@+id/map_layout"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="@id/mappad"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/mappad" />
+
+        <View
+            android:id="@+id/store_pad"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_100sdp"
+            android:background="@drawable/bg_rounded_05"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <View
+            android:id="@+id/view"
+            android:layout_width="@dimen/_50sdp"
+            android:layout_height="2dp"
+            android:background="@color/black"
+            app:layout_constraintBottom_toTopOf="@id/store_re"
+            app:layout_constraintEnd_toEndOf="@id/store_pad"
+            app:layout_constraintStart_toStartOf="@id/store_pad"
+            app:layout_constraintTop_toTopOf="@id/store_pad" />
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/store_re"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:layout_marginTop="@dimen/_20sdp"
-            android:background="@drawable/bg_rounded_full_white"
-            android:drawableEnd="@drawable/search_ic_resize"
-            android:drawablePadding="@dimen/_30sdp"
-            android:hint="매장을 검색해주세요."
-            android:padding="@dimen/_15sdp" />
-
-
-        <LinearLayout
+            app:layout_constraintBottom_toBottomOf="@id/store_pad"
+            app:layout_constraintEnd_toEndOf="@id/store_pad"
+            app:layout_constraintStart_toStartOf="@id/store_pad"
+            app:layout_constraintTop_toTopOf="@id/store_pad"
+            tools:listitem="@layout/guid_store_item" />
+        <!--<LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="@dimen/_20sdp"
-            android:background="@color/white"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            >
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/tag_re"
+
+            <EditText
+                android:id="@+id/search_store_edt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="@dimen/_10sdp"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:listitem="@layout/direction_guid_tag_item" />
+                android:layout_marginHorizontal="@dimen/_25sdp"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:background="@drawable/bg_rounded_full_white"
+                android:drawableEnd="@drawable/search_ic_resize"
+                android:drawablePadding="@dimen/_30sdp"
+                android:hint="매장을 검색해주세요."
+                android:padding="@dimen/_15sdp" />
 
 
-            <androidx.recyclerview.widget.RecyclerView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:listitem="@layout/guid_store_item" />
-        </LinearLayout>
+                android:layout_marginTop="@dimen/_20sdp"
+                android:background="@color/white"
+                android:orientation="vertical">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/tag_re"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:orientation="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:listitem="@layout/direction_guid_tag_item" />
 
 
-    </LinearLayout>
+                <androidx.recyclerview.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:listitem="@layout/guid_store_item" />
+            </LinearLayout>
+
+
+        </LinearLayout>-->
+
+    </androidx.constraintlayout.motion.widget.MotionLayout>
 
 </layout>
