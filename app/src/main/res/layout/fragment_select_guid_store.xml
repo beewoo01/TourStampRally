@@ -95,7 +95,7 @@
             android:layout_height="0dp"
             android:layout_marginTop="@dimen/_10sdp"
             android:background="@color/black"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/store_pad"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/cafe_txv" />
@@ -104,88 +104,61 @@
             android:id="@+id/map_layout"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:layout_constraintBottom_toBottomOf="@id/mappad"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/mappad" />
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/scrollView"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_100sdp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/mappad"
+            app:layout_constraintBottom_toBottomOf="parent"
+            >
+
+            <LinearLayout
+                android:id="@+id/store_con"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:gravity="center"
+                >
+
+                <View
+                    android:id="@+id/view"
+                    android:layout_width="@dimen/_50sdp"
+                    android:layout_height="2dp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:background="@color/black"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/store_re"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    tools:listitem="@layout/guid_store_item" />
+
+
+            </LinearLayout>
+
+
+        </androidx.core.widget.NestedScrollView>
 
         <View
             android:id="@+id/store_pad"
             android:layout_width="0dp"
             android:layout_height="@dimen/_100sdp"
             android:background="@drawable/bg_rounded_05"
+            app:layout_constraintTop_toBottomOf="@id/mappad"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
-        <View
-            android:id="@+id/view"
-            android:layout_width="@dimen/_50sdp"
-            android:layout_height="2dp"
-            android:background="@color/black"
-            app:layout_constraintBottom_toTopOf="@id/store_re"
-            app:layout_constraintEnd_toEndOf="@id/store_pad"
-            app:layout_constraintStart_toStartOf="@id/store_pad"
-            app:layout_constraintTop_toTopOf="@id/store_pad" />
 
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/store_re"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginTop="@dimen/_20sdp"
-            app:layout_constraintBottom_toBottomOf="@id/store_pad"
-            app:layout_constraintEnd_toEndOf="@id/store_pad"
-            app:layout_constraintStart_toStartOf="@id/store_pad"
-            app:layout_constraintTop_toTopOf="@id/store_pad"
-            tools:listitem="@layout/guid_store_item" />
-        <!--<LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            >
-
-
-            <EditText
-                android:id="@+id/search_store_edt"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/_25sdp"
-                android:layout_marginTop="@dimen/_20sdp"
-                android:background="@drawable/bg_rounded_full_white"
-                android:drawableEnd="@drawable/search_ic_resize"
-                android:drawablePadding="@dimen/_30sdp"
-                android:hint="매장을 검색해주세요."
-                android:padding="@dimen/_15sdp" />
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="@dimen/_20sdp"
-                android:background="@color/white"
-                android:orientation="vertical">
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/tag_re"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:orientation="horizontal"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    tools:listitem="@layout/direction_guid_tag_item" />
-
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    tools:listitem="@layout/guid_store_item" />
-            </LinearLayout>
-
-
-        </LinearLayout>-->
 
     </androidx.constraintlayout.motion.widget.MotionLayout>
 
