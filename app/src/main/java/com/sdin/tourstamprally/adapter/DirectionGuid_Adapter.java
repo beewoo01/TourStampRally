@@ -1,18 +1,14 @@
 package com.sdin.tourstamprally.adapter;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -20,21 +16,11 @@ import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.sdin.tourstamprally.Utils;
 import com.sdin.tourstamprally.databinding.DirectionGuidLocationItemBinding;
-import com.sdin.tourstamprally.databinding.DirectionGuidTagItemBinding;
 import com.sdin.tourstamprally.model.Location_four;
-import com.sdin.tourstamprally.model.Tour_Spot;
-import com.sdin.tourstamprally.ui.activity.MainActivity;
-import com.sdin.tourstamprally.ui.fragment.DirectionGuidFragment;
 import com.sdin.tourstamprally.utill.GpsTracker;
-import com.sdin.tourstamprally.utill.ItemOnClick;
-import com.sdin.tourstamprally.v2.RecyclerViewListener;
-
-import org.jetbrains.annotations.NotNull;
+import com.sdin.tourstamprally.v2.LocationReItemClick;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 
 public class DirectionGuid_Adapter extends RecyclerView.Adapter<DirectionGuid_Adapter.ViewHolder> {
@@ -53,13 +39,13 @@ public class DirectionGuid_Adapter extends RecyclerView.Adapter<DirectionGuid_Ad
     } */
 
     //private final ItemOnClick itemOnClick;
-    private final RecyclerViewListener recyclerViewListener;
+    private final LocationReItemClick locationReItemClick;
     private final Context context;
 
-    public DirectionGuid_Adapter(ArrayList<Location_four> list, RecyclerViewListener recyclerViewListener, Context context
+    public DirectionGuid_Adapter(ArrayList<Location_four> list, LocationReItemClick locationReItemClick, Context context
             /*Activity activity*/) {
         this.list = list;
-        this.recyclerViewListener = recyclerViewListener;
+        this.locationReItemClick = locationReItemClick;
         this.context = context;
         /*this.itemOnClick = (ItemOnClick) activity;
         this.context = activity.getApplicationContext();*/
@@ -158,7 +144,7 @@ public class DirectionGuid_Adapter extends RecyclerView.Adapter<DirectionGuid_Ad
             this.binding = binding;
             binding.locationBg.setOnClickListener( v-> {
                 //itemOnClick.onItemClick(list.get(getAbsoluteAdapterPosition()));
-                recyclerViewListener.onLocationItemClick(list.get(getAbsoluteAdapterPosition()));
+                locationReItemClick.onLocationItemClick(list.get(getAbsoluteAdapterPosition()));
             });
         }
     }

@@ -13,6 +13,8 @@ import com.sdin.tourstamprally.model.Notice;
 import com.sdin.tourstamprally.model.RallyMapDTO;
 import com.sdin.tourstamprally.model.ReveiwCommentsDC;
 import com.sdin.tourstamprally.model.ReviewDetailDC;
+import com.sdin.tourstamprally.model.StoreModel;
+import com.sdin.tourstamprally.model.StoreSubDTO;
 import com.sdin.tourstamprally.model.TourTagModel;
 import com.sdin.tourstamprally.model.Tour_Spot;
 import com.sdin.tourstamprally.model.Tour_Spot2;
@@ -279,5 +281,11 @@ public interface APIService {
             @Query("coupon_touristspot_idx") int coupon_touristspot_idx,
             @Query("coupon_user_idx") int coupon_user_idx
     );
+
+    @GET("selectAllStore")
+    Single<List<StoreModel>> selectAllStore();
+
+    @GET("selectStoreDetail")
+    Single<StoreSubDTO> selectStoreDetail();
 
 }

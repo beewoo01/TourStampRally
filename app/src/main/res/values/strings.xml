@@ -99,5 +99,6 @@
     <string name="profile">profile</string>
     <string name="menu">menu</string>
     <string name="mainlogo">MainLogo</string>
+    <string name="see_detail">상세보기</string>
 
 </resources>

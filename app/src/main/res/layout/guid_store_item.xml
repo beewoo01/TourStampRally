@@ -5,12 +5,13 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/_20sdp">
+        android:layout_margin="@dimen/_10sdp"
+        >
 
         <androidx.constraintlayout.utils.widget.ImageFilterView
             android:id="@+id/store_imv"
-            android:layout_width="@dimen/_60sdp"
-            android:layout_height="@dimen/_60sdp"
+            android:layout_width="@dimen/_50sdp"
+            android:layout_height="@dimen/_50sdp"
             android:scaleType="centerCrop"
             android:src="@drawable/enjoy_busan"
             app:round="@dimen/_10sdp"
@@ -26,7 +27,7 @@
             android:layout_marginStart="@dimen/_10sdp"
             android:text="해운대암소갈비집"
             android:textColor="@color/black"
-            android:textSize="@dimen/_15sdp"
+            android:textSize="@dimen/_12sdp"
             app:layout_constraintStart_toEndOf="@id/store_imv"
             app:layout_constraintTop_toTopOf="@id/store_imv"
             app:layout_constraintBottom_toTopOf="@id/store_location_txv"
@@ -37,18 +38,20 @@
             android:layout_height="wrap_content"
             android:text="211m"
             android:layout_marginStart="@dimen/_10sdp"
-            android:drawableStart="@drawable/location_red_icon_resize"
             android:drawablePadding="@dimen/_3sdp"
+            android:textSize="@dimen/_7sdp"
+            android:gravity="center"
             app:layout_constraintTop_toTopOf="@id/store_name_txv"
             app:layout_constraintStart_toEndOf="@id/store_name_txv"
             app:layout_constraintBottom_toBottomOf="@id/store_name_txv"
-            />
+            app:drawableStartCompat="@drawable/location_red_icon_resize2" />
 
         <TextView
             android:id="@+id/store_location_txv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="해운대구"
+            android:textSize="@dimen/_8sdp"
             app:layout_constraintTop_toBottomOf="@id/store_name_txv"
             app:layout_constraintStart_toStartOf="@id/store_name_txv"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -73,6 +76,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="스탬프존 거리 20m"
+            android:textSize="@dimen/_8sdp"
             android:layout_marginStart="@dimen/_4sdp"
             app:layout_constraintTop_toTopOf="@id/store_location_txv"
             app:layout_constraintStart_toEndOf="@id/store_dash_txv"
@@ -80,15 +84,15 @@
             />
 
         <ImageButton
-            android:id="@+id/plus_imv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="@id/store_imv"
+            android:id="@+id/plus_imb"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@null"
+            android:contentDescription="@string/see_detail"
+            android:src="@drawable/plus_icon_resize"
             app:layout_constraintBottom_toBottomOf="@id/store_imv"
             app:layout_constraintEnd_toEndOf="parent"
-            android:src="@drawable/plus_icon_resize"
-            android:background="@null"
-            />
+            app:layout_constraintTop_toTopOf="@id/store_imv" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

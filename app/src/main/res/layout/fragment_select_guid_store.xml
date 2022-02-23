@@ -95,7 +95,7 @@
             android:layout_height="0dp"
             android:layout_marginTop="@dimen/_10sdp"
             android:background="@color/black"
-            app:layout_constraintBottom_toTopOf="@id/store_pad"
+            app:layout_constraintBottom_toTopOf="@id/scrollView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/cafe_txv" />
@@ -112,52 +112,44 @@
         <androidx.core.widget.NestedScrollView
             android:id="@+id/scrollView"
             android:layout_width="0dp"
-            android:layout_height="@dimen/_100sdp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/mappad"
+            android:layout_height="@dimen/_150sdp"
+            android:fillViewport="true"
+            android:overScrollMode="never"
+            android:background="@drawable/bg_rounded_05"
             app:layout_constraintBottom_toBottomOf="parent"
-            >
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/mappad">
 
             <LinearLayout
-                android:id="@+id/store_con"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:gravity="center"
                 >
 
                 <View
-                    android:id="@+id/view"
-                    android:layout_width="@dimen/_50sdp"
+                    android:layout_width="@dimen/_25sdp"
                     android:layout_height="2dp"
+                    android:layout_gravity="center"
+                    android:background="#A2A2A2"
                     android:layout_marginTop="@dimen/_10sdp"
-                    android:background="@color/black"/>
+                    />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/store_re"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginTop="@dimen/_20sdp"
+                    android:layout_marginTop="@dimen/_15sdp"
+                    android:nestedScrollingEnabled="false"
+                    android:overScrollMode="never"
                     tools:listitem="@layout/guid_store_item" />
-
 
             </LinearLayout>
 
 
+
+
         </androidx.core.widget.NestedScrollView>
-
-        <View
-            android:id="@+id/store_pad"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/_100sdp"
-            android:background="@drawable/bg_rounded_05"
-            app:layout_constraintTop_toBottomOf="@id/mappad"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
-
 
 
     </androidx.constraintlayout.motion.widget.MotionLayout>

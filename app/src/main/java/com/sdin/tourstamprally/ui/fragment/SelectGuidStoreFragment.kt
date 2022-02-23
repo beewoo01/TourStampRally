@@ -1,20 +1,31 @@
 package com.sdin.tourstamprally.ui.fragment
 
 import android.annotation.SuppressLint
-import android.content.Context
-import android.graphics.Rect
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.sdin.tourstamprally.R
+import com.sdin.tourstamprally.adapter.StoreReAdapter
 import com.sdin.tourstamprally.databinding.FragmentSelectGuidStoreBinding
+import com.sdin.tourstamprally.model.StoreModel
+import com.sdin.tourstamprally.v2.RecycleItemOnClick
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.observers.DisposableSingleObserver
+import io.reactivex.rxjava3.schedulers.Schedulers
 import net.daum.mf.map.api.MapView
 
-class SelectGuidStoreFragment : Fragment() {
+class SelectGuidStoreFragment : BaseFragment2(), RecycleItemOnClick<StoreModel> {
 
     private var binding: FragmentSelectGuidStoreBinding? = null
+    private val mapViewContainer : ViewGroup by lazy {
+        binding?.mapLayout as ViewGroup
+    }
+
+    private val mapView : MapView by lazy {
+        MapView(requireContext())
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -23,55 +34,54 @@ class SelectGuidStoreFragment : Fragment() {
     ): View? {
         binding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_select_guid_store, container, false)
-        val mapView = MapView(requireContext())
-        binding?.apply {
-            val mapViewContainer = binding?.mapLayout as ViewGroup
-            //mapViewContainer.touchDelegate = TouchDelegate(Rect(0,0,mappad.width, 30), mapView)
-            mapViewContainer.addView(mapView)
-            bottomSheetGroup.bringToFront()
-            bottomSheetGroup.invalidate()
-            //storePad.elevation = 10.0F
-        }
+
         return binding?.root
     }
 
+    override fun onResume() {
+        super.onResume()
+        initView()
+        getData()
+    }
 
-    @SuppressLint("ClickableViewAccessibility")
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    private fun initView() {
         binding?.apply {
-            val inflater: LayoutInflater = requireContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-
+            mapViewContainer.addView(mapView)
         }
+    }
 
+    override fun onPause() {
+        super.onPause()
+        mapViewContainer.removeView(mapView)
 
-        /*binding?.apply {
-            //mapLayout.touchDelegate = TouchDelegate(Rect(0,0, mapLayout.width, ))
-            storePad.setOnTouchListener { v, event ->
+    }
 
-                when(constraintLayout2.currentState){
-                    R.id.base_state -> {
-                        constraintLayout2.transitionToState(R.id.half_store)
-                    }
-
-                    R.id.half_store -> {
-                        constraintLayout2.transitionToState(R.id.full_store)
-                        Log.wtf("currentState", "half_store")
-                    }
-
-                    R.id.full_store -> {
-                        Log.wtf("currentState", "full_store")
-                    }
+    private fun getData() {
+        apiService.selectAllStore().subscribeOn(Schedulers.newThread())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeWith(object : DisposableSingleObserver<List<StoreModel>>() {
+                override fun onSuccess(list: List<StoreModel>) {
+                    initItem(list.toMutableList())
                 }
 
-                *//*val action = event.action
-                //Log.wtf("setOnTouchListener", "setOnTouchListener")
-                if (action == MotionEvent.ACTION_UP) {
-                    Log.wtf("ACTION_UP", "ACTION_UP")
-                }*//*
-                true
-            }
+                override fun onError(e: Throwable) {
+                    e.printStackTrace()
+                }
 
-        }*/
+            })
+    }
+
+    private fun initItem(list : MutableList<StoreModel>) {
+        binding?.storeRe?.apply {
+            adapter = StoreReAdapter(list = list, this@SelectGuidStoreFragment)
+            addItemDecoration(DividerItemDecoration(requireContext(), 1))
+            layoutManager = LinearLayoutManager(requireContext()).apply {
+                orientation = LinearLayoutManager.VERTICAL
+            }
+        }
+    }
+
+    override fun onItemClickListener(model: StoreModel, position: Int) {
+
     }
 }

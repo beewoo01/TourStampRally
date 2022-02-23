@@ -9,7 +9,7 @@
 
         <OnSwipe
             motion:dragDirection="dragUp"
-            motion:touchAnchorId="@id/store_pad"
+            motion:touchAnchorId="@id/scrollView"
             motion:touchAnchorSide="top" />
 
     </Transition>
@@ -21,7 +21,7 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_marginTop="@dimen/_10sdp"
-                motion:layout_constraintBottom_toTopOf="@id/store_pad"
+                motion:layout_constraintBottom_toTopOf="@id/scrollView"
                 motion:layout_constraintEnd_toEndOf="parent"
                 motion:layout_constraintStart_toStartOf="parent"
                 motion:layout_constraintTop_toBottomOf="@id/cafe_txv"
@@ -29,14 +29,14 @@
         </Constraint>
 
 
-        <Constraint android:id="@id/store_pad">
+        <Constraint android:id="@id/scrollView">
             <Layout
                 android:layout_width="0dp"
-                android:layout_height="@dimen/_100sdp"
-                motion:layout_constraintTop_toBottomOf="@id/mappad"
-                motion:layout_constraintEnd_toEndOf="parent"
+                android:layout_height="@dimen/_150sdp"
                 motion:layout_constraintBottom_toBottomOf="parent"
+                motion:layout_constraintEnd_toEndOf="parent"
                 motion:layout_constraintStart_toStartOf="parent"
+                motion:layout_constraintTop_toBottomOf="@id/mappad"
                 />
         </Constraint>
     </ConstraintSet>
@@ -51,11 +51,11 @@
                 android:layout_marginTop="@dimen/_10sdp"
                 motion:layout_constraintStart_toStartOf="parent"
                 motion:layout_constraintEnd_toEndOf="parent"
-                motion:layout_constraintTop_toTopOf="parent"
+                motion:layout_constraintTop_toBottomOf="@id/cafe_txv"
                 />
         </Constraint>
 
-        <Constraint android:id="@id/store_pad">
+        <Constraint android:id="@id/scrollView">
             <Layout android:layout_width="0dp"
                 android:layout_height="0dp"
                 motion:layout_constraintStart_toStartOf="parent"

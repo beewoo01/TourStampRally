@@ -24,7 +24,7 @@ import com.sdin.tourstamprally.adapter.SelectLocationAdapter;
 import com.sdin.tourstamprally.databinding.FragmentDirectionGuidBinding;
 import com.sdin.tourstamprally.model.Location_four;
 import com.sdin.tourstamprally.model.TourTagModel;
-import com.sdin.tourstamprally.v2.RecyclerViewListener;
+import com.sdin.tourstamprally.v2.LocationReItemClick;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -38,7 +38,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class DirectionGuidFragment extends BaseFragment implements RecyclerViewListener {
+public class DirectionGuidFragment extends BaseFragment implements LocationReItemClick {
     //길안내 관광지
 
     private static final String ARG_PARAM = "model";
