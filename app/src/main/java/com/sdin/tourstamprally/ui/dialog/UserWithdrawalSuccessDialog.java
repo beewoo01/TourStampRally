@@ -5,19 +5,14 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.WindowManager;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 
 import com.sdin.tourstamprally.R;
-import com.sdin.tourstamprally.databinding.PopupUserWithdrawalBinding;
 import com.sdin.tourstamprally.databinding.PopupUserWithdrawalSuccessBinding;
-import com.sdin.tourstamprally.databinding.PopupUserWithdrawalSuccessBindingImpl;
-import com.sdin.tourstamprally.utill.ItemOnClick;
 import com.sdin.tourstamprally.utill.ItemOnClickAb;
 
 public class UserWithdrawalSuccessDialog extends Dialog {

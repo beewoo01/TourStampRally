@@ -9,7 +9,6 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -22,17 +21,14 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
-import androidx.navigation.Navigation;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.sdin.tourstamprally.R;
 import com.sdin.tourstamprally.model.RallyMapDTO;
-import com.sdin.tourstamprally.model.Tour_Spot;
-import com.sdin.tourstamprally.utill.DialogListener;
-import com.sdin.tourstamprally.utill.ItemOnClick;
-import com.sdin.tourstamprally.v2.ScanListener;
+import com.sdin.tourstamprally.utill.listener.DialogListener;
+import com.sdin.tourstamprally.utill.listener.ScanListener;
 
 import org.jetbrains.annotations.NotNull;
 

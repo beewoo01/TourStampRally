@@ -2,7 +2,6 @@ package com.sdin.tourstamprally.ui.fragment;
 
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,31 +10,21 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
-import androidx.fragment.app.Fragment;
 
 import com.sdin.tourstamprally.R;
 import com.sdin.tourstamprally.Utils;
 import com.sdin.tourstamprally.databinding.FragmentWriteReviewBinding;
 import com.sdin.tourstamprally.model.ReviewWriter;
-import com.sdin.tourstamprally.model.Tour_Spot;
-import com.sdin.tourstamprally.model.VisitCountModel;
-import com.sdin.tourstamprally.ui.activity.MainActivity;
-import com.sdin.tourstamprally.utill.ItemOnClick;
+import com.sdin.tourstamprally.utill.listener.ItemOnClick;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.List;
-
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
-import io.reactivex.rxjava3.core.Scheduler;
-import io.reactivex.rxjava3.core.Single;
 import io.reactivex.rxjava3.observers.DisposableSingleObserver;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.http.GET;
-import retrofit2.http.Query;
 
 public class WriteReviewFragment extends BaseFragment {
 

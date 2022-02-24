@@ -9,7 +9,6 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,10 +19,7 @@ import com.sdin.tourstamprally.Utils;
 import com.sdin.tourstamprally.databinding.FragmentTourSpotPointBinding;
 import com.sdin.tourstamprally.databinding.LocationReItemBinding;
 import com.sdin.tourstamprally.model.RallyMapDTO;
-import com.sdin.tourstamprally.model.Tour_Spot;
 import com.sdin.tourstamprally.model.TouristSpotPoint;
-import com.sdin.tourstamprally.ui.activity.MainActivity;
-import com.sdin.tourstamprally.utill.ItemOnClick;
 
 import net.daum.mf.map.api.MapPOIItem;
 import net.daum.mf.map.api.MapPoint;

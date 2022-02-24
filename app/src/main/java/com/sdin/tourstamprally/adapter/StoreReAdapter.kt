@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.sdin.tourstamprally.databinding.GuidStoreItemBinding
 import com.sdin.tourstamprally.model.StoreModel
-import com.sdin.tourstamprally.v2.RecycleItemOnClick
+import com.sdin.tourstamprally.utill.listener.RecycleItemOnClick
 
 class StoreReAdapter(
     private val list: MutableList<StoreModel>,

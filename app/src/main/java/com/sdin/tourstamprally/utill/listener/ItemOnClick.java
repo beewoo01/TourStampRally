@@ -1,4 +1,4 @@
-package com.sdin.tourstamprally.utill;
+package com.sdin.tourstamprally.utill.listener;
 
 import com.sdin.tourstamprally.model.AllReviewDTO;
 import com.sdin.tourstamprally.model.Location_four;

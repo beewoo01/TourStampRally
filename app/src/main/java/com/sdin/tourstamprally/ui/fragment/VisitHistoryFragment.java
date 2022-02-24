@@ -1,14 +1,9 @@
 package com.sdin.tourstamprally.ui.fragment;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
-import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
-import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,37 +20,25 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.sdin.tourstamprally.R;
 import com.sdin.tourstamprally.Utils;
-import com.sdin.tourstamprally.adapter.DirectionGuid_Tag_Adapter;
 import com.sdin.tourstamprally.adapter.ViSitReAdapterV2;
-import com.sdin.tourstamprally.adapter.VisitReAdapter;
 import com.sdin.tourstamprally.adapter.swipe.ItemDecoration;
 
 import com.sdin.tourstamprally.adapter.swipe.SwipeHelperCallback;
-import com.sdin.tourstamprally.data.UserInfo;
 import com.sdin.tourstamprally.databinding.DirectionGuidTagItemBinding;
 import com.sdin.tourstamprally.databinding.FragmentVisithistoryBinding;
 import com.sdin.tourstamprally.model.CouponModel;
 import com.sdin.tourstamprally.model.ReviewWriter;
-import com.sdin.tourstamprally.model.Tour_Spot;
-import com.sdin.tourstamprally.model.VisitCountModel;
-import com.sdin.tourstamprally.model.VisitHistory_Model;
-import com.sdin.tourstamprally.model.history_spotModel;
 import com.sdin.tourstamprally.model.history_spotModel2;
-import com.sdin.tourstamprally.ui.activity.LoginActivity;
 import com.sdin.tourstamprally.ui.dialog.PopUp_Image;
-import com.sdin.tourstamprally.utill.ItemCliclListener;
+import com.sdin.tourstamprally.utill.listener.ItemCliclListener;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
-import io.reactivex.rxjava3.core.Scheduler;
 import io.reactivex.rxjava3.observers.DisposableSingleObserver;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 import retrofit2.Call;

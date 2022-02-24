@@ -5,20 +5,15 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.WindowManager;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 
 import com.sdin.tourstamprally.R;
 import com.sdin.tourstamprally.databinding.DialogDelCheckBinding;
-import com.sdin.tourstamprally.databinding.PopupUserWithdrawalBinding;
-import com.sdin.tourstamprally.utill.ItemOnClickAb;
-import com.sdin.tourstamprally.utill.ReviewDelListener;
+import com.sdin.tourstamprally.utill.listener.ReviewDelListener;
 
 public class Del_Review_Dialog extends Dialog {
 

@@ -21,12 +21,11 @@ import com.sdin.tourstamprally.R;
 import com.sdin.tourstamprally.Utils;
 import com.sdin.tourstamprally.model.RallyMapDTO;
 import com.sdin.tourstamprally.model.TouristSpotPoint;
-import com.sdin.tourstamprally.ui.activity.MainActivity;
 import com.sdin.tourstamprally.ui.activity.MainActivity2;
 import com.sdin.tourstamprally.ui.dialog.ScanResultDialog;
 import com.sdin.tourstamprally.utill.GpsTracker;
-import com.sdin.tourstamprally.utill.NFCListener;
-import com.sdin.tourstamprally.v2.ScanListener;
+import com.sdin.tourstamprally.utill.listener.NFCListener;
+import com.sdin.tourstamprally.utill.listener.ScanListener;
 
 import org.jetbrains.annotations.NotNull;
 

@@ -5,19 +5,16 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 
 import com.sdin.tourstamprally.R;
 import com.sdin.tourstamprally.databinding.DialogGuidBinding;
-import com.sdin.tourstamprally.utill.ItemOnClick;
+import com.sdin.tourstamprally.utill.listener.ItemOnClick;
 
 public class GuidDialog extends Dialog {
 

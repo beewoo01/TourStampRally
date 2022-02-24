@@ -288,11 +288,6 @@ public class SplashActivity extends BaseActivity {
                     check = false;
                 }
 
-
-
-
-
-
                 break;
 
             case 1 :

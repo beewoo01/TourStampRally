@@ -3,7 +3,6 @@ package com.sdin.tourstamprally.adapter
 import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.content.Context
-import android.util.Log
 import android.util.SparseBooleanArray
 import android.view.LayoutInflater
 import android.view.View
@@ -20,9 +19,8 @@ import com.sdin.tourstamprally.model.ReviewWriter
 import com.sdin.tourstamprally.model.history_spotModel2
 import com.sdin.tourstamprally.ui.dialog.Del_Review_Dialog
 import com.sdin.tourstamprally.ui.dialog.NoReview_Dialog
-import com.sdin.tourstamprally.ui.dialog.PopUp_Image
-import com.sdin.tourstamprally.utill.ItemCliclListener
-import com.sdin.tourstamprally.v2.ReviewListener
+import com.sdin.tourstamprally.utill.listener.ItemCliclListener
+import com.sdin.tourstamprally.utill.listener.ReviewListener
 import java.text.ParseException
 import java.text.SimpleDateFormat
 

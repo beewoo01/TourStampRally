@@ -19,18 +19,14 @@ import com.sdin.tourstamprally.Utils;
 import com.sdin.tourstamprally.databinding.FragmentQrScanBinding;
 import com.sdin.tourstamprally.model.RallyMapDTO;
 import com.sdin.tourstamprally.model.TouristSpotPoint;
-import com.sdin.tourstamprally.ui.activity.MainActivity;
 import com.sdin.tourstamprally.ui.dialog.ScanResultDialog;
-import com.sdin.tourstamprally.utill.DialogListener;
+import com.sdin.tourstamprally.utill.listener.DialogListener;
 import com.sdin.tourstamprally.utill.GpsTracker;
-import com.sdin.tourstamprally.utill.ItemCliclListener;
-import com.sdin.tourstamprally.utill.ItemOnClick;
-import com.sdin.tourstamprally.v2.ScanListener;
+import com.sdin.tourstamprally.utill.listener.ScanListener;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
-import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;

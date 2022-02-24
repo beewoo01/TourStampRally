@@ -6,7 +6,6 @@ import android.graphics.Color;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +18,7 @@ import com.sdin.tourstamprally.databinding.TourRecordItemReBinding;
 import com.sdin.tourstamprally.model.Tour_Spot;
 import com.sdin.tourstamprally.ui.activity.MainActivity;
 import com.sdin.tourstamprally.ui.dialog.GuidDialog;
-import com.sdin.tourstamprally.utill.ItemOnClick;
+import com.sdin.tourstamprally.utill.listener.ItemOnClick;
 import com.sdin.tourstamprally.utill.ItemOnClickAb;
 
 import java.text.SimpleDateFormat;

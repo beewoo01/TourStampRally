@@ -9,8 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.sdin.tourstamprally.R;
 import com.sdin.tourstamprally.databinding.DrawaMenuBinding;
-import com.sdin.tourstamprally.ui.activity.MainActivity;
-import com.sdin.tourstamprally.utill.ItemOnClick;
+import com.sdin.tourstamprally.utill.listener.ItemOnClick;
 
 public class DrawaRecyclerViewAdapter extends RecyclerView.Adapter<DrawaRecyclerViewAdapter.ViewHolder>{
 

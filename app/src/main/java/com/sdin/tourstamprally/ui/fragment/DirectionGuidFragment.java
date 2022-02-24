@@ -24,7 +24,7 @@ import com.sdin.tourstamprally.adapter.SelectLocationAdapter;
 import com.sdin.tourstamprally.databinding.FragmentDirectionGuidBinding;
 import com.sdin.tourstamprally.model.Location_four;
 import com.sdin.tourstamprally.model.TourTagModel;
-import com.sdin.tourstamprally.v2.LocationReItemClick;
+import com.sdin.tourstamprally.utill.listener.LocationReItemClick;
 
 import org.jetbrains.annotations.NotNull;
 

@@ -1,7 +1,6 @@
 package com.sdin.tourstamprally.ui.activity
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
@@ -14,11 +13,9 @@ import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.view.inputmethod.InputMethodManager
-import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
-import androidx.core.view.get
 import androidx.databinding.DataBindingUtil
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.LiveData
@@ -31,11 +28,9 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.sdin.tourstamprally.R
 import com.sdin.tourstamprally.Utils
 import com.sdin.tourstamprally.databinding.ActivityMain2Binding
-import com.sdin.tourstamprally.utill.NFCListener
+import com.sdin.tourstamprally.utill.listener.NFCListener
 import com.sdin.tourstamprally.utill.Quadruple
 import com.sdin.tourstamprally.utill.navutil.DialogNavigator
-import java.io.*
-import java.util.*
 
 class MainActivity2 : AppCompatActivity()/*, NavigationBarView.OnItemSelectedListener,
     ItemOnClick*/ {
@@ -220,7 +215,7 @@ class MainActivity2 : AppCompatActivity()/*, NavigationBarView.OnItemSelectedLis
             readFromIntent(intent)
             pendingIntent = PendingIntent.getActivity(
                 this@MainActivity2, 0,
-                Intent(this, javaClass).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0
+                Intent(this, javaClass).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), PendingIntent.FLAG_IMMUTABLE
             )
             val tagDetected = IntentFilter(NfcAdapter.ACTION_TAG_DISCOVERED)
             writingTagFilters = arrayOf(tagDetected)
@@ -394,6 +389,8 @@ class MainActivity2 : AppCompatActivity()/*, NavigationBarView.OnItemSelectedLis
                     locate = 1
                 }
             }
+
+            Log.wtf("destination.label", destination.label.toString())
 
             setScanToolbar(locate = locate)
             binding.toolbarLayout.titleTxv.text = title

@@ -53,9 +53,9 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_toEndOf="@+id/back_btn"
-                tools:text="@string/nfc_scan"
                 android:textColor="@color/black"
-                android:textSize="@dimen/_15sdp" />
+                android:textSize="@dimen/_15sdp"
+                tools:text="@string/nfc_scan" />
 
 
             <ImageButton

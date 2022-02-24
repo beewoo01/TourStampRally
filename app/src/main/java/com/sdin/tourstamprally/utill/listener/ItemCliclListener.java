@@ -1,4 +1,4 @@
-package com.sdin.tourstamprally.utill;
+package com.sdin.tourstamprally.utill.listener;
 
 import com.sdin.tourstamprally.model.history_spotModel;
 import com.sdin.tourstamprally.model.history_spotModel2;

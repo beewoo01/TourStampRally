@@ -3,12 +3,10 @@ package com.sdin.tourstamprally.adapter;
 import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
@@ -17,26 +15,22 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
-import com.google.gson.annotations.SerializedName;
 import com.sdin.tourstamprally.R;
 import com.sdin.tourstamprally.Utils;
 import com.sdin.tourstamprally.databinding.VisithistoryItemBinding;
 import com.sdin.tourstamprally.model.ReviewWriter;
-import com.sdin.tourstamprally.model.history_spotModel;
 import com.sdin.tourstamprally.model.history_spotModel2;
 import com.sdin.tourstamprally.ui.activity.MainActivity;
 import com.sdin.tourstamprally.ui.dialog.Del_Review_Dialog;
 import com.sdin.tourstamprally.ui.dialog.NoReview_Dialog;
-import com.sdin.tourstamprally.ui.dialog.PopUp_Image;
-import com.sdin.tourstamprally.utill.ItemCliclListener;
-import com.sdin.tourstamprally.utill.ItemOnClick;
-import com.sdin.tourstamprally.utill.ReviewDelListener;
+import com.sdin.tourstamprally.utill.listener.ItemCliclListener;
+import com.sdin.tourstamprally.utill.listener.ItemOnClick;
+import com.sdin.tourstamprally.utill.listener.ReviewDelListener;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.TimeZone;
 
 public class VisitReAdapter extends RecyclerView.Adapter<VisitReAdapter.SwipeViewHolder> implements ReviewDelListener {
 

@@ -18,7 +18,7 @@ import com.sdin.tourstamprally.Utils;
 import com.sdin.tourstamprally.databinding.DirectionGuidLocationItemBinding;
 import com.sdin.tourstamprally.model.Location_four;
 import com.sdin.tourstamprally.utill.GpsTracker;
-import com.sdin.tourstamprally.v2.LocationReItemClick;
+import com.sdin.tourstamprally.utill.listener.LocationReItemClick;
 
 import java.util.ArrayList;
 
