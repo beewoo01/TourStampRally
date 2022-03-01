@@ -273,28 +273,11 @@ class MainActivity2 : AppCompatActivity()/*, NavigationBarView.OnItemSelectedLis
             val rawMsgs = intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES)
             rawMsgs?.size?.let {
                 val msgs: Array<NdefMessage?> = arrayOfNulls(it)
-                //val msgs = arrayOfNulls<NdefMessage>(it)
                 for ((index, item) in rawMsgs.withIndex()) {
                     msgs[index] = item as NdefMessage
                 }
 
                 nfcListener?.onReadTag(msgs)
-
-                /*for (i in 0..it) {
-                    msgs[i] = rawMsgs[i] as NdefMessage
-                }*/
-
-                /*val name = supportFragmentManager.getBackStackEntryAt(
-                    supportFragmentManager.backStackEntryCount - 1
-                ).name
-
-                name?.let {
-                    if (name == "NFC") {
-                        nfcListener?.onReadTag(msgs)
-                    } else {
-                        nfcListener?.onReadTag(msgs)
-                    }
-                }*/
             }
 
 
@@ -320,10 +303,8 @@ class MainActivity2 : AppCompatActivity()/*, NavigationBarView.OnItemSelectedLis
         }
 
 
-        //setupActionBarWithNavController(navController, appBarConfiguration)
         binding.navigationview.setupWithNavController(navController)
         binding.bottomNavigationView.setupWithCustomNavController(navController)
-        //binding.bottomNavigationView.setOnItemSelectedListener(this@MainActivity2)
     }
 
     private fun BottomNavigationView.setupWithCustomNavController(navController: NavController) {
@@ -371,17 +352,12 @@ class MainActivity2 : AppCompatActivity()/*, NavigationBarView.OnItemSelectedLis
             if (arguments?.getString("title") != null
                 && arguments.getString("title") != "null"
             ) {
-
                 title = arguments.getString("title", "")
                 locate = arguments.getInt("state", 0)
 
             } else {
 
                 if (destination.label == "QR" || destination.label == "NFC") {
-                    /*if (destination.label == "QR"){
-                        val prevFragment = destination.arguments.size -1
-                    }*/
-
                     title = destination.label.toString() + " 스캔"
                     locate = 2
                 } else {
@@ -389,8 +365,6 @@ class MainActivity2 : AppCompatActivity()/*, NavigationBarView.OnItemSelectedLis
                     locate = 1
                 }
             }
-
-            Log.wtf("destination.label", destination.label.toString())
 
             setScanToolbar(locate = locate)
             binding.toolbarLayout.titleTxv.text = title
@@ -433,223 +407,5 @@ class MainActivity2 : AppCompatActivity()/*, NavigationBarView.OnItemSelectedLis
 
 
     }
-
-
-    /*private fun setupBottomNavigationBar() {
-        val controller = binding.bottomNavigationView.setupWithNavController(
-            findNavController(binding.navHost.id)
-        )
-
-
-    }*/
-
-    /*override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        when(item.itemId) {
-
-            R.id.mainfragment -> {
-                findNavController(binding.navHost.id).navigate(R.id.page_home)
-            }
-
-            R.id.page_store -> {
-
-            }
-
-            R.id.page_report -> {
-                findNavController(binding.navHost.id).navigate(R.id.page_report)
-            }
-
-            R.id.camera -> {
-                dispatchTakePictureIntent()
-            }
-
-            R.id.fragment_qr_scan -> {
-                findNavController(binding.navHost.id).navigate(R.id.page_stamp)
-            }
-
-
-        }
-
-        return true
-    }*/
-
-    /*private fun dispatchTakePictureIntent() {
-        val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-        if (takePictureIntent.resolveActivity(packageManager) != null) {
-            var photoFile: File? = null
-            photoFile = createImageFile()
-            if (photoFile != null) {
-                val photoURI = FileProvider.getUriForFile(
-                    this,
-                    "com.sdin.tourstamprally.fileprovider",
-                    photoFile
-                )
-                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
-                resultLauncher.launch(takePictureIntent)
-            }
-        }
-    }
-
-    private val resultLauncher = registerForActivityResult(
-        StartActivityForResult()
-    ) { result: ActivityResult ->
-        if (result.resultCode == RESULT_OK) {
-            val file: File = File(currentPhotoPath)
-            val bitmap = BitmapFactory.decodeFile(file.absolutePath)
-            saveMediaToStorage(bitmap)
-        }
-    }
-
-
-    @SuppressLint("SimpleDateFormat")
-    private fun saveMediaToStorage(bitmap: Bitmap) {
-        var exif: ExifInterface? = null
-        try {
-            exif = ExifInterface(currentPhotoPath!!)
-        } catch (e: IOException) {
-            e.printStackTrace()
-        }
-        val orientation = exif!!.getAttributeInt(
-            ExifInterface.TAG_ORIENTATION,
-            ExifInterface.ORIENTATION_UNDEFINED
-        )
-        val bmRotated: Bitmap? = rotateBitmap(bitmap, orientation)
-        val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
-        val imageFileName = "jpeg_" + timeStamp + "_"
-        var outputStream: OutputStream? = null
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            val contentValues = ContentValues()
-            contentValues.put(MediaStore.Images.Media.DISPLAY_NAME, imageFileName)
-            contentValues.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg")
-            contentValues.put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_PICTURES)
-            contentValues.put(MediaStore.Images.Media.WIDTH, bmRotated?.width)
-            contentValues.put(MediaStore.Images.Media.HEIGHT, bmRotated?.height)
-            val imageUri =
-                contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues)
-            if (imageUri != null) {
-                try {
-                    outputStream = contentResolver.openOutputStream(imageUri)
-                } catch (e: FileNotFoundException) {
-                    e.printStackTrace()
-                }
-            }
-        } else {
-            val storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
-            val image = File(storageDir, imageFileName)
-            try {
-                outputStream = FileOutputStream(image)
-            } catch (e: FileNotFoundException) {
-                e.printStackTrace()
-            }
-        }
-        if (outputStream != null) {
-            bmRotated?.compress(Bitmap.CompressFormat.JPEG, 95, outputStream)
-            try {
-                outputStream.close()
-            } catch (e: IOException) {
-                e.printStackTrace()
-            }
-            //bitmap.recycle();
-            Toast.makeText(this, "저장 성공", Toast.LENGTH_SHORT).show()
-        } else {
-            Toast.makeText(this, "저장에 실패하였습니다.", Toast.LENGTH_SHORT).show()
-        }
-    }
-
-
-    private fun rotateBitmap(bitmap: Bitmap, orientation: Int): Bitmap? {
-        val matrix = Matrix()
-        when (orientation) {
-            ExifInterface.ORIENTATION_NORMAL -> return bitmap
-            ExifInterface.ORIENTATION_FLIP_HORIZONTAL -> matrix.setScale(-1f, 1f)
-            ExifInterface.ORIENTATION_ROTATE_180 -> matrix.setRotate(180f)
-            ExifInterface.ORIENTATION_FLIP_VERTICAL -> {
-                matrix.setRotate(180f)
-                matrix.postScale(-1f, 1f)
-            }
-            ExifInterface.ORIENTATION_TRANSPOSE -> {
-                matrix.setRotate(90f)
-                matrix.postScale(-1f, 1f)
-            }
-            ExifInterface.ORIENTATION_ROTATE_90 -> matrix.setRotate(90f)
-            ExifInterface.ORIENTATION_TRANSVERSE -> {
-                matrix.setRotate(-90f)
-                matrix.postScale(-1f, 1f)
-            }
-            ExifInterface.ORIENTATION_ROTATE_270 -> matrix.setRotate(-90f)
-            else -> return bitmap
-        }
-        return try {
-            val bmRotated =
-                Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
-            bitmap.recycle()
-            bmRotated
-        } catch (e: OutOfMemoryError) {
-            e.printStackTrace()
-            null
-        }
-    }
-
-    @SuppressLint("SimpleDateFormat")
-    private fun createImageFile(): File? {
-        return try {
-            val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
-            val imageFileName = "JPEG_" + timeStamp + "_"
-            val storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
-            val image = File.createTempFile(
-                imageFileName,
-                ".jpg",
-                storageDir
-            )
-            currentPhotoPath = image.absolutePath
-            Log.wtf("currentPhotoPath", currentPhotoPath)
-            image
-        } catch (e: Exception) {
-            e.printStackTrace()
-            null
-        }
-
-
-        // Save a file: path for use with ACTION_VIEW intents
-    }*/
-
-    /*override fun onClick(position: Int) {
-
-    }
-
-    override fun ItemGuid(position: Int) {
-    }
-
-    override fun ItemGuidForPoint(model: RallyMapDTO?) {
-
-    }
-
-    override fun ItemGuidForDetail(model: TouristSpotPoint?) {
-
-    }
-
-    override fun SetFragment(location_fours: ArrayList<Location_four>?) {
-
-    }
-
-    override fun onItemClick(location_four: Location_four?) {
-
-    }
-
-    override fun onWriteRewviewClick(reviewWriter: ReviewWriter?) {
-
-    }
-
-    override fun onWriteReviewSuccess() {
-
-    }
-
-    override fun reviewMoreClick() {
-
-    }
-
-    override fun reviewItemClick(review_idx: Int, spot_name: String?) {
-
-    }*/
-
 
 }

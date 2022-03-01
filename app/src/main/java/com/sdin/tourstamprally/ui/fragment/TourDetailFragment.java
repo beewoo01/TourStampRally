@@ -1,5 +1,6 @@
 package com.sdin.tourstamprally.ui.fragment;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
@@ -14,6 +15,7 @@ import androidx.databinding.DataBindingUtil;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -33,6 +35,7 @@ import com.sdin.tourstamprally.model.TouristSpotPoint;
 import com.sdin.tourstamprally.ui.dialog.DetailDialog;
 import com.sdin.tourstamprally.ui.dialog.ReadyDialog;
 
+import net.daum.android.map.MapViewTouchEventListener;
 import net.daum.mf.map.api.MapPOIItem;
 import net.daum.mf.map.api.MapPoint;
 import net.daum.mf.map.api.MapView;
@@ -266,6 +269,7 @@ public class TourDetailFragment extends BaseFragment/* implements MapView.MapVie
         })
     }*/
 
+    @SuppressLint("ClickableViewAccessibility")
     private void setData() {
 
 
@@ -281,12 +285,12 @@ public class TourDetailFragment extends BaseFragment/* implements MapView.MapVie
                 .into(binding.bgImv);
 
         mapView = new MapView(requireActivity());
-        //mapView.setMapViewEventListener(this);
 
         mapView.setMapCenterPointAndZoomLevel(MapPoint.mapPointWithGeoCoord(touristSpotPoint.getTouristspotpoint_latitude(), touristSpotPoint.getTouristspotpoint_longitude()), 2, true);
 
 
         binding.mapviewLayout.addView(mapView);
+        mapView.setOnTouchListener((v, event) -> true);
 
         MapPOIItem customMarker = new MapPOIItem();
         customMarker.setItemName(touristSpotPoint.getTouristspotpoint_name());

@@ -10,14 +10,18 @@
 
         <variable
             name="fragment"
-            type="com.sdin.tourstamprally.ui.fragment.TourDetailFragment" />
+            type="com.sdin.tourstamprally.ui.fragment.StoreDetailFragment" />
     </data>
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true"
-        android:overScrollMode="never">
+        android:overScrollMode="never"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/baseline">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -39,27 +43,37 @@
                 android:layout_width="0dp"
                 android:layout_height="@dimen/_200sdp"
                 android:background="@drawable/bg_rounded_05"
-                app:layout_constraintBottom_toTopOf="@id/bottom_pad"
+                app:layout_constraintBottom_toTopOf="@id/mapView_container"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/bg_imv"
                 app:layout_constraintVertical_chainStyle="spread_inside">
 
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/top_guid_line"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layout_constraintGuide_percent="0.05" />
+
                 <ImageView
                     android:id="@+id/location_ic_imv"
                     android:layout_width="@dimen/_15sdp"
                     android:layout_height="@dimen/_15sdp"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:src="@drawable/location_big"
+                    android:contentDescription="@string/store"
+                    android:src="@drawable/ic_store_top"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="@id/top_guid_line" />
 
                 <TextView
-                    android:id="@+id/tour_name_txv"
+                    android:id="@+id/store_name_txv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_5sdp"
+                    android:ellipsize="end"
+                    android:maxLines="1"
                     android:text="흰여울문화마을"
                     android:textColor="@color/mainColor"
                     android:textSize="@dimen/_15sdp"
@@ -69,21 +83,77 @@
                     app:layout_constraintTop_toBottomOf="@id/location_ic_imv" />
 
                 <TextView
+                    android:id="@+id/store_info_txv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="@dimen/_3sdp"
+                    android:ellipsize="end"
+                    android:gravity="center"
+                    android:maxLines="1"
+                    android:textColor="#9A9A9A"
+                    android:textSize="@dimen/_7sdp"
+                    app:drawableStartCompat="@drawable/ic_store_info"
+                    app:layout_constraintBottom_toTopOf="@id/tour_content_txv"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/store_name_txv"
+                    tools:text="매일 11:30 ~ 23:00 명절 전날, 당일휴무" />
+
+                <TextView
                     android:id="@+id/tour_content_txv"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="@dimen/_20sdp"
-                    android:layout_marginTop="@dimen/_10sdp"
+                    android:ellipsize="end"
                     android:gravity="center"
-                    android:maxLength="148"
-                    android:maxLines="4"
-                    android:text=""
-                    android:textColor="@color/gray"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:textColor="#767676"
                     android:textSize="@dimen/_10sdp"
-                    app:layout_constraintBottom_toTopOf="@id/baseline2"
+                    app:layout_constraintBottom_toTopOf="@id/tag_container"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tour_name_txv" />
+                    app:layout_constraintTop_toBottomOf="@id/store_info_txv"
+                    tools:text="다양하고 신선한 활어를 맛볼 수 있는 회 전문점입니다." />
+
+
+                <LinearLayout
+                    android:id="@+id/tag_container"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    app:layout_constraintBottom_toTopOf="@id/baseline2"
+                    app:layout_constraintEnd_toEndOf="@id/end_barrier"
+                    app:layout_constraintStart_toStartOf="@id/start_barrier"
+                    app:layout_constraintTop_toBottomOf="@id/tour_content_txv">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/tag_recyclerview"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        tools:itemCount="1"
+                        tools:listitem="@layout/re_item_store_hashtag" />
+
+
+                </LinearLayout>
+
+
+                <androidx.constraintlayout.widget.Barrier
+                    android:id="@+id/start_barrier"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:barrierDirection="start"
+                    app:constraint_referenced_ids="baseline2" />
+
+                <androidx.constraintlayout.widget.Barrier
+                    android:id="@+id/end_barrier"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:barrierDirection="end"
+                    app:constraint_referenced_ids="baseline2" />
+
 
                 <View
                     android:id="@+id/baseline2"
@@ -104,7 +174,7 @@
                     android:layout_height="wrap_content"
                     android:drawablePadding="@dimen/_5sdp"
                     android:gravity="center"
-                    android:onClick="@{fragment::onClick}"
+                    android:onClick="@{() -> fragment.onCallClick()}"
                     android:text="전화"
                     android:textColor="@color/textColor"
                     android:textSize="@dimen/_9sdp"
@@ -120,7 +190,7 @@
                     android:layout_height="wrap_content"
                     android:drawablePadding="@dimen/_5sdp"
                     android:gravity="center"
-                    android:onClick="@{() -> fragment.naviClick()}"
+                    android:onClick="@{() -> fragment.onNaviClick()}"
                     android:text="길안내"
                     android:textColor="@color/textColor"
                     android:textSize="@dimen/_9sdp"
@@ -136,7 +206,7 @@
                     android:layout_height="wrap_content"
                     android:drawablePadding="@dimen/_5sdp"
                     android:gravity="center"
-                    android:onClick="@{()-> fragment.kakaoLink()}"
+                    android:onClick="@{() -> fragment.onShareClick()}"
                     android:text="공유"
                     android:textColor="@color/textColor"
                     android:textSize="@dimen/_9sdp"
@@ -152,7 +222,6 @@
                     android:layout_height="wrap_content"
                     android:drawablePadding="@dimen/_5sdp"
                     android:gravity="center"
-                    android:onClick="@{fragment::onClick}"
                     android:text="자세히보기"
                     android:textColor="@color/textColor"
                     android:textSize="@dimen/_9sdp"
@@ -168,7 +237,7 @@
                     android:layout_height="wrap_content"
                     android:drawablePadding="@dimen/_5sdp"
                     android:gravity="center"
-                    android:onClick="@{ () -> fragment.watchMovie()}"
+                    android:onClick="@{() -> fragment.onVideoClick()}"
                     android:text="영상보기"
                     android:textColor="@color/textColor"
                     android:textSize="@dimen/_9sdp"
@@ -182,28 +251,16 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-            <View
-                android:id="@+id/bottom_pad"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_marginTop="@dimen/_20sdp"
-                android:background="@drawable/bg_rounded_05"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/top_contentLayout" />
-
             <androidx.cardview.widget.CardView
-                android:id="@+id/mapview_cardview"
+                android:id="@+id/mapView_container"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/_140sdp"
                 android:layout_marginHorizontal="@dimen/_30sdp"
-                android:layout_marginTop="@dimen/_10sdp"
                 app:cardCornerRadius="@dimen/_10sdp"
                 app:layout_constraintBottom_toTopOf="@id/location_address_txv"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/bottom_pad">
+                app:layout_constraintTop_toBottomOf="@id/top_contentLayout">
 
                 <RelativeLayout
                     android:id="@+id/mapview_layout"
@@ -217,62 +274,17 @@
                 android:id="@+id/location_address_txv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/mapview_cardview"
                 android:layout_centerHorizontal="true"
                 android:layout_gravity="center"
                 android:layout_marginVertical="@dimen/_15sdp"
                 android:drawablePadding="@dimen/_10sdp"
                 android:ellipsize="end"
-                android:maxLength="25"
-                android:maxLines="1"
+                android:maxLines="2"
                 app:drawableStartCompat="@drawable/ic_detail_location"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/mapview_cardview" />
-
-
-            <!--<androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/mapLayout"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:background="@drawable/bg_rounded_05"
-                android:orientation="vertical"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/top_contentLayout">
-
-                <RelativeLayout
-                    android:id="@+id/mapview_layout"
-                    android:layout_width="0dp"
-                    android:layout_height="@dimen/_140sdp"
-                    android:layout_marginHorizontal="@dimen/_30sdp"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    app:layout_constraintBottom_toTopOf="@id/location_address_txv"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/location_address_txv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/mapview_layout"
-                    android:layout_centerHorizontal="true"
-                    android:layout_gravity="center"
-                    android:layout_marginVertical="@dimen/_15sdp"
-                    android:drawablePadding="@dimen/_10sdp"
-                    android:ellipsize="end"
-                    android:maxLines="2"
-                    app:drawableStartCompat="@drawable/ic_detail_location"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/mapview_layout" />
-
-
-            </androidx.constraintlayout.widget.ConstraintLayout>-->
+                app:layout_constraintTop_toBottomOf="@id/mapView_container" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

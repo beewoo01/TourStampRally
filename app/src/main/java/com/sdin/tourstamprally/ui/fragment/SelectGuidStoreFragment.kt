@@ -20,6 +20,8 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
+import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.gms.location.*
@@ -27,6 +29,7 @@ import com.google.android.gms.tasks.Task
 import com.sdin.tourstamprally.R
 import com.sdin.tourstamprally.adapter.StoreReAdapter
 import com.sdin.tourstamprally.databinding.FragmentSelectGuidStoreBinding
+import com.sdin.tourstamprally.model.Location_four
 import com.sdin.tourstamprally.model.StoreModel
 import com.sdin.tourstamprally.utill.listener.RecycleItemOnClick
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
@@ -35,7 +38,7 @@ import io.reactivex.rxjava3.schedulers.Schedulers
 import net.daum.mf.map.api.*
 import java.lang.Exception
 
-class SelectGuidStoreFragment : BaseFragment2(), RecycleItemOnClick<StoreModel> {
+class SelectGuidStoreFragment : BaseFragment(), RecycleItemOnClick<StoreModel> {
 
     private var binding: FragmentSelectGuidStoreBinding? = null
     private val mapViewContainer: ViewGroup by lazy {
@@ -73,7 +76,7 @@ class SelectGuidStoreFragment : BaseFragment2(), RecycleItemOnClick<StoreModel> 
             mapView = if (mapView != null) {
                 mapViewContainer.removeView(mapView)
                 null
-            }else {
+            } else {
                 MapView(requireContext())
             }
             mapViewContainer.addView(mapView)
@@ -89,20 +92,8 @@ class SelectGuidStoreFragment : BaseFragment2(), RecycleItemOnClick<StoreModel> 
                         Manifest.permission.ACCESS_COARSE_LOCATION
                     )
                 )
-        }
+            }
 
-
-
-            /*if (permissionCheck()) {
-                Log.wtf("permissionCheck", "true")
-
-                mapView.currentLocationTrackingMode =
-                    MapView.CurrentLocationTrackingMode.TrackingModeOnWithHeading
-            } else {
-                permissionDialog()
-                Log.wtf("permissionCheck", "false")
-
-            }*/
         }
     }
 
@@ -221,16 +212,16 @@ class SelectGuidStoreFragment : BaseFragment2(), RecycleItemOnClick<StoreModel> 
         val locationRequest = LocationRequest.create()
         locationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
         locationRequest.interval = 20 * 1000
-        fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, Looper.getMainLooper())
+        fusedLocationClient.requestLocationUpdates(
+            locationRequest,
+            locationCallback,
+            Looper.getMainLooper()
+        )
 
     }
 
     private val locationCallback = object : LocationCallback() {
         override fun onLocationResult(locationResult: LocationResult) {
-            if (locationResult == null) {
-                return
-            }
-
             for (location in locationResult.locations) {
                 if (location != null) {
                     mapView?.setMapCenterPoint(
@@ -244,83 +235,9 @@ class SelectGuidStoreFragment : BaseFragment2(), RecycleItemOnClick<StoreModel> 
         }
     }
 
-
-    private fun permissionCheck(): Boolean {
-
-        return if (ContextCompat.checkSelfPermission(
-                requireContext(),
-                Manifest.permission.ACCESS_BACKGROUND_LOCATION
-            ) == PackageManager.PERMISSION_GRANTED
-        ) {
-            try {
-                mapView?.currentLocationTrackingMode =
-                    MapView.CurrentLocationTrackingMode.TrackingModeOnWithHeading
-            } catch (e: Exception) {
-                fusedLocationClient.lastLocation.addOnSuccessListener { location ->
-                    mapView?.setMapCenterPoint(
-                        MapPoint.mapPointWithGeoCoord(
-                            location.latitude,
-                            location.longitude
-                        ), true
-                    )
-                }
-            }
-
-
-            true
-        } else {
-
-
-            /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                ActivityCompat.requestPermissions(
-                    requireActivity(),
-                    arrayOf(Manifest.permission.ACCESS_BACKGROUND_LOCATION),
-                    1
-                )
-            }*/
-            false
-        }
-    }
-
-    /*when (PackageManager.PERMISSION_GRANTED) {
-        (ContextCompat.checkSelfPermission(
-            requireContext(),
-            Manifest.permission.ACCESS_FINE_LOCATION
-        )) and (ContextCompat.checkSelfPermission(
-            requireContext(),
-            Manifest.permission.ACCESS_COARSE_LOCATION
-        )) and (ContextCompat.checkSelfPermission(
-            requireContext(),
-            Manifest.permission.ACCESS_BACKGROUND_LOCATION
-        ))
-        -> {
-            Log.wtf("permissionCheck", "ACCESS_BACKGROUND_LOCATION true")
-            //permissionDialog()
-            try {
-                mapView.currentLocationTrackingMode =
-                    MapView.CurrentLocationTrackingMode.TrackingModeOnWithHeading
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-
-            true
-        }
-
-
-        else -> {
-
-
-            requestPermissionLauncher.launch(versionCheck())
-            permissionDialog()
-            false
-        }
-    }*/
-
-
     private val requestPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { map ->
             if (map.all { it.value == true }) {
-                Log.wtf("requestPermissionLauncher", "true")
                 permissionCheck2()
             }
         }
@@ -345,7 +262,7 @@ class SelectGuidStoreFragment : BaseFragment2(), RecycleItemOnClick<StoreModel> 
 
     private fun initItem(list: MutableList<StoreModel>) {
         binding?.run {
-            storeRe.apply {
+            bottomSheetIncl.storeRe.apply {
                 adapter = StoreReAdapter(list = list, this@SelectGuidStoreFragment)
                 addItemDecoration(DividerItemDecoration(requireContext(), 1))
                 layoutManager = LinearLayoutManager(requireContext()).apply {
@@ -378,5 +295,17 @@ class SelectGuidStoreFragment : BaseFragment2(), RecycleItemOnClick<StoreModel> 
 
     override fun onItemClickListener(model: StoreModel, position: Int) {
 
+        val action = SelectGuidStoreFragmentDirections.actionPageStoreToStoreDetailFragment(model)
+        /*val action = SelectGuidStoreFragmentDirections.actionPageStoreToStoreDetailFragment(model)
+        findNavController().navigate(action)*/
+        findNavController().navigate(action)
+    }
+
+    private fun moveFragment(model :StoreModel) {
+        findNavController().navigate(
+            R.id.storeDetailFragment,
+            Bundle().apply {
+                putSerializable("model", model)
+            })
     }
 }

@@ -210,7 +210,29 @@
         android:id="@+id/page_store"
         android:name="com.sdin.tourstamprally.ui.fragment.SelectGuidStoreFragment"
         android:label="매장 리스트"
-        tools:layout="@layout/fragment_select_guid_store" />
+        tools:layout="@layout/fragment_select_guid_store">
+
+        <action
+            android:id="@+id/action_page_store_to_storeDetailFragment"
+            app:destination="@id/storeDetailFragment">
+
+        </action>
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/storeDetailFragment"
+        android:name="com.sdin.tourstamprally.ui.fragment.StoreDetailFragment"
+        android:label="fragment_store_detail"
+        tools:layout="@layout/fragment_store_detail">
+
+        <argument
+            android:name="store_model"
+            app:argType="com.sdin.tourstamprally.model.StoreModel"
+            app:nullable="false" />
+
+    </fragment>
+
 
     <fragment
         android:id="@+id/account_admin"
@@ -241,5 +263,6 @@
         android:name="com.sdin.tourstamprally.CameraFragment"
         android:label="fragment_camera"
         tools:layout="@layout/fragment_camera" />
+
 
 </navigation>

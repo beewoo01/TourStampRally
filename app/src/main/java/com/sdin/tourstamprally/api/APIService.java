@@ -286,6 +286,8 @@ public interface APIService {
     Single<List<StoreModel>> selectAllStore();
 
     @GET("selectStoreDetail")
-    Single<StoreSubDTO> selectStoreDetail();
+    Single<StoreSubDTO> selectStoreDetail(
+            @Query("store_idx") int store_idx
+    );
 
 }
