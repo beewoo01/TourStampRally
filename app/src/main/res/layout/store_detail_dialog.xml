@@ -3,6 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+        <variable
+            name="dialog"
+            type="com.sdin.tourstamprally.ui.fragment.store.StoreDetailDialog" />
+
+        <variable
+            name="model"
+            type="com.sdin.tourstamprally.model.StoreModel" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -30,12 +40,12 @@
                     android:id="@+id/top_imv"
                     android:layout_width="@dimen/_15sdp"
                     android:layout_height="@dimen/_15sdp"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:src="@drawable/ic_store_top"
+                    android:layout_marginTop="@dimen/_5sdp"
                     android:contentDescription="@string/store"
+                    android:src="@drawable/ic_store_top"
+                    app:layout_constraintBottom_toTopOf="@id/store_name_txv"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintBottom_toTopOf="@id/store_name_txv"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
@@ -43,21 +53,23 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_marginBottom="3dp"
                     android:textColor="@color/mainColor"
                     android:textSize="@dimen/_13sdp"
                     android:textStyle="bold"
+                    android:text="@{model.store_name}"
+                    app:layout_constraintBottom_toTopOf="@id/line1"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/top_imv"
-                    app:layout_constraintBottom_toTopOf="@id/line1"
                     tools:text="파리바게뜨" />
 
                 <View
                     android:id="@+id/line1"
                     android:layout_width="0dp"
                     android:layout_height="1dp"
-                    android:background="@color/lightGrayColor"
                     android:layout_marginTop="@dimen/_5sdp"
+                    android:background="@color/lightGrayColor"
                     app:layout_constraintBottom_toTopOf="@id/image_viewPager"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -66,7 +78,7 @@
                 <androidx.viewpager2.widget.ViewPager2
                     android:id="@+id/image_viewPager"
                     android:layout_width="0dp"
-                    android:layout_height="@dimen/_90sdp"
+                    android:layout_height="@dimen/_95sdp"
                     android:layout_marginHorizontal="@dimen/_13sdp"
                     android:layout_marginVertical="@dimen/_10sdp"
                     app:layout_constraintBottom_toTopOf="@id/content_txv"
@@ -74,22 +86,49 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/line1" />
 
+                <ImageButton
+                    android:id="@+id/left_imb"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:background="@null"
+                    android:scaleType="fitXY"
+                    android:onClick="@{() -> dialog.leftClick()}"
+                    android:src="@drawable/ic_arrow_left"
+                    app:layout_constraintBottom_toBottomOf="@id/image_viewPager"
+                    app:layout_constraintStart_toStartOf="@id/image_viewPager"
+                    app:layout_constraintTop_toTopOf="@id/image_viewPager"
+                    android:contentDescription="LeftButton" />
+
+                <ImageButton
+                    android:id="@+id/right_imb"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:background="@null"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/ic_arrow_right"
+                    android:onClick="@{() -> dialog.rightClick()}"
+                    app:layout_constraintBottom_toBottomOf="@id/image_viewPager"
+                    app:layout_constraintEnd_toEndOf="@id/image_viewPager"
+                    app:layout_constraintTop_toTopOf="@id/image_viewPager"
+                    android:contentDescription="RightButton" />
+
                 <com.google.android.material.tabs.TabLayout
                     android:id="@+id/tabLayout"
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/_10sdp"
+                    android:layout_marginBottom="3dp"
+                    android:scrollIndicators="none"
                     app:layout_constraintBottom_toBottomOf="@id/image_viewPager"
                     app:layout_constraintEnd_toEndOf="@id/image_viewPager"
                     app:layout_constraintStart_toStartOf="@id/image_viewPager"
                     app:tabBackground="@drawable/tab_circle_indicator"
                     app:tabGravity="center"
-                    app:tabIndicatorHeight="0dp"
                     app:tabIndicator="@null"
+                    app:tabIndicatorHeight="0dp"
                     app:tabPaddingEnd="8dp"
-                    app:tabPaddingStart="8dp"
-                    android:scrollIndicators="none"
-                    android:layout_marginBottom="3dp"
-                    />
+                    app:tabPaddingStart="8dp" />
 
                 <TextView
                     android:id="@+id/content_txv"
@@ -100,10 +139,11 @@
                     android:background="@drawable/detail_popup_bg"
                     android:gravity="center_horizontal"
                     android:lineSpacingExtra="@dimen/_5sdp"
+                    android:padding="@dimen/_5sdp"
                     android:scrollbars="vertical"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_10sdp"
-                    android:padding="@dimen/_5sdp"
+                    android:text="@{model.store_description}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -119,11 +159,12 @@
             android:id="@+id/close_imb"
             android:layout_width="@dimen/_35sdp"
             android:layout_height="@dimen/_35sdp"
+            android:background="@null"
+            android:contentDescription="close"
             android:elevation="2dp"
             android:scaleType="fitXY"
             android:src="@drawable/quit_icon"
-            android:background="@null"
-            android:contentDescription="close"
+            android:onClick="@{() -> dialog.dismiss()}"
             app:layout_constraintBottom_toTopOf="@id/card_view"
             app:layout_constraintEnd_toEndOf="@id/card_view"
             app:layout_constraintStart_toEndOf="@id/card_view"

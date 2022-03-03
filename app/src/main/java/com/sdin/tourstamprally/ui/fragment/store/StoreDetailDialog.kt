@@ -6,18 +6,8 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.view.WindowManager
-import android.widget.ImageView
-import androidx.constraintlayout.utils.widget.ImageFilterView
-import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
-import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
-import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.sdin.tourstamprally.R
 import com.sdin.tourstamprally.adapter.store.ImageViewPagerAdapter
@@ -26,20 +16,24 @@ import com.sdin.tourstamprally.model.StoreModel
 import com.sdin.tourstamprally.model.StoreSubimg
 import com.sdin.tourstamprally.ui.dialog.BaseDialog
 
-class StoreDetailDialog(context: Context, val model: StoreModel) :
+class StoreDetailDialog(context: Context, val storeModel: StoreModel) :
     BaseDialog(context, R.style.FullScreenDialogStyle) {
 
     private var binding: StoreDetailDialogBinding? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         binding = DataBindingUtil.inflate(
             LayoutInflater.from(context),
             R.layout.store_detail_dialog,
             null,
             false
         )
+
         setContentView(binding?.root!!)
+        binding?.dialog = this@StoreDetailDialog
+        binding?.model = storeModel
 
         window!!.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING)
         window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
@@ -50,26 +44,52 @@ class StoreDetailDialog(context: Context, val model: StoreModel) :
 
     private fun initView() {
         binding?.apply {
-            storeNameTxv.text = model.store_name
-            contentTxv.text = model.store_description
-
             imageViewPager.apply {
                 adapter = ImageViewPagerAdapter().apply {
-                    submitList(model.storeSubDto?.storeSubimgList)
+                    if (storeModel.storeSubDto?.storeSubimgList != null) {
+                        submitList(storeModel.storeSubDto?.storeSubimgList)
+                    } else {
+                        submitList(
+                            mutableListOf(
+                                StoreSubimg(
+                                    0,
+                                    storeModel.store_idx,
+                                    storeModel.store_curver_img
+                                )
+                            )
+                        )
+                    }
+
                 }
             }
 
-            closeImb.setOnClickListener {
-                dismiss()
-            }
-
             TabLayoutMediator(tabLayout, imageViewPager)
-            { tab, position ->
-                imageViewPager.currentItem = tab.position
+            { tab, _ ->
                 tab.view.isClickable = false
-                Log.wtf("hihi", "hihi$position")
             }.attach()
         }
+    }
+
+    fun leftClick() {
+
+        binding?.run {
+            val position = imageViewPager.currentItem
+            if (position > 0) {
+                imageViewPager.currentItem = position - 1
+            }
+        }
+
+    }
+
+    fun rightClick() {
+
+        binding?.run {
+            val position = imageViewPager.currentItem
+            if (position < imageViewPager.adapter?.itemCount!! - 1) {
+                imageViewPager.currentItem = position + 1
+            }
+        }
+
     }
 
 

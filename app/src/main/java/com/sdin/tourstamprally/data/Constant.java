@@ -6,6 +6,7 @@ import android.util.Log;
 
 public class Constant {
 
+
     /*FirstCare Server URL*/
     //public static final String SERVER_URL = "http://raon-soft.com/palette/";
     //public static final String SERVER_URL = "http://192.168.1.11:8080/project/";
@@ -17,8 +18,10 @@ public class Constant {
     /*우리 집*/
 
     //public static final String SERVER_URL = "http://coratest.kr/base_project_brs/";
-    public static final String SERVER_URL = "http://192.168.0.139:8080/project/";
+    //public static final String SERVER_URL = "http://192.168.0.139:8080/project/";
+    public static final String SERVER_URL = "http://192.168.219.160:8005/project/";
     //selectCoupon
+
     /*실제 업로드용2*/
 
 

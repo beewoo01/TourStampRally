@@ -37,8 +37,7 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHo
     //private SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd 'T' HH:mm:ss.SSSX " , Locale.US);
 
 
-
-    public LocationAdapter(ArrayList<Tour_Spot> list, Context context){
+    public LocationAdapter(ArrayList<Tour_Spot> list, Context context) {
         this.list = list;
         this.context = context;
         listener = (MainActivity) context;
@@ -46,17 +45,17 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHo
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    public void locationlistSet(ArrayList<Tour_Spot> list){
+    public void locationlistSet(ArrayList<Tour_Spot> list) {
         this.list = list;
         notifyDataSetChanged();
     }
 
-    public ArrayList<Tour_Spot> getList(){
+    public ArrayList<Tour_Spot> getList() {
         return list;
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    public List<Tour_Spot> locaitonSort(ArrayList<Tour_Spot> list, int category){
+    public List<Tour_Spot> locaitonSort(ArrayList<Tour_Spot> list, int category) {
         this.list = list;
         notifyDataSetChanged();
         //sortList(category);
@@ -66,9 +65,9 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHo
     private final ItemOnClick itemOnClick = new ItemOnClickAb() {
         @Override
         public void ItemGuid(int position) {
-            if (position == 1 || position == 2){
+            if (position == 1 || position == 2) {
                 listener.ItemGuid(position);
-            }else {
+            } else {
                 //listener.ItemGuidForPoint(send_model);
             }
         }
@@ -86,35 +85,38 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHo
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
-        if (TextUtils.isEmpty(list.get(position).getTouristhistory_idx())) list.get(position).setClear(false);
+        if (TextUtils.isEmpty(list.get(position).getTouristhistory_idx()))
+            list.get(position).setClear(false);
         else list.get(position).setClear(true);
-
 
 
         holder.binding.tourNameTxv.setText(list.get(position).getTouristspot_name());
         //Glide.with(holder.itemView.getContext()).load(list.get(position).imgUrl).circleCrop().into(holder.binding.tourImv);
         holder.binding.tourImv.setBackground(new ShapeDrawable(new OvalShape()));
         holder.binding.tourImv.setClipToOutline(true);
-        Glide.with(holder.itemView.getContext()).load("http://coratest.kr/imagefile/bsr/" + list.get(position).getTouristspot_img()).circleCrop().into(holder.binding.tourImv);
+        Glide.with(holder.itemView.getContext())
+                .load("http://coratest.kr/imagefile/bsr/" + list.get(position).getTouristspot_img())
+                .circleCrop()
+                .into(holder.binding.tourImv);
 
-        if (list.get(position).isClear()){
+        if (list.get(position).isClear()) {
             //클리어시 적용될 코드
             holder.binding.tourImv.setColorFilter(Color.parseColor("#63000000"));
             holder.binding.clearTitleTxv.setVisibility(View.VISIBLE);
 
 
-            try{
+            try {
 
                 long dateL = list.get(position).getTouristhistory_updatetime();
                 String date = sdf.format(dateL);
                 holder.binding.clearTitleTxv.setText(
                         sdf.format(list.get(position).getTouristhistory_updatetime()) + " 획득!");
-            }catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
 
             holder.binding.clearTitleImv.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             holder.binding.tourImv.setColorFilter(null);
             holder.binding.clearTitleTxv.setVisibility(View.INVISIBLE);
             holder.binding.clearTitleTxv.setText("");
@@ -129,13 +131,14 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHo
         return list.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder {
         TourRecordItemReBinding binding;
+
         public ViewHolder(@NonNull TourRecordItemReBinding binding) {
             super(binding.getRoot());
 
             this.binding = binding;
-            binding.contentLayout.setOnClickListener( v->{
+            binding.contentLayout.setOnClickListener(v -> {
                 send_model = list.get(getAbsoluteAdapterPosition());
                 GuidDialog guidDialog = new GuidDialog(context);
                 guidDialog.show();

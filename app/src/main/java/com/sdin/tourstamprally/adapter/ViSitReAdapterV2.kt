@@ -122,6 +122,7 @@ class ViSitReAdapterV2(
 
             Glide.with(binding.visitHistoryImv.context)
                 .load("http://coratest.kr/imagefile/bsr/" + model.touristspot_img)
+                .placeholder(R.drawable.sample_profile_image)
                 .error(
                     ContextCompat.getDrawable(
                         binding.visitHistoryImv.context,
@@ -136,6 +137,7 @@ class ViSitReAdapterV2(
                 binding.nameTxv.text = Utils.User_Name
                 Glide.with(binding.profileIcon.context)
                     .load("http://coratest.kr/imagefile/bsr/" + Utils.User_Profile).circleCrop()
+                    .placeholder(R.drawable.sample_profile_image)
                     .error(
                         ContextCompat.getDrawable(
                             binding.visitHistoryImv.context,

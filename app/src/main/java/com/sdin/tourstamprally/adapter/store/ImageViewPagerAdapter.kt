@@ -19,6 +19,7 @@ class ImageViewPagerAdapter :
             val imageView = view.findViewById<ImageFilterView>(R.id.viewpager_imv)
             Glide.with(view.context)
                 .load("http://coratest.kr/imagefile/bsr/" + model.store_subimg_url)
+                .placeholder(R.drawable.sample_bg)
                 .error(R.drawable.sample_bg)
                 .into(imageView)
         }

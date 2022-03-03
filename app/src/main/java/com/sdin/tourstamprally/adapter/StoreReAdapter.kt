@@ -4,29 +4,30 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.sdin.tourstamprally.R
 import com.sdin.tourstamprally.databinding.GuidStoreItemBinding
 import com.sdin.tourstamprally.model.StoreModel
-import com.sdin.tourstamprally.utill.listener.RecycleItemOnClick
 
 class StoreReAdapter(
     private val list: MutableList<StoreModel>,
-    private val itemOnClick: RecycleItemOnClick<StoreModel>
+    private val callback : (StoreModel) -> Unit
 ) :
     RecyclerView.Adapter<StoreReAdapter.ViewHolder>() {
 
     inner class ViewHolder(val binding: GuidStoreItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun onBind(model: StoreModel) {
+        fun onBind(storeModel: StoreModel) {
             binding.run {
-                storeNameTxv.text = model.store_name
-                storeLocationTxv.text = model.location_name
+                model = storeModel
 
                 Glide.with(storeImv.context)
-                    .load("http://coratest.kr/imagefile/bsr/" + "1637572660349.jpg")
+                    .load("http://coratest.kr/imagefile/bsr/" + storeModel.store_curver_img)
+                    .placeholder(R.drawable.sample_profile_image)
+                    .error(R.drawable.sample_profile_image)
                     .into(storeImv)
 
                 plusImb.setOnClickListener {
-                    itemOnClick.onItemClickListener(model = model, position = absoluteAdapterPosition)
+                    callback(storeModel)
                 }
             }
         }

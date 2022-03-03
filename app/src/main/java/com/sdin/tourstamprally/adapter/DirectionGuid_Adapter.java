@@ -26,7 +26,6 @@ import java.util.ArrayList;
 public class DirectionGuid_Adapter extends RecyclerView.Adapter<DirectionGuid_Adapter.ViewHolder> {
 
 
-
     private ArrayList<Location_four> list;
     /*private final Map<Integer, Integer> location_Progress_Map;
     private final Map<Integer, Integer> location_history_Map;*/
@@ -52,7 +51,7 @@ public class DirectionGuid_Adapter extends RecyclerView.Adapter<DirectionGuid_Ad
         getGps();
     }
 
-    private void getGps(){
+    private void getGps() {
         GpsTracker gpsTracker = new GpsTracker(context);
 
         latitude = gpsTracker.getLatitude();
@@ -60,14 +59,13 @@ public class DirectionGuid_Adapter extends RecyclerView.Adapter<DirectionGuid_Ad
     }
 
 
-
-    public void setList(ArrayList<Location_four> list){
+    public void setList(ArrayList<Location_four> list) {
         //this.list.clear();
         this.list = list;
         notifyDataSetChanged();
     }
 
-    public int getListSize(){
+    public int getListSize() {
         return list.size();
     }
 
@@ -88,17 +86,17 @@ public class DirectionGuid_Adapter extends RecyclerView.Adapter<DirectionGuid_Ad
         holder.binding.seekBarDirectionItem.setMax(100);
         double meter = Utils.distance(latitude, longitude, list.get(position).getTouristspot_latitude(), list.get(position).getTouristspot_longitude());
         String meterStr;
-        if (meter < 1000){
-            meterStr = (Math.floor(meter*10)/10.0) + "m";
-        }else {
+        if (meter < 1000) {
+            meterStr = (Math.floor(meter * 10) / 10.0) + "m";
+        } else {
             meter = meter / 1000;
-            meterStr = (Math.floor(meter*10)/10.0) + "km";
+            meterStr = (Math.floor(meter * 10) / 10.0) + "km";
         }
 
 
         holder.binding.directionFromStempTxv.setText(meterStr);
 
-        if (!TextUtils.isEmpty(list.get(position).getLocation_img())){
+        if (!TextUtils.isEmpty(list.get(position).getLocation_img())) {
             Glide.with(context).load("http://coratest.kr/imagefile/bsr/" + list.get(position).getLocation_img()).into(new CustomTarget<Drawable>() {
                 @Override
                 public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
@@ -116,17 +114,15 @@ public class DirectionGuid_Adapter extends RecyclerView.Adapter<DirectionGuid_Ad
         if (list.get(position).getLocation_idx() > 0) {
             int allContents = list.get(position).getAllPointCount();
             int clearCount = list.get(position).getMyHistoryCount();
-            int allCountd = (int) ((double) clearCount /  (double) allContents * 100);
+            int allCountd = (int) ((double) clearCount / (double) allContents * 100);
             holder.binding.seekBarDirectionItem.setMax(allContents);
             holder.binding.seekBarDirectionItem.setProgress(clearCount);
             holder.binding.seekPercentTxv.setText(allCountd + "%");
         }
 
 
-
         //참여자 데이터 적용
         holder.binding.joinnerNumberTxv.setText(String.valueOf(list.get(position).getPopular()));
-
 
 
     }
@@ -137,12 +133,13 @@ public class DirectionGuid_Adapter extends RecyclerView.Adapter<DirectionGuid_Ad
         return list.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder {
         DirectionGuidLocationItemBinding binding;
+
         public ViewHolder(@NonNull DirectionGuidLocationItemBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
-            binding.locationBg.setOnClickListener( v-> {
+            binding.locationBg.setOnClickListener(v -> {
                 //itemOnClick.onItemClick(list.get(getAbsoluteAdapterPosition()));
                 locationReItemClick.onLocationItemClick(list.get(getAbsoluteAdapterPosition()));
             });

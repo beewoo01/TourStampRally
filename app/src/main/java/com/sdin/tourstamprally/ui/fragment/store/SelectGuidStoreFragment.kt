@@ -22,6 +22,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.gms.location.*
+import com.google.android.material.tabs.TabLayout
 import com.sdin.tourstamprally.R
 import com.sdin.tourstamprally.adapter.StoreReAdapter
 import com.sdin.tourstamprally.databinding.FragmentSelectGuidStoreBinding
@@ -33,18 +34,13 @@ import io.reactivex.rxjava3.observers.DisposableSingleObserver
 import io.reactivex.rxjava3.schedulers.Schedulers
 import net.daum.mf.map.api.*
 
-class SelectGuidStoreFragment : BaseFragment(), RecycleItemOnClick<StoreModel> {
+class SelectGuidStoreFragment : BaseFragment() {
 
     private var binding: FragmentSelectGuidStoreBinding? = null
-    /*private val mapViewContainer: ViewGroup by lazy {
-        binding?.mapLayout as ViewGroup
-    }*/
 
     private lateinit var mapView: MapView
 
-    private val fusedLocationClient: FusedLocationProviderClient by lazy {
-        LocationServices.getFusedLocationProviderClient(requireActivity())
-    }
+    private var fusedLocationClient: FusedLocationProviderClient? = null
 
 
     override fun onCreateView(
@@ -68,10 +64,9 @@ class SelectGuidStoreFragment : BaseFragment(), RecycleItemOnClick<StoreModel> {
     private fun initView() {
 
         binding?.apply {
-
             mapView = MapView(requireActivity())
             mapLayout.addView(mapView, 0)
-
+            fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
 
             if (!checkLocationService()) {
                 showDialogForLocationServiceSetting()
@@ -83,6 +78,21 @@ class SelectGuidStoreFragment : BaseFragment(), RecycleItemOnClick<StoreModel> {
                     )
                 )
             }
+
+            tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+                override fun onTabSelected(tab: TabLayout.Tab?) {
+                    Log.wtf(
+                        this@SelectGuidStoreFragment.javaClass.name,
+                        "tab?.position?? ${tab?.position}"
+                    )
+
+                }
+
+                override fun onTabUnselected(tab: TabLayout.Tab?) = Unit
+
+                override fun onTabReselected(tab: TabLayout.Tab?) = Unit
+
+            })
 
         }
     }
@@ -140,17 +150,11 @@ class SelectGuidStoreFragment : BaseFragment(), RecycleItemOnClick<StoreModel> {
         )
     }
 
-    /*override fun onStop() {
-        super.onStop()
-        Log.wtf("SelectGuidStoreFragment", "onStop")
-        mapViewContainer.removeView(mapView)
-    }*/
-
     override fun onPause() {
         super.onPause()
         binding?.mapLayout?.removeView(mapView)
-        /*mapViewContainer.removeView(mapView)
-        mapView = null*/
+        fusedLocationClient?.removeLocationUpdates(locationCallback)
+        fusedLocationClient = null
 
     }
 
@@ -193,26 +197,28 @@ class SelectGuidStoreFragment : BaseFragment(), RecycleItemOnClick<StoreModel> {
             return
         }
 
-        fusedLocationClient.lastLocation.addOnSuccessListener { location ->
-            location?.let {
-                mapView.setMapCenterPoint(
-                    MapPoint.mapPointWithGeoCoord(
-                        location.latitude,
-                        location.longitude
-                    ), true
-                )
+        fusedLocationClient?.apply {
+            lastLocation.addOnSuccessListener { location ->
+                location?.let {
+                    mapView.setMapCenterPoint(
+                        MapPoint.mapPointWithGeoCoord(
+                            location.latitude,
+                            location.longitude
+                        ), true
+                    )
+                }
             }
 
-        }
+            val locationRequest = LocationRequest.create()
+            locationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+            locationRequest.interval = (20 * 1000).toLong()
 
-        val locationRequest = LocationRequest.create()
-        locationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
-        locationRequest.interval = 20 * 1000
-        fusedLocationClient.requestLocationUpdates(
-            locationRequest,
-            locationCallback,
-            Looper.getMainLooper()
-        )
+            requestLocationUpdates(
+                locationRequest,
+                locationCallback,
+                Looper.getMainLooper()
+            )
+        }
 
     }
 
@@ -252,16 +258,19 @@ class SelectGuidStoreFragment : BaseFragment(), RecycleItemOnClick<StoreModel> {
         }
     }
 
-    private fun showToast(msg: String) {
-        Toast.makeText(requireContext(), msg, Toast.LENGTH_SHORT).show()
-    }
-
     private fun initItem(list: MutableList<StoreModel>) {
         binding?.run {
 
 
             bottomSheetIncl.storeRe.apply {
-                adapter = StoreReAdapter(list = list, this@SelectGuidStoreFragment)
+                adapter = StoreReAdapter(list = list, callback = {
+                    val action =
+                        SelectGuidStoreFragmentDirections.actionPageStoreToStoreDetailFragment(
+                            it.store_name,
+                            it
+                        )
+                    findNavController().navigate(action)
+                })
                 addItemDecoration(DividerItemDecoration(requireContext(), 1))
                 layoutManager = LinearLayoutManager(requireContext()).apply {
                     orientation = LinearLayoutManager.VERTICAL
@@ -291,12 +300,5 @@ class SelectGuidStoreFragment : BaseFragment(), RecycleItemOnClick<StoreModel> {
 
     }
 
-    override fun onItemClickListener(model: StoreModel, position: Int) {
-        val action = SelectGuidStoreFragmentDirections.actionPageStoreToStoreDetailFragment(
-            model.store_name,
-            model
-        )
-        findNavController().navigate(action)
-    }
 
 }

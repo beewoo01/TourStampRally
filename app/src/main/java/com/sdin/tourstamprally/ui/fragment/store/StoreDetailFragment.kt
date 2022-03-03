@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -58,28 +57,25 @@ class StoreDetailFragment : BaseFragment() {
         initData()
     }
 
-    private fun initView() {
+    private fun initView() = with(argModel) {
         binding?.apply {
-            storeNameTxv.text = argModel.store_name
-            storeInfoTxv.text = argModel.store_info
-            tourContentTxv.text = argModel.store_description
-            locationAddressTxv.text = argModel.store_address
+            storeNameTxv.text = store_name
+            storeInfoTxv.text = store_info
+            tourContentTxv.text = store_description
+            locationAddressTxv.text = store_address
             Glide.with(bgImv.context)
-                .load("http://coratest.kr/imagefile/bsr/" + argModel.store_curver_img).into(bgImv)
-            setMapView(argModel)
-            //mapContainer.addView(setMapView(argModel))
+                .load("http://coratest.kr/imagefile/bsr/$store_curver_img")
+                .placeholder(R.drawable.sample_bg)
+                .into(bgImv)
+            setMapView(this@with)
         }
-
 
     }
 
 
     override fun onPause() {
         super.onPause()
-        binding?.mapviewLayout?.let {
-            it.removeView(mapView)
-        }
-        binding?.mapviewLayout?.removeAllViews()
+        binding?.mapviewLayout?.removeView(mapView)
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -185,7 +181,7 @@ class StoreDetailFragment : BaseFragment() {
     }
 
     fun onShareClick() {
-        showReadydialog()
+        showReadyDialog()
     }
 
     fun onDetailClick() {
@@ -205,7 +201,7 @@ class StoreDetailFragment : BaseFragment() {
         }
     }
 
-    private fun showReadydialog() {
+    private fun showReadyDialog() {
         ReadyDialog(requireContext()).show()
     }
 

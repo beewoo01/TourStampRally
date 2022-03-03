@@ -22,7 +22,7 @@ public class CustomScannerActivity extends AppCompatActivity implements Decorate
     private CaptureManager capture;
     private DecoratedBarcodeView barcodeScannerView;
     private BackPressCloseHandler backPressCloseHandler;
-    private ImageButton setting_btn,switchFlashlightButton;
+    private ImageButton setting_btn, switchFlashlightButton;
     private Boolean switchFlashlightButtonCheck;
 
     @Override
@@ -32,7 +32,6 @@ public class CustomScannerActivity extends AppCompatActivity implements Decorate
 
 
         switchFlashlightButtonCheck = true;
-
         backPressCloseHandler = new BackPressCloseHandler(this);
 
         /*setting_btn = (ImageButton)findViewById(R.id.setting_btn);
