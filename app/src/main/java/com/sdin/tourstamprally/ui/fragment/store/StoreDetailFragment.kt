@@ -1,4 +1,4 @@
-package com.sdin.tourstamprally.ui.fragment
+package com.sdin.tourstamprally.ui.fragment.store
 
 import android.annotation.SuppressLint
 import android.content.Intent
@@ -8,13 +8,9 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.fragment.navArgs
-import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
-import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.kakao.sdk.common.util.KakaoCustomTabsClient.openWithDefault
 import com.kakao.sdk.navi.NaviClient
@@ -24,10 +20,10 @@ import com.kakao.sdk.navi.model.NaviOption
 import com.sdin.tourstamprally.R
 import com.sdin.tourstamprally.adapter.StoreDetailHashTagReAdapter
 import com.sdin.tourstamprally.databinding.FragmentStoreDetailBinding
-import com.sdin.tourstamprally.model.StoreHashtag
 import com.sdin.tourstamprally.model.StoreModel
 import com.sdin.tourstamprally.model.StoreSubDTO
 import com.sdin.tourstamprally.ui.dialog.ReadyDialog
+import com.sdin.tourstamprally.ui.fragment.BaseFragment
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.observers.DisposableSingleObserver
 import io.reactivex.rxjava3.schedulers.Schedulers
@@ -39,8 +35,8 @@ import java.lang.Exception
 class StoreDetailFragment : BaseFragment() {
 
     private var binding: FragmentStoreDetailBinding? = null
-    private lateinit var model: StoreSubDTO
-    private var argModel: StoreModel? = null
+    private lateinit var argModel: StoreModel
+    private lateinit var mapView: MapView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -51,41 +47,44 @@ class StoreDetailFragment : BaseFragment() {
             DataBindingUtil.inflate(inflater, R.layout.fragment_store_detail, container, false)
 
         binding?.fragment = this@StoreDetailFragment
-
         val args: StoreDetailFragmentArgs by navArgs()
         argModel = args.storeModel
-
-
-        //argModel = StoreDetailFragmentArgs.fromBundle(arguments).storeModel
         return binding?.root!!
-    }
-
-    override fun onViewCreated(view: View, savedInstancdState: Bundle?) {
-        initView()
     }
 
     override fun onResume() {
         super.onResume()
+        initView()
         initData()
     }
 
     private fun initView() {
-        argModel?.let {
-            binding?.apply {
-                storeNameTxv.text = it.store_name
-                storeInfoTxv.text = it.store_info
-                tourContentTxv.text = it.store_description
-                locationAddressTxv.text = it.store_address
-                Glide.with(bgImv.context)
-                    .load("http://coratest.kr/imagefile/bsr/" + it.store_curver_img).into(bgImv)
-                mapviewLayout.addView(setMapView(it))
-            }
+        binding?.apply {
+            storeNameTxv.text = argModel.store_name
+            storeInfoTxv.text = argModel.store_info
+            tourContentTxv.text = argModel.store_description
+            locationAddressTxv.text = argModel.store_address
+            Glide.with(bgImv.context)
+                .load("http://coratest.kr/imagefile/bsr/" + argModel.store_curver_img).into(bgImv)
+            setMapView(argModel)
+            //mapContainer.addView(setMapView(argModel))
         }
+
+
+    }
+
+
+    override fun onPause() {
+        super.onPause()
+        binding?.mapviewLayout?.let {
+            it.removeView(mapView)
+        }
+        binding?.mapviewLayout?.removeAllViews()
     }
 
     @SuppressLint("ClickableViewAccessibility")
-    private fun setMapView(model: StoreModel): MapView {
-        return MapView(requireActivity()).apply {
+    private fun setMapView(model: StoreModel) {
+        mapView = MapView(requireActivity()).apply {
             setMapCenterPointAndZoomLevel(
                 MapPoint.mapPointWithGeoCoord(
                     model.store_latitude.toDouble(),
@@ -110,64 +109,78 @@ class StoreDetailFragment : BaseFragment() {
 
             setOnTouchListener { _, _ -> true }
         }
+        binding?.mapviewLayout?.addView(mapView)
     }
 
     private fun initData() {
-        argModel?.store_idx?.let {
-            apiService.selectStoreDetail(it).subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(object : DisposableSingleObserver<StoreSubDTO>() {
-                    override fun onSuccess(model: StoreSubDTO) {
-                        //this@StoreDetailFragment.model = model
-                        argModel?.storeSubDto = model
-                        initHashTag()
-                    }
+        apiService.selectStoreDetail(argModel.store_idx).subscribeOn(Schedulers.newThread())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeWith(object : DisposableSingleObserver<StoreSubDTO>() {
+                override fun onSuccess(model: StoreSubDTO) {
+                    //this@StoreDetailFragment.model = model
+                    argModel.storeSubDto = model
+                    initHashTag()
+                }
 
-                    override fun onError(e: Throwable) {
-                        e.printStackTrace()
-                    }
+                override fun onError(e: Throwable) {
+                    e.printStackTrace()
+                }
 
-                })
-        }
+            })
+
     }
 
     private fun initHashTag() {
         binding?.tagRecyclerview?.apply {
+            adapter = null
             adapter = StoreDetailHashTagReAdapter().apply {
-                submitList(argModel?.storeSubDto?.storeHashTagList)
+                submitList(argModel.storeSubDto?.storeHashTagList)
+            }
+            if (itemDecorationCount == 0) {
+                addItemDecoration(StoreDetailHashTagReAdapter.PhOffsetItemDecoration(10))
             }
 
-            addItemDecoration(StoreDetailHashTagReAdapter.PhOffsetItemDecoration(10))
         }
     }
 
+
     fun onCallClick() {
-        argModel?.store_number?.let {
-            Intent(Intent.ACTION_DIAL, Uri.parse("tel:$it"))
+        argModel.store_number?.let {
+            requireActivity().startActivity(Intent(Intent.ACTION_DIAL, Uri.parse("tel:$it")))
         } ?: run {
             Toast.makeText(requireContext(), "해당 매장은 등록된 전화번호가 없습니다.", Toast.LENGTH_SHORT).show()
         }
     }
 
     fun onNaviClick() {
-        argModel?.let {
+        argModel.run {
+
             if (NaviClient.instance.isKakaoNaviInstalled(requireContext())) {
                 requireActivity().startActivity(
                     NaviClient.instance.navigateIntent(
-                        Location(it.store_name, it.store_latitude, it.store_longitude),
+                        Location(
+                            store_name,
+                            store_latitude,
+                            store_longitude
+                        ),
                         NaviOption(CoordType.WGS84)
                     )
                 )
             } else {
                 openWithDefault(
                     requireContext(), NaviClient.instance.navigateWebUrl(
-                        Location(it.store_name, it.store_latitude, it.store_longitude),
+                        Location(
+                            store_name,
+                            store_latitude,
+                            store_longitude
+                        ),
                         NaviOption(CoordType.WGS84)
                     )
                 )
 
             }
         }
+
 
     }
 
@@ -176,14 +189,17 @@ class StoreDetailFragment : BaseFragment() {
     }
 
     fun onDetailClick() {
-
+        StoreDetailDialog(requireContext(), argModel).show()
     }
 
     fun onVideoClick() {
         try {
-            argModel?.store_link?.let {
-                requireActivity().startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(it)))
-            }
+            requireActivity().startActivity(
+                Intent(
+                    Intent.ACTION_VIEW,
+                    Uri.parse(argModel.store_link)
+                )
+            )
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -198,46 +214,5 @@ class StoreDetailFragment : BaseFragment() {
         binding = null
     }
 
-    /*class StoreDetailHashTagReAdapter :
-        ListAdapter<StoreHashtag, StoreDetailHashTagReAdapter.ItemViewHolder>(differ) {
-        inner class ItemViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
-            @SuppressLint("SetTextI18n")
-            fun bind(model: StoreHashtag) {
-                val tagTxv = view.findViewById<TextView>(R.id.tag_txv)
-                tagTxv.text = "#${model.store_hashtag_tag}"
-            }
-        }
-
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
-            val inflater = LayoutInflater.from(parent.context)
-            return ItemViewHolder(inflater.inflate(R.layout.re_item_store_hashtag, parent, false))
-        }
-
-        override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
-            holder.bind(currentList[position])
-        }
-
-        companion object {
-
-            val differ = object : DiffUtil.ItemCallback<StoreHashtag>() {
-
-                override fun areItemsTheSame(
-                    oldItem: StoreHashtag,
-                    newItem: StoreHashtag
-                ): Boolean {
-                    return oldItem.store_hashtag_idx == newItem.store_hashtag_idx
-                }
-
-                override fun areContentsTheSame(
-                    oldItem: StoreHashtag,
-                    newItem: StoreHashtag
-                ): Boolean {
-                    return oldItem == newItem
-                }
-
-            }
-        }
-
-    }*/
 
 }

@@ -10,7 +10,7 @@
 
         <variable
             name="fragment"
-            type="com.sdin.tourstamprally.ui.fragment.StoreDetailFragment" />
+            type="com.sdin.tourstamprally.ui.fragment.store.StoreDetailFragment" />
     </data>
 
     <androidx.core.widget.NestedScrollView
@@ -225,6 +225,7 @@
                     android:text="자세히보기"
                     android:textColor="@color/textColor"
                     android:textSize="@dimen/_9sdp"
+                    android:onClick="@{() -> fragment.onDetailClick()}"
                     app:drawableTopCompat="@drawable/ic_readmore"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@id/watch_movie_txv"

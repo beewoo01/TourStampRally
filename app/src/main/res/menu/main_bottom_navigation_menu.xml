@@ -5,6 +5,7 @@
         android:id="@+id/page_home"
         android:enabled="true"
         android:icon="@drawable/home_ic"
+        android:menuCategory="secondary"
         android:title="@string/home"
         />
 

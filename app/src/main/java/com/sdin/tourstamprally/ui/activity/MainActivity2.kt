@@ -148,7 +148,7 @@ class MainActivity2 : AppCompatActivity()/*, NavigationBarView.OnItemSelectedLis
         if (navController.currentDestination?.label == "NFC") {
             navController.navigateUp()
         }
-        navController.navigateUp()
+        navController.popBackStack()
     }
 
     fun drawerItemClick(position: Int) {
@@ -336,7 +336,7 @@ class MainActivity2 : AppCompatActivity()/*, NavigationBarView.OnItemSelectedLis
 
             val title: String
             val locate: Int
-            testMenuId(destination.id)
+            //testMenuId(destination.id)
             if (destination.label == "홈") {
                 binding.webViewLayout.visibility = View.VISIBLE
                 binding.toolbarLayout.logoMainToolbar.visibility = View.VISIBLE
@@ -365,6 +365,9 @@ class MainActivity2 : AppCompatActivity()/*, NavigationBarView.OnItemSelectedLis
                     locate = 1
                 }
             }
+
+            Log.wtf("navListener", "navListener")
+            Log.wtf("navListener title", title)
 
             setScanToolbar(locate = locate)
             binding.toolbarLayout.titleTxv.text = title

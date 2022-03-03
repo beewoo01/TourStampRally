@@ -43,67 +43,14 @@ data class StoreModel(
     var storeSubDto: StoreSubDTO? = null
 
 
-) : Serializable {
-
-    /*override fun describeContents(): Int {
-        return 0
-    }
-
-    override fun writeToParcel(dest: Parcel, flags: Int) {
-        dest.writeInt(store_idx)
-        dest.writeInt(store_location_idx)
-        dest.writeInt(store_touristspot_idx)
-        dest.writeString(location_name)
-        dest.writeString(store_name)
-        dest.writeString(store_description)
-        dest.writeString(store_info)
-        dest.writeInt(store_type)
-        dest.writeString(store_curver_img)
-        dest.writeString(store_number)
-        dest.writeString(store_address)
-        dest.writeString(store_link)
-        dest.writeInt(store_isfranchise)
-        dest.writeString(store_latitude)
-        dest.writeString(store_longitude)
-    }
-
-    companion object CREATOR : Parcelable.Creator<StoreModel> {
-        override fun createFromParcel(parcel: Parcel): StoreModel {
-            return StoreModel(parcel)
-        }
-
-        override fun newArray(size: Int): Array<StoreModel?> {
-            return arrayOfNulls(size)
-        }
-    }
-
-    constructor(parcel: Parcel) : this(
-        parcel.readInt(),
-        parcel.readInt(),
-        parcel.readInt(),
-        parcel.readString().toString(),
-        parcel.readString().toString(),
-        parcel.readString().toString(),
-        parcel.readString().toString(),
-        parcel.readInt(),
-        parcel.readString().toString(),
-        parcel.readString().toString(),
-        parcel.readString().toString(),
-        parcel.readString().toString(),
-        parcel.readInt(),
-        parcel.readString().toString(),
-        parcel.readString().toString(),
-        null
-        )
-*/
-}
+) : Serializable
 
 data class StoreSubDTO(
     @SerializedName("storeHashTagList")
     val storeHashTagList: List<StoreHashtag>,
     @SerializedName("storeSubimgList")
     val storeSubimgList: List<StoreSubimg>
-)
+) : Serializable
 
 data class StoreHashtag(
     @SerializedName("store_hashtag_idx")
@@ -112,7 +59,7 @@ data class StoreHashtag(
     val store_hashtag_store_idx: Int,
     @SerializedName("store_hashtag_tag")
     val store_hashtag_tag: String
-)
+) : Serializable
 
 data class StoreSubimg(
     @SerializedName("store_subimg_idx")
@@ -121,4 +68,4 @@ data class StoreSubimg(
     val store_subimg_store_idx: Int,
     @SerializedName("store_subimg_url")
     val store_subimg_url: String
-)
+) : Serializable

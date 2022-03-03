@@ -219,8 +219,7 @@ public class LocationFragment extends BaseFragment {
                     Bundle bundle = new Bundle();
                     bundle.putSerializable("model", send_model);
                     bundle.putString("title", send_model.getTouristspot_name());
-                    Navigation
-                            .findNavController(requireActivity(), R.id.nav_host)
+                    Navigation.findNavController(requireActivity(), R.id.nav_host)
                             .navigate(R.id.action_fragment_location_to_fragment_tour_spot_point, bundle);
                     //listener.ItemGuidForPoint(send_model);
                     /*GuidDialog guidDialog = new GuidDialog(requireContext());

@@ -53,7 +53,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class TourDetailFragment extends BaseFragment/* implements MapView.MapViewEventListener*/ {
+public class TourDetailFragment extends BaseFragment {
 
     private static final String ARG_PARAM1 = "model";
     private FragmentTourDetailBinding binding;
@@ -97,12 +97,6 @@ public class TourDetailFragment extends BaseFragment/* implements MapView.MapVie
         setData();
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-
-    }
-
     public void onClick(View view) {
         if (view.getId() == binding.phoneTxv.getId()) {
 
@@ -114,7 +108,7 @@ public class TourDetailFragment extends BaseFragment/* implements MapView.MapVie
             if (touristSpotPoint.getTouristspotpoint_contactinfo() != null &&
                     !TextUtils.isEmpty(binding.phoneTxv.getText().toString())) {
                 String phone = touristSpotPoint.getTouristspotpoint_contactinfo();
-                Log.wtf("phone", phone);
+
                 boolean isVailable;
                 if (pattern1.matcher(phone).matches()) {
                     isVailable = true;
@@ -122,10 +116,8 @@ public class TourDetailFragment extends BaseFragment/* implements MapView.MapVie
                     isVailable = true;
                 } else if (pattern3.matcher(phone).matches()) {
                     isVailable = true;
-                } else if (pattern4.matcher(phone).matches()) {
-                    isVailable = true;
                 } else {
-                    isVailable = false;
+                    isVailable = pattern4.matcher(phone).matches();
                 }
 
                 if (isVailable) {
@@ -146,32 +138,13 @@ public class TourDetailFragment extends BaseFragment/* implements MapView.MapVie
 
 
         } else if (view.getId() == binding.detailTxv.getId()) {
-            /*String link = touristSpotPoint.getTouristspotpoint_link();
-            Log.wtf("LINK", link);*/
             showDetailPopup();
-            //showReadyDialog();
-
-
-            /* 해당 기능은 이미 구현 완료되었으나 잠시 주석처리 해둔 상태 구현해야한다면 주석 풀면됨*/
-            /*if (!TextUtils.isEmpty(link) && !link.equalsIgnoreCase("null")) {
-                try {
-                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(link));
-                    requireActivity().startActivity(intent);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    Toast.makeText(requireContext(), "요청중 에러 발생.", Toast.LENGTH_SHORT).show();
-                }
-
-            } else {
-                Toast.makeText(requireContext(), "서비스 준비 중 입니다.", Toast.LENGTH_SHORT).show();
-            }*/
         }
 
     }
 
     public void watchMovie() {
         try {
-            //requireActivity().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.youtube.com/channel/UCNQDd7xWs6faDK4WW-zMcPg")));
             requireActivity().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(touristSpotPoint.getTouristspotpoint_videolink())));
         } catch (Exception e) {
             e.printStackTrace();
@@ -200,9 +173,7 @@ public class TourDetailFragment extends BaseFragment/* implements MapView.MapVie
     }
 
     public void kakaoLink() {
-        //KakaoLink
         showReadyDialog();
-        /*Toast.makeText(requireContext(), "서비스 준비 중 입니다.", Toast.LENGTH_SHORT).show();*/
     }
 
     private void showDetailPopup() {
@@ -275,10 +246,7 @@ public class TourDetailFragment extends BaseFragment/* implements MapView.MapVie
 
         binding.tourNameTxv.setText(touristSpotPoint.getTouristspotpoint_name());
         binding.tourContentTxv.setText(touristSpotPoint.getTouristspotpoint_explan());
-        //getTouristspotpoint_detail_explan 값 팝업창에 전달 예정
-        /*binding.tourContentTxv.setText(touristSpotPoint.getTouristspotpoint_detail_explan());*/
 
-        //Log.wtf("imgimgimg", touristSpotPoint.getTouristspotpoint_img());
         Glide.with(requireContext())
                 .load("http://coratest.kr/imagefile/bsr/" + touristSpotPoint.getTouristspotpoint_img())
                 .error(ContextCompat.getDrawable(requireContext(), R.drawable.sample_bg))

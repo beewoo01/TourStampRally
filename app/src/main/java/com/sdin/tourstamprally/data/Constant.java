@@ -17,7 +17,7 @@ public class Constant {
     /*우리 집*/
 
     //public static final String SERVER_URL = "http://coratest.kr/base_project_brs/";
-    public static final String SERVER_URL = "http://192.168.0.138:8080/project/";
+    public static final String SERVER_URL = "http://192.168.0.139:8080/project/";
     //selectCoupon
     /*실제 업로드용2*/
 

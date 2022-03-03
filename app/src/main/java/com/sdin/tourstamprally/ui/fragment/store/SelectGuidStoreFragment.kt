@@ -1,4 +1,4 @@
-package com.sdin.tourstamprally.ui.fragment
+package com.sdin.tourstamprally.ui.fragment.store
 
 import android.Manifest
 import android.app.AlertDialog
@@ -6,7 +6,6 @@ import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.location.Location
 import android.location.LocationManager
 import android.os.Build
 import android.os.Bundle
@@ -18,34 +17,30 @@ import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
-import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.gms.location.*
-import com.google.android.gms.tasks.Task
 import com.sdin.tourstamprally.R
 import com.sdin.tourstamprally.adapter.StoreReAdapter
 import com.sdin.tourstamprally.databinding.FragmentSelectGuidStoreBinding
-import com.sdin.tourstamprally.model.Location_four
 import com.sdin.tourstamprally.model.StoreModel
+import com.sdin.tourstamprally.ui.fragment.BaseFragment
 import com.sdin.tourstamprally.utill.listener.RecycleItemOnClick
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.observers.DisposableSingleObserver
 import io.reactivex.rxjava3.schedulers.Schedulers
 import net.daum.mf.map.api.*
-import java.lang.Exception
 
 class SelectGuidStoreFragment : BaseFragment(), RecycleItemOnClick<StoreModel> {
 
     private var binding: FragmentSelectGuidStoreBinding? = null
-    private val mapViewContainer: ViewGroup by lazy {
+    /*private val mapViewContainer: ViewGroup by lazy {
         binding?.mapLayout as ViewGroup
-    }
+    }*/
 
-    private var mapView: MapView? = null
+    private lateinit var mapView: MapView
 
     private val fusedLocationClient: FusedLocationProviderClient by lazy {
         LocationServices.getFusedLocationProviderClient(requireActivity())
@@ -64,28 +59,23 @@ class SelectGuidStoreFragment : BaseFragment(), RecycleItemOnClick<StoreModel> {
 
     override fun onResume() {
         super.onResume()
-        Log.wtf("onResume", "onResume")
+
         initView()
         getData()
     }
+
 
     private fun initView() {
 
         binding?.apply {
 
-            mapView = if (mapView != null) {
-                mapViewContainer.removeView(mapView)
-                null
-            } else {
-                MapView(requireContext())
-            }
-            mapViewContainer.addView(mapView)
+            mapView = MapView(requireActivity())
+            mapLayout.addView(mapView, 0)
+
 
             if (!checkLocationService()) {
-                Log.wtf("checkLocationService", "false")
                 showDialogForLocationServiceSetting()
             } else {
-                Log.wtf("checkLocationService", "true")
                 requestPermissionLauncher.launch(
                     arrayOf(
                         Manifest.permission.ACCESS_FINE_LOCATION,
@@ -115,7 +105,6 @@ class SelectGuidStoreFragment : BaseFragment(), RecycleItemOnClick<StoreModel> {
     }
 
     private fun showDialogForLocationServiceSetting() {
-        Log.wtf("showDialogForLocationServiceSetting", "showDialogForLocationServiceSetting")
         AlertDialog.Builder(requireContext()).apply {
             setTitle("위치 서비스 비활성화")
             setMessage("앱을 사용하기 위해 위치 서비스가 필요합니다.")
@@ -138,7 +127,7 @@ class SelectGuidStoreFragment : BaseFragment(), RecycleItemOnClick<StoreModel> {
     }
 
     private fun startTracking() {
-        mapView?.currentLocationTrackingMode =
+        mapView.currentLocationTrackingMode =
             MapView.CurrentLocationTrackingMode.TrackingModeOnWithHeading
     }
 
@@ -151,11 +140,17 @@ class SelectGuidStoreFragment : BaseFragment(), RecycleItemOnClick<StoreModel> {
         )
     }
 
+    /*override fun onStop() {
+        super.onStop()
+        Log.wtf("SelectGuidStoreFragment", "onStop")
+        mapViewContainer.removeView(mapView)
+    }*/
+
     override fun onPause() {
         super.onPause()
-        Log.wtf("onPause", "onPause")
-        mapViewContainer.removeView(mapView)
-        mapView = null
+        binding?.mapLayout?.removeView(mapView)
+        /*mapViewContainer.removeView(mapView)
+        mapView = null*/
 
     }
 
@@ -174,6 +169,11 @@ class SelectGuidStoreFragment : BaseFragment(), RecycleItemOnClick<StoreModel> {
             })
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        binding = null
+    }
+
     private fun permissionCheck2() {
         if (ActivityCompat.checkSelfPermission(
                 requireContext(),
@@ -183,7 +183,6 @@ class SelectGuidStoreFragment : BaseFragment(), RecycleItemOnClick<StoreModel> {
                 Manifest.permission.ACCESS_COARSE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED
         ) {
-            Log.wtf("permissionCheck2", "false")
             requestPermissionLauncher.launch(
                 arrayOf(
                     Manifest.permission.ACCESS_FINE_LOCATION,
@@ -193,13 +192,10 @@ class SelectGuidStoreFragment : BaseFragment(), RecycleItemOnClick<StoreModel> {
 
             return
         }
-        Log.wtf("permissionCheck2", "true")
 
         fusedLocationClient.lastLocation.addOnSuccessListener { location ->
-            Log.wtf("permissionCheck2", "addOnSuccessListener")
             location?.let {
-                Log.wtf("permissionCheck2", "location notNull")
-                mapView?.setMapCenterPoint(
+                mapView.setMapCenterPoint(
                     MapPoint.mapPointWithGeoCoord(
                         location.latitude,
                         location.longitude
@@ -224,7 +220,7 @@ class SelectGuidStoreFragment : BaseFragment(), RecycleItemOnClick<StoreModel> {
         override fun onLocationResult(locationResult: LocationResult) {
             for (location in locationResult.locations) {
                 if (location != null) {
-                    mapView?.setMapCenterPoint(
+                    mapView.setMapCenterPoint(
                         MapPoint.mapPointWithGeoCoord(
                             location.latitude,
                             location.longitude
@@ -237,7 +233,7 @@ class SelectGuidStoreFragment : BaseFragment(), RecycleItemOnClick<StoreModel> {
 
     private val requestPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { map ->
-            if (map.all { it.value == true }) {
+            if (map.all { it.value }) {
                 permissionCheck2()
             }
         }
@@ -262,6 +258,8 @@ class SelectGuidStoreFragment : BaseFragment(), RecycleItemOnClick<StoreModel> {
 
     private fun initItem(list: MutableList<StoreModel>) {
         binding?.run {
+
+
             bottomSheetIncl.storeRe.apply {
                 adapter = StoreReAdapter(list = list, this@SelectGuidStoreFragment)
                 addItemDecoration(DividerItemDecoration(requireContext(), 1))
@@ -286,7 +284,7 @@ class SelectGuidStoreFragment : BaseFragment(), RecycleItemOnClick<StoreModel> {
                 }
             }
 
-            mapView?.addPOIItems(marker)
+            mapView.addPOIItems(marker)
 
         }
 
@@ -294,18 +292,11 @@ class SelectGuidStoreFragment : BaseFragment(), RecycleItemOnClick<StoreModel> {
     }
 
     override fun onItemClickListener(model: StoreModel, position: Int) {
-
-        val action = SelectGuidStoreFragmentDirections.actionPageStoreToStoreDetailFragment(model)
-        /*val action = SelectGuidStoreFragmentDirections.actionPageStoreToStoreDetailFragment(model)
-        findNavController().navigate(action)*/
+        val action = SelectGuidStoreFragmentDirections.actionPageStoreToStoreDetailFragment(
+            model.store_name,
+            model
+        )
         findNavController().navigate(action)
     }
 
-    private fun moveFragment(model :StoreModel) {
-        findNavController().navigate(
-            R.id.storeDetailFragment,
-            Bundle().apply {
-                putSerializable("model", model)
-            })
-    }
 }

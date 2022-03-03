@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -29,7 +30,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toTopOf="@id/title_txv"
-                />
+                android:contentDescription="location" />
 
             <TextView
                 android:id="@+id/title_txv"
@@ -41,6 +42,7 @@
                 android:textStyle="bold"
                 android:gravity="center"
                 android:layout_marginTop="@dimen/_5sdp"
+                app:layout_constraintBottom_toTopOf="@id/line1"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/titleic"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -51,6 +53,7 @@
                 android:layout_width="0dp"
                 android:layout_height="1dp"
                 android:background="@color/lightGrayColor"
+                app:layout_constraintBottom_toTopOf="@id/tourspot_imv"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/title_txv"
@@ -94,16 +97,18 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-        <Button
+        <androidx.constraintlayout.utils.widget.ImageFilterButton
             android:id="@+id/close_btn"
             android:layout_width="@dimen/_35sdp"
             android:layout_height="@dimen/_35sdp"
-            android:background="@drawable/quit_icon"
-            app:layout_constraintTop_toTopOf="@id/content_layout"
+            android:src="@drawable/quit_icon"
+            android:scaleType="fitXY"
+            android:contentDescription="close"
             app:layout_constraintBottom_toTopOf="@id/content_layout"
-            app:layout_constraintStart_toEndOf="@id/content_layout"
             app:layout_constraintEnd_toEndOf="@id/content_layout"
-            />
+            app:layout_constraintStart_toEndOf="@id/content_layout"
+            app:layout_constraintTop_toTopOf="@id/content_layout"
+            tools:ignore="TouchTargetSizeCheck" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
