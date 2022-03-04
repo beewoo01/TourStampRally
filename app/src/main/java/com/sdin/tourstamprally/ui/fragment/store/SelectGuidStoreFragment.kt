@@ -219,6 +219,7 @@ class SelectGuidStoreFragment : BaseFragment() {
 
 
         storeReAdapter?.submitList(deepCopyList)
+        changeMapMarkers(deepCopyList)
 
     }
 
@@ -463,7 +464,26 @@ class SelectGuidStoreFragment : BaseFragment() {
 
     }
 
-    private fun chage
+    private fun changeMapMarkers(list : MutableList<StoreModel>) {
+        mapView.removeAllPOIItems()
+        val marker = arrayOfNulls<MapPOIItem>(list.size).apply {
+            repeat(size) {
+                val model = list[it]
+                this[it] = MapPOIItem().apply {
+                    itemName = model.store_name
+                    markerType = MapPOIItem.MarkerType.CustomImage
+                    customImageResourceId = R.drawable.marker_icon_success
+                    isCustomImageAutoscale = true
+                    mapPoint = MapPoint.mapPointWithGeoCoord(
+                        model.store_latitude.toDouble(),
+                        model.store_longitude.toDouble()
+                    )
+                }
+            }
+        }
+
+        mapView.addPOIItems(marker)
+    }
 
 
     private fun addMapMarkers(list: MutableList<StoreModel>) {
