@@ -17,7 +17,7 @@
             android:layout_gravity="center"
             android:layout_marginTop="@dimen/_10sdp"
             android:background="#A2A2A2"
-            app:layout_constraintBottom_toTopOf="@id/store_re"
+
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -26,10 +26,11 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/store_re"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_gravity="bottom"
             android:layout_marginTop="@dimen/_10sdp"
             android:overScrollMode="never"
+            tools:itemCount="15"
             app:layout_constrainedHeight="true"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

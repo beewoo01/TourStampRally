@@ -3,11 +3,17 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="app/src/main/res/drawable-v24/bg_rounded_18.xml" value="0.5815" />
+        <entry key="app/src/main/res/drawable-v24/bg_rounded_20.xml" value="0.5815" />
         <entry key="app/src/main/res/drawable-v24/bg_rounded_21.xml" value="0.3592592592592593" />
+        <entry key="app/src/main/res/drawable-v24/bg_rounded_23.xml" value="0.5815" />
+        <entry key="app/src/main/res/drawable-v24/bg_rounded_24.xml" value="0.5815" />
         <entry key="app/src/main/res/drawable-v24/bg_rounded_25.xml" value="0.5034632034632035" />
+        <entry key="app/src/main/res/drawable-v24/bg_rounded_result_di.xml" value="0.1775" />
         <entry key="app/src/main/res/drawable-v24/bg_white_coupon.xml" value="0.49780701754385964" />
         <entry key="app/src/main/res/drawable-v24/coupon_check_img.xml" value="0.49780701754385964" />
         <entry key="app/src/main/res/drawable-v24/logo_coupon_ver.xml" value="0.49780701754385964" />
+        <entry key="app/src/main/res/drawable-v24/navi_ic2_resize.xml" value="0.5815" />
         <entry key="app/src/main/res/drawable/alarm_settings_icon_resize.xml" value="0.41388888888888886" />
         <entry key="app/src/main/res/drawable/back_ic_resize.xml" value="0.49912280701754386" />
         <entry key="app/src/main/res/drawable/bg_rounded_01.xml" value="0.5034632034632035" />
@@ -15,25 +21,57 @@
         <entry key="app/src/main/res/drawable/bg_rounded_03.xml" value="0.5034632034632035" />
         <entry key="app/src/main/res/drawable/bg_rounded_04.xml" value="0.5034632034632035" />
         <entry key="app/src/main/res/drawable/bg_rounded_05.xml" value="0.5034632034632035" />
+        <entry key="app/src/main/res/drawable/bg_rounded_06.xml" value="0.5815" />
+        <entry key="app/src/main/res/drawable/bg_rounded_08.xml" value="0.5815" />
+        <entry key="app/src/main/res/drawable/bg_rounded_09.xml" value="0.5815" />
+        <entry key="app/src/main/res/drawable/bg_rounded_11.xml" value="0.5815" />
+        <entry key="app/src/main/res/drawable/bg_rounded_12.xml" value="0.5815" />
+        <entry key="app/src/main/res/drawable/bg_rounded_13.xml" value="0.5815" />
+        <entry key="app/src/main/res/drawable/bg_rounded_14.xml" value="0.5815" />
+        <entry key="app/src/main/res/drawable/bg_rounded_15.xml" value="0.5815" />
+        <entry key="app/src/main/res/drawable/bg_rounded_16.xml" value="0.5815" />
+        <entry key="app/src/main/res/drawable/bg_rounded_17.xml" value="0.5815" />
+        <entry key="app/src/main/res/drawable/bg_rounded_19.xml" value="0.5815" />
+        <entry key="app/src/main/res/drawable/bg_rounded_26.xml" value="0.5815" />
+        <entry key="app/src/main/res/drawable/bg_rounded_27.xml" value="0.5815" />
         <entry key="app/src/main/res/drawable/bg_rounded_category.xml" value="0.5034632034632035" />
         <entry key="app/src/main/res/drawable/bg_rounded_category_selected.xml" value="0.5034632034632035" />
         <entry key="app/src/main/res/drawable/coupon_check_img.xml" value="0.49780701754385964" />
         <entry key="app/src/main/res/drawable/coupon_status_icon_resize.xml" value="0.3175925925925926" />
+        <entry key="app/src/main/res/drawable/default_circle_indicator.xml" value="0.214" />
+        <entry key="app/src/main/res/drawable/detail_dialog_viewpager_item.xml" value="0.1775" />
         <entry key="app/src/main/res/drawable/hamberger_menu_resize.xml" value="0.3592592592592593" />
         <entry key="app/src/main/res/drawable/heart_resize.xml" value="0.41388888888888886" />
+        <entry key="app/src/main/res/drawable/ic_detail_location.xml" value="0.5815" />
         <entry key="app/src/main/res/drawable/ic_hamburger_white_24.xml" value="0.36018518518518516" />
         <entry key="app/src/main/res/drawable/ic_menu_black.xml" value="0.36018518518518516" />
         <entry key="app/src/main/res/drawable/ic_menu_white.xml" value="0.36018518518518516" />
+        <entry key="app/src/main/res/drawable/ic_navi.xml" value="0.5815" />
+        <entry key="app/src/main/res/drawable/ic_phone.xml" value="0.5815" />
+        <entry key="app/src/main/res/drawable/ic_readmore.xml" value="0.5815" />
+        <entry key="app/src/main/res/drawable/ic_sharing.xml" value="0.5815" />
+        <entry key="app/src/main/res/drawable/ic_store_info.xml" value="0.5815" />
+        <entry key="app/src/main/res/drawable/location_red_icon_resize.xml" value="0.5034632034632035" />
+        <entry key="app/src/main/res/drawable/location_red_icon_resize2.xml" value="0.5034632034632035" />
+        <entry key="app/src/main/res/drawable/location_small_resize.xml" value="0.5815" />
         <entry key="app/src/main/res/drawable/logo_coupon_ver.xml" value="0.49780701754385964" />
         <entry key="app/src/main/res/drawable/maincolor_heart_resize.xml" value="0.41388888888888886" />
         <entry key="app/src/main/res/drawable/notice_icon_resize.xml" value="0.41388888888888886" />
+        <entry key="app/src/main/res/drawable/phone_icon_resize.xml" value="0.5815" />
+        <entry key="app/src/main/res/drawable/scan_fail_button_bg.xml" value="0.5815" />
         <entry key="app/src/main/res/drawable/setting_ic_resize.xml" value="0.41388888888888886" />
+        <entry key="app/src/main/res/drawable/tab_circle_indicator.xml" value="0.214" />
+        <entry key="app/src/main/res/drawable/viewpager_circle_indicator.xml" value="0.214" />
         <entry key="app/src/main/res/layout-v28/drawa_layout2.xml" value="0.2867274569402229" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.2535087719298246" />
         <entry key="app/src/main/res/layout/activity_main2.xml" value="0.45" />
+        <entry key="app/src/main/res/layout/detail_dialog_viewpager_item.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/dialog_detail.xml" value="0.335" />
         <entry key="app/src/main/res/layout/dialog_guid.xml" value="0.24250214224507283" />
         <entry key="app/src/main/res/layout/dialog_ready.xml" value="0.4964912280701754" />
         <entry key="app/src/main/res/layout/dialog_ready_fragment.xml" value="0.4964912280701754" />
+        <entry key="app/src/main/res/layout/dialog_stemp.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/direction_guid_location_item.xml" value="0.24250214224507283" />
         <entry key="app/src/main/res/layout/direction_guid_tag_item.xml" value="0.38315217391304346" />
         <entry key="app/src/main/res/layout/drawa_layout.xml" value="0.2535087719298246" />
         <entry key="app/src/main/res/layout/drawa_layout2.xml" value="0.165" />
@@ -52,17 +90,23 @@
         <entry key="app/src/main/res/layout/fragment_review_coments.xml" value="0.2365038560411311" />
         <entry key="app/src/main/res/layout/fragment_select_guid_store.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_set_alarm.xml" value="0.24250214224507283" />
+        <entry key="app/src/main/res/layout/fragment_store_detail.xml" value="0.335" />
         <entry key="app/src/main/res/layout/fragment_store_list.xml" value="0.24250214224507283" />
-        <entry key="app/src/main/res/layout/fragment_tour_detail.xml" value="0.5" />
+        <entry key="app/src/main/res/layout/fragment_tour_detail.xml" value="0.165" />
         <entry key="app/src/main/res/layout/fragment_tour_spot_point.xml" value="0.24250214224507283" />
         <entry key="app/src/main/res/layout/fragment_visithistory.xml" value="0.335" />
         <entry key="app/src/main/res/layout/fragment_write_review.xml" value="0.24250214224507283" />
-        <entry key="app/src/main/res/layout/guid_store_item.xml" value="0.75" />
+        <entry key="app/src/main/res/layout/guid_store_item.xml" value="0.55" />
+        <entry key="app/src/main/res/layout/image_viewpager_item.xml" value="0.24250214224507283" />
         <entry key="app/src/main/res/layout/img_popup.xml" value="0.45" />
         <entry key="app/src/main/res/layout/item_re_rally_map.xml" value="0.1501713796058269" />
         <entry key="app/src/main/res/layout/nodialot_dialog.xml" value="0.24250214224507283" />
         <entry key="app/src/main/res/layout/notice_item.xml" value="0.24250214224507283" />
+        <entry key="app/src/main/res/layout/re_item_store_hashtag.xml" value="2.0" />
         <entry key="app/src/main/res/layout/step_rally_location_item.xml" value="0.45" />
+        <entry key="app/src/main/res/layout/store_bottom_sheet.xml" value="0.45" />
+        <entry key="app/src/main/res/layout/store_detail_dialog.xml" value="0.625" />
+        <entry key="app/src/main/res/layout/test_layout.xml" value="0.31215469613259667" />
         <entry key="app/src/main/res/layout/toolbar_layout.xml" value="0.2535087719298246" />
         <entry key="app/src/main/res/layout/toolbar_layout2.xml" value="0.335" />
         <entry key="app/src/main/res/layout/visithistory_item.xml" value="0.3813405797101449" />
