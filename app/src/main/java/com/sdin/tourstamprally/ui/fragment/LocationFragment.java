@@ -88,18 +88,19 @@ public class LocationFragment extends BaseFragment {
 
 
         if (!TextUtils.isEmpty(location_four.getLocation_img())) {
-            Glide.with(requireContext()).load("http://coratest.kr/imagefile/bsr/" + location_four.getLocation_img()).into(new CustomTarget<Drawable>() {
-                @Override
-                public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
-                    binding.topLayout.setBackground(resource);
+            Glide.with(requireContext()).load("http://coratest.kr/imagefile/bsr/" + location_four.getLocation_img())
+                    .into(new CustomTarget<Drawable>() {
+                        @Override
+                        public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
+                            binding.topLayout.setBackground(resource);
 
-                }
+                        }
 
-                @Override
-                public void onLoadCleared(@Nullable Drawable placeholder) {
+                        @Override
+                        public void onLoadCleared(@Nullable Drawable placeholder) {
 
-                }
-            });
+                        }
+                    });
         }
 
         getData();
@@ -107,7 +108,7 @@ public class LocationFragment extends BaseFragment {
     }
 
     private void getData() {
-        binding.locationPgb.setVisibility(View.VISIBLE);
+        /*binding.locationPgb.setVisibility(View.VISIBLE);
         apiService.getTourLocation_for_spot(Utils.User_Idx, location_four.getLocation_idx()).enqueue(new Callback<List<RallyMapDTO>>() {
             @Override
             public void onResponse(@NotNull Call<List<RallyMapDTO>> call, @NotNull Response<List<RallyMapDTO>> response) {
@@ -119,7 +120,7 @@ public class LocationFragment extends BaseFragment {
             public void onFailure(@NotNull Call<List<RallyMapDTO>> call, @NotNull Throwable t) {
 
             }
-        });
+        });*/
 
 
     }

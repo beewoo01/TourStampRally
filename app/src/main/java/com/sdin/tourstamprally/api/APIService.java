@@ -11,14 +11,17 @@ import com.sdin.tourstamprally.model.Location;
 import com.sdin.tourstamprally.model.Location_four;
 import com.sdin.tourstamprally.model.Notice;
 import com.sdin.tourstamprally.model.RallyMapDTO;
+import com.sdin.tourstamprally.model.RallyMapModel;
 import com.sdin.tourstamprally.model.ReveiwCommentsDC;
 import com.sdin.tourstamprally.model.ReviewDetailDC;
 import com.sdin.tourstamprally.model.StoreModel;
 import com.sdin.tourstamprally.model.StoreSubDTO;
+import com.sdin.tourstamprally.model.TopFourLocationModel;
 import com.sdin.tourstamprally.model.TourTagModel;
 import com.sdin.tourstamprally.model.Tour_Spot;
 import com.sdin.tourstamprally.model.Tour_Spot2;
 import com.sdin.tourstamprally.model.TouristSpotPoint;
+import com.sdin.tourstamprally.model.TouristSpotPointDC;
 import com.sdin.tourstamprally.model.UserModel;
 import com.sdin.tourstamprally.model.VisitCountModel;
 import com.sdin.tourstamprally.model.history_spotModel;
@@ -168,7 +171,7 @@ public interface APIService {
     Call<List<Tour_Spot>> getTour(@Query("userIdx") int idx);
 
     @GET("getFourLocations")
-    Call<List<Location_four>> getFourLocations(@Query("userIdx") int idx);
+    Call<List<TopFourLocationModel>> getFourLocations(@Query("userIdx") int idx);
 
     @GET("getHashTag")
     Call<List<TourTagModel>> getHashTag();
@@ -179,11 +182,11 @@ public interface APIService {
     Call<List<Tour_Spot>> getTourOrderBy(@Query("userIdx") int idx);
 
     @GET("getTourist_location_for_spot")
-    Call<List<RallyMapDTO>> getTourLocation_for_spot(@Query("user_idx") int user_idx,
-                                                     @Query("location_idx") int location_idx);
+    Call<List<RallyMapModel>> getTourLocation_for_spot(@Query("user_idx") int user_idx,
+                                                       @Query("location_idx") int location_idx);
 
     @GET("getTourist_spotpoint")
-    Call<List<TouristSpotPoint>> getTourLocation_spotpoint(@QueryMap Map<String, Integer> map);
+    Call<List<TouristSpotPointDC>> getTourLocation_spotpoint(@QueryMap Map<String, Integer> map);
 
     @GET("getTourist_sortTag")
     Call<List<Tour_Spot>> getTourSortHashTag(@Query("userIdx") int idx);

@@ -18,6 +18,7 @@ import android.os.Environment;
 import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -801,8 +802,8 @@ public class MainActivity extends BaseActivity implements NavigationBarView.OnIt
 
     @Override
     public void ItemGuidForDetail(TouristSpotPoint model) {
-
-        setFragment(model.getTouristspotpoint_name(), TourDetailFragment.newInstance(model));
+        Log.w("MainActivity", "ItemGuidForDetail");
+        //setFragment(model.getTouristspotpoint_name(), TourDetailFragment.newInstance(model));
     }
 
 

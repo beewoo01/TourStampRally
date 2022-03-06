@@ -72,7 +72,6 @@ public class TourSpotPointFragment extends BaseFragment {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_tour_spot_point, container, false);
 
-
         return binding.getRoot();
     }
 
@@ -98,7 +97,7 @@ public class TourSpotPointFragment extends BaseFragment {
         Map<String, Integer> map = new HashMap<>();
         map.put("user_idx", Utils.User_Idx);
         map.put("touristspot_idx", rallyMapDTO.getTouristspot_idx());
-        apiService.getTourLocation_spotpoint(map).enqueue(new Callback<List<TouristSpotPoint>>() {
+        /*apiService.getTourLocation_spotpoint(map).enqueue(new Callback<List<TouristSpotPoint>>() {
             @Override
             public void onResponse(@NotNull Call<List<TouristSpotPoint>> call, @NotNull Response<List<TouristSpotPoint>> response) {
                 if (response.isSuccessful()) {
@@ -119,7 +118,7 @@ public class TourSpotPointFragment extends BaseFragment {
             public void onFailure(@NotNull Call<List<TouristSpotPoint>> call, @NotNull Throwable t) {
                 t.printStackTrace();
             }
-        });
+        });*/
     }
 
     private void setMap(ArrayList<TouristSpotPoint> arrayList) {

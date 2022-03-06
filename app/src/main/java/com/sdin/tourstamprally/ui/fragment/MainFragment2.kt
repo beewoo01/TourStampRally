@@ -25,6 +25,7 @@ import com.sdin.tourstamprally.databinding.FragmentMainBinding
 import com.sdin.tourstamprally.databinding.StepRallyLocationItemBinding
 import com.sdin.tourstamprally.model.AllReviewDTO
 import com.sdin.tourstamprally.model.Location_four
+import com.sdin.tourstamprally.model.TopFourLocationModel
 import com.sdin.tourstamprally.ui.activity.MainActivity
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.observers.DisposableSingleObserver
@@ -36,7 +37,7 @@ import retrofit2.Response
 class MainFragment2 : BaseFragment() {
 
     private lateinit var viewBind: FragmentMainBinding
-    private val tourList: MutableList<Location_four> = mutableListOf()
+    private val tourList: MutableList<TopFourLocationModel> = mutableListOf()
     private val listener by lazy {
         requireActivity() as MainActivity
     }
@@ -62,10 +63,10 @@ class MainFragment2 : BaseFragment() {
     }
 
     private fun getTop4Location() {
-        apiService.getFourLocations(Utils.User_Idx).enqueue(object : Callback<List<Location_four>> {
+        apiService.getFourLocations(Utils.User_Idx).enqueue(object : Callback<List<TopFourLocationModel>> {
             override fun onResponse(
-                call: Call<List<Location_four>>,
-                response: Response<List<Location_four>>
+                call: Call<List<TopFourLocationModel>>,
+                response: Response<List<TopFourLocationModel>>
             ) {
                 viewBind.tourRallyPgb.visibility = View.GONE
                 response.body()?.let {
@@ -75,7 +76,7 @@ class MainFragment2 : BaseFragment() {
 
             }
 
-            override fun onFailure(call: Call<List<Location_four>>, t: Throwable) {
+            override fun onFailure(call: Call<List<TopFourLocationModel>>, t: Throwable) {
                 t.printStackTrace()
                 viewBind.tourRallyPgb.visibility = View.GONE
             }
@@ -84,7 +85,7 @@ class MainFragment2 : BaseFragment() {
         })
     }
 
-    private fun setData(list: MutableList<Location_four>) {
+    private fun setData(list: MutableList<TopFourLocationModel>) {
         val adapter = RallyRecyclerviewAdapter(context = requireContext(), list)
         viewBind.rallyRecyclerview.apply {
             this.adapter = adapter
@@ -121,13 +122,13 @@ class MainFragment2 : BaseFragment() {
 
     fun moreClick() {
         //더보기
-        findNavController().navigate(R.id.action_mainfragment_to_fragment_direction_guid,
+        /*findNavController().navigate(R.id.action_mainfragment_to_fragment_direction_guid,
             Bundle().apply {
                 putParcelableArrayList("model", ArrayList<Location_four>().apply {
                     addAll(tourList)
                 })
             }
-        )
+        )*/
     }
 
     fun reviewMoreClick() {
@@ -167,7 +168,7 @@ class MainFragment2 : BaseFragment() {
 
     inner class RallyRecyclerviewAdapter(
         val context: Context,
-        val adapterList: MutableList<Location_four>
+        val adapterList: MutableList<TopFourLocationModel>
     ) : RecyclerView.Adapter<RallyRecyclerviewAdapter.ViewHolder>() {
         inner class ViewHolder(private val holderBinding: StepRallyLocationItemBinding) :
             RecyclerView.ViewHolder(holderBinding.root) {
@@ -175,18 +176,23 @@ class MainFragment2 : BaseFragment() {
                 holderBinding.holder = this
             }*/
             @SuppressLint("SetTextI18n")
-            fun onBind(model: Location_four) {
+            fun onBind(model: TopFourLocationModel) {
                 //  holderBinding.item = model
                 holderBinding.location.text = model.location_name
                 holderBinding.stepRallyBg.setOnClickListener {
-                    findNavController().navigate(R.id.action_mainfragment_to_fragment_location,
+                    val action = MainFragment2Directions.actionMainfragmentToFragmentLocation(
+                        adapterList[absoluteAdapterPosition].location_name + " 랠리 맵",
+                        adapterList[absoluteAdapterPosition]
+                    )
+                    findNavController().navigate(action)
+                    /*findNavController().navigate(R.id.action_mainfragment_to_fragment_location,
                         Bundle().apply {
                             putParcelable("model", adapterList[absoluteAdapterPosition])
                             putString(
                                 "title",
                                 adapterList[absoluteAdapterPosition].location_name + " 랠리 맵"
                             )
-                        })
+                        })*/
                 }
 
                 Glide.with(context)
@@ -273,7 +279,7 @@ class MainFragment2 : BaseFragment() {
             }
 
 
-            private fun setPopular(model: Location_four) {
+            private fun setPopular(model: TopFourLocationModel) {
                 if (model.popular > model.allPointCount) {
                     holderBinding.newsImv.visibility = View.VISIBLE
                     //Glide.with(context).load(R.drawable.hot_icon).into(holderBinding.newsImv)
@@ -285,7 +291,7 @@ class MainFragment2 : BaseFragment() {
                 }
             }
 
-            private fun setFavorite(model: Location_four) {
+            private fun setFavorite(model: TopFourLocationModel) {
                 if (model.allSpotCount == model.myInterCount) {
                     setGlide(holderBinding.dibsImv, R.drawable.full_heart_resize)
                 } else {

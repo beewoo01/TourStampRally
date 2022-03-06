@@ -10,7 +10,7 @@
 
         <variable
             name="fragment"
-            type="com.sdin.tourstamprally.ui.fragment.TourDetailFragment" />
+            type="com.sdin.tourstamprally.ui.fragment.tour.TourDetailFragment" />
     </data>
 
     <androidx.core.widget.NestedScrollView
@@ -104,7 +104,7 @@
                     android:layout_height="wrap_content"
                     android:drawablePadding="@dimen/_5sdp"
                     android:gravity="center"
-                    android:onClick="@{fragment::onClick}"
+                    android:onClick="@{() -> fragment.phoneClick()}"
                     android:text="전화"
                     android:textColor="@color/textColor"
                     android:textSize="@dimen/_9sdp"
@@ -152,7 +152,7 @@
                     android:layout_height="wrap_content"
                     android:drawablePadding="@dimen/_5sdp"
                     android:gravity="center"
-                    android:onClick="@{fragment::onClick}"
+                    android:onClick="@{() -> fragment.showDetailPopup()}"
                     android:text="자세히보기"
                     android:textColor="@color/textColor"
                     android:textSize="@dimen/_9sdp"

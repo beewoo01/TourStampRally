@@ -154,7 +154,7 @@ public class MainFragment extends BaseFragment2 {
     private void getTop4Location() {
 
 
-        apiService.getFourLocations(Utils.User_Idx).enqueue(new Callback<List<Location_four>>() {
+        /*apiService.getFourLocations(Utils.User_Idx).enqueue(new Callback<List<Location_four>>() {
             @Override
             public void onResponse(@NotNull Call<List<Location_four>> call, @NotNull Response<List<Location_four>> response) {
                 binding.tourRallyPgb.setVisibility(View.GONE);
@@ -176,7 +176,7 @@ public class MainFragment extends BaseFragment2 {
                 binding.tourRallyPgb.setVisibility(View.GONE);
             }
         });
-
+*/
     }
 
 

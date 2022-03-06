@@ -17,16 +17,18 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 import com.sdin.tourstamprally.R;
+import com.sdin.tourstamprally.adapter.TourDetailImageViewPagerAdapter;
 import com.sdin.tourstamprally.databinding.DialogDetailBinding;
 import com.sdin.tourstamprally.model.TouristSpotPoint;
+import com.sdin.tourstamprally.model.TouristSpotPointDC;
 
-public class DetailDialog extends BaseDialog{
+public class DetailDialog extends BaseDialog {
 
-    private Context context;
-    private TouristSpotPoint touristSpotPoint;
+    private final Context context;
+    private final TouristSpotPointDC touristSpotPoint;
     private DialogDetailBinding binding;
 
-    public DetailDialog(@NonNull Context context, TouristSpotPoint touristSpotPoint) {
+    public DetailDialog(@NonNull Context context, TouristSpotPointDC touristSpotPoint) {
         super(context, R.style.FullScreenDialogStyle);
         this.context = context;
         this.touristSpotPoint = touristSpotPoint;
@@ -46,24 +48,30 @@ public class DetailDialog extends BaseDialog{
 
     }
 
-    private void initView(){
+    private void initView() {
 
         binding.titleTxv.setText(touristSpotPoint.getTouristspotpoint_name());
         binding.contentTxv.setMovementMethod(new ScrollingMovementMethod());
-        if (touristSpotPoint.getTouristspotpoint_detail_explan() != null && !TextUtils.isEmpty(touristSpotPoint.getTouristspotpoint_detail_explan())){
+        if (touristSpotPoint.getTouristspotpoint_detail_explan() != null
+                && !TextUtils.isEmpty(touristSpotPoint.getTouristspotpoint_detail_explan())) {
+
             binding.contentTxv.setText(touristSpotPoint.getTouristspotpoint_detail_explan());
 
         } else {
             binding.contentTxv.setVisibility(View.GONE);
         }
 
-        Glide.with(context)
+        TourDetailImageViewPagerAdapter adapter = new TourDetailImageViewPagerAdapter();
+        //if ()
+        binding.imageViewPager.setAdapter(new TourDetailImageViewPagerAdapter());
+
+        /*Glide.with(context)
                 .load("http://coratest.kr/imagefile/bsr/"+ touristSpotPoint.getTouristspotpoint_img())
                 .error(R.drawable.sample_bg)
                 .apply(RequestOptions.bitmapTransform(new RoundedCorners(20)))
-                .into(binding.tourspotImv);
+                .into(binding.tourspotImv);*/
 
-        binding.closeBtn.setOnClickListener( v -> {
+        binding.closeBtn.setOnClickListener(v -> {
             dismiss();
         });
     }

@@ -65,28 +65,28 @@ public class TourDetailFragment extends BaseFragment {
         // Required empty public constructor
     }
 
-    public static TourDetailFragment newInstance(TouristSpotPoint touristSpotPoint) {
+    /*public static TourDetailFragment newInstance(TouristSpotPoint touristSpotPoint) {
         TourDetailFragment fragment = new TourDetailFragment();
         Bundle args = new Bundle();
         args.putSerializable(ARG_PARAM1, touristSpotPoint);
         fragment.setArguments(args);
         return fragment;
-    }
+    }*/
 
-    @Override
+    /*@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             touristSpotPoint = (TouristSpotPoint) getArguments().getSerializable(ARG_PARAM1);
         }
-    }
+    }*/
 
     @Override
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_tour_detail, container, false);
-        binding.setFragment(this);
+        //binding.setFragment(this);
 
         return binding.getRoot();
     }
@@ -177,7 +177,8 @@ public class TourDetailFragment extends BaseFragment {
     }
 
     private void showDetailPopup() {
-        new DetailDialog(requireContext(), touristSpotPoint).show();
+
+        //new DetailDialog(requireContext(), touristSpotPoint).show();
     }
 
     private void showReadyDialog() {

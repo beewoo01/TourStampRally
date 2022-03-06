@@ -15,19 +15,27 @@
             app:destination="@id/fragment_direction_guid">
 
             <argument
-                android:name="model"
+                android:name="location_model_list"
                 app:argType="com.sdin.tourstamprally.model.Location_four[]"
                 app:nullable="false" />
         </action>
+
         <action
             android:id="@+id/action_mainfragment_to_fragment_location"
             app:destination="@id/fragment_location">
 
             <argument
-                android:name="model"
-                app:argType="com.sdin.tourstamprally.model.Location_four"
+                android:name="title"
+                app:argType="string"
                 app:nullable="false" />
+
         </action>
+
+        <!--<argument
+            android:name="model"
+            app:argType="com.sdin.tourstamprally.model.Location_four"
+            app:nullable="false" />
+    </action>-->
         <action
             android:id="@+id/action_mainfragment_to_fragment_more_review"
             app:destination="@id/fragment_more_review" />
@@ -63,34 +71,57 @@
 
     <fragment
         android:id="@+id/fragment_location"
-        android:name="com.sdin.tourstamprally.ui.fragment.LocationFragment"
+        android:name="com.sdin.tourstamprally.ui.fragment.tour.LocationFragment"
         tools:layout="@layout/fragment_location">
+
+        <argument
+            android:name="topFourModel"
+            app:argType="com.sdin.tourstamprally.model.TopFourLocationModel"
+            app:nullable="false" />
+
+        <!--<argument
+            android:name="model"
+            app:argType="com.sdin.tourstamprally.model.Location_four"
+            app:nullable="false" />-->
 
         <action
             android:id="@+id/action_fragment_location_to_fragment_tour_spot_point"
             app:destination="@id/fragment_tour_spot_point">
 
             <argument
-                android:name="model"
-                app:argType="com.sdin.tourstamprally.model.RallyMapDTO"
+                android:name="title"
+                app:argType="string"
                 app:nullable="false" />
 
         </action>
+
+            <!--<argument
+                android:name="model"
+                app:argType="com.sdin.tourstamprally.model.RallyMapModel"
+                app:nullable="false" />
+
+        </action>-->
 
     </fragment>
 
     <fragment
         android:id="@+id/fragment_tour_spot_point"
-        android:name="com.sdin.tourstamprally.ui.fragment.TourSpotPointFragment"
+        android:name="com.sdin.tourstamprally.ui.fragment.tour.TourSpotPointFragment"
         tools:layout="@layout/fragment_tour_spot_point">
+
+        <argument
+            android:name="rallyMapModel"
+            app:argType="com.sdin.tourstamprally.model.RallyMapModel"
+            app:nullable="false" />
+
 
         <action
             android:id="@+id/action_fragment_tour_spot_point_to_fragment_tour_detail"
             app:destination="@id/fragment_tour_detail">
 
             <argument
-                android:name="model"
-                app:argType="com.sdin.tourstamprally.model.TouristSpotPoint"
+                android:name="title"
+                app:argType="string"
                 app:nullable="false" />
 
         </action>
@@ -98,8 +129,13 @@
 
     <fragment
         android:id="@+id/fragment_tour_detail"
-        android:name="com.sdin.tourstamprally.ui.fragment.TourDetailFragment"
+        android:name="com.sdin.tourstamprally.ui.fragment.tour.TourDetailFragment"
         tools:layout="@layout/fragment_tour_detail">
+
+        <argument
+            android:name="touristSpotPointDC"
+            app:argType="com.sdin.tourstamprally.model.TouristSpotPointDC"
+            app:nullable="false" />
 
     </fragment>
 
@@ -219,8 +255,7 @@
             <argument
                 android:name="title"
                 app:argType="string"
-                app:nullable="false"
-                />
+                app:nullable="false" />
 
         </action>
 
