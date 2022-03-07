@@ -158,9 +158,9 @@ class MainFragment2 : BaseFragment() {
             adapter =
                 ReviewMainReAdapter() { model ->
                     val action = MainFragment2Directions.actionMainfragmentToFragmentReviewComents(
-                        model.touristspot_name,
-                        4,
-                        model.review_idx
+                        title = model.touristspot_name,
+                        state = 4,
+                        reviewIdx = model.review_idx
                     )
 
                     findNavController().navigate(action)
@@ -168,19 +168,6 @@ class MainFragment2 : BaseFragment() {
                 }.apply {
                     submitList(reviewDataList)
                 }
-            /*Review_Main_ReAdapter(arrayListOf<AllReviewDTO>().apply { addAll(reviewDataList) })
-                .apply {
-                    setListener { model ->
-                        findNavController().navigate(
-                            R.id.action_mainfragment_to_fragment_review_coments,
-                            Bundle().apply {
-                                putInt("review_idx", model.review_idx)
-                                putString("title", model.touristspot_name)
-                                putInt("state", 4)
-                            }
-                        )
-                    }
-                }*/
 
             layoutManager = LinearLayoutManager(requireContext())
 

@@ -841,7 +841,7 @@ public class MainActivity extends BaseActivity implements NavigationBarView.OnIt
 
     @Override
     public void reviewItemClick(int review_idx, String spot_name) {
-        setFragment(spot_name, ReviewComentsFragment.newInstance(review_idx));
+        /*setFragment(spot_name, ReviewComentsFragment.newInstance(review_idx));*/
     }
 
 

@@ -3,7 +3,6 @@ package com.sdin.tourstamprally.ui.fragment
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,7 +10,8 @@ import androidx.databinding.DataBindingUtil
 import androidx.navigation.fragment.findNavController
 import com.sdin.tourstamprally.R
 import com.sdin.tourstamprally.adapter.More_Frag_LocationAdapter
-import com.sdin.tourstamprally.adapter.swipe.MoreFragReviewAdapter
+import com.sdin.tourstamprally.adapter.review.MoreFragReviewAdapter
+
 import com.sdin.tourstamprally.databinding.FragmentMoreReviewBinding
 import com.sdin.tourstamprally.model.AllReviewDTO
 import com.sdin.tourstamprally.model.AllReviewModel
@@ -28,8 +28,8 @@ class MoreReviewFragment : BaseFragment() {
 
     private var binding: FragmentMoreReviewBinding? = null
     private var selectedLocationIdx = 0
-    var reviewAdapter: MoreFragReviewAdapter? = null
-    var locationAdapter: More_Frag_LocationAdapter? = null
+    private var reviewAdapter: MoreFragReviewAdapter? = null
+    private var locationAdapter: More_Frag_LocationAdapter? = null
     private val reviewList = ArrayList<AllReviewModel>()
     //private var listener : ItemOnClick? = null
 
@@ -70,12 +70,14 @@ class MoreReviewFragment : BaseFragment() {
         apiService.select_all_review().subscribeOn(Schedulers.newThread())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeWith(object : DisposableSingleObserver<List<AllReviewModel>>() {
-                override fun onSuccess(t: List<AllReviewModel>?) {
-                    t?.let {
-                        val arrayList = arrayListOf<AllReviewModel>()
-                        arrayList.addAll(t)
-                        reviewList.addAll(t)
-                        initData(arrayList)
+                override fun onSuccess(result: List<AllReviewModel>?) {
+                    result?.let {
+
+
+                        /*val arrayList = arrayListOf<AllReviewModel>()
+                        arrayList.addAll(result)
+                        reviewList.addAll(result)*/
+                        initData(it)
 
                     }
                 }
@@ -102,25 +104,26 @@ class MoreReviewFragment : BaseFragment() {
             locationList.add(Pair(k, v))
         }
 
-        val reviewList: ArrayList<AllReviewDTO> = ArrayList()
+        val reviewList: MutableList<AllReviewModel> = mutableListOf()
         //reviewList.addAll(list)
-        reviewAdapter = MoreFragReviewAdapter(requireContext(), reviewList)
-        reviewAdapter?.apply {
-            setListener(object : MoreFragReviewAdapter.MoreReviewListener {
-                override fun onItemClick(data: AllReviewDTO) {
-                    /*listener = requireActivity() as MainActivity
-                    (listener as MainActivity).reviewItemClick(data.review_idx, data.touristspot_name)*/
-                    findNavController().navigate(
-                        R.id.action_fragment_more_review_to_fragment_review_coments,
-                        Bundle().apply {
-                            putInt("review_idx", data.review_idx)
-                            putString("title", data.touristspot_name)
-                            putInt("state", 4)
-                        }
+        //reviewAdapter = ReviewMainReAdapter(requireContext(), reviewList)
+        binding?.reviewRecyclerview?.apply {
+            reviewAdapter = MoreFragReviewAdapter() { allReviewModel ->
+                val action =
+                    MoreReviewFragmentDirections.actionFragmentMoreReviewToFragmentReviewComents(
+                        title = allReviewModel.touristspot_name,
+                        state = 4,
+                        reviewIdx = allReviewModel.review_idx
                     )
-                }
-            })
-            binding?.reviewRecyclerview?.adapter = this
+
+                findNavController().navigate(action)
+
+            }.apply {
+                submitList(list)
+            }
+
+            adapter = reviewAdapter
+
         }
 
 
@@ -132,7 +135,7 @@ class MoreReviewFragment : BaseFragment() {
 
                 override fun onItemClick(item: Int) {
                     //val adList : MutableList<AllReviewDTO> = MutableList()
-                    val paramList = ArrayList<AllReviewDTO>()
+                    val paramList = mutableListOf<AllReviewModel>()
 
                     if (selectedLocationIdx == item) {
 
@@ -151,7 +154,8 @@ class MoreReviewFragment : BaseFragment() {
                         }
                     }
 
-                    reviewAdapter?.changeList(paramList)
+                    reviewAdapter?.submitList(paramList)
+                    //reviewAdapter?.changeList(paramList)
                 }
 
             })
@@ -163,7 +167,7 @@ class MoreReviewFragment : BaseFragment() {
     }
 
     private fun search(data: String) {
-        /*val arrayList = ArrayList<AllReviewDTO>()
+        val arrayList = mutableListOf<AllReviewModel>()
 
         for (i in reviewList) {
             if (data.isNotEmpty()) {
@@ -216,8 +220,8 @@ class MoreReviewFragment : BaseFragment() {
 
         }
 
-        reviewAdapter?.changeList(arrayList)
-*/
+        reviewAdapter?.submitList(arrayList)
+
     }
 
 

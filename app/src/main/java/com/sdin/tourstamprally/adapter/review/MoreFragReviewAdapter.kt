@@ -6,23 +6,25 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.bumptech.glide.request.RequestOptions
 import com.sdin.tourstamprally.R
-import com.sdin.tourstamprally.databinding.ReItemReviewMainBinding
+import com.sdin.tourstamprally.databinding.ReItemMorereviewBinding
 import com.sdin.tourstamprally.model.AllReviewModel
 
-class ReviewMainReAdapter(val callback: (AllReviewModel) -> Unit) :
-    ListAdapter<AllReviewModel, ReviewMainReAdapter.ViewHolder>(differ) {
+class MoreFragReviewAdapter(private val callback: (AllReviewModel) -> Unit) :
+    ListAdapter<AllReviewModel, MoreFragReviewAdapter.ViewHolder>(differ) {
 
-    inner class ViewHolder(private val binding: ReItemReviewMainBinding) :
+    inner class ViewHolder(private val binding: ReItemMorereviewBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun onBind(model: AllReviewModel) {
-            binding.apply {
+            with(binding) {
                 locationTxv.text = model.location_name
-                spotpointNameTxv.text = model.touristspot_name
-                userNameTxv.text = model.user_name
-                reviewTxv.text = model.review_contents
                 ratingbar.rating = model.review_score
+                userNameTxv.text = model.user_name
+                reviewContentTxv.text = model.review_contents
+                tourspotName.text = model.touristspot_name
 
                 Glide.with(userProfileImv.context)
                     .load("http://coratest.kr/imagefile/bsr/" + model.user_profile)
@@ -31,41 +33,30 @@ class ReviewMainReAdapter(val callback: (AllReviewModel) -> Unit) :
                     .error(R.drawable.sample_profile_image)
                     .into(userProfileImv)
 
-                reviewContainer.setOnClickListener {
+                Glide.with(tourspotBgImv.context)
+                    .load("http://coratest.kr/imagefile/bsr/" + model.touristspot_img)
+                    .apply(RequestOptions.bitmapTransform(RoundedCorners(30)))
+                    .error(R.drawable.sample_bg)
+                    .into(tourspotBgImv)
+
+                itemContainer.setOnClickListener {
                     callback(model)
                 }
             }
         }
 
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
-            ReItemReviewMainBinding.inflate(
-                LayoutInflater.from(
-                    parent.context
-                ), parent, false
+            ReItemMorereviewBinding.inflate(
+                LayoutInflater.from(parent.context), parent, false
             )
         )
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.onBind(currentList[position])
-    }
-
-    override fun getItemCount(): Int {
-        return when {
-            currentList.size in 1..3 -> {
-                currentList.size
-            }
-            currentList.size > 3 -> {
-                3
-            }
-            else -> {
-                0
-            }
-        }
     }
 
     companion object {
@@ -86,5 +77,6 @@ class ReviewMainReAdapter(val callback: (AllReviewModel) -> Unit) :
 
         }
     }
+
 
 }

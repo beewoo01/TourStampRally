@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
+import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
@@ -28,27 +29,25 @@ import java.util.*
 class ReviewComentsFragment : BaseFragment() {
 
     private var review_idx: Int? = null
-
     private var bining: FragmentReviewComentsBinding? = null
-
     private var likeState = false
+    private val mutableList = arrayListOf<ReveiwCommentsDC>()
+    private val args : ReviewComentsFragmentArgs by navArgs()
+    private lateinit var commentAdapter: ReviewCommentsAdapter
 
-    val mutableList = arrayListOf<ReveiwCommentsDC>()
-    lateinit var commentAdapter: ReviewCommentsAdapter
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            review_idx = it.getInt(ARG_PARAM1)
-        }
-    }
 
     override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?,
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?,
     ): View? {
 
-        bining = DataBindingUtil.inflate(inflater, R.layout.fragment_review_coments, container, false)
+        bining =
+            DataBindingUtil.inflate(inflater, R.layout.fragment_review_coments, container, false)
+
+        review_idx = args.reviewIdx
+
+        Log.wtf("review_idx", "review_idx $review_idx")
+
         return bining?.root
     }
 
@@ -59,24 +58,58 @@ class ReviewComentsFragment : BaseFragment() {
             it.likeImb.setOnClickListener { view ->
                 if (likeState) {
                     Glide.with(view.context)
-                            .load(R.drawable.heart_resize)
-                            .error(R.drawable.heart_resize)
-                            .into(it.likeImb)
+                        .load(R.drawable.heart_resize)
+                        .error(R.drawable.heart_resize)
+                        .into(it.likeImb)
                 } else {
                     Glide.with(view.context)
-                            .load(R.drawable.full_heart_resize)
-                            .error(R.drawable.heart_resize)
-                            .into(it.likeImb)
+                        .load(R.drawable.full_heart_resize)
+                        .error(R.drawable.heart_resize)
+                        .into(it.likeImb)
                 }
 
                 review_idx?.let { it1 ->
-                    apiService.inordel_review_interest(it1, Utils.User_Idx).subscribeOn(Schedulers.newThread())
+                    apiService.inordel_review_interest(it1, Utils.User_Idx)
+                        .subscribeOn(Schedulers.newThread())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribeWith(object : DisposableSingleObserver<Int>() {
+                            override fun onSuccess(t: Int?) {
+                                t?.let { result ->
+                                    if (result > 0) {
+                                        Log.wtf("like OR Delete", "성공")
+                                    }
+                                }
+                            }
+
+                            override fun onError(e: Throwable?) {
+                                e?.printStackTrace()
+                            }
+
+                        })
+                }
+            }
+
+            it.writeImb.setOnClickListener { view ->
+                if (!TextUtils.isEmpty(it.writeCommentEdt.text) && it.writeCommentEdt.text.isNotEmpty()) {
+                    review_idx?.let { reviewidx ->
+                        apiService.insert_review_comment(
+                            reviewidx,
+                            Utils.User_Idx,
+                            it.writeCommentEdt.text.toString()
+                        )
+                            .subscribeOn(Schedulers.newThread())
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribeWith(object : DisposableSingleObserver<Int>() {
                                 override fun onSuccess(t: Int?) {
                                     t?.let { result ->
                                         if (result > 0) {
-                                            Log.wtf("like OR Delete", "성공")
+                                            it.writeCommentEdt.setText("")
+                                            Toast.makeText(
+                                                requireContext(),
+                                                "댓글이 작성이 완료되었습니다.",
+                                                Toast.LENGTH_SHORT
+                                            ).show()
+                                            getData()
                                         }
                                     }
                                 }
@@ -86,31 +119,6 @@ class ReviewComentsFragment : BaseFragment() {
                                 }
 
                             })
-                }
-            }
-
-            it.writeImb.setOnClickListener { view ->
-                if (!TextUtils.isEmpty(it.writeCommentEdt.text) && it.writeCommentEdt.text.isNotEmpty()) {
-                    review_idx?.let { reviewidx ->
-                        apiService.insert_review_comment(reviewidx, Utils.User_Idx, it.writeCommentEdt.text.toString())
-                                .subscribeOn(Schedulers.newThread())
-                                .observeOn(AndroidSchedulers.mainThread())
-                                .subscribeWith(object : DisposableSingleObserver<Int>() {
-                                    override fun onSuccess(t: Int?) {
-                                        t?.let { result ->
-                                            if (result > 0) {
-                                                it.writeCommentEdt.setText("")
-                                                Toast.makeText(requireContext(), "댓글이 작성이 완료되었습니다.", Toast.LENGTH_SHORT).show()
-                                                getData()
-                                            }
-                                        }
-                                    }
-
-                                    override fun onError(e: Throwable?) {
-                                        e?.printStackTrace()
-                                    }
-
-                                })
 
                     }
 
@@ -127,20 +135,20 @@ class ReviewComentsFragment : BaseFragment() {
     private fun getData() {
         review_idx?.let {
             apiService.select_review_detail(it, Utils.User_Idx).subscribeOn(Schedulers.newThread())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribeWith(object : DisposableSingleObserver<ReviewDetailDC>() {
-                        override fun onSuccess(t: ReviewDetailDC?) {
-                            t?.let { model ->
-                                setReviewData(model)
-                                getCommentsData()
-                            }
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(object : DisposableSingleObserver<ReviewDetailDC>() {
+                    override fun onSuccess(t: ReviewDetailDC?) {
+                        t?.let { model ->
+                            setReviewData(model)
+                            getCommentsData()
                         }
+                    }
 
-                        override fun onError(e: Throwable?) {
-                            e?.printStackTrace()
-                        }
+                    override fun onError(e: Throwable?) {
+                        e?.printStackTrace()
+                    }
 
-                    })
+                })
         }
 
     }
@@ -165,22 +173,22 @@ class ReviewComentsFragment : BaseFragment() {
             if (model.interestStatus == 1) {
                 likeState = true
                 Glide.with(requireContext())
-                        .load(R.drawable.full_heart_resize)
-                        .error(R.drawable.heart_resize)
-                        .into(it.likeImb)
+                    .load(R.drawable.full_heart_resize)
+                    .error(R.drawable.heart_resize)
+                    .into(it.likeImb)
             }
 
             Glide.with(requireContext())
-                    .load("http://coratest.kr/imagefile/bsr/" + model.touristspot_img)
-                    .apply(RequestOptions.bitmapTransform(RoundedCorners(20)))
-                    .error(R.drawable.sample_bg)
-                    .into(it.spotImv)
+                .load("http://coratest.kr/imagefile/bsr/" + model.touristspot_img)
+                .apply(RequestOptions.bitmapTransform(RoundedCorners(20)))
+                .error(R.drawable.sample_bg)
+                .into(it.spotImv)
 
             Glide.with(requireContext())
-                    .load("http://coratest.kr/imagefile/bsr/" + model.user_profile)
-                    .error(R.drawable.sample_profile_image)
-                    .circleCrop()
-                    .into(it.userProfileImv)
+                .load("http://coratest.kr/imagefile/bsr/" + model.user_profile)
+                .error(R.drawable.sample_profile_image)
+                .circleCrop()
+                .into(it.userProfileImv)
         }
 
     }
@@ -189,19 +197,19 @@ class ReviewComentsFragment : BaseFragment() {
     private fun getCommentsData() {
         review_idx?.let {
             apiService.select_review_comments(it).subscribeOn(Schedulers.newThread())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribeWith(object : DisposableSingleObserver<List<ReveiwCommentsDC>>() {
-                        override fun onSuccess(t: List<ReveiwCommentsDC>?) {
-                            t?.let { list ->
-                                initCommentsData(list)
-                            }
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(object : DisposableSingleObserver<List<ReveiwCommentsDC>>() {
+                    override fun onSuccess(t: List<ReveiwCommentsDC>?) {
+                        t?.let { list ->
+                            initCommentsData(list)
                         }
+                    }
 
-                        override fun onError(e: Throwable?) {
-                            e?.printStackTrace()
-                        }
+                    override fun onError(e: Throwable?) {
+                        e?.printStackTrace()
+                    }
 
-                    })
+                })
         }
 
     }
@@ -215,16 +223,4 @@ class ReviewComentsFragment : BaseFragment() {
         }
     }
 
-    companion object {
-
-        private const val ARG_PARAM1 = "review_idx"
-
-        @JvmStatic
-        fun newInstance(review_idx: Int) =
-                ReviewComentsFragment().apply {
-                    arguments = Bundle().apply {
-                        putInt(ARG_PARAM1, review_idx)
-                    }
-                }
-    }
 }

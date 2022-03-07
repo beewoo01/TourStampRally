@@ -182,6 +182,11 @@
                 app:argType="string"
                 app:nullable="false" />
 
+            <argument
+                android:name="state"
+                android:defaultValue="1"
+                app:argType="integer" />
+
             <!--<argument
                 android:name="review_idx"
                 app:argType="integer"
