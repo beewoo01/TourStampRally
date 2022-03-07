@@ -71,7 +71,6 @@ public class TourSpotPointFragment extends BaseFragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_tour_spot_point, container, false);
-
         return binding.getRoot();
     }
 

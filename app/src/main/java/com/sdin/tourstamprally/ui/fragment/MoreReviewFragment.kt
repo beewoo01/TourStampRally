@@ -14,6 +14,7 @@ import com.sdin.tourstamprally.adapter.More_Frag_LocationAdapter
 import com.sdin.tourstamprally.adapter.swipe.MoreFragReviewAdapter
 import com.sdin.tourstamprally.databinding.FragmentMoreReviewBinding
 import com.sdin.tourstamprally.model.AllReviewDTO
+import com.sdin.tourstamprally.model.AllReviewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.observers.DisposableSingleObserver
 import io.reactivex.rxjava3.schedulers.Schedulers
@@ -29,17 +30,9 @@ class MoreReviewFragment : BaseFragment() {
     private var selectedLocationIdx = 0
     var reviewAdapter: MoreFragReviewAdapter? = null
     var locationAdapter: More_Frag_LocationAdapter? = null
-    private var textint = 0
-    private val reviewList = ArrayList<AllReviewDTO>()
+    private val reviewList = ArrayList<AllReviewModel>()
     //private var listener : ItemOnClick? = null
 
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-
-        }
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -64,13 +57,10 @@ class MoreReviewFragment : BaseFragment() {
                 search(binding?.searchEdt?.text.toString())
             }
 
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-
-            }
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) = Unit
         })
 
         binding?.searchBtn?.setOnClickListener {
-
             search(binding?.searchEdt?.text.toString())
         }
     }
@@ -79,10 +69,10 @@ class MoreReviewFragment : BaseFragment() {
 
         apiService.select_all_review().subscribeOn(Schedulers.newThread())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribeWith(object : DisposableSingleObserver<List<AllReviewDTO>>() {
-                override fun onSuccess(t: List<AllReviewDTO>?) {
+            .subscribeWith(object : DisposableSingleObserver<List<AllReviewModel>>() {
+                override fun onSuccess(t: List<AllReviewModel>?) {
                     t?.let {
-                        val arrayList = arrayListOf<AllReviewDTO>()
+                        val arrayList = arrayListOf<AllReviewModel>()
                         arrayList.addAll(t)
                         reviewList.addAll(t)
                         initData(arrayList)
@@ -98,7 +88,7 @@ class MoreReviewFragment : BaseFragment() {
 
     }
 
-    private fun initData(list: List<AllReviewDTO>) {
+    private fun initData(list: List<AllReviewModel>) {
 
         val map = HashMap<Int, String>()
 
@@ -113,7 +103,7 @@ class MoreReviewFragment : BaseFragment() {
         }
 
         val reviewList: ArrayList<AllReviewDTO> = ArrayList()
-        reviewList.addAll(list)
+        //reviewList.addAll(list)
         reviewAdapter = MoreFragReviewAdapter(requireContext(), reviewList)
         reviewAdapter?.apply {
             setListener(object : MoreFragReviewAdapter.MoreReviewListener {
@@ -173,7 +163,7 @@ class MoreReviewFragment : BaseFragment() {
     }
 
     private fun search(data: String) {
-        val arrayList = ArrayList<AllReviewDTO>()
+        /*val arrayList = ArrayList<AllReviewDTO>()
 
         for (i in reviewList) {
             if (data.isNotEmpty()) {
@@ -227,7 +217,7 @@ class MoreReviewFragment : BaseFragment() {
         }
 
         reviewAdapter?.changeList(arrayList)
-
+*/
     }
 
 

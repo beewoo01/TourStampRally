@@ -101,7 +101,8 @@
                 app:layout_constraintTop_toTopOf="@id/location_spot_txv"
                 />
 
-            <androidx.appcompat.widget.AppCompatSeekBar
+            <ProgressBar
+                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
                 android:id="@+id/seekBar_direction_item"
                 android:layout_width="0dp"
                 android:layout_height="4dp"

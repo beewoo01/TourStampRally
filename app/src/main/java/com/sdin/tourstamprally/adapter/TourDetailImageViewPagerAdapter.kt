@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.sdin.tourstamprally.R
-import com.sdin.tourstamprally.model.TouristSpotPoint
 import com.sdin.tourstamprally.model.TouristSpotPointImg
 
 class TourDetailImageViewPagerAdapter :

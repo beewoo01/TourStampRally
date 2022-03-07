@@ -158,7 +158,8 @@ public class AccountFragment extends BaseFragment {
 
 
 
-        Glide.with(requireContext()).load("http://coratest.kr/imagefile/bsr/" + Utils.User_Profile)
+        Glide.with(requireContext())
+                .load("http://coratest.kr/imagefile/bsr/" + Utils.User_Profile)
                 .error(ContextCompat.getDrawable(requireContext(), R.drawable.sample_profile_image)).circleCrop()
                 .into(binding.profileImb);
     }

@@ -64,23 +64,23 @@ public class DirectionGuidFragment extends BaseFragment implements LocationReIte
         return fragment;
     }
 
-    @Override
+    /*@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             paramArrayList = getArguments().getParcelableArrayList(ARG_PARAM);
-            /*Log.wtf("paramArrayList", paramArrayList.toString());
-            Log.wtf("paramArrayListsize", String.valueOf(paramArrayList.size()));*/
+            *//*Log.wtf("paramArrayList", paramArrayList.toString());
+            Log.wtf("paramArrayListsize", String.valueOf(paramArrayList.size()));*//*
         } else {
             Log.wtf("넘어옴 ㄴㄴ?", "0");
         }
-    }
+    }*/
 
 
     private void getData() {
         binding.directionGuidPgb.setVisibility(View.VISIBLE);
 
-        apiService.getHashTag().enqueue(new Callback<List<TourTagModel>>() {
+        /*apiService.getHashTag().enqueue(new Callback<List<TourTagModel>>() {
             @Override
             public void onResponse(@NotNull Call<List<TourTagModel>> call, @NotNull Response<List<TourTagModel>> response) {
                 try {
@@ -101,7 +101,6 @@ public class DirectionGuidFragment extends BaseFragment implements LocationReIte
                                             .forEach(data -> hashTagList.add(new TourTagModel(data, model.getLocation_idx())));
                                 }
 
-
                             }
                         }
 
@@ -117,7 +116,7 @@ public class DirectionGuidFragment extends BaseFragment implements LocationReIte
             public void onFailure(@NotNull Call<List<TourTagModel>> call, @NotNull Throwable t) {
                 t.printStackTrace();
             }
-        });
+        });*/
 
 
     }
@@ -155,14 +154,16 @@ public class DirectionGuidFragment extends BaseFragment implements LocationReIte
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_direction_guid, container, false);
+
         return binding.getRoot();
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstancdState) {
-        SelectLocationAdapter spinnerAdapter = new SelectLocationAdapter(requireContext(), Arrays.asList(requireContext().getResources().getStringArray(R.array.area_direction)));
-        binding.spinnerTourRecord.setAdapter(spinnerAdapter);
-        binding.spinnerTourRecord.setOnItemSelectedListener(selectedListener);
+        SelectLocationAdapter spinnerAdapter = new SelectLocationAdapter(requireContext(),
+                Arrays.asList(requireContext().getResources().getStringArray(R.array.area_direction)));
+        /*binding.spinnerTourRecord.setAdapter(spinnerAdapter);
+        binding.spinnerTourRecord.setOnItemSelectedListener(selectedListener);*/
         setTourSpotList();
         getData();
         binding.searchEdt.addTextChangedListener(new TextWatcher() {
@@ -259,7 +260,6 @@ public class DirectionGuidFragment extends BaseFragment implements LocationReIte
         bundle.putString("title", location_four.getLocation_name() + " 랠리 맵");
         Navigation.findNavController(requireActivity(), R.id.nav_host)
                 .navigate(R.id.action_fragment_direction_guid_to_fragment_location, bundle);
-
 
 
     }

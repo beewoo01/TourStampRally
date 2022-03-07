@@ -4,7 +4,7 @@
     <data>
         <variable
             name="fragment"
-            type="com.sdin.tourstamprally.ui.fragment.DirectionGuidFragment" />
+            type="com.sdin.tourstamprally.ui.fragment.tour.DirectionGuidFragment" />
     </data>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -58,7 +58,7 @@
             android:layout_marginTop="@dimen/_15sdp"
             android:background="@color/white">
 
-            <LinearLayout
+            <!--<LinearLayout
                 android:id="@+id/spinner_layout"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/_30sdp"
@@ -98,7 +98,7 @@
                     android:spinnerMode="dropdown"
                     />
 
-            </LinearLayout>
+            </LinearLayout>-->
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/tag_re"
@@ -110,7 +110,7 @@
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/spinner_layout"
+                app:layout_constraintTop_toTopOf="parent"
                 tools:listitem="@layout/direction_guid_tag_item" />
 
             <androidx.recyclerview.widget.RecyclerView

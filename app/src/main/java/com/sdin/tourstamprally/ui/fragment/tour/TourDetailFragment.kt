@@ -21,9 +21,13 @@ import com.kakao.sdk.navi.model.NaviOption
 import com.sdin.tourstamprally.R
 import com.sdin.tourstamprally.databinding.FragmentTourDetailBinding
 import com.sdin.tourstamprally.model.TouristSpotPointDC
+import com.sdin.tourstamprally.model.TouristSpotPointImg
 import com.sdin.tourstamprally.ui.dialog.DetailDialog
 import com.sdin.tourstamprally.ui.dialog.ReadyDialog
 import com.sdin.tourstamprally.ui.fragment.BaseFragment
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.observers.DisposableSingleObserver
+import io.reactivex.rxjava3.schedulers.Schedulers
 import net.daum.mf.map.api.MapPOIItem
 import net.daum.mf.map.api.MapPoint
 import net.daum.mf.map.api.MapView
@@ -52,11 +56,6 @@ class TourDetailFragment : BaseFragment() {
         return binding?.root
     }
 
-    @SuppressLint("ClickableViewAccessibility")
-    override fun onViewCreated(view: View, savedInstancdState: Bundle?) {
-        super.onViewCreated(view, savedInstancdState)
-    }
-
     override fun onResume() {
         super.onResume()
         setData()
@@ -68,18 +67,40 @@ class TourDetailFragment : BaseFragment() {
             tourContentTxv.text = touristSpotPointModel.touristspotpoint_explan
 
             Glide.with(bgImv.context)
-                .load("http://coratest.kr/imagefile/bsr/" + touristSpotPointModel.touristspotpoint_img)
+                .load("http://coratest.kr/imagefile/bsr/" + touristSpotPointModel.touristSpotPointCurverImg)
                 .placeholder(R.drawable.sample_bg)
                 .into(bgImv)
 
 
             locationAddressTxv.text = getAddress()
 
+            getData()
             setMapView()
 
         }
 
     }
+
+    private fun getData() {
+        apiService.selectTourSpotPointImages(touristSpotPointModel.touristspotpoint_idx)
+            .subscribeOn(Schedulers.newThread())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeWith(object : DisposableSingleObserver<List<TouristSpotPointImg>>() {
+                override fun onSuccess(result: List<TouristSpotPointImg>) {
+                    if (result != null && result.isNotEmpty()) {
+                        touristSpotPointModel.touristSpotPointImgModelList = result
+                    } else {
+                        touristSpotPointModel.touristSpotPointImgModelList = mutableListOf()
+                    }
+                }
+
+                override fun onError(e: Throwable) {
+                    e.printStackTrace()
+                }
+
+            })
+    }
+
 
     fun phoneClick() {
         val pattern1 = Pattern.compile("\\d{3}-\\d{4}-\\d{4}")
@@ -125,7 +146,8 @@ class TourDetailFragment : BaseFragment() {
     }
 
     fun showDetailPopup() {
-        DetailDialog(requireContext(), touristSpotPointModel).show()
+        TourDetailDialog(requireContext(), touristSpotPointModel).show()
+        //DetailDialog(requireContext(), touristSpotPointModel).show()
     }
 
     fun watchMovie() {

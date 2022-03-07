@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.ScrollView
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
@@ -21,9 +22,11 @@ import com.bumptech.glide.request.transition.Transition
 import com.sdin.tourstamprally.R
 import com.sdin.tourstamprally.Utils
 import com.sdin.tourstamprally.adapter.Review_Main_ReAdapter
+import com.sdin.tourstamprally.adapter.review.ReviewMainReAdapter
 import com.sdin.tourstamprally.databinding.FragmentMainBinding
 import com.sdin.tourstamprally.databinding.StepRallyLocationItemBinding
 import com.sdin.tourstamprally.model.AllReviewDTO
+import com.sdin.tourstamprally.model.AllReviewModel
 import com.sdin.tourstamprally.model.Location_four
 import com.sdin.tourstamprally.model.TopFourLocationModel
 import com.sdin.tourstamprally.ui.activity.MainActivity
@@ -57,32 +60,33 @@ class MainFragment2 : BaseFragment() {
             }
         }
 
-        getTop4Location();
-        getAllReview();
+        getTop4Location()
+        getAllReview()
         return viewBind.root
     }
 
     private fun getTop4Location() {
-        apiService.getFourLocations(Utils.User_Idx).enqueue(object : Callback<List<TopFourLocationModel>> {
-            override fun onResponse(
-                call: Call<List<TopFourLocationModel>>,
-                response: Response<List<TopFourLocationModel>>
-            ) {
-                viewBind.tourRallyPgb.visibility = View.GONE
-                response.body()?.let {
-                    tourList.addAll(it)
-                    setData(tourList)
+        apiService.getFourLocations(Utils.User_Idx)
+            .enqueue(object : Callback<List<TopFourLocationModel>> {
+                override fun onResponse(
+                    call: Call<List<TopFourLocationModel>>,
+                    response: Response<List<TopFourLocationModel>>
+                ) {
+                    viewBind.tourRallyPgb.visibility = View.GONE
+                    response.body()?.let {
+                        tourList.addAll(it)
+                        setData(tourList)
+                    }
+
                 }
 
-            }
-
-            override fun onFailure(call: Call<List<TopFourLocationModel>>, t: Throwable) {
-                t.printStackTrace()
-                viewBind.tourRallyPgb.visibility = View.GONE
-            }
+                override fun onFailure(call: Call<List<TopFourLocationModel>>, t: Throwable) {
+                    t.printStackTrace()
+                    viewBind.tourRallyPgb.visibility = View.GONE
+                }
 
 
-        })
+            })
     }
 
     private fun setData(list: MutableList<TopFourLocationModel>) {
@@ -95,10 +99,10 @@ class MainFragment2 : BaseFragment() {
     private fun getAllReview() {
         apiService.select_all_review().subscribeOn(Schedulers.newThread())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribeWith(object : DisposableSingleObserver<List<AllReviewDTO>>() {
-                override fun onSuccess(t: List<AllReviewDTO>) {
-                    viewBind.reviewReProgressbar.visibility = View.GONE;
-                    initReviewData(arrayListOf<AllReviewDTO>().apply {
+            .subscribeWith(object : DisposableSingleObserver<List<AllReviewModel>>() {
+                override fun onSuccess(t: List<AllReviewModel>) {
+                    viewBind.reviewReProgressbar.visibility = View.GONE
+                    initReviewData(arrayListOf<AllReviewModel>().apply {
                         addAll(t)
                     })
                 }
@@ -122,6 +126,10 @@ class MainFragment2 : BaseFragment() {
 
     fun moreClick() {
         //더보기
+        val action = MainFragment2Directions.actionMainfragmentToFragmentDirectionGuid(
+            tourList.toTypedArray()
+        )
+        findNavController().navigate(action)
         /*findNavController().navigate(R.id.action_mainfragment_to_fragment_direction_guid,
             Bundle().apply {
                 putParcelableArrayList("model", ArrayList<Location_four>().apply {
@@ -133,31 +141,46 @@ class MainFragment2 : BaseFragment() {
 
     fun reviewMoreClick() {
         //리뷰보기
-        findNavController().navigate(
+        Log.wtf("reviewMoreClick", "reviewMoreClick")
+        val action = MainFragment2Directions.actionMainfragmentToFragmentMoreReview("리뷰보기")
+        findNavController().navigate(action)
+
+        /*findNavController().navigate(
             R.id.action_mainfragment_to_fragment_more_review,
             Bundle().apply {
                 putString("title", "리뷰보기")
             }
-        )
+        )*/
     }
 
-    private fun initReviewData(reviewDataList: MutableList<AllReviewDTO>) {
+    private fun initReviewData(reviewDataList: MutableList<AllReviewModel>) {
         viewBind.mainReviewRecyclerview.apply {
             adapter =
-                Review_Main_ReAdapter(arrayListOf<AllReviewDTO>().apply { addAll(reviewDataList) })
-                    .apply {
-                        setListener { model ->
-                            findNavController().navigate(
-                                R.id.action_mainfragment_to_fragment_review_coments,
-                                Bundle().apply {
-                                    putInt("review_idx", model.review_idx)
-                                    putString("title", model.touristspot_name)
-                                    putInt("state", 4)
-                                }
-                            )
-                            //listener.reviewItemClick(model.review_idx, model.touristspot_name)
-                        }
+                ReviewMainReAdapter() { model ->
+                    val action = MainFragment2Directions.actionMainfragmentToFragmentReviewComents(
+                        model.touristspot_name,
+                        4,
+                        model.review_idx
+                    )
+
+                    findNavController().navigate(action)
+
+                }.apply {
+                    submitList(reviewDataList)
+                }
+            /*Review_Main_ReAdapter(arrayListOf<AllReviewDTO>().apply { addAll(reviewDataList) })
+                .apply {
+                    setListener { model ->
+                        findNavController().navigate(
+                            R.id.action_mainfragment_to_fragment_review_coments,
+                            Bundle().apply {
+                                putInt("review_idx", model.review_idx)
+                                putString("title", model.touristspot_name)
+                                putInt("state", 4)
+                            }
+                        )
                     }
+                }*/
 
             layoutManager = LinearLayoutManager(requireContext())
 
@@ -177,22 +200,20 @@ class MainFragment2 : BaseFragment() {
             }*/
             @SuppressLint("SetTextI18n")
             fun onBind(model: TopFourLocationModel) {
-                //  holderBinding.item = model
                 holderBinding.location.text = model.location_name
                 holderBinding.stepRallyBg.setOnClickListener {
                     val action = MainFragment2Directions.actionMainfragmentToFragmentLocation(
-                        adapterList[absoluteAdapterPosition].location_name + " 랠리 맵",
-                        adapterList[absoluteAdapterPosition]
+                        model.location_name + " 랠리 맵",
+                        model
                     )
+
+
+                    if (model.touristspotpoint_createtime == null) {
+                        Toast.makeText(requireContext(), "등록된 관광지가 없습니다.", Toast.LENGTH_SHORT)
+                            .show()
+                        return@setOnClickListener
+                    }
                     findNavController().navigate(action)
-                    /*findNavController().navigate(R.id.action_mainfragment_to_fragment_location,
-                        Bundle().apply {
-                            putParcelable("model", adapterList[absoluteAdapterPosition])
-                            putString(
-                                "title",
-                                adapterList[absoluteAdapterPosition].location_name + " 랠리 맵"
-                            )
-                        })*/
                 }
 
                 Glide.with(context)
@@ -216,10 +237,8 @@ class MainFragment2 : BaseFragment() {
                 }
 
                 holderBinding.dibsImv.setOnClickListener {
-                    Log.wtf("dibsImv", "model.myInterCount ${model.myInterCount}")
                     holderBinding.dibsImv.isEnabled = false
                     if (model.allSpotCount == model.myInterCount) {
-                        Log.wtf("dibsImv", "allSpotCount100")
 
                         Glide.with(it.context).load(R.drawable.heart_resize)
                             .into(holderBinding.dibsImv)

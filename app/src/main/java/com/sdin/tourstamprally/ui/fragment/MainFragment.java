@@ -115,7 +115,7 @@ public class MainFragment extends BaseFragment2 {
     }
 
     private void getAllReview(){
-        apiService.select_all_review().subscribeOn(Schedulers.newThread())
+        /*apiService.select_all_review().subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(new DisposableSingleObserver<List<AllReviewDTO>>(){
 
@@ -131,7 +131,7 @@ public class MainFragment extends BaseFragment2 {
                         binding.reviewReProgressbar.setVisibility(View.GONE);
                         e.printStackTrace();
                     }
-                });
+                });*/
 
     }
 

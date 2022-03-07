@@ -15,6 +15,7 @@
         android:layout_height="match_parent"
         android:background="@color/loginBackgroundColor">
 
+        <!--android:src="@drawable/mainlogo"-->
 
         <ImageView
             android:id="@+id/logoImv"
@@ -25,11 +26,21 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+        <!--<ImageView
+            android:id="@+id/logoImv"
+            android:layout_width="@dimen/_150sdp"
+            android:layout_height="@dimen/_150sdp"
+            android:src="@drawable/login_sample_logo"
+            app:layout_constraintBottom_toTopOf="@+id/edit_phone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />-->
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="'BSR'에 로그인하시면 스탬프 미션을 즐기고 \n푸짐한 혜택도 받을 수 있습니다."
+            android:gravity="center"
             app:layout_constraintBottom_toTopOf="@+id/edit_phone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -44,16 +55,17 @@
             android:layout_marginHorizontal="@dimen/_30sdp"
             android:background="@drawable/bg_rounded_03"
             android:drawableEnd="@drawable/person_icon_resize"
-            android:hint="핸드폰 번호를 입력해 주세요"
+            android:hint="아이디"
+            android:inputType="number"
             android:maxLength="11"
             android:maxLines="1"
             android:padding="@dimen/_10sdp"
             android:textSize="@dimen/_10sdp"
-            android:inputType="number"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="TouchTargetSizeCheck" />
 
         <EditText
             android:id="@+id/edit_password"
@@ -73,7 +85,8 @@
             app:layout_constraintBottom_toTopOf="@+id/forgot_psw"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/edit_phone" />
+            app:layout_constraintTop_toBottomOf="@+id/edit_phone"
+            tools:ignore="TouchTargetSizeCheck" />
 
 
         <TextView
@@ -98,7 +111,8 @@
             android:padding="@dimen/_5sdp"
             android:text="@string/auto_login"
             app:layout_constraintStart_toStartOf="@+id/edit_password"
-            app:layout_constraintTop_toBottomOf="@+id/forgot_psw" />
+            app:layout_constraintTop_toBottomOf="@+id/forgot_psw"
+            tools:ignore="TouchTargetSizeCheck" />
 
         <CheckBox
             android:id="@+id/save_id_rbt"
@@ -112,7 +126,8 @@
             android:padding="@dimen/_5sdp"
             android:text="@string/save_id"
             app:layout_constraintStart_toEndOf="@+id/auto_login_rbt"
-            app:layout_constraintTop_toBottomOf="@+id/forgot_psw" />
+            app:layout_constraintTop_toBottomOf="@+id/forgot_psw"
+            tools:ignore="TouchTargetSizeCheck" />
 
         <Button
             android:layout_width="0dp"

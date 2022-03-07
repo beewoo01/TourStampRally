@@ -4,6 +4,7 @@ package com.sdin.tourstamprally.api;
 
 import com.google.gson.Gson;
 import com.sdin.tourstamprally.model.AllReviewDTO;
+import com.sdin.tourstamprally.model.AllReviewModel;
 import com.sdin.tourstamprally.model.CouponModel;
 import com.sdin.tourstamprally.model.HashTagModel;
 import com.sdin.tourstamprally.model.InterestModel;
@@ -18,13 +19,14 @@ import com.sdin.tourstamprally.model.StoreModel;
 import com.sdin.tourstamprally.model.StoreSubDTO;
 import com.sdin.tourstamprally.model.TopFourLocationModel;
 import com.sdin.tourstamprally.model.TourTagModel;
+import com.sdin.tourstamprally.model.TourTagModelDC;
 import com.sdin.tourstamprally.model.Tour_Spot;
 import com.sdin.tourstamprally.model.Tour_Spot2;
 import com.sdin.tourstamprally.model.TouristSpotPoint;
 import com.sdin.tourstamprally.model.TouristSpotPointDC;
+import com.sdin.tourstamprally.model.TouristSpotPointImg;
 import com.sdin.tourstamprally.model.UserModel;
 import com.sdin.tourstamprally.model.VisitCountModel;
-import com.sdin.tourstamprally.model.history_spotModel;
 import com.sdin.tourstamprally.model.history_spotModel2;
 
 import java.util.HashMap;
@@ -174,7 +176,7 @@ public interface APIService {
     Call<List<TopFourLocationModel>> getFourLocations(@Query("userIdx") int idx);
 
     @GET("getHashTag")
-    Call<List<TourTagModel>> getHashTag();
+    Call<List<TourTagModelDC>> getHashTag();
 
     //메인 시작시 가져오는 Location 등 데이터
     //@FormUrlEncoded
@@ -247,7 +249,7 @@ public interface APIService {
     );
 
     @GET("select_all_review")
-    Single<List<AllReviewDTO>> select_all_review();
+    Single<List<AllReviewModel>> select_all_review();
 
     @GET("select_review_detail")
     Single<ReviewDetailDC> select_review_detail(@Query("review_idx") int review_idx,
@@ -291,6 +293,11 @@ public interface APIService {
     @GET("selectStoreDetail")
     Single<StoreSubDTO> selectStoreDetail(
             @Query("store_idx") int store_idx
+    );
+
+    @GET("selectTourSpotPointImages")
+    Single<List<TouristSpotPointImg>> selectTourSpotPointImages(
+            @Query("touristspotpoint_idx") int touristspotpoint_idx
     );
 
 }

@@ -52,7 +52,8 @@
                     app:layout_constraintBottom_toTopOf="@id/seekBar_Location"
                     />
 
-                <androidx.appcompat.widget.AppCompatSeekBar
+                <ProgressBar
+                    style="@style/Widget.AppCompat.ProgressBar.Horizontal"
                     android:id="@+id/seekBar_Location"
                     android:layout_width="0dp"
                     android:layout_height="4dp"
@@ -66,6 +67,7 @@
                     android:thumb="@color/gray"
                     android:paddingStart="0dp"
                     android:paddingEnd="0dp"
+                    android:max="100"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toStartOf="@id/seek_percent_txv"
@@ -76,7 +78,7 @@
                     android:id="@+id/seek_percent_txv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="20%"
+                    android:text="0%"
                     android:textColor="@color/seekColor"
                     android:textStyle="bold"
                     android:textSize="@dimen/_17sdp"

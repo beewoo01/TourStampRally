@@ -3,6 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+
+        <variable
+            name="dialog"
+            type="com.sdin.tourstamprally.ui.fragment.tour.TourDetailDialog" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -79,8 +86,10 @@
                     android:id="@+id/left_imb"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_10sdp"
                     android:background="@null"
                     android:contentDescription="LeftButton"
+                    android:onClick="@{() -> dialog.leftClick()}"
                     android:scaleType="fitXY"
                     android:src="@drawable/ic_arrow_left"
                     app:layout_constraintBottom_toBottomOf="@id/image_viewPager"
@@ -96,6 +105,7 @@
                     android:layout_marginEnd="@dimen/_10sdp"
                     android:background="@null"
                     android:contentDescription="RightButton"
+                    android:onClick="@{() -> dialog.rightClick()}"
                     android:scaleType="fitXY"
                     android:src="@drawable/ic_arrow_right"
                     app:layout_constraintBottom_toBottomOf="@id/image_viewPager"
@@ -163,11 +173,11 @@
             android:id="@+id/close_btn"
             android:layout_width="@dimen/_35sdp"
             android:layout_height="@dimen/_35sdp"
+            android:background="@null"
             android:contentDescription="close"
+            android:elevation="2dp"
             android:scaleType="fitXY"
             android:src="@drawable/quit_icon"
-            android:elevation="2dp"
-            android:background="@null"
             app:layout_constraintBottom_toTopOf="@id/card_view"
             app:layout_constraintEnd_toEndOf="@id/card_view"
             app:layout_constraintStart_toEndOf="@id/card_view"

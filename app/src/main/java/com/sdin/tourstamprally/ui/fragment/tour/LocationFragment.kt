@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SeekBar
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -50,6 +51,28 @@ class LocationFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstancdState: Bundle?) {
         binding?.apply {
             locationTxv.text = model.location_name
+            /*seekBarLocation.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
+
+                var originalProgress : Int = 0
+
+                override fun onProgressChanged(
+                    seekBar: SeekBar?,
+                    progress: Int,
+                    fromUser: Boolean
+                ) {
+                    if (fromUser) {
+                        seekBar?.progress = originalProgress
+                    }
+                }
+
+                override fun onStartTrackingTouch(seekBar: SeekBar?) = Unit
+
+                override fun onStopTrackingTouch(seekBar: SeekBar?) {
+                    originalProgress = seekBar?.progress!!
+                }
+
+            })*/
+
             Glide.with(topLayout.context)
                 .load("http://coratest.kr/imagefile/bsr/" + model.location_img)
                 .into(object : CustomTarget<Drawable>() {
@@ -102,6 +125,7 @@ class LocationFragment : BaseFragment() {
                         selectedModel.touristspot_name,
                         selectedModel
                     )
+
 
                 findNavController().navigate(action)
 
@@ -165,7 +189,9 @@ class LocationFragment : BaseFragment() {
                         .error(R.drawable.sample_bg)
                         .into(spotImv)
 
-                    topLayout.setOnClickListener { callback(model) }
+                    topLayout.setOnClickListener {
+                        callback(model)
+                    }
 
 
                 }
