@@ -1,26 +1,26 @@
-package com.sdin.tourstamprally.ui.fragment
+package com.sdin.tourstamprally.ui.fragment.report.review
 
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.fragment.findNavController
 import com.sdin.tourstamprally.R
-import com.sdin.tourstamprally.adapter.More_Frag_LocationAdapter
+import com.sdin.tourstamprally.adapter.MoreFragLocationAdapter
 import com.sdin.tourstamprally.adapter.review.MoreFragReviewAdapter
 
 import com.sdin.tourstamprally.databinding.FragmentMoreReviewBinding
-import com.sdin.tourstamprally.model.AllReviewDTO
 import com.sdin.tourstamprally.model.AllReviewModel
+import com.sdin.tourstamprally.ui.fragment.BaseFragment
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.observers.DisposableSingleObserver
 import io.reactivex.rxjava3.schedulers.Schedulers
 import java.util.*
 
-import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 
 
@@ -29,8 +29,8 @@ class MoreReviewFragment : BaseFragment() {
     private var binding: FragmentMoreReviewBinding? = null
     private var selectedLocationIdx = 0
     private var reviewAdapter: MoreFragReviewAdapter? = null
-    private var locationAdapter: More_Frag_LocationAdapter? = null
-    private val reviewList = ArrayList<AllReviewModel>()
+    private var locationAdapter: MoreFragLocationAdapter? = null
+    private lateinit var reviewList : MutableList<AllReviewModel>
     //private var listener : ItemOnClick? = null
 
 
@@ -73,11 +73,11 @@ class MoreReviewFragment : BaseFragment() {
                 override fun onSuccess(result: List<AllReviewModel>?) {
                     result?.let {
 
-
+                        reviewList = result.toMutableList()
                         /*val arrayList = arrayListOf<AllReviewModel>()
                         arrayList.addAll(result)
                         reviewList.addAll(result)*/
-                        initData(it)
+                        initData()
 
                     }
                 }
@@ -90,11 +90,11 @@ class MoreReviewFragment : BaseFragment() {
 
     }
 
-    private fun initData(list: List<AllReviewModel>) {
+    private fun initData() {
 
         val map = HashMap<Int, String>()
 
-        for (i in list) {
+        for (i in reviewList) {
             map[i.location_idx] = i.location_name
         }
 
@@ -104,11 +104,8 @@ class MoreReviewFragment : BaseFragment() {
             locationList.add(Pair(k, v))
         }
 
-        val reviewList: MutableList<AllReviewModel> = mutableListOf()
-        //reviewList.addAll(list)
-        //reviewAdapter = ReviewMainReAdapter(requireContext(), reviewList)
         binding?.reviewRecyclerview?.apply {
-            reviewAdapter = MoreFragReviewAdapter() { allReviewModel ->
+            reviewAdapter = MoreFragReviewAdapter { allReviewModel ->
                 val action =
                     MoreReviewFragmentDirections.actionFragmentMoreReviewToFragmentReviewComents(
                         title = allReviewModel.touristspot_name,
@@ -119,7 +116,7 @@ class MoreReviewFragment : BaseFragment() {
                 findNavController().navigate(action)
 
             }.apply {
-                submitList(list)
+                submitList(reviewList)
             }
 
             adapter = reviewAdapter
@@ -127,11 +124,11 @@ class MoreReviewFragment : BaseFragment() {
         }
 
 
-        locationAdapter = More_Frag_LocationAdapter(locationList, requireContext())
+        locationAdapter = MoreFragLocationAdapter(locationList, requireContext())
         locationAdapter?.apply {
 
             locationAdapter?.setMoreLocationListener(object
-                : More_Frag_LocationAdapter.MoreLocationItemListener {
+                : MoreFragLocationAdapter.MoreLocationItemListener {
 
                 override fun onItemClick(item: Int) {
                     //val adList : MutableList<AllReviewDTO> = MutableList()
@@ -140,7 +137,6 @@ class MoreReviewFragment : BaseFragment() {
                     if (selectedLocationIdx == item) {
 
                         paramList.addAll(reviewList)
-
                         selectedLocationIdx = 0
 
                     } else {
@@ -166,59 +162,66 @@ class MoreReviewFragment : BaseFragment() {
 
     }
 
-    private fun search(data: String) {
+    private fun search(data: String?) {
+        Log.wtf("search", "data $data")
         val arrayList = mutableListOf<AllReviewModel>()
 
-        for (i in reviewList) {
-            if (data.isNotEmpty()) {
+        if (data.isNullOrEmpty()) {
+            arrayList.addAll(reviewList)
+        } else {
+            for (i in reviewList) {
+                if (data.isNotEmpty()) {
 
-                if (i.location_name.lowercase(Locale.getDefault()).contains(data)) {
+                    if (i.location_name.lowercase(Locale.getDefault()).contains(data)) {
 
+                        if (selectedLocationIdx != 0 &&
+                            reviewList[reviewList.indexOf(i)].location_idx == selectedLocationIdx
+                        ) {
+                            arrayList.add(i)
+                        } else if (selectedLocationIdx == 0) {
+                            arrayList.add(i)
+                        }
+
+                    }
+
+                    if (i.touristspot_name.lowercase(Locale.getDefault()).contains(data)) {
+
+                        if (selectedLocationIdx != 0 &&
+                            reviewList[reviewList.indexOf(i)].location_idx == selectedLocationIdx
+                        ) {
+                            arrayList.add(i)
+
+                        } else if (selectedLocationIdx == 0) {
+                            arrayList.add(i)
+                        }
+                    }
+
+                    if (i.review_contents.lowercase(Locale.getDefault()).contains(data)) {
+
+                        if (selectedLocationIdx != 0 &&
+                            reviewList[reviewList.indexOf(i)].location_idx == selectedLocationIdx
+                        ) {
+                            arrayList.add(i)
+                        } else if (selectedLocationIdx == 0) {
+                            arrayList.add(i)
+                        }
+                    }
+
+                } /*else {
                     if (selectedLocationIdx != 0 &&
                         reviewList[reviewList.indexOf(i)].location_idx == selectedLocationIdx
                     ) {
+
                         arrayList.add(i)
                     } else if (selectedLocationIdx == 0) {
                         arrayList.add(i)
                     }
+                }*/
 
-                }
-
-                if (i.touristspot_name.lowercase(Locale.getDefault()).contains(data)) {
-
-                    if (selectedLocationIdx != 0 &&
-                        reviewList[reviewList.indexOf(i)].location_idx == selectedLocationIdx
-                    ) {
-                        arrayList.add(i)
-
-                    } else if (selectedLocationIdx == 0) {
-                        arrayList.add(i)
-                    }
-                }
-
-                if (i.review_contents.lowercase(Locale.getDefault()).contains(data)) {
-
-                    if (selectedLocationIdx != 0 &&
-                        reviewList[reviewList.indexOf(i)].location_idx == selectedLocationIdx
-                    ) {
-                        arrayList.add(i)
-                    } else if (selectedLocationIdx == 0) {
-                        arrayList.add(i)
-                    }
-                }
-
-            } else {
-                if (selectedLocationIdx != 0 &&
-                    reviewList[reviewList.indexOf(i)].location_idx == selectedLocationIdx
-                ) {
-
-                    arrayList.add(i)
-                } else if (selectedLocationIdx == 0) {
-                    arrayList.add(i)
-                }
             }
-
         }
+
+
 
         reviewAdapter?.submitList(arrayList)
 

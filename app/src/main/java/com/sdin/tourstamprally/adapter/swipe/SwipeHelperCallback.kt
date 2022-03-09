@@ -7,8 +7,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.ItemTouchHelper.*
 import androidx.recyclerview.widget.RecyclerView
 import com.sdin.tourstamprally.R
-import com.sdin.tourstamprally.adapter.ViSitReAdapterV2
-import com.sdin.tourstamprally.adapter.VisitReAdapter
+import com.sdin.tourstamprally.adapter.report.VisitAdapter
 import kotlin.math.max
 import kotlin.math.min
 
@@ -82,7 +81,7 @@ class SwipeHelperCallback : ItemTouchHelper.Callback() {
             val isClamped = getTag(viewHolder)
             val x = clampViewPositionHorizontal(view, dX, isClamped, isCurrentlyActive)
 
-            (viewHolder as ViSitReAdapterV2.ViewHolder).binding.let {
+            (viewHolder as VisitAdapter.ViewHolder).binding.let {
                 if (isClamped) {
                     it.titleTxv.setTextColor(
                         ContextCompat.getColor(
@@ -166,7 +165,7 @@ class SwipeHelperCallback : ItemTouchHelper.Callback() {
     }
 
     private fun getView(viewHolder: RecyclerView.ViewHolder): View {
-        return (viewHolder as ViSitReAdapterV2.ViewHolder).binding.swipeView
+        return (viewHolder as VisitAdapter.ViewHolder).binding.swipeView
     }
 
     fun setClamp(clamp: Float) {
@@ -181,7 +180,7 @@ class SwipeHelperCallback : ItemTouchHelper.Callback() {
             getView(viewHolder).translationX = 0f
             setTag(viewHolder, false)
             previousPosition = null
-            (viewHolder as ViSitReAdapterV2.ViewHolder).binding.let { holderBinding ->
+            (viewHolder as VisitAdapter.ViewHolder).binding.let { holderBinding ->
                 holderBinding.titleTxv.setTextColor(
                     ContextCompat.getColor(
                         viewHolder.binding.titleTxv.context,

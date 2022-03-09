@@ -54,13 +54,11 @@ import com.sdin.tourstamprally.ui.fragment.DeabsFragment;
 import com.sdin.tourstamprally.ui.fragment.DirectionGuidFragment;
 import com.sdin.tourstamprally.ui.fragment.LocationFragment;
 import com.sdin.tourstamprally.ui.fragment.MainFragment;
-import com.sdin.tourstamprally.ui.fragment.MoreReviewFragment;
+import com.sdin.tourstamprally.ui.fragment.report.review.MoreReviewFragment;
 import com.sdin.tourstamprally.ui.fragment.NFCFragment;
 import com.sdin.tourstamprally.ui.fragment.NoticeFragment;
 import com.sdin.tourstamprally.ui.fragment.QRscanFragment;
-import com.sdin.tourstamprally.ui.fragment.ReviewComentsFragment;
 import com.sdin.tourstamprally.ui.fragment.SetAlarmFragment;
-import com.sdin.tourstamprally.ui.fragment.TourDetailFragment;
 import com.sdin.tourstamprally.ui.fragment.TourSpotPointFragment;
 import com.sdin.tourstamprally.ui.fragment.VisitHistoryFragment;
 import com.sdin.tourstamprally.ui.fragment.WriteReviewFragment;
@@ -243,7 +241,7 @@ public class MainActivity extends BaseActivity implements NavigationBarView.OnIt
 
         binding.navigationLayout.userNameTxv.setText(Utils.User_Name);
         binding.bottomNavigationView.setOnItemSelectedListener(this);
-        setFragment("Main", MainFragment.newInstance("", ""));
+        //setFragment("Main", MainFragment.newInstance("", ""));
     }
 
     public void backClick() {
@@ -310,7 +308,7 @@ public class MainActivity extends BaseActivity implements NavigationBarView.OnIt
         String tag = null;
 
         if (item.getItemId() == R.id.page_home) {
-            fragment = MainFragment.newInstance("", "");
+            //fragment = MainFragment.newInstance("", "");
             tag = "Main";
             //setFragment("Main", MainFragment.newInstance("", ""));
             item.setChecked(true);

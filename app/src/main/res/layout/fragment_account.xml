@@ -43,18 +43,17 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <ImageButton
+                <ImageView
                     android:id="@+id/profile_set_imv"
                     android:layout_width="@dimen/_30sdp"
                     android:layout_height="@dimen/_30sdp"
-                    android:layout_marginTop="@dimen/_10sdp"
                     android:background="@null"
+                    android:onClick="@{() -> fragment.profileSetOnClick()}"
                     android:scaleType="centerCrop"
                     android:src="@drawable/profile_set_img"
-                    android:onClick="@{() -> fragment.profileSetOnClick()}"
-                    app:layout_constraintEnd_toEndOf="@id/profile_imb"
                     app:layout_constraintBottom_toBottomOf="@id/profile_imb"
-                    />
+                    app:layout_constraintEnd_toEndOf="@id/profile_imb"
+                    tools:ignore="TouchTargetSizeCheck" />
 
                 <EditText
                     android:id="@+id/editName"
@@ -63,18 +62,19 @@
                     android:layout_marginTop="@dimen/_10sdp"
                     android:background="@drawable/bg_rounded_edit"
                     android:gravity="center"
-                    android:padding="@dimen/_5sdp"
-                    android:text="이름"
-                    android:textSize="@dimen/_13sdp"
-                    android:textColor="@color/mainColor"
-                    android:textStyle="bold"
                     android:inputType="textPersonName"
                     android:maxLength="8"
                     android:maxLines="1"
+                    android:padding="@dimen/_5sdp"
+                    android:text="이름"
+                    android:textColor="@color/mainColor"
+                    android:textSize="@dimen/_13sdp"
+                    android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/profile_imb" />
+                    app:layout_constraintTop_toBottomOf="@id/profile_imb"
+                    tools:ignore="TouchTargetSizeCheck" />
 
                 <TextView
                     android:id="@+id/logout_txv"
@@ -126,12 +126,14 @@
                     android:inputType="date"
                     android:maxLength="11"
                     android:maxLines="1"
+                    android:textColorHint="#959494"
                     android:padding="@dimen/_10sdp"
                     android:textSize="@dimen/_10sdp"
                     app:layout_constraintBottom_toTopOf="@+id/edit_auth"
                     app:layout_constraintEnd_toStartOf="@+id/btn_request_auth"
                     app:layout_constraintStart_toStartOf="@+id/phone_txv"
-                    app:layout_constraintTop_toBottomOf="@+id/phone_txv" />
+                    app:layout_constraintTop_toBottomOf="@+id/phone_txv"
+                    tools:ignore="TouchTargetSizeCheck" />
 
                 <Button
                     android:id="@+id/btn_request_auth"
@@ -139,13 +141,14 @@
                     android:layout_height="0dp"
                     android:layout_marginEnd="@dimen/_10sdp"
                     android:background="@drawable/bg_rounded_02"
-                    android:text="@string/AuthenticationRequest"
                     android:onClick="@{ () -> fragment.authResponse() }"
+                    android:text="@string/AuthenticationRequest"
                     android:textColor="@color/mainColor"
                     app:layout_constraintBottom_toBottomOf="@id/edit_phone"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/edit_phone"
-                    app:layout_constraintTop_toTopOf="@id/edit_phone" />
+                    app:layout_constraintTop_toTopOf="@id/edit_phone"
+                    tools:ignore="TouchTargetSizeCheck" />
 
                 <EditText
                     android:id="@+id/edit_auth"
@@ -157,12 +160,14 @@
                     android:background="@drawable/bg_rounded_01"
                     android:hint="@string/inputAuth"
                     android:inputType="number"
+                    android:maxLines="1"
+                    android:textColorHint="#959494"
                     android:padding="@dimen/_10sdp"
                     android:textSize="@dimen/_10sdp"
-                    android:maxLines="1"
                     app:layout_constraintEnd_toStartOf="@+id/btn_request_auth"
                     app:layout_constraintStart_toStartOf="@+id/phone_txv"
-                    app:layout_constraintTop_toBottomOf="@+id/edit_phone" />
+                    app:layout_constraintTop_toBottomOf="@+id/edit_phone"
+                    tools:ignore="TouchTargetSizeCheck" />
 
                 <Button
                     android:id="@+id/btn_auth_check"
@@ -170,13 +175,14 @@
                     android:layout_height="0dp"
                     android:layout_marginEnd="@dimen/_10sdp"
                     android:background="@drawable/bg_rounded_02"
+                    android:onClick="@{ () -> fragment.authCheck() }"
                     android:text="@string/check"
                     android:textColor="@color/mainColor"
-                    android:onClick="@{ () -> fragment.authCheck() }"
                     app:layout_constraintBottom_toBottomOf="@id/edit_auth"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="@+id/btn_request_auth"
-                    app:layout_constraintTop_toTopOf="@+id/edit_auth" />
+                    app:layout_constraintTop_toTopOf="@+id/edit_auth"
+                    tools:ignore="TouchTargetSizeCheck" />
 
 
                 <TextView
@@ -198,14 +204,16 @@
                     android:hint="@string/input_password"
                     android:importantForAutofill="no"
                     android:inputType="textPassword"
-                    android:padding="@dimen/_10sdp"
-                    android:textSize="@dimen/_10sdp"
                     android:maxLength="12"
                     android:maxLines="1"
+                    android:padding="@dimen/_10sdp"
+                    android:textColorHint="#959494"
+                    android:textSize="@dimen/_10sdp"
                     app:layout_constraintBottom_toTopOf="@+id/txv_password_confirm"
                     app:layout_constraintEnd_toEndOf="@id/btn_request_auth"
                     app:layout_constraintStart_toStartOf="@id/edit_phone"
-                    app:layout_constraintTop_toBottomOf="@+id/txv_password" />
+                    app:layout_constraintTop_toBottomOf="@+id/txv_password"
+                    tools:ignore="TouchTargetSizeCheck,TouchTargetSizeCheck" />
 
                 <TextView
                     android:id="@+id/txv_password_confirm"
@@ -226,14 +234,16 @@
                     android:hint="@string/input_password_confirm"
                     android:importantForAutofill="no"
                     android:inputType="textPassword"
-                    android:padding="@dimen/_10sdp"
-                    android:textSize="@dimen/_10sdp"
                     android:maxLength="12"
                     android:maxLines="1"
+                    android:padding="@dimen/_10sdp"
+                    android:textSize="@dimen/_10sdp"
+                    android:textColorHint="#959494"
                     app:layout_constraintBottom_toTopOf="@+id/txv_email"
                     app:layout_constraintEnd_toEndOf="@id/btn_request_auth"
                     app:layout_constraintStart_toStartOf="@id/edit_phone"
-                    app:layout_constraintTop_toBottomOf="@+id/txv_password_confirm" />
+                    app:layout_constraintTop_toBottomOf="@+id/txv_password_confirm"
+                    tools:ignore="TouchTargetSizeCheck" />
 
 
                 <TextView
@@ -255,13 +265,14 @@
                     android:hint="@string/input_email"
                     android:importantForAutofill="no"
                     android:inputType="textWebEmailAddress"
+                    android:maxLines="1"
                     android:padding="@dimen/_10sdp"
                     android:textSize="@dimen/_10sdp"
-                    android:maxLines="1"
                     app:layout_constraintBottom_toTopOf="@+id/txv_location"
                     app:layout_constraintEnd_toEndOf="@id/btn_request_auth"
                     app:layout_constraintStart_toStartOf="@id/edit_phone"
-                    app:layout_constraintTop_toBottomOf="@+id/txv_email" />
+                    app:layout_constraintTop_toBottomOf="@+id/txv_email"
+                    tools:ignore="TouchTargetSizeCheck" />
 
                 <TextView
                     android:id="@+id/txv_location"
@@ -282,11 +293,11 @@
                     android:background="@drawable/rounded_spinner_item"
                     android:spinnerMode="dialog"
                     android:textSize="@dimen/_10sdp"
+                    app:layout_constraintBottom_toTopOf="@id/btn_signUp"
                     app:layout_constraintEnd_toEndOf="@id/btn_request_auth"
                     app:layout_constraintStart_toStartOf="@id/edit_phone"
                     app:layout_constraintTop_toBottomOf="@+id/txv_location"
-                    app:layout_constraintBottom_toTopOf="@id/btn_signUp"
-                    />
+                    tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
 
 
                 <TextView

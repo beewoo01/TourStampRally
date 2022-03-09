@@ -1,10 +1,8 @@
 package com.sdin.tourstamprally.utill.listener;
 
-import com.sdin.tourstamprally.model.AllReviewDTO;
 import com.sdin.tourstamprally.model.Location_four;
 import com.sdin.tourstamprally.model.RallyMapDTO;
 import com.sdin.tourstamprally.model.ReviewWriter;
-import com.sdin.tourstamprally.model.Tour_Spot;
 import com.sdin.tourstamprally.model.TouristSpotPoint;
 
 import java.util.ArrayList;

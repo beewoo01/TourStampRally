@@ -1,24 +1,20 @@
 package com.sdin.tourstamprally.api;
 
 
-
-import com.google.gson.Gson;
-import com.sdin.tourstamprally.model.AllReviewDTO;
 import com.sdin.tourstamprally.model.AllReviewModel;
 import com.sdin.tourstamprally.model.CouponModel;
-import com.sdin.tourstamprally.model.HashTagModel;
+import com.sdin.tourstamprally.model.HistorySpotModel;
 import com.sdin.tourstamprally.model.InterestModel;
 import com.sdin.tourstamprally.model.Location;
-import com.sdin.tourstamprally.model.Location_four;
 import com.sdin.tourstamprally.model.Notice;
 import com.sdin.tourstamprally.model.RallyMapDTO;
 import com.sdin.tourstamprally.model.RallyMapModel;
 import com.sdin.tourstamprally.model.ReveiwCommentsDC;
 import com.sdin.tourstamprally.model.ReviewDetailDC;
+import com.sdin.tourstamprally.model.ReviewImg;
 import com.sdin.tourstamprally.model.StoreModel;
 import com.sdin.tourstamprally.model.StoreSubDTO;
 import com.sdin.tourstamprally.model.TopFourLocationModel;
-import com.sdin.tourstamprally.model.TourTagModel;
 import com.sdin.tourstamprally.model.TourTagModelDC;
 import com.sdin.tourstamprally.model.Tour_Spot;
 import com.sdin.tourstamprally.model.Tour_Spot2;
@@ -27,20 +23,18 @@ import com.sdin.tourstamprally.model.TouristSpotPointDC;
 import com.sdin.tourstamprally.model.TouristSpotPointImg;
 import com.sdin.tourstamprally.model.UserModel;
 import com.sdin.tourstamprally.model.VisitCountModel;
-import com.sdin.tourstamprally.model.history_spotModel2;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.core.Single;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
-import retrofit2.http.Field;
+import retrofit2.http.Body;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
-import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
 import retrofit2.http.QueryMap;
@@ -88,7 +82,7 @@ public interface APIService {
     /*로그인*/
     @GET("bsr_login")
     Call<UserModel> userLogin(@Query("user_phone") String user_phone,
-                                 @Query("user_password") String user_password);
+                              @Query("user_password") String user_password);
 
     /*로그인*/
     @GET("bsr_login_Exists")
@@ -120,19 +114,19 @@ public interface APIService {
     //@FormUrlEncoded
     @GET("bsr_join")
     Call<String> userSignUp(@Query("user_phone") String phone,
-                                  @Query("user_password") String password,
-                                  @Query("user_name") String name,
-                                  @Query("user_email") String email,
-                                  @Query("user_location") String location,
-                                  @Query("authorityIdx") int authorityIdx
+                            @Query("user_password") String password,
+                            @Query("user_name") String name,
+                            @Query("user_email") String email,
+                            @Query("user_location") String location,
+                            @Query("authorityIdx") int authorityIdx
     );
 
     //유저 회원가입
     //@FormUrlEncoded
     @GET("bsr_find_password")
     Call<String> find_Password(@Query("user_name") String phone,
-                            @Query("user_phone") String password,
-                            @Query("user_email") String name
+                               @Query("user_phone") String password,
+                               @Query("user_email") String name
     );
 
 
@@ -148,9 +142,9 @@ public interface APIService {
 
     @GET("update_user_psw")
     Call<Integer> update_user_psw(@Query("user_name") String name,
-                                 @Query("user_phone") String phone,
-                                 @Query("user_email") String email,
-                                 @Query("user_password") String password
+                                  @Query("user_phone") String phone,
+                                  @Query("user_email") String email,
+                                  @Query("user_password") String password
     );
 
     @GET("insert_multiple_tourspot_deaps")
@@ -159,7 +153,7 @@ public interface APIService {
 
     @GET("delete_multiple_tourspot_deaps")
     Single<Integer> multipleDelDeaps(@Query("user_idx") int user_idx,
-                                         @Query("location_idx") int location_idx);
+                                     @Query("location_idx") int location_idx);
 
     /*@GET("insert_multiple_tourspot_deaps")
     Call<Integer> multipleInserDeaps(@Query("user_idx") int user_idx,
@@ -223,19 +217,19 @@ public interface APIService {
     Call<String> getToken();
 
     @GET("phonenum_authorization")
-    Call<String> getAutoNumber( @Query("user_phone") String phone, @Query("access_token") String token);
+    Call<String> getAutoNumber(@Query("user_phone") String phone, @Query("access_token") String token);
 
     @GET("getdistance")
-    Call<TouristSpotPoint> getDistance( @Query("tag_info") String taggin_info);
+    Call<TouristSpotPoint> getDistance(@Query("tag_info") String taggin_info);
 
     @GET("check_in")
     Call<HashMap<String, Integer>> check_in(@Query("taggin_info") String taggin_info, @Query("userIdx") String userIdx, @Query("user_phone") String user_phone);
 
     @GET("select_success_data")
-    Call<RallyMapDTO> select_success_data( @Query("touristspotpoint_idx") String touristspotpoint_idx);
+    Call<RallyMapDTO> select_success_data(@Query("touristspotpoint_idx") String touristspotpoint_idx);
 
     @GET("select_history_spot")
-    Call<List<history_spotModel2>> getHistorySpot(@Query("user_idx") int user_idx);
+    Call<List<HistorySpotModel>> getHistorySpot(@Query("user_idx") int user_idx);
 
     @GET("select_visit_count")
     Call<List<VisitCountModel>> getVisitCount(@Query("user_idx") int user_idx);
@@ -298,6 +292,24 @@ public interface APIService {
     @GET("selectTourSpotPointImages")
     Single<List<TouristSpotPointImg>> selectTourSpotPointImages(
             @Query("touristspotpoint_idx") int touristspotpoint_idx
+    );
+
+    @GET("selectReviewImg")
+    Single<List<ReviewImg>> selectReviewImg(
+            @Query("review_idx") int review_idx
+    );
+
+    @GET("insert_review_img")
+    Single<Integer> insertReviewImg(
+            @Query("paramJson") String imgListToGson,
+            @Query("review_idx") int review_idx
+            /*@Query("review_Img_review_idx") int review_idx,
+            @Query("review_img_url") String review_img_url*/
+    );
+
+    @GET("delete_review_imgs")
+    Single<Integer> deleteReviewImgs(
+            @Query("paramJson") String paramJson
     );
 
 }

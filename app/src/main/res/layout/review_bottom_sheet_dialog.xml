@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_rounded_05"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <TextView
+        android:id="@+id/take_picture"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/_55sdp"
+        android:text="사진 촬영"
+        android:textSize="@dimen/_14sdp"
+        android:gravity="center_vertical"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:paddingStart="@dimen/_10sdp"
+        app:layout_constraintVertical_chainStyle="packed"
+        android:drawablePadding="@dimen/_10sdp"
+        android:background="?attr/selectableItemBackground"
+        app:layout_constraintBottom_toTopOf="@id/gallery_txv"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="RtlSymmetry"
+        app:drawableStartCompat="@drawable/review_bottom_di_camera_resize" />
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:background="@color/gray_e"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/take_picture"
+        app:layout_constraintBottom_toTopOf="@id/gallery_txv"
+        />
+
+    <TextView
+        android:id="@+id/gallery_txv"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/_55sdp"
+        android:text="갤러리"
+        android:gravity="center_vertical"
+        android:textSize="@dimen/_14sdp"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        app:layout_constraintVertical_chainStyle="packed"
+        android:drawablePadding="@dimen/_10sdp"
+        android:layout_marginBottom="@dimen/_10sdp"
+        android:background="?attr/selectableItemBackground"
+        android:paddingStart="@dimen/_10sdp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/take_picture"
+        tools:ignore="RtlSymmetry"
+        app:drawableStartCompat="@drawable/review_bottom_di_gallery_resize" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -7,7 +7,7 @@
     <data>
         <variable
             name="fragment"
-            type="com.sdin.tourstamprally.ui.fragment.MainFragment2" />
+            type="com.sdin.tourstamprally.ui.fragment.MainFragment" />
     </data>
 
     <androidx.constraintlayout.motion.widget.MotionLayout

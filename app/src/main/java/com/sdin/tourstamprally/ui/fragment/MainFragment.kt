@@ -9,7 +9,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.ScrollView
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.fragment.findNavController
@@ -21,13 +20,11 @@ import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import com.sdin.tourstamprally.R
 import com.sdin.tourstamprally.Utils
-import com.sdin.tourstamprally.adapter.Review_Main_ReAdapter
+
 import com.sdin.tourstamprally.adapter.review.ReviewMainReAdapter
 import com.sdin.tourstamprally.databinding.FragmentMainBinding
 import com.sdin.tourstamprally.databinding.StepRallyLocationItemBinding
-import com.sdin.tourstamprally.model.AllReviewDTO
 import com.sdin.tourstamprally.model.AllReviewModel
-import com.sdin.tourstamprally.model.Location_four
 import com.sdin.tourstamprally.model.TopFourLocationModel
 import com.sdin.tourstamprally.ui.activity.MainActivity
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
@@ -37,14 +34,10 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class MainFragment2 : BaseFragment() {
+class MainFragment : BaseFragment() {
 
     private lateinit var viewBind: FragmentMainBinding
     private val tourList: MutableList<TopFourLocationModel> = mutableListOf()
-    private val listener by lazy {
-        requireActivity() as MainActivity
-    }
-    /*private ItemOnClick listener;*/
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -52,7 +45,7 @@ class MainFragment2 : BaseFragment() {
         savedInstanceState: Bundle?
     ): View {
         viewBind = DataBindingUtil.inflate(inflater, R.layout.fragment_main, container, false)
-        viewBind.fragment = this@MainFragment2
+        viewBind.fragment = this@MainFragment
         viewBind.tourRallyPgb.visibility = View.VISIBLE
         viewBind.rallyRecyclerview.layoutManager = object : GridLayoutManager(requireContext(), 2) {
             override fun canScrollVertically(): Boolean {
@@ -126,7 +119,7 @@ class MainFragment2 : BaseFragment() {
 
     fun moreClick() {
         //더보기
-        val action = MainFragment2Directions.actionMainfragmentToFragmentDirectionGuid(
+        val action = MainFragmentDirections.actionMainfragmentToFragmentDirectionGuid(
             tourList.toTypedArray()
         )
         findNavController().navigate(action)
@@ -142,7 +135,7 @@ class MainFragment2 : BaseFragment() {
     fun reviewMoreClick() {
         //리뷰보기
         Log.wtf("reviewMoreClick", "reviewMoreClick")
-        val action = MainFragment2Directions.actionMainfragmentToFragmentMoreReview("리뷰보기")
+        val action = MainFragmentDirections.actionMainfragmentToFragmentMoreReview("리뷰보기")
         findNavController().navigate(action)
 
         /*findNavController().navigate(
@@ -157,7 +150,7 @@ class MainFragment2 : BaseFragment() {
         viewBind.mainReviewRecyclerview.apply {
             adapter =
                 ReviewMainReAdapter() { model ->
-                    val action = MainFragment2Directions.actionMainfragmentToFragmentReviewComents(
+                    val action = MainFragmentDirections.actionMainfragmentToFragmentReviewComents(
                         title = model.touristspot_name,
                         state = 4,
                         reviewIdx = model.review_idx
@@ -189,7 +182,7 @@ class MainFragment2 : BaseFragment() {
             fun onBind(model: TopFourLocationModel) {
                 holderBinding.location.text = model.location_name
                 holderBinding.stepRallyBg.setOnClickListener {
-                    val action = MainFragment2Directions.actionMainfragmentToFragmentLocation(
+                    val action = MainFragmentDirections.actionMainfragmentToFragmentLocation(
                         model.location_name + " 랠리 맵",
                         model
                     )

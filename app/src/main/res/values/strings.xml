@@ -100,5 +100,8 @@
     <string name="menu">menu</string>
     <string name="mainlogo">MainLogo</string>
     <string name="see_detail">상세보기</string>
+    <string name="close">close</string>
+    <string name="image">image</string>
+    <string name="photo">photo</string>
 
 </resources>

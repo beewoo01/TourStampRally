@@ -136,7 +136,7 @@ class DirectionGuidFragment : BaseFragment() {
                         for (model in result) {
                             if (model != null) {
                                 model.hashTag?.let {
-                                    val arr : List<String> = it.split("#")
+                                    val arr: List<String> = it.split("#")
                                     val set = arr.toSet()
 
 
@@ -186,9 +186,8 @@ class DirectionGuidFragment : BaseFragment() {
             }
 
             setHasFixedSize(true)
-            layoutManager = LinearLayoutManager(requireContext()).apply {
-                orientation = LinearLayoutManager.HORIZONTAL
-            }
+            layoutManager =
+                LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, true)
         }
 
         binding?.directionGuidPgb?.visibility = View.GONE

@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/page_home"
-        android:name="com.sdin.tourstamprally.ui.fragment.MainFragment2"
+        android:name="com.sdin.tourstamprally.ui.fragment.MainFragment"
         android:label="@string/home"
         tools:layout="@layout/fragment_main">
         <action
@@ -170,7 +170,7 @@
 
     <fragment
         android:id="@+id/fragment_more_review"
-        android:name="com.sdin.tourstamprally.ui.fragment.MoreReviewFragment"
+        android:name="com.sdin.tourstamprally.ui.fragment.report.review.MoreReviewFragment"
         tools:layout="@layout/fragment_more_review">
 
         <action
@@ -198,7 +198,7 @@
 
     <fragment
         android:id="@+id/fragment_review_coments"
-        android:name="com.sdin.tourstamprally.ui.fragment.ReviewComentsFragment"
+        android:name="com.sdin.tourstamprally.ui.fragment.report.review.ReviewComentsFragment"
         tools:layout="@layout/fragment_review_coments">
 
         <argument
@@ -211,7 +211,7 @@
 
     <fragment
         android:id="@+id/page_report"
-        android:name="com.sdin.tourstamprally.ui.fragment.VisitHistoryFragment"
+        android:name="com.sdin.tourstamprally.ui.fragment.report.VisitHistoryFragment"
         android:label="방문기록"
         tools:layout="@layout/fragment_visithistory">
 
@@ -220,18 +220,25 @@
             app:destination="@id/fragment_write_review">
 
             <argument
-                android:name="model"
-                app:argType="com.sdin.tourstamprally.model.ReviewWriter"
+                android:name="title"
+                app:argType="string"
                 app:nullable="false" />
+
+
 
         </action>
     </fragment>
 
     <fragment
         android:id="@+id/fragment_write_review"
-        android:name="com.sdin.tourstamprally.ui.fragment.WriteReviewFragment"
+        android:name="com.sdin.tourstamprally.ui.fragment.report.review.WriteReviewFragment"
         android:label="리뷰작성"
         tools:layout="@layout/fragment_write_review">
+
+        <argument
+            android:name="writerModel"
+            app:argType="com.sdin.tourstamprally.model.ReviewWriter"
+            app:nullable="false" />
 
     </fragment>
 

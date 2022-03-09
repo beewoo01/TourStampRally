@@ -76,7 +76,7 @@ public class WriteReviewFragment extends BaseFragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_write_review, container, false);
-        binding.setFragment(this);
+        //binding.setFragment(this);
         return binding.getRoot();
     }
 

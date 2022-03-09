@@ -25,15 +25,15 @@ import java.text.ParseException
 import java.text.SimpleDateFormat
 
 @SuppressLint("SimpleDateFormat")
-class ViSitReAdapterV2(
+class ViSitReAdapter(
     private val historySpotList: ArrayList<history_spotModel2>,
     private val context: Context,
     private val reviewListener: ReviewListener
-) : RecyclerView.Adapter<ViSitReAdapterV2.ViewHolder>() {
+) : RecyclerView.Adapter<ViSitReAdapter.ViewHolder>() {
 
     private val selectedItems = SparseBooleanArray()
-    private var prePosition = -1
     private var listener: ItemCliclListener? = null
+    private var prePosition = -1
     private var oldSdf: SimpleDateFormat? = null
     private var newSdf: SimpleDateFormat? = null
     private var timeSdf: SimpleDateFormat? = null
@@ -44,10 +44,6 @@ class ViSitReAdapterV2(
         oldSdf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S")
         newSdf = SimpleDateFormat("yy.MM.dd")
         timeSdf = SimpleDateFormat("HH:mm")
-    }
-
-    interface OnViewHolderItemClickListener {
-        fun onViewHolderItemClick()
     }
 
     fun itemClickListener(listener: ItemCliclListener) {
@@ -72,12 +68,8 @@ class ViSitReAdapterV2(
             binding.seekBar.progress = myCount
 
             binding.logoImv.setOnClickListener {
-                /*Log.wtf("logoImv", "allCount!!")
-                Log.wtf("logoImv", "allCount = $allCounted")*/
                 if (allCounted == 100) {
-                    //Log.wtf("logoImv", "allCount100")
                     listener?.clearClick(model.touristspot_idx)
-                    //PopUp_Image(context).show()
                 }
             }
 
@@ -153,6 +145,7 @@ class ViSitReAdapterV2(
 
 
             if (model.review_idx > 0) {
+
                 binding.delReview.setOnClickListener {
                     delPosition = absoluteAdapterPosition
                     val dialog = Del_Review_Dialog(context)
@@ -168,6 +161,7 @@ class ViSitReAdapterV2(
                     }
                     dialog.show()
                 }
+
                 binding.gotoReview.setOnClickListener {
                     reviewListener.onWriteReviewClick(
                         ReviewWriter(
@@ -176,10 +170,12 @@ class ViSitReAdapterV2(
                             false,
                             model.review_idx,
                             model.review_score,
-                            model.review_contents
+                            model.review_contents,
+                            null
                         )
                     )
                 }
+
             } else {
                 binding.gotoReview.setOnClickListener {
                     reviewListener.onWriteReviewClick(
@@ -221,10 +217,6 @@ class ViSitReAdapterV2(
 
             va.start()
         }
-
-        /*fun setOnViewHolderItemClickListener(onViewHolderItemClickListener: OnViewHolderItemClickListener) {
-            this.onViewHolderItemClickListener = onViewHolderItemClickListener
-        }*/
 
     }
 

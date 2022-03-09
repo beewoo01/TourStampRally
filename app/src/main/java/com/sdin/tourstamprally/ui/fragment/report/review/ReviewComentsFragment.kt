@@ -1,4 +1,4 @@
-package com.sdin.tourstamprally.ui.fragment
+package com.sdin.tourstamprally.ui.fragment.report.review
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -19,6 +19,7 @@ import com.sdin.tourstamprally.adapter.ReviewCommentsAdapter
 import com.sdin.tourstamprally.databinding.FragmentReviewComentsBinding
 import com.sdin.tourstamprally.model.ReveiwCommentsDC
 import com.sdin.tourstamprally.model.ReviewDetailDC
+import com.sdin.tourstamprally.ui.fragment.BaseFragment
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.observers.DisposableSingleObserver
 import io.reactivex.rxjava3.schedulers.Schedulers
@@ -32,7 +33,7 @@ class ReviewComentsFragment : BaseFragment() {
     private var bining: FragmentReviewComentsBinding? = null
     private var likeState = false
     private val mutableList = arrayListOf<ReveiwCommentsDC>()
-    private val args : ReviewComentsFragmentArgs by navArgs()
+    private val args: ReviewComentsFragmentArgs by navArgs()
     private lateinit var commentAdapter: ReviewCommentsAdapter
 
 
@@ -89,7 +90,7 @@ class ReviewComentsFragment : BaseFragment() {
                 }
             }
 
-            it.writeImb.setOnClickListener { view ->
+            it.writeImb.setOnClickListener { _ ->
                 if (!TextUtils.isEmpty(it.writeCommentEdt.text) && it.writeCommentEdt.text.isNotEmpty()) {
                     review_idx?.let { reviewidx ->
                         apiService.insert_review_comment(

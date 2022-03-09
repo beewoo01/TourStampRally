@@ -14,16 +14,12 @@ import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.navigation.Navigation;
-import androidx.recyclerview.widget.ItemTouchHelper;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.sdin.tourstamprally.R;
 import com.sdin.tourstamprally.Utils;
-import com.sdin.tourstamprally.adapter.ViSitReAdapterV2;
-import com.sdin.tourstamprally.adapter.swipe.ItemDecoration;
+import com.sdin.tourstamprally.adapter.ViSitReAdapter;
 
-import com.sdin.tourstamprally.adapter.swipe.SwipeHelperCallback;
 import com.sdin.tourstamprally.databinding.DirectionGuidTagItemBinding;
 import com.sdin.tourstamprally.databinding.FragmentVisithistoryBinding;
 import com.sdin.tourstamprally.model.CouponModel;
@@ -49,7 +45,7 @@ public class VisitHistoryFragment extends BaseFragment {
 
     private FragmentVisithistoryBinding binding;
     private List<history_spotModel2> history_spotList;
-    private ViSitReAdapterV2 adapter;
+    private ViSitReAdapter adapter;
 
 
     @Nullable
@@ -88,9 +84,7 @@ public class VisitHistoryFragment extends BaseFragment {
 
         });
 
-        binding.searchBtn.setOnClickListener(v -> {
-            search(binding.searchEdt.getText().toString());
-        });
+        binding.searchBtn.setOnClickListener(v -> search(binding.searchEdt.getText().toString()));
 
 
     }
@@ -115,7 +109,7 @@ public class VisitHistoryFragment extends BaseFragment {
     }
 
     private void setVisitInit() {
-        apiService.getHistorySpot(Utils.User_Idx).enqueue(new Callback<List<history_spotModel2>>() {
+        /*apiService.getHistorySpot(Utils.User_Idx).enqueue(new Callback<List<history_spotModel2>>() {
             @SuppressLint("ClickableViewAccessibility")
             @Override
             public void onResponse(@NotNull Call<List<history_spotModel2>> call, @NotNull Response<List<history_spotModel2>> response) {
@@ -160,7 +154,7 @@ public class VisitHistoryFragment extends BaseFragment {
             public void onFailure(@NotNull Call<List<history_spotModel2>> call, @NotNull Throwable t) {
                 t.printStackTrace();
             }
-        });
+        });*/
     }
 
     private void onWriteReviewClick(@NonNull ReviewWriter model) {

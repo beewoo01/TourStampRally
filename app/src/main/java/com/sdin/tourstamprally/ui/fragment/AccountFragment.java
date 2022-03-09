@@ -43,7 +43,6 @@ import com.bumptech.glide.request.RequestOptions;
 import com.sdin.tourstamprally.R;
 import com.sdin.tourstamprally.Utils;
 import com.sdin.tourstamprally.databinding.FragmentAccountBinding;
-import com.sdin.tourstamprally.model.AllReviewDTO;
 import com.sdin.tourstamprally.model.UserModel;
 import com.sdin.tourstamprally.ui.activity.LoginActivity;
 import com.sdin.tourstamprally.ui.dialog.UserWithdrawalDialog;
