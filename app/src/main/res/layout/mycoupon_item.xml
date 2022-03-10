@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/item_container"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_100sdp"
         android:background="@drawable/ic_coupon_background"

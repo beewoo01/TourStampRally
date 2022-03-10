@@ -6,6 +6,7 @@ import com.sdin.tourstamprally.model.CouponModel;
 import com.sdin.tourstamprally.model.HistorySpotModel;
 import com.sdin.tourstamprally.model.InterestModel;
 import com.sdin.tourstamprally.model.Location;
+import com.sdin.tourstamprally.model.LocationJoinTouristSpot;
 import com.sdin.tourstamprally.model.Notice;
 import com.sdin.tourstamprally.model.RallyMapDTO;
 import com.sdin.tourstamprally.model.RallyMapModel;
@@ -315,5 +316,14 @@ public interface APIService {
 
     @GET("selectAllStoreCoupon")
     Single<List<StoreAllCouponModel>> selectAllStoreCoupon();
+
+    @GET("selectLocationJoinTouristspot")
+    Single<List<LocationJoinTouristSpot>> selectLocationJoinTouristSpot();
+
+    @GET("getCouponFromFree")
+    Single<Integer> getCouponFromFree(
+            @Query("store_coupon_idx") int store_coupon_idx,
+            @Query("user_idx") int user_idx
+    );
 
 }

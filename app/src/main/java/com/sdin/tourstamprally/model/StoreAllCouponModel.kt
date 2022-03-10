@@ -22,6 +22,10 @@ data class StoreAllCouponModel(
     val store_coupon_expiration_endDate : String,
     @SerializedName("store_type")
     val store_type : Int,
+    @SerializedName("location_name")
+    val location_name : String,
+    @SerializedName("touristspot_name")
+    val touristspot_name : String,
     @SerializedName("store_latitude")
     val store_latitude : Double,
     @SerializedName("store_longitude")

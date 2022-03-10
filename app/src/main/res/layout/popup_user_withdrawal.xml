@@ -110,8 +110,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
-                    android:text="취소하기"
                     android:onClick="@{dialog::cancle}"
+                    android:text="취소하기"
                     android:textColor="@color/white"
                     android:textSize="@dimen/_9sdp"
                     android:textStyle="bold" />
