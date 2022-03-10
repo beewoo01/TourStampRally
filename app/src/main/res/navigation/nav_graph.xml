@@ -354,6 +354,11 @@
         android:name="com.sdin.tourstamprally.CameraFragment"
         android:label="fragment_camera"
         tools:layout="@layout/fragment_camera" />
+    <fragment
+        android:id="@+id/store_coupon"
+        android:name="com.sdin.tourstamprally.AllCouponFragment"
+        android:label="쿠폰 리스트"
+        tools:layout="@layout/fragment_all_coupon" />
 
 
 </navigation>

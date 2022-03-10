@@ -50,6 +50,7 @@ public class WriteReviewFragment extends BaseFragment {
     }
 
     public WriteReviewFragment() {
+
     }
 
     @Override

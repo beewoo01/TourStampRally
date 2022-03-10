@@ -129,24 +129,26 @@ class SelectGuidStoreFragment : BaseFragment() {
         val currentList = allStoreList.toMutableList()
         val removeItems = arrayListOf<StoreModel>()
         currentList.run {
-            var i1 = 0
-            var i2 = 0
             forEach { model ->
                 val location = Location("")
+                Log.wtf("changeListToAround", "current latitude ${myLocation.latitude}")
+                Log.wtf("changeListToAround", "current longitude ${myLocation.longitude}")
+                Log.wtf("changeListToAround", "latitude ${model.store_latitude}")
+                Log.wtf("changeListToAround", "longitude ${model.store_longitude}")
                 location.latitude = model.store_latitude.toDouble()
                 location.longitude = model.store_longitude.toDouble()
                 val distance = myLocation.distanceTo(location)
+                Log.wtf("changeListToAround", "store_name ${model.store_name}")
+                Log.wtf("changeListToAround", "distance $distance")
 
                 if (distance > 300) {
                     //30M 초과
-                    i1++
                     removeItems.add(model)
                 }
             }
 
             removeItems.forEach { model ->
-                i2++
-                currentList.remove(model)
+                remove(model)
             }
 
             /*storeReAdapter?.submitList(this@run)

@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="fragment"
+            type="com.sdin.tourstamprally.AllCouponFragment" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".AllCouponFragment">
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabLayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="전체" />
+
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="주변" />
+
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="코스별" />
+
+        </com.google.android.material.tabs.TabLayout>
+
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/start_guidline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.1" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/end_guidline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.9" />
+
+
+        <TextView
+            android:id="@+id/restaurant_txv"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_30sdp"
+            android:layout_marginVertical="@dimen/_15sdp"
+            android:background="@drawable/bg_rounded_category"
+            android:gravity="center"
+            android:onClick="@{fragment::setCategory}"
+            android:tag="0"
+            android:text="식당"
+            android:textColor="@color/mainColor"
+            app:layout_constraintBottom_toTopOf="@id/spinner_location"
+            app:layout_constraintEnd_toStartOf="@id/cafe_txv"
+            app:layout_constraintStart_toStartOf="@id/start_guidline"
+            app:layout_constraintTop_toBottomOf="@id/tabLayout" />
+
+        <TextView
+            android:id="@+id/cafe_txv"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_30sdp"
+            android:layout_marginHorizontal="@dimen/_10sdp"
+            android:background="@drawable/bg_rounded_category"
+            android:gravity="center"
+            android:onClick="@{fragment::setCategory}"
+            android:tag="1"
+            android:text="카페"
+            android:textColor="@color/mainColor"
+            app:layout_constraintBottom_toBottomOf="@id/restaurant_txv"
+            app:layout_constraintEnd_toStartOf="@id/accommodation_txv"
+            app:layout_constraintStart_toEndOf="@id/restaurant_txv"
+            app:layout_constraintTop_toTopOf="@id/restaurant_txv" />
+
+        <TextView
+            android:id="@+id/accommodation_txv"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_30sdp"
+            android:background="@drawable/bg_rounded_category"
+            android:gravity="center"
+            android:onClick="@{fragment::setCategory}"
+            android:tag="2"
+            android:text="숙박시설"
+            android:textColor="@color/mainColor"
+            app:layout_constraintBottom_toBottomOf="@id/restaurant_txv"
+            app:layout_constraintEnd_toEndOf="@id/end_guidline"
+            app:layout_constraintStart_toEndOf="@id/cafe_txv"
+            app:layout_constraintTop_toTopOf="@id/restaurant_txv" />
+
+        <!--<androidx.constraintlayout.widget.Guideline
+            android:id="@+id/bottom_content_guidLine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.17" />-->
+
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/bottom_start_guidLine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.05" />
+
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/bottom_end_guidLine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.95" />
+
+
+        <androidx.appcompat.widget.AppCompatSpinner
+            android:id="@+id/spinner_location"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_35sdp"
+            android:layout_marginBottom="@dimen/_15sdp"
+            android:background="@drawable/coupon_spinner_bg"
+            android:spinnerMode="dropdown"
+            android:textSize="@dimen/_10sdp"
+            android:layout_marginEnd="@dimen/_5sdp"
+            app:layout_constraintBottom_toTopOf="@id/allTxv"
+            app:layout_constraintEnd_toStartOf="@id/spinner_course"
+            app:layout_constraintStart_toStartOf="@id/bottom_start_guidLine"
+            app:layout_constraintTop_toBottomOf="@id/restaurant_txv"
+            tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
+
+        <!--<Spinner
+            android:id="@+id/spinner_location"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_30sdp"
+            android:spinnerMode="dropdown"
+            android:layout_marginEnd="@dimen/_5sdp"
+            app:layout_constraintStart_toStartOf="@id/bottom_start_guidLine"
+            app:layout_constraintTop_toBottomOf="@id/restaurant_txv"
+            app:layout_constraintEnd_toStartOf="@id/spinner_course"
+            app:layout_constraintBottom_toTopOf="@id/allTxv"
+            />-->
+
+        <androidx.appcompat.widget.AppCompatSpinner
+            android:id="@+id/spinner_course"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_35sdp"
+            android:background="@drawable/coupon_spinner_bg"
+            android:spinnerMode="dropdown"
+            android:textSize="@dimen/_10sdp"
+            android:layout_marginStart="@dimen/_5sdp"
+            app:layout_constraintBottom_toBottomOf="@id/spinner_location"
+            app:layout_constraintEnd_toEndOf="@id/bottom_end_guidLine"
+            app:layout_constraintStart_toEndOf="@id/spinner_location"
+            app:layout_constraintTop_toTopOf="@id/spinner_location"
+            tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
+
+        <!--<Spinner
+            android:id="@+id/spinner_course"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_30sdp"
+            android:spinnerMode="dropdown"
+            android:layout_marginStart="@dimen/_5sdp"
+            app:layout_constraintStart_toEndOf="@id/spinner_location"
+            app:layout_constraintEnd_toEndOf="@id/bottom_end_guidLine"
+            app:layout_constraintTop_toTopOf="@id/spinner_location"
+            app:layout_constraintBottom_toBottomOf="@id/spinner_location"
+            />-->
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/spinner_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:constraint_referenced_ids="spinner_location, spinner_course" />
+
+
+        <TextView
+            android:id="@+id/allTxv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="총"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_13sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            app:layout_constraintStart_toStartOf="@id/bottom_start_guidLine"
+            app:layout_constraintTop_toBottomOf="@id/spinner_location" />
+
+        <TextView
+            android:id="@+id/allCountTxv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_3sdp"
+            android:text="0"
+            android:textColor="#E7664D"
+            android:textSize="@dimen/_13sdp"
+            app:layout_constraintBottom_toBottomOf="@id/allTxv"
+            app:layout_constraintStart_toEndOf="@id/allTxv"
+            app:layout_constraintTop_toTopOf="@id/allTxv" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="장"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_13sdp"
+            app:layout_constraintBottom_toBottomOf="@id/allTxv"
+            app:layout_constraintStart_toEndOf="@id/allCountTxv"
+            app:layout_constraintTop_toTopOf="@id/allTxv" />
+
+
+        <View
+            android:id="@+id/line"
+            android:layout_width="0dp"
+            android:layout_height="2dp"
+            android:layout_marginTop="@dimen/_7sdp"
+            android:background="@color/gray_e"
+            app:layout_constraintEnd_toEndOf="@id/bottom_end_guidLine"
+            app:layout_constraintStart_toStartOf="@id/bottom_start_guidLine"
+            app:layout_constraintTop_toBottomOf="@id/allTxv" />
+
+
+        <!--<androidx.viewpager2.widget.ViewPager2
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/line"
+            app:layout_constraintBottom_toBottomOf="parent"
+            />-->
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/coupon_re"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+
+            android:clipToPadding="false"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/bottom_end_guidLine"
+            app:layout_constraintStart_toStartOf="@id/bottom_start_guidLine"
+            app:layout_constraintTop_toBottomOf="@id/line"
+            tools:listitem="@layout/mycoupon_item" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

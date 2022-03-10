@@ -103,5 +103,6 @@
     <string name="close">close</string>
     <string name="image">image</string>
     <string name="photo">photo</string>
+    <string name="coupon">쿠폰</string>
 
 </resources>

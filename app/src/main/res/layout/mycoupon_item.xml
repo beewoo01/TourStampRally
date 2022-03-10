@@ -1,13 +1,152 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="@dimen/_100sdp"
+        android:background="@drawable/ic_coupon_background"
+        >
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guid_line"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.3081" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/top_guid_line"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.0571" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/bottom_guid_line"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.9471" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/content_top_guidLine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.15" />
+
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/content_bottom_guidLine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.85" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/content_start_guidLine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.4" />
+
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_coupon_list_three"
+            android:layout_marginVertical="@dimen/_8sdp"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/guid_line"
+            app:layout_constraintTop_toTopOf="@id/content_top_guidLine"
+            app:layout_constraintBottom_toBottomOf="@id/content_bottom_guidLine"
+            />
+
+
+
+        <View
+            android:layout_width="@dimen/_90sdp"
+            android:layout_height="0dp"
+            android:background="@drawable/vertical_dash_line"
+            app:layout_constraintStart_toStartOf="@id/guid_line"
+            app:layout_constraintEnd_toEndOf="@id/guid_line"
+            app:layout_constraintTop_toTopOf="@id/top_guid_line"
+            app:layout_constraintBottom_toBottomOf="@id/bottom_guid_line"
+            />
+
+
+        <ImageView
+            android:id="@+id/logo_imv"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_20sdp"
+            android:scaleType="fitStart"
+            android:src="@drawable/sample_profile_image"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/content_start_guidLine"
+            app:layout_constraintTop_toTopOf="@id/content_top_guidLine" />
+
+        <TextView
+            android:id="@+id/coupon_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:textSize="@dimen/_13sdp"
+            android:ellipsize="marquee"
+            android:maxLines="1"
+            android:layout_marginEnd="10dp"
+            app:layout_constraintStart_toStartOf="@id/content_start_guidLine"
+            app:layout_constraintTop_toBottomOf="@id/logo_imv"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/startDataTxv"
+            tools:text="4천원 상당 편의점 상품권 1234567" />
+
+        <TextView
+            android:id="@+id/startDataTxv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="2021.07.03"
+            android:textSize="@dimen/_9sdp"
+            android:textColor="#9F9F9F"
+            app:layout_constraintStart_toStartOf="@id/content_start_guidLine"
+            app:layout_constraintBottom_toBottomOf="@id/content_bottom_guidLine"
+            />
+
+
+        <TextView
+            android:id="@+id/justBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="-"
+            android:textSize="@dimen/_9sdp"
+            android:textColor="#9F9F9F"
+            android:layout_marginStart="3dp"
+            app:layout_constraintEnd_toStartOf="@id/endDataTxv"
+            app:layout_constraintStart_toEndOf="@id/startDataTxv"
+            app:layout_constraintBottom_toBottomOf="@id/content_bottom_guidLine"
+            />
+
+        <TextView
+            android:id="@+id/endDataTxv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="2021.08.03"
+            android:textSize="@dimen/_9sdp"
+            android:textColor="#9F9F9F"
+            android:layout_marginStart="3dp"
+            app:layout_constraintStart_toEndOf="@id/justBar"
+            app:layout_constraintBottom_toBottomOf="@id/content_bottom_guidLine"
+            />
+
+
+
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 
 
 </layout>

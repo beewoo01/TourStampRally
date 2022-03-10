@@ -12,6 +12,7 @@ import com.sdin.tourstamprally.model.RallyMapModel;
 import com.sdin.tourstamprally.model.ReveiwCommentsDC;
 import com.sdin.tourstamprally.model.ReviewDetailDC;
 import com.sdin.tourstamprally.model.ReviewImg;
+import com.sdin.tourstamprally.model.StoreAllCouponModel;
 import com.sdin.tourstamprally.model.StoreModel;
 import com.sdin.tourstamprally.model.StoreSubDTO;
 import com.sdin.tourstamprally.model.TopFourLocationModel;
@@ -311,5 +312,8 @@ public interface APIService {
     Single<Integer> deleteReviewImgs(
             @Query("paramJson") String paramJson
     );
+
+    @GET("selectAllStoreCoupon")
+    Single<List<StoreAllCouponModel>> selectAllStoreCoupon();
 
 }

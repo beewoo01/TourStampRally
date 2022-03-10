@@ -34,11 +34,11 @@
         />
 
     <item
-        android:id="@+id/camera"
+        android:id="@+id/store_coupon"
         android:enabled="true"
-        android:icon="@drawable/menu_camera"
+        android:icon="@drawable/ic_coupon"
         android:menuCategory="secondary"
-        android:title="@string/camera"
+        android:title="@string/coupon"
         />
 
 </menu>
