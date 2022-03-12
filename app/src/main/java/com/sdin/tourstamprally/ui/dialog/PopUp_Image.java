@@ -7,6 +7,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.WindowManager;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -26,7 +27,8 @@ public class PopUp_Image extends BaseDialog{
 
     private Context context;
     private CouponModel couponModel;
-    private TextView coupontxv, expirationPeriodTxv, checktxv;
+    private TextView coupontxv, expirationPeriodTxv;
+    private ImageButton checkImb;
 
     public PopUp_Image(@NonNull Context context, CouponModel couponModel) {
         super(context, R.style.FullScreenDialogStyle);
@@ -47,8 +49,8 @@ public class PopUp_Image extends BaseDialog{
 
         coupontxv = findViewById(R.id.coupon_txv);
         expirationPeriodTxv = findViewById(R.id.expiration_period_txv);
-        checktxv = findViewById(R.id.check_txv);
-        checktxv.setOnClickListener(v -> dismiss());
+        checkImb = findViewById(R.id.check_imb);
+        checkImb.setOnClickListener(v -> dismiss());
 
         coupontxv.setText("쿠폰번호 : " + couponModel.getCoupon_number());
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
