@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/topLayout"
+        android:layout_width="@dimen/_130sdp"
+        android:layout_height="@dimen/_130sdp"
+        android:layout_margin="@dimen/_10sdp"
+        app:cardCornerRadius="@dimen/_10sdp"
+        app:cardElevation="@dimen/_10sdp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+            >
+
+            <ImageView
+                android:id="@+id/spot_imv"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/sample_bg"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <ImageView
+                android:id="@+id/logo_imv"
+                android:layout_width="@dimen/_50sdp"
+                android:layout_height="@dimen/_50sdp"
+                android:layout_margin="@dimen/_20sdp"
+                android:src="@drawable/logo_gray"
+                app:layout_constraintBottom_toTopOf="@id/bottom_pad"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/vertical_line"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.3" />
+
+
+            <ImageView
+                android:id="@+id/location_imv"
+                android:layout_width="@dimen/_20sdp"
+                android:layout_height="@dimen/_20sdp"
+                android:elevation="1dp"
+                android:src="@drawable/icon_deep_blue"
+                android:layout_marginEnd="5dp"
+                app:layout_constraintBottom_toBottomOf="@id/bottom_pad"
+                app:layout_constraintEnd_toEndOf="@id/vertical_line"
+                app:layout_constraintTop_toTopOf="@id/bottom_pad" />
+
+            <TextView
+                android:id="@+id/spot_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:elevation="1dp"
+                android:ellipsize="marquee"
+                android:gravity="start"
+                android:maxLength="9"
+                android:maxLines="1"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_10sdp"
+                app:layout_constraintBottom_toTopOf="@id/address_txv"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/vertical_line"
+                app:layout_constraintTop_toTopOf="@id/bottom_pad"
+                app:layout_constraintVertical_chainStyle="packed"
+                tools:text="부산포 개항가도 일번임" />
+
+            <TextView
+                android:id="@+id/address_txv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:elevation="1dp"
+                android:maxLines="1"
+                android:ellipsize="marquee"
+                android:text="부산광역시 동구 초량동"
+                android:textColor="@color/gray"
+                android:textSize="@dimen/_6sdp"
+                app:layout_constraintBottom_toBottomOf="@id/bottom_pad"
+                app:layout_constraintStart_toEndOf="@id/vertical_line"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/spot_name" />
+
+
+            <View
+                android:id="@+id/bottom_pad"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_40sdp"
+                android:background="@drawable/bg_rounded_content_color"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+</layout>

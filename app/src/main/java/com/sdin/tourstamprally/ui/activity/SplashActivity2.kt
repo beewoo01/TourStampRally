@@ -3,30 +3,25 @@ package com.sdin.tourstamprally.ui.activity
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.AlertDialog
-import android.content.DialogInterface
 import android.content.Intent
-import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.*
 import android.provider.Settings
-import android.text.TextUtils
 import android.util.Log
 import android.view.View
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.TextView
-import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import com.sdin.tourstamprally.R
-import com.sdin.tourstamprally.SplashActivity
 import com.sdin.tourstamprally.Utils
 import com.sdin.tourstamprally.data.Constant
 import com.sdin.tourstamprally.databinding.ActivitySplashBinding
 import com.sdin.tourstamprally.model.UserModel
+import com.sdin.tourstamprally.ui.dialog.DefaultBSRDialog
 import com.sdin.tourstamprally.ui.dialog.DefaultDialog
 import retrofit2.Call
 import retrofit2.Callback
@@ -38,7 +33,7 @@ class SplashActivity2 : BaseActivity() {
     private lateinit var fadeOutAnimation: Animation
     private var isErr = false
     private lateinit var handler: Handler
-    private lateinit var defaultPopUpDialog: DefaultDialog
+    private lateinit var defaultPopUpBSRDialog: DefaultDialog
     private var CHECKNUM = 0
 
     companion object {
@@ -186,7 +181,7 @@ class SplashActivity2 : BaseActivity() {
 
                             permissionGpsErrText.text = "어플 사용시 필요한 권한을 허용해 주세요."
 
-                            defaultPopUpDialog = DefaultDialog(
+                            defaultPopUpBSRDialog = DefaultDialog(
                                 this@SplashActivity2,
                                 permissionErrPopUpCloseButtonListener,
                                 "어플 사용시 필요한 권한을 허용해 주세요."
@@ -200,13 +195,13 @@ class SplashActivity2 : BaseActivity() {
 
                             gpsErrText.text = "GPS 기능이 꺼져 있습니다. GPS 기능을 켜주세요."
 
-                            defaultPopUpDialog =
+                            defaultPopUpBSRDialog =
                                 DefaultDialog(
                                     mContext,
                                     gpsErrPopUpCloseButtonListener,
                                     "GPS 기능이 꺼져 있습니다. GPS 기능을 켜주세요."
                                 );
-                            defaultPopUpDialog.show();
+                            defaultPopUpBSRDialog.show();
                         }
 
                         2 -> {
@@ -215,12 +210,12 @@ class SplashActivity2 : BaseActivity() {
 
                             networkErrText.text = "네트워크 오류가 발생 하였습니다."
 
-                            defaultPopUpDialog = DefaultDialog(
+                            defaultPopUpBSRDialog = DefaultDialog(
                                 mContext,
                                 networkErrPopUpCloseButtonListener,
                                 "네트워크 오류가 발생 하였습니다."
                             )
-                            defaultPopUpDialog.show()
+                            defaultPopUpBSRDialog.show()
                         }
 
                     }
@@ -230,7 +225,7 @@ class SplashActivity2 : BaseActivity() {
     }
 
     private val permissionErrPopUpCloseButtonListener = View.OnClickListener {
-        defaultPopUpDialog.dismiss();
+        defaultPopUpBSRDialog.dismiss();
         ActivityCompat.requestPermissions(
             this@SplashActivity2,
             arrayOf(
@@ -242,14 +237,14 @@ class SplashActivity2 : BaseActivity() {
     }
 
     private val gpsErrPopUpCloseButtonListener = View.OnClickListener {
-        defaultPopUpDialog.dismiss()
+        defaultPopUpBSRDialog.dismiss()
         CHECKNUM = 0
         isErr = false
         startLoading()
     }
 
     private val networkErrPopUpCloseButtonListener = View.OnClickListener {
-        defaultPopUpDialog.dismiss()
+        defaultPopUpBSRDialog.dismiss()
         CHECKNUM = 0
         isErr = false
         startLoading()

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <TextView
+        android:id="@+id/location_txv"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_50sdp"
+        android:textSize="@dimen/_17sdp"
+        android:textColor="@color/black"
+        android:gravity="center"
+        android:background="@drawable/bg_rounded_location_unselect"
+        tools:text="동구"
+        />
+
+</layout>

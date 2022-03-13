@@ -1,7 +1,6 @@
 package com.sdin.tourstamprally;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
@@ -10,19 +9,16 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.provider.Settings;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -35,8 +31,8 @@ import com.sdin.tourstamprally.databinding.ActivitySplashBinding;
 import com.sdin.tourstamprally.model.UserModel;
 import com.sdin.tourstamprally.ui.activity.BaseActivity;
 import com.sdin.tourstamprally.ui.activity.LoginActivity;
-import com.sdin.tourstamprally.ui.activity.MainActivity;
 import com.sdin.tourstamprally.ui.activity.MainActivity2;
+import com.sdin.tourstamprally.ui.dialog.DefaultBSRDialog;
 import com.sdin.tourstamprally.ui.dialog.DefaultDialog;
 
 import retrofit2.Call;
@@ -51,7 +47,7 @@ public class SplashActivity extends BaseActivity {
     private static int CHECKNUM = 0;
     Handler mHandler;
     int MY_PERMISSIONS_REQUEST_CONTACTS = 1;
-    private DefaultDialog defaultPopUpDialog;
+    private DefaultDialog DefaultDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -172,8 +168,8 @@ public class SplashActivity extends BaseActivity {
 
                             TextView permissionGpsErrText = permissionView.findViewById(R.id.tv_test);
                             permissionGpsErrText.setText("어플 사용시 필요한 권한을 허용해 주세요.");
-                            defaultPopUpDialog = new DefaultDialog(mContext,  permissionErrPopUpCloseButtonListener, "어플 사용시 필요한 권한을 허용해 주세요.");
-                            defaultPopUpDialog.show();
+                            DefaultDialog = new DefaultDialog(mContext,  permissionErrPopUpCloseButtonListener, "어플 사용시 필요한 권한을 허용해 주세요.");
+                            DefaultDialog.show();
 
                             break;
 
@@ -181,8 +177,8 @@ public class SplashActivity extends BaseActivity {
 
                             TextView gpsErrText = permissionView.findViewById(R.id.tv_test);
                             gpsErrText.setText("GPS 기능이 꺼져 있습니다. GPS 기능을 켜주세요.");
-                            defaultPopUpDialog = new DefaultDialog(mContext,  gpsErrPopUpCloseButtonListener, "GPS 기능이 꺼져 있습니다. GPS 기능을 켜주세요.");
-                            defaultPopUpDialog.show();
+                            DefaultDialog = new DefaultDialog(mContext,  gpsErrPopUpCloseButtonListener, "GPS 기능이 꺼져 있습니다. GPS 기능을 켜주세요.");
+                            DefaultDialog.show();
 
                             break;
 
@@ -190,8 +186,8 @@ public class SplashActivity extends BaseActivity {
 
                             TextView networkErrText = permissionView.findViewById(R.id.tv_test);
                             networkErrText.setText("네트워크 오류가 발생 하였습니다.");
-                            defaultPopUpDialog = new DefaultDialog(mContext,  networkErrPopUpCloseButtonListener, "네트워크 오류가 발생 하였습니다.");
-                            defaultPopUpDialog.show();
+                            DefaultDialog = new DefaultDialog(mContext,  networkErrPopUpCloseButtonListener, "네트워크 오류가 발생 하였습니다.");
+                            DefaultDialog.show();
 
                             break;
 
@@ -346,7 +342,7 @@ public class SplashActivity extends BaseActivity {
 
         @Override
         public void onClick(View v) {
-            defaultPopUpDialog.dismiss();
+            DefaultDialog.dismiss();
             ActivityCompat.requestPermissions(SplashActivity.this,
                     new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE},
                     MY_PERMISSIONS_REQUEST_CONTACTS);
@@ -359,7 +355,7 @@ public class SplashActivity extends BaseActivity {
 
         @Override
         public void onClick(View v) {
-            defaultPopUpDialog.dismiss();
+            DefaultDialog.dismiss();
             CHECKNUM = 0;
             isErr = false;
             startLoading();
@@ -371,7 +367,7 @@ public class SplashActivity extends BaseActivity {
     private final View.OnClickListener networkErrPopUpCloseButtonListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            defaultPopUpDialog.dismiss();
+            DefaultDialog.dismiss();
             CHECKNUM = 0;
             isErr = false;
             startLoading();

@@ -25,13 +25,12 @@ import com.sdin.tourstamprally.adapter.storecoupon.AllCouponAdapter
 import com.sdin.tourstamprally.databinding.FragmentAllCouponBinding
 import com.sdin.tourstamprally.model.LocationJoinTouristSpot
 import com.sdin.tourstamprally.model.StoreAllCouponModel
-import com.sdin.tourstamprally.ui.dialog.GetCouponAlertDialog
+import com.sdin.tourstamprally.ui.dialog.DefaultBSRDialog
 import com.sdin.tourstamprally.ui.fragment.BaseFragment
 import com.sdin.tourstamprally.utill.recyclerveiew.CustomItemDecoration
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.observers.DisposableSingleObserver
 import io.reactivex.rxjava3.schedulers.Schedulers
-import java.util.stream.Collectors
 import kotlin.collections.HashMap
 
 class AllCouponFragment : BaseFragment() {
@@ -287,29 +286,38 @@ class AllCouponFragment : BaseFragment() {
     private fun setRecyclerView(list: MutableList<StoreAllCouponModel>) {
         binding?.couponRe?.apply {
             allCouponAdapter = AllCouponAdapter { responseModel ->
-                GetCouponAlertDialog(requireContext(), getCouponCallback = {
-                    if (it) {
-                        apiService.getCouponFromFree(responseModel.store_coupon_idx,  Utils.User_Idx)
-                            .subscribeOn(Schedulers.newThread())
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .subscribeWith(object : DisposableSingleObserver<Int>() {
-                                override fun onSuccess(result: Int) {
-                                    if (result == 0) {
-                                        showToast("쿠폰 발급에 실패하였습니다.")
-                                    }else {
+                DefaultBSRDialog(requireContext(),
+                    title = "쿠폰 발급은 계정당 하나만 \n가능합니다.",
+                    content = "쿠폰을 발급 받을시 다른 쿠폰은 받을수 없습니다.\n 발급받으시겠습니까?",
+                    isSpecial = false,
+                    "받기", "취소",
 
-                                        showToast("쿠폰 발급에 성공하였습니다.")
-                                        successGetStoreCoupon(responseModel)
+                    callback = {
+                        if (it) {
+                            apiService.getCouponFromFree(
+                                responseModel.store_coupon_idx,
+                                Utils.User_Idx
+                            )
+                                .subscribeOn(Schedulers.newThread())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribeWith(object : DisposableSingleObserver<Int>() {
+                                    override fun onSuccess(result: Int) {
+                                        if (result == 0) {
+                                            showToast("쿠폰 발급에 실패하였습니다.")
+                                        } else {
+
+                                            showToast("쿠폰 발급에 성공하였습니다.")
+                                            successGetStoreCoupon(responseModel)
+                                        }
                                     }
-                                }
 
-                                override fun onError(e: Throwable) {
-                                    e.printStackTrace()
-                                }
+                                    override fun onError(e: Throwable) {
+                                        e.printStackTrace()
+                                    }
 
-                            })
-                    }
-                }).show()
+                                })
+                        }
+                    }).show()
             }.apply {
                 submitList(list)
             }
@@ -328,10 +336,10 @@ class AllCouponFragment : BaseFragment() {
 
     }
 
-    private fun successGetStoreCoupon(model : StoreAllCouponModel) {
+    private fun successGetStoreCoupon(model: StoreAllCouponModel) {
         allStoreCouponList.remove(model)
-        if (allCouponAdapter == null){
-        }else {
+        if (allCouponAdapter == null) {
+        } else {
             allCouponAdapter?.let {
                 val newList = it.currentList.toMutableList()
                 newList.remove(model)

@@ -245,7 +245,7 @@
 
     <fragment
         android:id="@+id/page_stamp"
-        android:name="com.sdin.tourstamprally.ui.fragment.QRscanFragment"
+        android:name="com.sdin.tourstamprally.ui.fragment.auth.QRScanFragment"
         android:label="QR"
         tools:layout="@layout/fragment_qr_scan">
 
@@ -258,8 +258,8 @@
             app:destination="@id/fragment_tour_spot_point">
 
             <argument
-                android:name="model"
-                app:argType="com.sdin.tourstamprally.model.RallyMapDTO"
+                android:name="title"
+                app:argType="string"
                 app:nullable="false" />
 
         </action>
@@ -267,7 +267,7 @@
 
     <fragment
         android:id="@+id/fragment_nfc"
-        android:name="com.sdin.tourstamprally.ui.fragment.NFCFragment"
+        android:name="com.sdin.tourstamprally.ui.fragment.auth.NFCFragment"
         android:label="NFC"
         tools:layout="@layout/fragment_nfc">
 
@@ -276,8 +276,8 @@
             app:destination="@id/fragment_tour_spot_point">
 
             <argument
-                android:name="model"
-                app:argType="com.sdin.tourstamprally.model.RallyMapDTO"
+                android:name="title"
+                app:argType="string"
                 app:nullable="false" />
 
         </action>

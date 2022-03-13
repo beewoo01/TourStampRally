@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.budiyev.android.codescanner.CodeScanner;
 import com.sdin.tourstamprally.R;
@@ -19,7 +20,11 @@ import com.sdin.tourstamprally.Utils;
 import com.sdin.tourstamprally.databinding.FragmentQrScanBinding;
 import com.sdin.tourstamprally.model.RallyMapDTO;
 import com.sdin.tourstamprally.model.TouristSpotPoint;
+import com.sdin.tourstamprally.ui.dialog.DefaultBSRDialog;
+import com.sdin.tourstamprally.ui.dialog.DialogFailTimeOver;
 import com.sdin.tourstamprally.ui.dialog.ScanResultDialog;
+import com.sdin.tourstamprally.ui.dialog.ScanResultPopup;
+import com.sdin.tourstamprally.ui.dialog.course.SelectCourseDialog;
 import com.sdin.tourstamprally.utill.listener.DialogListener;
 import com.sdin.tourstamprally.utill.GpsTracker;
 import com.sdin.tourstamprally.utill.listener.ScanListener;
@@ -28,6 +33,9 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.observers.DisposableSingleObserver;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -83,14 +91,11 @@ public class QRscanFragment extends BaseFragment implements DialogListener, Scan
 
         codeScanner = new CodeScanner(requireActivity(), binding.scannerView);
         codeScanner.setDecodeCallback(result -> requireActivity().runOnUiThread(()
-                -> {
-            //showDialog(result == null? false : true);
-            //Log.wtf("QR_RESULT", result.getText());
-            isAvailable(result.getText());
-            //Toast.makeText(getActivity(), result.getText(), Toast.LENGTH_SHORT).show();
+                ->  {
+            Log.wtf("taginfo", result.getText());
+            checkIn(result.getText());
         }));
 
-        //binding.moveNfcBtn.setOnClickListener( ignore -> listner.ItemGuid(1));
         binding.moveNfcBtn.setOnClickListener(ignore -> {
 
             NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host);
@@ -99,49 +104,166 @@ public class QRscanFragment extends BaseFragment implements DialogListener, Scan
 
         });
 
+        getData();
+    }
 
-        //binding.scannerView.setOnClickListener( v -> codeScanner.startPreview());
+    private void getData() {
+        Log.wtf("NFCFragment", "getData");
+        apiService.haveCourseForStemp(Utils.User_Idx)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(new DisposableSingleObserver<Integer>() {
+                    @Override
+                    public void onSuccess(@io.reactivex.rxjava3.annotations.NonNull Integer integer) {
+                        Log.wtf("NFCFragment", "haveCourseForStemp, onSuccess");
+                        initGuid(integer);
+                    }
+
+                    @Override
+                    public void onError(@io.reactivex.rxjava3.annotations.NonNull Throwable e) {
+                        e.printStackTrace();
+                    }
+                });
+    }
+
+    private void initGuid(int position) {
+        Log.wtf("NFCFragment", "initGuid");
+        switch (position) {
+            case 0 : {
+                //코스 선택 안함
+                Log.wtf("NFCFragment", "코스 선택 안함");
+                getCourseInfo();
+                break;
+            }
+
+            case 1 : {
+                Log.wtf("NFCFragment", "코스 있음");
+                //코스 있음
+                break;
+            }
+
+            case 2 : {
+                //코스 시간 지남 POPUP
+                Log.wtf("NFCFragment", "코스 시간 지남");
+                new DialogFailTimeOver(requireContext()).show();
+                break;
+            }
+        }
+
+    }
+
+    private void getCourseInfo() {
+        new SelectCourseDialog(requireContext()).show();
     }
 
 
-    private void isAvailable(final String text) {
+    private void checkIn(final String taggingStr) {
 
         //final String finalText = "T05100AA028";
         //테스트용
 
-        apiService.getDistance(text).enqueue(new Callback<TouristSpotPoint>() {
-            @Override
-            public void onResponse(@NotNull Call<TouristSpotPoint> call, @NotNull Response<TouristSpotPoint> response) {
-                if (response.isSuccessful()) {
-                    Log.wtf("거리 가져오기", "거리 가져오기");
-                    //Log.wtf("isAvailable", "isSuccessful");
+        apiService.checkInStemp(Utils.User_Idx, taggingStr, Utils.UserPhone)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(new DisposableSingleObserver<HashMap<String, Integer>>() {
 
-                    touristSpotPoint = response.body();
-                    if (touristSpotPoint == null) {
-                        showFailDialog();
-                    } else {
-                        gpsTracker = new GpsTracker(requireContext());
-                        sendTagging(text);
-                        /*if (distance_calculation(touristSpotPoint.getTouristspotpoint_latitude(), touristSpotPoint.getTouristspotpoint_longitude())){
-                            sendTagging(text);
-                        }else {
-                            showDialog("QR 스캔 실패","QR 확인 하신 후 \n재시도 해주세요.");
-                        }*/
-
+                    @Override
+                    public void onSuccess(@io.reactivex.rxjava3.annotations.NonNull HashMap<String, Integer> map) {
+                        setCheckInResult(map);
                     }
 
-                } else {
-                    showFailDialog();
-                }
+                    @Override
+                    public void onError(@io.reactivex.rxjava3.annotations.NonNull Throwable e) {
+                        e.printStackTrace();
+                    }
+                });
+    }
+
+    private void setCheckInResult(HashMap<String, Integer> map) {
+        int result = map.get("result");
+        int touristspotIdx = map.get("touristspot_idx");
+        switch (result) {
+            case 0: {
+                // 인증성공 POPUP
+                new ScanResultPopup(requireContext(), 0, "NFC", () -> {
+                    Log.wtf("ScanResultPopup", "touristspotIdx " + touristspotIdx);
+
+                    //check_spot_point_nfc
+                    return null;
+                }).show();
+                break;
             }
 
-            @Override
-            public void onFailure(@NotNull Call<TouristSpotPoint> call, @NotNull Throwable t) {
-                showFailDialog();
+            case 1: {
+                //코스 선택 안함 POPUP
+                getCourseInfo();
+                /*apiService.selectNotClearCourse(Utils.User_Idx)
+                        .subscribeOn(Schedulers.newThread())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribeWith(new DisposableSingleObserver<List<SelectCourseModel>>() {
 
-                t.printStackTrace();
+                            @Override
+                            public void onSuccess(@io.reactivex.rxjava3.annotations.NonNull List<SelectCourseModel> selectCourseModels) {
+
+                            }
+
+                            @Override
+                            public void onError(@io.reactivex.rxjava3.annotations.NonNull Throwable e) {
+
+                            }
+                        });*/
+                break;
             }
-        });
+
+            case 2: {
+                // 시간 오버 POPUP
+                new DialogFailTimeOver(requireContext()).show();
+                break;
+            }
+
+            case 3: {
+                // 태그 정보 잘못됨 POPUP
+                new ScanResultPopup(requireContext(), 1, "NFC", () -> null).show();
+                break;
+            }
+
+            case 4: {
+                //이미 인증됨  POPUP
+                new ScanResultPopup(requireContext(), 2, "NFC", () -> {
+                    Log.wtf("ScanResultPopup", "touristspotIdx " + touristspotIdx);
+                    return null;
+                }).show();
+                break;
+            }
+
+            case 5: {
+                // 현재 코스가 아님 POPUP
+                new DefaultBSRDialog(
+                        requireContext(),
+                        "현재 진행중인 코스를\n중단 하시겠습니까?",
+                        "중간 시 해당 코스는 모두\n실패 처리가 됩니다.",
+                        true,
+                        "취소",
+                        "중단",
+                        isCancel -> {
+                            if (!isCancel) {
+                                // TODO: 2022/03/13 내 코스 모든 기록 삭제
+                            }
+                            return null;
+                        }
+                ).show();
+                break;
+            }
+
+            default: {
+                showToast("인증에 실패하였습니다. 관리자에게 문의해주세요 " + result);
+                break;
+            }
+        }
+    }
+
+    private void showToast(String msg) {
+        Toast.makeText(requireContext(), msg, Toast.LENGTH_SHORT).show();
     }
 
     private boolean distance_calculation(double latitude, double longitude) {
@@ -171,7 +293,7 @@ public class QRscanFragment extends BaseFragment implements DialogListener, Scan
         return Utils.distance(latitude, longitude, userLatitude, userLongitude);
     }
 
-    private void sendTagging(String text) {
+    /*private void sendTagging(String text) {
 
         apiService.check_in(text, String.valueOf(Utils.User_Idx), Utils.UserPhone).enqueue(new Callback<HashMap<String, Integer>>() {
             @Override
@@ -226,9 +348,6 @@ public class QRscanFragment extends BaseFragment implements DialogListener, Scan
         scanResultDialog.setDialogListener(this);
         scanResultDialog.show();
 
-        /*ScanResultDialog scanResultDialog = new ScanResultDialog(requireContext(), true, "QR", touristhistory_touristspotpoint_idx, "스탬프 랠리 획득!");
-        scanResultDialog.show();
-        scanResultDialog.*/
     }
 
     private void showFailDialog() {
@@ -254,7 +373,7 @@ public class QRscanFragment extends BaseFragment implements DialogListener, Scan
                 touristspotpoint_idx);
         scanResultDialog.setDialogListener(this);
         scanResultDialog.show();
-    }
+    }*/
 
 
     @Override

@@ -28,7 +28,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.sdin.tourstamprally.R
 import com.sdin.tourstamprally.Utils
 import com.sdin.tourstamprally.databinding.ActivityMain2Binding
-import com.sdin.tourstamprally.utill.listener.NFCListener
+import com.sdin.tourstamprally.ui.fragment.auth.NFCListener
 import com.sdin.tourstamprally.utill.Quadruple
 import com.sdin.tourstamprally.utill.navutil.DialogNavigator
 
@@ -271,14 +271,17 @@ class MainActivity2 : AppCompatActivity()/*, NavigationBarView.OnItemSelectedLis
         ) {
 
             val rawMsgs = intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES)
-            rawMsgs?.size?.let {
+            (rawMsgs?.get(0) as NdefMessage).apply {
+                nfcListener?.onReadTag(String(records[0].payload))
+            }
+            /*rawMsgs?.size?.let {
                 val msgs: Array<NdefMessage?> = arrayOfNulls(it)
                 for ((index, item) in rawMsgs.withIndex()) {
                     msgs[index] = item as NdefMessage
                 }
 
                 nfcListener?.onReadTag(msgs)
-            }
+            }*/
 
 
         }

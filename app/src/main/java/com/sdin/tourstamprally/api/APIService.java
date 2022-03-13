@@ -25,6 +25,7 @@ import com.sdin.tourstamprally.model.TouristSpotPointDC;
 import com.sdin.tourstamprally.model.TouristSpotPointImg;
 import com.sdin.tourstamprally.model.UserModel;
 import com.sdin.tourstamprally.model.VisitCountModel;
+import com.sdin.tourstamprally.model.course.SelectCourseModel;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -221,11 +222,15 @@ public interface APIService {
     @GET("phonenum_authorization")
     Call<String> getAutoNumber(@Query("user_phone") String phone, @Query("access_token") String token);
 
-    @GET("getdistance")
-    Call<TouristSpotPoint> getDistance(@Query("tag_info") String taggin_info);
+    /*@GET("getdistance")
+    Call<TouristSpotPoint> getDistance(@Query("tag_info") String taggin_info);*/
 
     @GET("check_in")
-    Call<HashMap<String, Integer>> check_in(@Query("taggin_info") String taggin_info, @Query("userIdx") String userIdx, @Query("user_phone") String user_phone);
+    Call<HashMap<String, Integer>> check_in(
+            @Query("taggin_info") String taggin_info,
+            @Query("userIdx") String userIdx,
+            @Query("user_phone") String user_phone
+    );
 
     @GET("select_success_data")
     Call<RallyMapDTO> select_success_data(@Query("touristspotpoint_idx") String touristspotpoint_idx);
@@ -324,6 +329,47 @@ public interface APIService {
     Single<Integer> getCouponFromFree(
             @Query("store_coupon_idx") int store_coupon_idx,
             @Query("user_idx") int user_idx
+    );
+
+    //메인화면 접근시 선택된 코스 가져오기
+    @GET("haveCourseForFirst")
+    Single<Integer> getCurrentCoState(@Query("user_idx") int user_idx);
+
+    //등록된 코스 가져오기
+    @GET("haveCourseForStemp")
+    Single<Integer> haveCourseForStemp(@Query("user_idx") int user_idx);
+
+    //체크인
+    @GET("checkIn_stemp")
+    Single<HashMap<String, Integer>> checkInStemp(
+            @Query("user_idx") int user_idx,
+            @Query("taggingInfo") String taggingInfo,
+            @Query("userPhone") String userPhone
+    );
+
+    //코스 가져오기
+    @GET("selectNotClearCourse")
+    Single<List<SelectCourseModel>> selectNotClearCourse(
+            @Query("user_idx") int userIdx
+    );
+
+    //현재코스 등록하기
+    @GET("insertCurrentCourse")
+    Single<Integer> insertCurrentCourse(
+            @Query("spot_idx") int spot_idx,
+            @Query("user_idx") int user_idx
+    );
+
+    //내 기록 삭제
+    @GET("removeMyCourse")
+    Single<Integer> removeMyCourse(
+            @Query("user_idx") int user_idx
+    );
+
+    //인증화면에서 관광지 포인트화면으로 넘어가기위함
+    @GET("selectSpotSimpleInfo")
+    Single<RallyMapModel> selectSpotSimpleInfo(
+            @Query("touristspot_idx") int touristspot_idx
     );
 
 }

@@ -11,7 +11,6 @@
         android:id="@+id/backgrount_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-
         android:paddingHorizontal="@dimen/_30sdp"
         android:paddingTop="@dimen/_5sdp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -59,8 +58,8 @@
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
                 android:gravity="center"
-                android:textColor="@color/scan_dialog_text_color"
                 android:text="스탬프 랠리 획득!"
+                android:textColor="@color/scan_dialog_text_color"
                 android:textSize="@dimen/_23sdp" />
 
             <ImageView
@@ -80,7 +79,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="확인하러가기 >"
-
             android:paddingHorizontal="@dimen/_10sdp"
             android:textSize="@dimen/_16sdp"
             android:textStyle="bold"
