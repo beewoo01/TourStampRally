@@ -1,194 +1,197 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<layout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
 
-    <ImageView
-        android:layout_width="@dimen/_60sdp"
-        android:layout_height="@dimen/_60sdp"
-        android:elevation="5dp"
-        android:src="@drawable/coupon_check_img"
-        app:layout_constraintBottom_toTopOf="@id/content_cv"
-        app:layout_constraintEnd_toEndOf="@id/content_cv"
-        app:layout_constraintStart_toStartOf="@id/content_cv"
-        app:layout_constraintTop_toTopOf="@id/content_cv" />
+        <ImageView
+            android:layout_width="@dimen/_60sdp"
+            android:layout_height="@dimen/_60sdp"
+            android:elevation="5dp"
+            android:src="@drawable/coupon_check_img"
+            app:layout_constraintBottom_toTopOf="@id/content_cv"
+            app:layout_constraintEnd_toEndOf="@id/content_cv"
+            app:layout_constraintStart_toStartOf="@id/content_cv"
+            app:layout_constraintTop_toTopOf="@id/content_cv" />
 
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/content_cv"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/_40sdp"
-        app:cardCornerRadius="@dimen/_10sdp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/_280sdp"
-            android:background="@color/allclear_coupon_bg_color"
+        <androidx.cardview.widget.CardView
+            android:id="@+id/content_cv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/_40sdp"
+            app:cardCornerRadius="@dimen/_10sdp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <ImageView
-                android:id="@+id/subItem_imv"
-                android:layout_width="0dp"
-                android:layout_height="@dimen/_60sdp"
-                android:layout_marginHorizontal="@dimen/_20sdp"
-                android:layout_marginTop="@dimen/_20sdp"
-                android:scaleType="fitXY"
-                android:src="@drawable/coupon_item_img"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/center_guidLine"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:layout_constraintGuide_percent="0.5" />
-
-
-            <ImageView
-                android:id="@+id/logo_imv"
-                android:layout_width="130dp"
-                android:layout_height="0dp"
-                android:contentDescription="logo"
-                android:src="@drawable/logo_coupon_ver"
-                app:layout_constraintDimensionRatio="1:1"
-                app:layout_constraintBottom_toTopOf="@id/center_guidLine"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/allclear_txv" />
-
-            <TextView
-                android:id="@+id/allclear_txv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:elevation="2dp"
-                android:text="스탬프 모두 획득 완료"
-                android:textColor="#FEC51C"
-                android:textSize="@dimen/_17sdp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="@id/subItem_imv"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
-
-            <TextView
-                android:id="@+id/congrats_txv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="축하합니다!\n스탬프를 모두 획득하셨습니다."
-                android:textColor="@color/white"
-                android:textSize="@dimen/_10sdp"
-                app:layout_constraintTop_toBottomOf="@id/allclear_txv"
-                app:layout_constraintBottom_toTopOf="@id/coupon_txv"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
-
-            <TextView
-                android:id="@+id/coupon_txv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/bg_white_coupon"
-                android:gravity="center"
-                android:padding="@dimen/_5sdp"
-                android:text="쿠폰 번호 : 1111-1111-1111-1111-11"
-                android:textColor="@color/black"
-                android:textSize="@dimen/_10sdp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@id/expiration_period_txv"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/center_guidLine" />
-
-            <TextView
-                android:id="@+id/expiration_period_txv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="사용기간 : 2021.11.01~11.30"
-                android:textColor="@color/white"
-                android:textSize="@dimen/_10sdp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@id/coupon_content"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/coupon_txv" />
-
-
-            <TextView
-                android:id="@+id/coupon_content"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="아래 버튼을 이용해 해당 쿠폰으로 응모하거나\n다시 도전하기를 선택해 주세요."
-                android:textColor="#9898F3"
-                android:textSize="@dimen/_8sdp"
-                app:layout_constraintBottom_toTopOf="@id/again_challenge_txv"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/expiration_period_txv" />
-
-
-            <TextView
-                android:id="@+id/again_challenge_txv"
-                android:layout_width="0dp"
-                android:layout_height="@dimen/_40sdp"
-                android:background="#E1E1E1"
-                android:gravity="center"
-                android:text="다시도전하기"
-                android:textColor="@color/black"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/apply_event_txv"
-                app:layout_constraintStart_toStartOf="parent" />
-
-            <View
-                android:layout_width="1dp"
-                android:layout_height="0dp"
-                android:background="#707070"
-                app:layout_constraintBottom_toBottomOf="@id/again_challenge_txv"
-                app:layout_constraintEnd_toStartOf="@id/apply_event_txv"
-                app:layout_constraintStart_toEndOf="@id/again_challenge_txv"
-                app:layout_constraintTop_toTopOf="@id/again_challenge_txv" />
-
-            <TextView
-                android:id="@+id/apply_event_txv"
-                android:layout_width="0dp"
-                android:layout_height="@dimen/_40sdp"
-                android:background="#FFFFFF"
-                android:gravity="center"
-                android:text="응모하기"
-                android:textColor="@color/black"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_280sdp"
+                android:background="@color/allclear_coupon_bg_color"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/again_challenge_txv" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:id="@+id/subItem_imv"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_60sdp"
+                    android:layout_marginHorizontal="@dimen/_20sdp"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/coupon_item_img"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/center_guidLine"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layout_constraintGuide_percent="0.5" />
 
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                <ImageView
+                    android:id="@+id/logo_imv"
+                    android:layout_width="130dp"
+                    android:layout_height="0dp"
+                    android:contentDescription="logo"
+                    android:src="@drawable/logo_coupon_ver"
+                    app:layout_constraintBottom_toTopOf="@id/center_guidLine"
+                    app:layout_constraintDimensionRatio="1:1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/allclear_txv" />
 
-    </androidx.cardview.widget.CardView>
+                <TextView
+                    android:id="@+id/allclear_txv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:elevation="2dp"
+                    android:text="스탬프 모두 획득 완료"
+                    android:textColor="#FEC51C"
+                    android:textSize="@dimen/_17sdp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="@id/subItem_imv"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
 
-    <ImageButton
-        android:id="@+id/check_imb"
-        android:layout_width="@dimen/_40sdp"
-        android:layout_height="@dimen/_40sdp"
-        android:background="@null"
-        android:elevation="2dp"
-        android:scaleType="fitXY"
-        android:src="@drawable/ic_event_popup_close"
-        app:layout_constraintBottom_toTopOf="@id/content_cv"
-        app:layout_constraintEnd_toEndOf="@id/content_cv"
-        app:layout_constraintStart_toEndOf="@id/content_cv"
-        app:layout_constraintTop_toTopOf="@id/content_cv"
-        android:contentDescription="@string/close" />
+                <TextView
+                    android:id="@+id/congrats_txv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="축하합니다!\n스탬프를 모두 획득하셨습니다."
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_10sdp"
+                    app:layout_constraintBottom_toTopOf="@id/coupon_txv"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/allclear_txv" />
+
+                <TextView
+                    android:id="@+id/coupon_txv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_white_coupon"
+                    android:gravity="center"
+                    android:padding="@dimen/_5sdp"
+                    android:text="쿠폰 번호 : 1111-1111-1111-1111-11"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_10sdp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toTopOf="@id/expiration_period_txv"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/center_guidLine" />
+
+                <TextView
+                    android:id="@+id/expiration_period_txv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="사용기간 : 2021.11.01~11.30"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_10sdp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toTopOf="@id/coupon_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/coupon_txv" />
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+                <TextView
+                    android:id="@+id/coupon_content"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="아래 버튼을 이용해 해당 쿠폰으로 응모하거나\n다시 도전하기를 선택해 주세요."
+                    android:textColor="#9898F3"
+                    android:textSize="@dimen/_8sdp"
+                    app:layout_constraintBottom_toTopOf="@id/again_challenge_txv"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/expiration_period_txv" />
+
+
+                <TextView
+                    android:id="@+id/again_challenge_txv"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_40sdp"
+                    android:background="#E1E1E1"
+                    android:gravity="center"
+                    android:text="다시도전하기"
+                    android:textColor="@color/black"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/apply_event_txv"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="0dp"
+                    android:background="#707070"
+                    app:layout_constraintBottom_toBottomOf="@id/again_challenge_txv"
+                    app:layout_constraintEnd_toStartOf="@id/apply_event_txv"
+                    app:layout_constraintStart_toEndOf="@id/again_challenge_txv"
+                    app:layout_constraintTop_toTopOf="@id/again_challenge_txv" />
+
+                <TextView
+                    android:id="@+id/apply_event_txv"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_40sdp"
+                    android:background="#FFFFFF"
+                    android:gravity="center"
+                    android:text="응모하기"
+                    android:textColor="@color/black"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/again_challenge_txv" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <ImageButton
+            android:id="@+id/check_imb"
+            android:layout_width="@dimen/_40sdp"
+            android:layout_height="@dimen/_40sdp"
+            android:background="@null"
+            android:contentDescription="@string/close"
+            android:elevation="2dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_event_popup_close"
+            app:layout_constraintBottom_toTopOf="@id/content_cv"
+            app:layout_constraintEnd_toEndOf="@id/content_cv"
+            app:layout_constraintStart_toEndOf="@id/content_cv"
+            app:layout_constraintTop_toTopOf="@id/content_cv" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

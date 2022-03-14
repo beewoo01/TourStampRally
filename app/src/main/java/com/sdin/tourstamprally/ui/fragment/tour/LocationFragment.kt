@@ -142,8 +142,10 @@ class LocationFragment : BaseFragment() {
         var allLocationPercent = 0
         var myLocationPercent = 0
         for (model in list) {
-            allLocationPercent += model.allCount
-            myLocationPercent += model.myCount
+            model.allCount?.let {
+                allLocationPercent += it
+                myLocationPercent += it
+            }
         }
         val allCount: Int =
             (((myLocationPercent.toDouble() / allLocationPercent.toDouble())) * 100).roundToInt()
@@ -198,7 +200,11 @@ class LocationFragment : BaseFragment() {
             }
 
             private fun setProgress(model: RallyMapModel): Boolean {
-                return model.allCount <= model.myCount
+                if (model.allCount != null && model.myCount != null) {
+                    return model.allCount <= model.myCount
+                }
+                return false
+
             }
 
         }

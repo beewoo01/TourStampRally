@@ -101,7 +101,8 @@ class MainActivity2 : AppCompatActivity()/*, NavigationBarView.OnItemSelectedLis
         appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.account_admin,
-                R.id.notice/*, R.id.coupon_list*/,
+                R.id.notice,
+                R.id.coupon_list,
                 R.id.notify_setting,
                 R.id.bascet_list
             ),
@@ -168,7 +169,7 @@ class MainActivity2 : AppCompatActivity()/*, NavigationBarView.OnItemSelectedLis
             }
 
             2 -> {
-                navigate = R.id.ready_dialog
+                navigate = R.id.coupon_list
                 title = "쿠폰현황"
                 //navController.navigate(R.id.ready_dialog)
                 //navController.navigate(R.id.page_store)

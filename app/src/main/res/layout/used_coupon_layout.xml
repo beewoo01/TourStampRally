@@ -67,6 +67,8 @@
             app:layout_constraintBottom_toBottomOf="@id/content_bottom_guidLine"
             />
 
+
+
         <View
             android:layout_width="@dimen/_90sdp"
             android:layout_height="0dp"
@@ -139,6 +141,30 @@
             android:layout_marginStart="3dp"
             app:layout_constraintStart_toEndOf="@id/justBar"
             app:layout_constraintBottom_toBottomOf="@id/content_bottom_guidLine"
+            />
+
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="#8AFAFAFA"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            />
+
+
+        <ImageView
+            android:id="@+id/state_imv"
+            android:layout_width="@dimen/_50sdp"
+            android:layout_height="@dimen/_50sdp"
+            android:scaleType="fitXY"
+            android:src="@drawable/overday_store_coupon"
+            android:layout_marginEnd="@dimen/_10sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             />
 
 

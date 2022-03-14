@@ -11,7 +11,7 @@ import androidx.databinding.DataBindingUtil
 import com.sdin.tourstamprally.R
 import com.sdin.tourstamprally.databinding.DialogEventJoinSuccessBinding
 
-class DialogEventJoinSuccess(context : Context, val callBack : () -> Unit) :
+class DialogEventJoinSuccess(context : Context, private val callBack : () -> Unit) :
     Dialog(context, R.style.FullScreenDialogStyle) {
 
     private var binding : DialogEventJoinSuccessBinding? = null
@@ -26,6 +26,7 @@ class DialogEventJoinSuccess(context : Context, val callBack : () -> Unit) :
             false
         )
 
+        setContentView(binding?.root!!)
 
         window?.apply {
             setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING)
@@ -38,7 +39,6 @@ class DialogEventJoinSuccess(context : Context, val callBack : () -> Unit) :
         }
 
         binding?.okTxv?.setOnClickListener {
-            // TODO: 쿠폰확인하기로 이동
             callBack()
             dismiss()
         }

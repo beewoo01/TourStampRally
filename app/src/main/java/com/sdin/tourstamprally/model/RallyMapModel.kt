@@ -4,7 +4,6 @@ import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
 data class RallyMapModel(
-
     @SerializedName("touristspot_idx")
     var touristspot_idx: Int,
 
@@ -15,7 +14,7 @@ data class RallyMapModel(
     val touristspotpoint_idx : Int,*/
 
     @SerializedName("test_touristspotpoint_idx")
-    val touristspotpoint_idx : Int,
+    val touristspotpoint_idx : Int?,
 
     @SerializedName("touristspot_latitude")
     val touristspot_latitude : Double,
@@ -27,13 +26,13 @@ data class RallyMapModel(
     val touristspot_address: String?,
 
     @SerializedName("allCount")
-    val allCount: Int,
+    val allCount: Int?,
 
     @SerializedName("myCount")
-    val myCount: Int,
+    val myCount: Int?,
 
     @SerializedName("test_touristspotpoint_name")
-    val touristspotpoint_name: String,
+    val touristspotpoint_name: String?,
 
     /*@SerializedName("touristspotpoint_name")
     val touristspotpoint_name: String,*/

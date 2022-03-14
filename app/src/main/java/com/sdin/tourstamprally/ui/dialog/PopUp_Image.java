@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -56,6 +57,16 @@ public class PopUp_Image extends BaseDialog{
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         SimpleDateFormat sdg2 = new SimpleDateFormat("yyyy.MM.dd");
         Calendar calendar = Calendar.getInstance();
+
+        findViewById(R.id.again_challenge_txv).setOnClickListener(v -> {
+            //다시 도전
+
+        });
+
+        findViewById(R.id.apply_event_txv).setOnClickListener(v -> {
+            //이벤트 응모하기
+
+        });
 
         try {
             Date to = sdf.parse(couponModel.getCoupon_createtime());

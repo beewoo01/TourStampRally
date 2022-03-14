@@ -142,8 +142,9 @@ class NFCFragment : BaseFragment(), NFCListener {
                                 override fun onSuccess(result : RallyMapModel) {
                                     if(result != null) {
                                         val action = NFCFragmentDirections.checkSpotPointNfc(
-                                            result.touristspot_name,
-                                            result
+                                            title = result.touristspot_name,
+                                            state = 1,
+                                            rallyMapModel = result
                                         )
 
                                         findNavController().navigate(action)
@@ -185,8 +186,9 @@ class NFCFragment : BaseFragment(), NFCListener {
                                 override fun onSuccess(result : RallyMapModel) {
                                     if(result != null) {
                                         val action = NFCFragmentDirections.checkSpotPointNfc(
-                                            result.touristspot_name,
-                                            result
+                                            title = result.touristspot_name,
+                                            state = 1,
+                                            rallyMapModel = result
                                         )
 
                                         findNavController().navigate(action)

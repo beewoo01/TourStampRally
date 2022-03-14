@@ -5,8 +5,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
-import com.sdin.tourstamprally.ui.fragment.FinishCouponFragment;
-import com.sdin.tourstamprally.ui.fragment.MyCouponFragment;
+import com.sdin.tourstamprally.ui.fragment.store.coupon.MyCouponFragment;
 
 
 public class CouponFragmentAdapter extends FragmentStateAdapter {
@@ -25,9 +24,7 @@ public class CouponFragmentAdapter extends FragmentStateAdapter {
 
         switch (index) {
             case 0:
-                return MyCouponFragment.newInstance(index + 1);
-            case 1:
-                return FinishCouponFragment.newInstance(index + 1);
+                return MyCouponFragment.newInstance(null);
             default:
                 return null;
         }

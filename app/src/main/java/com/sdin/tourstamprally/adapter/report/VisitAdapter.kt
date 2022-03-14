@@ -65,7 +65,7 @@ class VisitAdapter(
 
                 logoImv.setOnClickListener {
                     if (allCounted == 100) {
-                        visitItemClickListener.clearClick(model.touristspot_idx)
+                        visitItemClickListener.clearClick(model, absoluteAdapterPosition)
                     }
                 }
 
@@ -216,9 +216,9 @@ class VisitAdapter(
             model.allCount, model.myCount,
             model.location_idx, model.location_name,
             model.touristspot_idx, model.touristspot_name,
-            model.touristspot_explan, model.touristspot_latitude,
-            model.touristspot_longitude, model.touristspot_img,
-            model.touristhistory_updatetime, 0, 0F, null
+            model.touristspot_explan,  model.touristspot_img,
+            model.touristhistory_updatetime, 0, 0F, null,
+            model.couponCount, model.coupon_idx, model.coupon_number, model.coupon_status, model.coupon_createtime
         )
 
         currentList[position] = model

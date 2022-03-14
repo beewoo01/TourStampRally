@@ -26,11 +26,11 @@ data class HistorySpotModel(
     @SerializedName("touristspot_explan")
     val touristspot_explan: String,
 
-    @SerializedName("touristspot_latitude")
+    /*@SerializedName("touristspot_latitude")
     val touristspot_latitude : Double,
 
     @SerializedName("touristspot_longitude")
-    val touristspot_longitude : Double,
+    val touristspot_longitude : Double,*/
 
     @SerializedName("touristspot_img")
     val touristspot_img: String,
@@ -45,5 +45,20 @@ data class HistorySpotModel(
     val review_score : Float,
 
     @SerializedName("review_contents")
-    var review_contents: String?
+    var review_contents: String?,
+
+    @SerializedName("couponCount")
+    var couponCount : Int,
+
+    @SerializedName("coupon_idx")
+    var coupon_idx : Int?,
+
+    @SerializedName("coupon_number")
+    var coupon_number : String?,
+
+    @SerializedName("coupon_status")
+    var coupon_status : Int?,
+
+    @SerializedName("coupon_createtime")
+    var coupon_createtime : String?
 ) : Serializable

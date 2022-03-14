@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,7 +23,11 @@ import com.sdin.tourstamprally.databinding.FragmentVisithistoryBinding
 import com.sdin.tourstamprally.model.CouponModel
 import com.sdin.tourstamprally.model.HistorySpotModel
 import com.sdin.tourstamprally.model.ReviewWriter
+import com.sdin.tourstamprally.model.event.EventModel
+import com.sdin.tourstamprally.ui.dialog.DefaultBSRDialog
+import com.sdin.tourstamprally.ui.dialog.DialogEventJoinSuccess
 import com.sdin.tourstamprally.ui.dialog.PopUp_Image
+import com.sdin.tourstamprally.ui.dialog.event.TicketDialog
 import com.sdin.tourstamprally.ui.fragment.BaseFragment
 import com.sdin.tourstamprally.utill.listener.VisitItemClickListener
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
@@ -37,7 +42,8 @@ class VisitHistoryFragment : BaseFragment(), VisitItemClickListener {
     private var binding: FragmentVisithistoryBinding? = null
     private var historySpotList: MutableList<HistorySpotModel>? = null
     private lateinit var visitAdapter: VisitAdapter
-
+    private var currentHistorySpotModel: HistorySpotModel? = null
+    private var currentPosition = -1
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -244,8 +250,37 @@ class VisitHistoryFragment : BaseFragment(), VisitItemClickListener {
             })
     }
 
-    override fun clearClick(tourSpotIdx: Int) {
-        apiService.selectCoupon(tourSpotIdx, Utils.User_Idx).subscribeOn(Schedulers.newThread())
+    override fun clearClick(model: HistorySpotModel, position: Int) {
+        currentPosition = position
+        currentHistorySpotModel = model
+
+        model.coupon_idx?.let {
+            val couponModel = CouponModel(
+                it,
+                Utils.User_Idx,
+                model.coupon_number!!,
+                model.coupon_status!!,
+                model.touristspot_idx,
+                model.coupon_createtime!!,
+                model.coupon_createtime!!
+            )
+
+            TicketDialog(requireContext(), couponModel, model.couponCount) { pair ->
+                if (pair.first == 0) {
+                    //다시도전
+                    showResetAlertDialog()
+                } else if (pair.first == 1) {
+                    //응모하기
+                    pair.second?.let { paramModel ->
+                        joinEvent(paramModel)
+                    }
+                }
+            }.show()
+        }
+
+
+        //PopUp_Image(requireContext(), model).show()
+        /*apiService.selectCoupon(tourSpotIdx, Utils.User_Idx).subscribeOn(Schedulers.newThread())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeWith(object : DisposableSingleObserver<CouponModel>(){
                 override fun onSuccess(model : CouponModel) {
@@ -265,7 +300,87 @@ class VisitHistoryFragment : BaseFragment(), VisitItemClickListener {
                     showToast("해당 관광지의 쿠폰이 발급되지 않았습니다.")
                 }
 
-            })
+            })*/
+    }
+
+    private fun showResetAlertDialog() {
+        DefaultBSRDialog(
+            requireContext(), "스탬프 기록이 초기화 됩니다.",
+            "응모하기를 하지 않을 시\n현재 쿠폰으로 응모가 불가합니다.\n다시 도전하시겠습니까?",
+            false, "도전", "닫기"
+        ) { callback ->
+
+            if (callback) {
+                //초기화
+                if (currentHistorySpotModel != null) {
+                    apiService.resetTourSpot(
+                        currentHistorySpotModel!!.touristspot_idx,
+                        Utils.User_Idx
+                    )
+                        .subscribeOn(Schedulers.newThread())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribeWith(object : DisposableSingleObserver<Int>() {
+                            override fun onSuccess(result: Int) {
+                                if (result > 0) {
+                                    // 삭제 성공
+                                    Log.wtf("result", "result")
+                                    val list = visitAdapter.currentList.toMutableList()
+                                    list.removeAt(currentPosition)
+                                    visitAdapter.submitList(list)
+
+                                    currentHistorySpotModel = null
+                                }
+                            }
+
+                            override fun onError(e: Throwable) {
+                                e.printStackTrace()
+                            }
+                        })
+                }
+
+            }
+
+        }.show()
+    }
+
+    private fun showSuccessEventJoin() {
+        DialogEventJoinSuccess(requireContext()) {
+
+        }.show()
+    }
+
+    private fun joinEvent(model: CouponModel) {
+        model.coupon_touristspot_idx
+        if (model.coupon_status > 0) {
+            //참여 완료 팝업
+            showSuccessEventJoin()
+
+        } else {
+            apiService.insertEvent(Utils.User_Idx, model.coupon_idx, model.coupon_number)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(object : DisposableSingleObserver<Int>() {
+                    override fun onSuccess(result: Int) {
+                        when {
+                            result >= 0 -> {
+                                showSuccessEventJoin()
+                            }
+                            result > 0 -> {
+                                //참여 완료 팝업
+                                showSuccessEventJoin()
+                            }
+                            else -> {
+                                //이벤트 창여 실패
+                            }
+                        }
+                    }
+
+                    override fun onError(e: Throwable) {
+                        e.printStackTrace()
+                    }
+                })
+        }
+
     }
 
 

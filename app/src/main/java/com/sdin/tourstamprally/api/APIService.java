@@ -26,6 +26,7 @@ import com.sdin.tourstamprally.model.TouristSpotPointImg;
 import com.sdin.tourstamprally.model.UserModel;
 import com.sdin.tourstamprally.model.VisitCountModel;
 import com.sdin.tourstamprally.model.course.SelectCourseModel;
+import com.sdin.tourstamprally.model.store_coupon.StoreMyCouponModel;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -371,5 +372,24 @@ public interface APIService {
     Single<RallyMapModel> selectSpotSimpleInfo(
             @Query("touristspot_idx") int touristspot_idx
     );
+
+    @GET("insertEvent")
+    Single<Integer> insertEvent(
+            @Query("event_user_idx") int user_idx,
+            @Query("event_coupon_idx") int event_coupon_idx,
+            @Query("event_coupon_num") String event_coupon_num
+    );
+
+    @GET("resetTourSpot")
+    Single<Integer> resetTourSpot(
+            @Query("touristspot_idx") int touristspot_idx,
+            @Query("user_idx") int user_idx
+    );
+
+    @GET("selectMyCoupon")
+    Single<List<StoreMyCouponModel>> selectMyCoupon(
+            @Query("user_idx") int user_idx
+    );
+
 
 }

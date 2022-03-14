@@ -148,12 +148,7 @@ class QRScanFragment : BaseFragment() {
                             .subscribeWith(object : DisposableSingleObserver<RallyMapModel>() {
                                 override fun onSuccess(result : RallyMapModel) {
                                     if(result != null) {
-                                        val action = QRScanFragmentDirections.checkSpotPointQr(
-                                            result.touristspot_name,
-                                            result
-                                        )
-
-                                        findNavController().navigate(action)
+                                        moveFragment(result)
                                     }
                                 }
 
@@ -189,12 +184,7 @@ class QRScanFragment : BaseFragment() {
                             .subscribeWith(object : DisposableSingleObserver<RallyMapModel>() {
                                 override fun onSuccess(result : RallyMapModel) {
                                     if(result != null) {
-                                        val action = QRScanFragmentDirections.checkSpotPointQr(
-                                            result.touristspot_name,
-                                            result
-                                        )
-
-                                        findNavController().navigate(action)
+                                        moveFragment(result)
                                     }
                                 }
 
@@ -251,6 +241,17 @@ class QRScanFragment : BaseFragment() {
                 showToast("인증에 실패하였습니다. 관리자에게 문의해주세요 $result")
             }
         }
+    }
+
+    private fun moveFragment(model: RallyMapModel) {
+        Log.wtf("moveFragment", model.touristspot_name)
+        val action = QRScanFragmentDirections.checkSpotPointQr(
+            title = model.touristspot_name,
+            state = 1,
+            rallyMapModel = model
+        )
+
+        findNavController().navigate(action)
     }
 
     private fun showToast(msg: String) {

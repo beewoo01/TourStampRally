@@ -53,7 +53,8 @@ class DefaultBSRDialog(
     private fun initView() = with(binding!!) {
         if (isSpecial) {
             Glide.with(logoImv.context).load(R.drawable.ic_popup_content_logo).into(logoImv)
-
+            contentLayout.background =
+                ContextCompat.getDrawable(contentLayout.context, R.drawable.bg_rounded_28)
         }
 
         titleTxv.text = title
@@ -61,7 +62,7 @@ class DefaultBSRDialog(
         okTxv.text = leftBtnStr
         cancelTxv.text = rightBtnStr
         contentLayout.background =
-            ContextCompat.getDrawable(contentLayout.context, R.drawable.bg_rounded_28)
+            ContextCompat.getDrawable(contentLayout.context, R.drawable.bg_rounded_22)
 
         okTxv.setOnClickListener {
             callback(true)
