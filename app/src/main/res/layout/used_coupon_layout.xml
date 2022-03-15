@@ -55,16 +55,31 @@
 
 
         <ImageView
+            android:id="@+id/left_imv"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:scaleType="fitCenter"
-            android:src="@drawable/ic_coupon_list_three"
+            android:src="@drawable/ic_coupon_left_sub"
             android:layout_marginVertical="@dimen/_8sdp"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="@id/guid_line"
             app:layout_constraintTop_toTopOf="@id/content_top_guidLine"
             app:layout_constraintBottom_toBottomOf="@id/content_bottom_guidLine"
+            />
+
+        <TextView
+            android:id="@+id/idx_txv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/montserrat_bold"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_25sdp"
+            android:text="1"
+            app:layout_constraintStart_toStartOf="@id/left_imv"
+            app:layout_constraintEnd_toEndOf="@id/left_imv"
+            app:layout_constraintTop_toTopOf="@id/left_imv"
+            app:layout_constraintBottom_toBottomOf="@id/left_imv"
             />
 
 

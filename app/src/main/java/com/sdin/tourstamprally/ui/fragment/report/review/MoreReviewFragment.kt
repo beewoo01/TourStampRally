@@ -16,6 +16,9 @@ import com.sdin.tourstamprally.adapter.review.MoreFragReviewAdapter
 import com.sdin.tourstamprally.databinding.FragmentMoreReviewBinding
 import com.sdin.tourstamprally.model.AllReviewModel
 import com.sdin.tourstamprally.ui.fragment.BaseFragment
+import com.sdin.tourstamprally.utill.CustomDecoration
+import com.sdin.tourstamprally.utill.GridSpacingItemDecoration
+import com.sdin.tourstamprally.utill.recyclerveiew.CustomItemDecoration
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.observers.DisposableSingleObserver
 import io.reactivex.rxjava3.schedulers.Schedulers
@@ -30,7 +33,7 @@ class MoreReviewFragment : BaseFragment() {
     private var selectedLocationIdx = 0
     private var reviewAdapter: MoreFragReviewAdapter? = null
     private var locationAdapter: MoreFragLocationAdapter? = null
-    private lateinit var reviewList : MutableList<AllReviewModel>
+    private lateinit var reviewList: MutableList<AllReviewModel>
     //private var listener : ItemOnClick? = null
 
 
@@ -117,6 +120,7 @@ class MoreReviewFragment : BaseFragment() {
 
             }.apply {
                 submitList(reviewList)
+                addItemDecoration(GridSpacingItemDecoration(2, 20, false))
             }
 
             adapter = reviewAdapter
@@ -151,7 +155,6 @@ class MoreReviewFragment : BaseFragment() {
                     }
 
                     reviewAdapter?.submitList(paramList)
-                    //reviewAdapter?.changeList(paramList)
                 }
 
             })
@@ -207,17 +210,7 @@ class MoreReviewFragment : BaseFragment() {
                         }
                     }
 
-                } /*else {
-                    if (selectedLocationIdx != 0 &&
-                        reviewList[reviewList.indexOf(i)].location_idx == selectedLocationIdx
-                    ) {
-
-                        arrayList.add(i)
-                    } else if (selectedLocationIdx == 0) {
-                        arrayList.add(i)
-                    }
-                }*/
-
+                }
             }
         }
 

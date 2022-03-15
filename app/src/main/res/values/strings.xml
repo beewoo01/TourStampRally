@@ -104,5 +104,6 @@
     <string name="image">image</string>
     <string name="photo">photo</string>
     <string name="coupon">쿠폰</string>
+    <string name="arrow">arrow</string>
 
 </resources>

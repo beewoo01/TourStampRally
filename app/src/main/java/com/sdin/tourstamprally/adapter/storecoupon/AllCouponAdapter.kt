@@ -1,5 +1,6 @@
 package com.sdin.tourstamprally.adapter.storecoupon
 
+import android.annotation.SuppressLint
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -16,6 +17,7 @@ class AllCouponAdapter(private val callback : (StoreAllCouponModel) -> Unit): Li
     inner class ViewHolder(private val binding: MycouponItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
+        @SuppressLint("SetTextI18n")
         fun onBind(model: StoreAllCouponModel) {
             with(binding) {
                 if (model.store_logo_icon != null) {
@@ -30,6 +32,7 @@ class AllCouponAdapter(private val callback : (StoreAllCouponModel) -> Unit): Li
                         .into(logoImv)
                 }
 
+                idxTxv.text = "${absoluteAdapterPosition + 1}"
                 couponName.text = model.store_coupon_name
                 startDataTxv.text = model.store_coupon_expiration_startDate
                 endDataTxv.text = model.store_coupon_expiration_endDate

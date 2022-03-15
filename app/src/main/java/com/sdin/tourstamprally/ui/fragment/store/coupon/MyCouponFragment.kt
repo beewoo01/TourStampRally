@@ -1,40 +1,43 @@
 package com.sdin.tourstamprally.ui.fragment.store.coupon
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.os.Parcelable
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
+import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
-import androidx.fragment.app.FragmentManager
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import androidx.viewpager2.adapter.FragmentStateAdapter
+import androidx.transition.Fade
+import androidx.transition.Transition
+import androidx.transition.TransitionManager
 import com.bumptech.glide.Glide
-import com.bumptech.glide.util.Util
 import com.sdin.tourstamprally.R
 import com.sdin.tourstamprally.Utils
-import com.sdin.tourstamprally.databinding.FragmentCouponMainBinding
 import com.sdin.tourstamprally.databinding.FragmentMyCouponBinding
-import com.sdin.tourstamprally.databinding.FragmentMyCouponParentBinding
 import com.sdin.tourstamprally.databinding.MycouponItemBinding
-import com.sdin.tourstamprally.model.StoreModel
 import com.sdin.tourstamprally.model.store_coupon.StoreMyCouponModel
 import com.sdin.tourstamprally.ui.fragment.BaseFragment
 import com.sdin.tourstamprally.utill.listener.observe.Observer
 import com.sdin.tourstamprally.utill.recyclerveiew.CustomItemDecoration
-import com.sdin.tourstamprally.view.TabIndicatorRectF
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.observers.DisposableSingleObserver
 import io.reactivex.rxjava3.schedulers.Schedulers
+
 
 class MyCouponFragment : BaseFragment(), Observer<MutableList<StoreMyCouponModel>> {
 
     private var binding: FragmentMyCouponBinding? = null
     private var list: MutableList<StoreMyCouponModel>? = null
+    private var reVisibilityState = true
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -44,18 +47,63 @@ class MyCouponFragment : BaseFragment(), Observer<MutableList<StoreMyCouponModel
         binding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_my_coupon, container, false)
 
-        binding?.storeCouponRe?.apply {
-            adapter = MyCouponAdapter()
-        }
+        getData()
 
         return binding?.root
     }
 
+    private fun getData() {
+        apiService.getMyStampCount(Utils.User_Idx).subscribeOn(Schedulers.newThread())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeWith(object : DisposableSingleObserver<Int>() {
+                override fun onSuccess(result: Int) {
+                    binding?.couponCountTxv?.text = "$result"
+                }
+
+                override fun onError(e: Throwable) {
+                    e.printStackTrace()
+                }
+
+            })
+    }
+
+
     private fun initView() = with(binding!!) {
+        couponListTxv.setOnClickListener {
+            if (!reVisibilityState) {
+                storeCouponRe.visibility = View.VISIBLE
+
+                Glide.with(it.context)
+                    .load(R.drawable.ic_arrow_down)
+                    .into(couponArrowImb)
+
+
+                reVisibilityState = true
+
+            } else {
+                storeCouponRe.visibility = View.GONE
+                Glide.with(it.context)
+                    .load(R.drawable.ic_arrow_up)
+                    .into(couponArrowImb)
+
+                reVisibilityState = false
+            }
+        }
+
         storeCouponRe.apply {
-            adapter = MyCouponAdapter().apply {
+            mycouponCountTxv.text = list?.size.toString()
+
+            adapter = MyCouponAdapter() {
+
+                val bundle = Bundle().apply {
+                    putParcelable("model", it)
+                    putString("title", it.store_coupon_name)
+                }
+                findNavController().navigate(R.id.couponDetailFragment, bundle)
+            }.apply {
                 submitList(list)
             }
+
             addItemDecoration(
                 CustomItemDecoration(
                     topPadding = 20, bottomPadding = 20, null, null
@@ -81,19 +129,27 @@ class MyCouponFragment : BaseFragment(), Observer<MutableList<StoreMyCouponModel
 
     }
 
-    class MyCouponAdapter : ListAdapter<StoreMyCouponModel, MyCouponAdapter.ViewHolder>(differ) {
+    class MyCouponAdapter(private val callBack: (StoreMyCouponModel) -> Unit) :
+        ListAdapter<StoreMyCouponModel, MyCouponAdapter.ViewHolder>(differ) {
+
         inner class ViewHolder(private val binding: MycouponItemBinding) :
             RecyclerView.ViewHolder(binding.root) {
+            @SuppressLint("SetTextI18n")
             fun onBind(model: StoreMyCouponModel) = with(binding) {
                 Glide.with(logoImv.context)
-                    .load("http://coratest.kr/imagefile/bsr/" + model.store_logo_icon)
+                    .load("http://coratest.kr/imagefile/bsr/store_logo/" + model.store_logo_icon)
                     .placeholder(R.drawable.sample_profile_image)
                     .error(R.drawable.sample_profile_image)
                     .into(logoImv)
 
+                idxTxv.text = (absoluteAdapterPosition + 1).toString()
                 couponName.text = model.store_coupon_name
                 startDataTxv.text = model.store_coupon_expiration_startDate
                 endDataTxv.text = model.store_coupon_expiration_endDate
+
+                itemContainer.setOnClickListener {
+                    callBack(model)
+                }
             }
         }
 
@@ -135,6 +191,7 @@ class MyCouponFragment : BaseFragment(), Observer<MutableList<StoreMyCouponModel
 
     override fun update1(message: MutableList<StoreMyCouponModel>) {
         list = message
+        Log.wtf("MyCouponFragment", "list size = ${list!!.size}")
         initView()
     }
 

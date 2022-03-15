@@ -38,15 +38,8 @@
     </action>-->
         <action
             android:id="@+id/action_mainfragment_to_fragment_more_review"
-            app:destination="@id/fragment_more_review">
+            app:destination="@id/fragment_more_review"/>
 
-            <argument
-                android:name="title"
-                app:argType="string"
-                app:nullable="false" />
-
-
-        </action>
         <action
             android:id="@+id/action_mainfragment_to_fragment_review_coments"
             app:destination="@id/fragment_review_coments">
@@ -170,6 +163,7 @@
 
     <fragment
         android:id="@+id/fragment_more_review"
+        android:label="리뷰보기"
         android:name="com.sdin.tourstamprally.ui.fragment.report.review.MoreReviewFragment"
         tools:layout="@layout/fragment_more_review">
 
@@ -223,7 +217,6 @@
                 android:name="title"
                 app:argType="string"
                 app:nullable="false" />
-
 
 
         </action>
@@ -375,6 +368,17 @@
         android:name="com.sdin.tourstamprally.ui.fragment.store.coupon.MyCouponParentFragment"
         android:label="fragment_my_coupon_parent"
         tools:layout="@layout/fragment_my_coupon_parent" />
+
+    <fragment
+        android:id="@+id/myParantFragment"
+        android:name="com.sdin.tourstamprally.ui.fragment.store.coupon.MyCouponParentFragment"
+        android:label="fragment_coupon_detail"
+        tools:layout="@layout/fragment_my_coupon_parent" />
+
+    <fragment
+        android:id="@+id/couponDetailFragment"
+        android:name="com.sdin.tourstamprally.CouponDetailFragment"
+        tools:layout="@layout/fragment_coupon_detail" />
 
 
 </navigation>

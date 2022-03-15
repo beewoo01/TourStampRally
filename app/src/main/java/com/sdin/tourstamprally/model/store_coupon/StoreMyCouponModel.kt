@@ -5,7 +5,7 @@ import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
-data class StoreMyCouponModel(
+data class  StoreMyCouponModel(
     @SerializedName("store_name")
     val store_name : String,
     @SerializedName("store_logo_icon")
@@ -16,6 +16,8 @@ data class StoreMyCouponModel(
     val store_mycoupon_store_coupon_idx : Int,
     @SerializedName("store_mycoupon_state")
     val store_mycoupon_state: Int,
+    @SerializedName("store_coupon_number")
+    val store_coupon_number : String,
     @SerializedName("store_mycoupon_createtime")
     val store_mycoupon_createtime : String,
     @SerializedName("store_coupon_store_idx")
@@ -35,6 +37,7 @@ data class StoreMyCouponModel(
         parcel.readInt(),
         parcel.readInt(),
         parcel.readString().toString(),
+        parcel.readString().toString(),
         parcel.readInt(),
         parcel.readString().toString(),
         parcel.readString().toString(),
@@ -48,6 +51,7 @@ data class StoreMyCouponModel(
         parcel.writeInt(store_mycoupon_idx)
         parcel.writeInt(store_mycoupon_store_coupon_idx)
         parcel.writeInt(store_mycoupon_state)
+        parcel.writeString(store_coupon_number)
         parcel.writeString(store_mycoupon_createtime)
         parcel.writeInt(store_coupon_store_idx)
         parcel.writeString(store_coupon_name)

@@ -3,270 +3,329 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/gray_e">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/top_container"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/_10sdp"
-            android:background="@color/white"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-
-            <View
-                android:layout_width="0dp"
-                android:layout_height="1dp"
-                android:background="@color/black"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <View
-                android:layout_width="0dp"
-                android:layout_height="1dp"
-                android:background="@color/black"
-                app:layout_constraintBottom_toBottomOf="@id/toppad"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
-
-            <View
-                android:id="@+id/toppad"
-                android:layout_width="0dp"
-                android:layout_height="@dimen/_40sdp"
-                android:background="@color/light_goldenrod_yellow"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/used_coupon_title_txv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="사용완료 쿠폰"
-                android:textColor="@color/Black"
-                android:textSize="@dimen/_13sdp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="@id/toppad"
-                app:layout_constraintStart_toStartOf="@id/top_start_guidLine"
-                app:layout_constraintTop_toTopOf="@id/toppad" />
-
-            <TextView
-                android:id="@+id/used_coupon_txv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:text="0"
-                android:textColor="#E7664D"
-                android:textSize="@dimen/_13sdp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="@id/used_coupon_title_txv"
-                app:layout_constraintStart_toEndOf="@id/used_coupon_title_txv"
-                app:layout_constraintTop_toTopOf="@id/used_coupon_title_txv" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="장"
-                android:textColor="@color/Black"
-                android:textSize="@dimen/_13sdp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="@id/toppad"
-                app:layout_constraintStart_toEndOf="@id/used_coupon_txv"
-                app:layout_constraintTop_toTopOf="@id/toppad" />
-
-            <TextView
-                android:id="@+id/coupon_list_title"
-                android:layout_width="0dp"
-                android:layout_height="50dp"
-                android:drawablePadding="10dp"
-                android:gravity="center_vertical"
-                android:text="쿠폰 목록"
-                android:textColor="@color/mainColor"
-                app:drawableStartCompat="@drawable/coupon_icon_resize"
-                app:layout_constraintEnd_toEndOf="@id/top_end_guidLine"
-                app:layout_constraintStart_toStartOf="@id/top_start_guidLine"
-                app:layout_constraintTop_toBottomOf="@id/toppad"
-                app:drawableEndCompat="@drawable/ic_arrow_bottom_super_resize" />
-
-
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/top_start_guidLine"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_percent="0.05" />
-
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/top_end_guidLine"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_percent="0.95" />
-
-
-            <!--<include
-                android:id="@+id/first_used_coupon"
-                layout="@layout/used_coupon_layout"
-                android:layout_width="0dp"
-                android:layout_height="@dimen/_100sdp"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:layout_marginBottom="@dimen/_10sdp"
-                app:layout_constraintBottom_toTopOf="@id/second_used_coupon"
-                app:layout_constraintEnd_toEndOf="@id/top_end_guidLine"
-                app:layout_constraintStart_toStartOf="@id/top_start_guidLine"
-                app:layout_constraintTop_toBottomOf="@id/coupon_list_title" />
-
-            <include
-                android:id="@+id/second_used_coupon"
-                layout="@layout/used_coupon_layout"
-                android:layout_width="0dp"
-                android:layout_height="@dimen/_100sdp"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:layout_marginBottom="@dimen/_10sdp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@id/top_end_guidLine"
-                app:layout_constraintStart_toStartOf="@id/top_start_guidLine"
-                app:layout_constraintTop_toBottomOf="@id/first_used_coupon" />-->
-
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        android:layout_height="wrap_content"
+        android:fillViewport="true"
+        >
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/bottom_container"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:background="@color/white"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/top_container">
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/gray_e">
 
-            <View
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/top_container"
                 android:layout_width="0dp"
-                android:layout_height="1dp"
-                android:background="@color/black"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <View
-                android:layout_width="0dp"
-                android:layout_height="1dp"
-                android:background="@color/black"
-                app:layout_constraintBottom_toBottomOf="@id/bottom_pad"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
-
-            <View
-                android:id="@+id/bottom_pad"
-                android:layout_width="0dp"
-                android:layout_height="@dimen/_40sdp"
-                android:background="@color/light_goldenrod_yellow"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/finished_coupon_title_txv"
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="기간만료 쿠폰"
-                android:textColor="@color/Black"
-                android:textSize="@dimen/_13sdp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="@id/bottom_pad"
-                app:layout_constraintStart_toStartOf="@id/bottom_start_bottom_guidLine"
-                app:layout_constraintTop_toTopOf="@id/bottom_pad" />
-
-            <TextView
-                android:id="@+id/over_time_txv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:text="0"
-                android:textColor="#E7664D"
-                android:textSize="@dimen/_13sdp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="@id/finished_coupon_title_txv"
-                app:layout_constraintStart_toEndOf="@id/finished_coupon_title_txv"
-                app:layout_constraintTop_toTopOf="@id/finished_coupon_title_txv" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="장"
-                android:textColor="@color/Black"
-                android:textSize="@dimen/_13sdp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="@id/bottom_pad"
-                app:layout_constraintStart_toEndOf="@id/over_time_txv"
-                app:layout_constraintTop_toTopOf="@id/bottom_pad" />
-
-            <TextView
-                android:id="@+id/over_list_title"
-                android:layout_width="0dp"
-                android:layout_height="50dp"
-                android:drawablePadding="10dp"
-                android:gravity="center_vertical"
-                android:text="쿠폰 목록"
-                android:textColor="@color/mainColor"
-                app:drawableStartCompat="@drawable/coupon_icon_resize"
-                app:layout_constraintEnd_toEndOf="@id/bottom_end_bottom_guidLine"
-                app:layout_constraintStart_toStartOf="@id/bottom_start_bottom_guidLine"
-                app:layout_constraintTop_toBottomOf="@id/bottom_pad"
-                app:drawableEndCompat="@drawable/ic_arrow_bottom_super_resize" />
-
-
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/bottom_start_bottom_guidLine"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_percent="0.05" />
-
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/bottom_end_bottom_guidLine"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_percent="0.95" />
-
-
-            <!--<include
-                android:id="@+id/first_over_coupon"
-                layout="@layout/used_coupon_layout"
-                android:layout_width="0dp"
-                android:layout_height="@dimen/_100sdp"
-                android:layout_marginTop="@dimen/_10sdp"
                 android:layout_marginBottom="@dimen/_10sdp"
-                app:layout_constraintBottom_toTopOf="@id/second_used_coupon"
-                app:layout_constraintEnd_toEndOf="@id/bottom_end_bottom_guidLine"
-                app:layout_constraintStart_toStartOf="@id/bottom_start_bottom_guidLine"
-                app:layout_constraintTop_toBottomOf="@id/over_list_title" />
-
-            <include
-                android:id="@+id/second_used_coupon"
-                layout="@layout/used_coupon_layout"
-                android:layout_width="0dp"
-                android:layout_height="@dimen/_100sdp"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:layout_marginBottom="@dimen/_10sdp"
+                android:background="@color/white"
+                android:paddingBottom="@dimen/_10sdp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@id/bottom_end_bottom_guidLine"
-                app:layout_constraintStart_toStartOf="@id/bottom_start_bottom_guidLine"
-                app:layout_constraintTop_toBottomOf="@id/first_over_coupon" />-->
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0">
+
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:background="@color/black"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:background="@color/black"
+                    app:layout_constraintBottom_toBottomOf="@id/toppad"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <View
+                    android:id="@+id/toppad"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_40sdp"
+                    android:background="@color/light_goldenrod_yellow"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/used_coupon_title_txv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="사용완료 쿠폰"
+                    android:textColor="@color/Black"
+                    android:textSize="@dimen/_13sdp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="@id/toppad"
+                    app:layout_constraintStart_toStartOf="@id/top_start_guidLine"
+                    app:layout_constraintTop_toTopOf="@id/toppad" />
+
+                <TextView
+                    android:id="@+id/used_coupon_txv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:text="0"
+                    android:textColor="#E7664D"
+                    android:textSize="@dimen/_13sdp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="@id/used_coupon_title_txv"
+                    app:layout_constraintStart_toEndOf="@id/used_coupon_title_txv"
+                    app:layout_constraintTop_toTopOf="@id/used_coupon_title_txv" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="장"
+                    android:textColor="@color/Black"
+                    android:textSize="@dimen/_13sdp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="@id/toppad"
+                    app:layout_constraintStart_toEndOf="@id/used_coupon_txv"
+                    app:layout_constraintTop_toTopOf="@id/toppad" />
+
+                <TextView
+                    android:id="@+id/coupon_list_title"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:drawablePadding="10dp"
+                    android:gravity="center_vertical"
+                    android:text="쿠폰 목록"
+                    android:textColor="@color/mainColor"
+                    app:drawableStartCompat="@drawable/coupon_icon_resize"
+                    app:layout_constraintEnd_toEndOf="@id/top_end_guidLine"
+                    app:layout_constraintStart_toStartOf="@id/top_start_guidLine"
+                    app:layout_constraintTop_toBottomOf="@id/toppad" />
+
+
+                <ImageView
+                    android:id="@+id/used_coupon_arrow_imb"
+                    android:layout_width="0dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_arrow_down"
+                    android:elevation="1dp"
+                    android:background="@null"
+                    android:clickable="false"
+                    android:scaleType="center"
+                    app:layout_constraintBottom_toBottomOf="@id/coupon_list_title"
+                    app:layout_constraintDimensionRatio="1:1"
+                    app:layout_constraintEnd_toEndOf="@id/coupon_list_title"
+                    app:layout_constraintTop_toTopOf="@id/coupon_list_title"
+                    android:contentDescription="@string/arrow" />
+
+                <androidx.constraintlayout.widget.Barrier
+                    android:id="@+id/top_barrier"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:barrierDirection="bottom"
+                    app:constraint_referenced_ids="coupon_list_title" />
+
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/top_start_guidLine"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.05" />
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/top_end_guidLine"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.95" />
+
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/used_coupon_re"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constrainedHeight="true"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@id/top_end_guidLine"
+                    app:layout_constraintStart_toStartOf="@id/top_start_guidLine"
+                    app:layout_constraintTop_toBottomOf="@id/top_barrier"
+                    tools:itemCount="3"
+                    tools:listitem="@layout/used_coupon_layout" />
+
+
+                <!--<include
+                    android:id="@+id/first_used_coupon"
+                    layout="@layout/used_coupon_layout"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_100sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginBottom="@dimen/_10sdp"
+                    app:layout_constraintBottom_toTopOf="@id/second_used_coupon"
+                    app:layout_constraintEnd_toEndOf="@id/top_end_guidLine"
+                    app:layout_constraintStart_toStartOf="@id/top_start_guidLine"
+                    app:layout_constraintTop_toBottomOf="@id/coupon_list_title" />
+
+                <include
+                    android:id="@+id/second_used_coupon"
+                    layout="@layout/used_coupon_layout"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_100sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginBottom="@dimen/_10sdp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@id/top_end_guidLine"
+                    app:layout_constraintStart_toStartOf="@id/top_start_guidLine"
+                    app:layout_constraintTop_toBottomOf="@id/first_used_coupon" />-->
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/bottom_container"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:background="@color/white"
+                android:paddingBottom="@dimen/_10sdp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/top_container"
+                app:layout_constraintVertical_bias="0">
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:background="@color/black"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:background="@color/black"
+                    app:layout_constraintBottom_toBottomOf="@id/bottom_pad"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <View
+                    android:id="@+id/bottom_pad"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_40sdp"
+                    android:background="@color/light_goldenrod_yellow"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/finished_coupon_title_txv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="기간만료 쿠폰"
+                    android:textColor="@color/Black"
+                    android:textSize="@dimen/_13sdp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="@id/bottom_pad"
+                    app:layout_constraintStart_toStartOf="@id/bottom_start_bottom_guidLine"
+                    app:layout_constraintTop_toTopOf="@id/bottom_pad" />
+
+                <TextView
+                    android:id="@+id/over_time_txv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:text="0"
+                    android:textColor="#E7664D"
+                    android:textSize="@dimen/_13sdp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="@id/finished_coupon_title_txv"
+                    app:layout_constraintStart_toEndOf="@id/finished_coupon_title_txv"
+                    app:layout_constraintTop_toTopOf="@id/finished_coupon_title_txv" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="장"
+                    android:textColor="@color/Black"
+                    android:textSize="@dimen/_13sdp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="@id/bottom_pad"
+                    app:layout_constraintStart_toEndOf="@id/over_time_txv"
+                    app:layout_constraintTop_toTopOf="@id/bottom_pad" />
+
+                <TextView
+                    android:id="@+id/over_list_title"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:drawablePadding="10dp"
+                    android:gravity="center_vertical"
+                    android:text="쿠폰 목록"
+                    android:textColor="@color/mainColor"
+                    app:drawableStartCompat="@drawable/coupon_icon_resize"
+                    app:layout_constraintEnd_toEndOf="@id/bottom_end_bottom_guidLine"
+                    app:layout_constraintStart_toStartOf="@id/bottom_start_bottom_guidLine"
+                    app:layout_constraintTop_toBottomOf="@id/bottom_pad" />
+
+                <ImageView
+                    android:id="@+id/over_coupon_arrow_imb"
+                    android:layout_width="0dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_arrow_down"
+                    android:elevation="1dp"
+                    android:background="@null"
+                    android:clickable="false"
+                    android:scaleType="center"
+                    app:layout_constraintBottom_toBottomOf="@id/over_list_title"
+                    app:layout_constraintDimensionRatio="1:1"
+                    app:layout_constraintEnd_toEndOf="@id/over_list_title"
+                    app:layout_constraintTop_toTopOf="@id/over_list_title"
+                    android:contentDescription="@string/arrow" />
+
+                <androidx.constraintlayout.widget.Barrier
+                    android:id="@+id/bottom_barrier"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:barrierDirection="bottom"
+                    app:constraint_referenced_ids="over_list_title" />
+
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/bottom_start_bottom_guidLine"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.05" />
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/bottom_end_bottom_guidLine"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.95" />
+
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/over_coupon_re"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constrainedHeight="true"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@id/bottom_end_bottom_guidLine"
+                    app:layout_constraintStart_toStartOf="@id/bottom_start_bottom_guidLine"
+                    app:layout_constraintTop_toBottomOf="@id/bottom_barrier"
+                    tools:itemCount="2"
+                    tools:listitem="@layout/used_coupon_layout" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
 </layout>

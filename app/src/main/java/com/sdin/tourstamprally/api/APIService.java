@@ -391,5 +391,10 @@ public interface APIService {
             @Query("user_idx") int user_idx
     );
 
+    @GET("getMyStampCount")
+    Single<Integer> getMyStampCount(
+            @Query("user_idx") int user_idx
+    );
+
 
 }

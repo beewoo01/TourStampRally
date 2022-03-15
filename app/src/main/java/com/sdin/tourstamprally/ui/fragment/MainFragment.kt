@@ -135,7 +135,7 @@ class MainFragment : BaseFragment() {
     fun reviewMoreClick() {
         //리뷰보기
         Log.wtf("reviewMoreClick", "reviewMoreClick")
-        val action = MainFragmentDirections.actionMainfragmentToFragmentMoreReview("리뷰보기")
+        val action = MainFragmentDirections.actionMainfragmentToFragmentMoreReview()
         findNavController().navigate(action)
 
         /*findNavController().navigate(

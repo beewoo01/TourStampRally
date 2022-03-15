@@ -1,5 +1,6 @@
 package com.sdin.tourstamprally.ui.fragment.store.coupon
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -20,15 +21,19 @@ import com.sdin.tourstamprally.utill.listener.observe.Subject
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.observers.DisposableSingleObserver
 import io.reactivex.rxjava3.schedulers.Schedulers
+import java.text.ParseException
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.math.abs
 
-class MyCouponParentFragment : BaseFragment(), Subject<MutableList<StoreMyCouponModel>>{
+class MyCouponParentFragment : BaseFragment(), Subject<MutableList<StoreMyCouponModel>> {
 
     private var binding: FragmentMyCouponParentBinding? = null
     private var allMyCouponList: MutableList<StoreMyCouponModel>? = null
     private var normalList: MutableList<StoreMyCouponModel>? = null
     private var usedList: MutableList<StoreMyCouponModel>? = null
     private var overList: MutableList<StoreMyCouponModel>? = null
-    private var myCouponFragment : MyCouponFragment = MyCouponFragment()
+    private var myCouponFragment: MyCouponFragment = MyCouponFragment()
     private var myFinishCouponFragment: MyFinishCouponFragment = MyFinishCouponFragment()
     private val observers = mutableListOf<Observer<MutableList<StoreMyCouponModel>>>()
 
@@ -50,13 +55,19 @@ class MyCouponParentFragment : BaseFragment(), Subject<MutableList<StoreMyCoupon
     private fun initView() = with(binding!!) {
         viewpager.apply {
             adapter = ViewPagerAdapter(requireActivity())
-
+            offscreenPageLimit = 2
 
         }
 
         TabLayoutMediator(tabLayout, viewpager) { tab, position ->
-            Log.wtf("TabLayoutMediator", "position $position")
-        }
+            tab.text = when (position) {
+                0 -> "보유"
+                1 -> "완료·만료"
+                else -> null
+            }
+            //tab.text = "Hi $position"
+
+        }.attach()
         getData()
 
     }
@@ -78,25 +89,43 @@ class MyCouponParentFragment : BaseFragment(), Subject<MutableList<StoreMyCoupon
             })
     }
 
+    @SuppressLint("SimpleDateFormat")
     private fun initData() {
 
         allMyCouponList?.let { it ->
             normalList = mutableListOf()
             usedList = mutableListOf()
             overList = mutableListOf()
-            //0 -> 정상 1 -> 사용완료 2 -> 기간초과
+
+
+
+
+            val today = Calendar.getInstance()
+
+
             for (model in it) {
-                if (model.store_mycoupon_state == 0) {
-                    normalList?.add(model)
-                }else if (model.store_mycoupon_state == 1) {
-                    usedList?.add(model)
 
-                }else if (model.store_mycoupon_state == 2) {
-                    overList?.add(model)
+                try {
+                    val sdf = SimpleDateFormat("yyyy.MM.dd")
+                    val date = sdf.parse(model.store_coupon_expiration_endDate)
+                    date?.let {
+                        val calDate = (today.time.time - date.time) / (60 * 60 * 24 * 1000)
+                        if (calDate < 0) {
+                            overList?.add(model)
+                        }else {
+                            if (model.store_mycoupon_state == 0) {
+                                normalList?.add(model)
+                            }else {
+                                usedList?.add(model)
+                            }
+                        }
+                    }
+
+
+                }catch (e : ParseException) {
+                    e.printStackTrace()
                 }
-
             }
-
 
             attach(myCouponFragment)
             attach(myFinishCouponFragment)
@@ -107,13 +136,11 @@ class MyCouponParentFragment : BaseFragment(), Subject<MutableList<StoreMyCoupon
             }
 
             if (usedList != null && overList != null) {
-                notifyTwiceUpdate(usedList!!, overList!!,1)
+                notifyTwiceUpdate(usedList!!, overList!!, 1)
             }
 
 
-
         }
-
 
 
     }
@@ -149,9 +176,6 @@ class MyCouponParentFragment : BaseFragment(), Subject<MutableList<StoreMyCoupon
 
     override fun notifyUpdate(massage: MutableList<StoreMyCouponModel>, position: Int) {
         observers[position].update1(massage)
-        /*for (observer in observers){
-            observer.update(massage)
-        }*/
     }
 
     override fun notifyTwiceUpdate(

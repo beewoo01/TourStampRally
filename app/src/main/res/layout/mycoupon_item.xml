@@ -7,8 +7,7 @@
         android:id="@+id/item_container"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_100sdp"
-        android:background="@drawable/ic_coupon_background"
-        >
+        android:background="@drawable/ic_coupon_background">
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guid_line"
@@ -55,27 +54,39 @@
 
 
         <ImageView
+            android:id="@+id/left_imb"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:scaleType="fitCenter"
-            android:src="@drawable/ic_coupon_list_three"
             android:layout_marginVertical="@dimen/_8sdp"
-            app:layout_constraintDimensionRatio="1:1"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="@id/guid_line"
-            app:layout_constraintTop_toTopOf="@id/content_top_guidLine"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_coupon_left_sub"
             app:layout_constraintBottom_toBottomOf="@id/content_bottom_guidLine"
-            />
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toEndOf="@id/guid_line"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/content_top_guidLine" />
+
+        <TextView
+            android:id="@+id/idx_txv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/montserrat_bold"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_25sdp"
+            app:layout_constraintBottom_toBottomOf="@id/left_imb"
+            app:layout_constraintEnd_toEndOf="@id/left_imb"
+            app:layout_constraintStart_toStartOf="@id/left_imb"
+            app:layout_constraintTop_toTopOf="@id/left_imb"
+            tools:text="1" />
 
         <View
             android:layout_width="@dimen/_90sdp"
             android:layout_height="0dp"
             android:background="@drawable/vertical_dash_line"
-            app:layout_constraintStart_toStartOf="@id/guid_line"
-            app:layout_constraintEnd_toEndOf="@id/guid_line"
-            app:layout_constraintTop_toTopOf="@id/top_guid_line"
             app:layout_constraintBottom_toBottomOf="@id/bottom_guid_line"
-            />
+            app:layout_constraintEnd_toEndOf="@id/guid_line"
+            app:layout_constraintStart_toStartOf="@id/guid_line"
+            app:layout_constraintTop_toTopOf="@id/top_guid_line" />
 
 
         <ImageView
@@ -92,57 +103,51 @@
             android:id="@+id/coupon_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:textColor="@color/black"
-            android:textStyle="bold"
-            android:textSize="@dimen/_13sdp"
+            android:layout_marginEnd="10dp"
             android:ellipsize="marquee"
             android:maxLines="1"
-            android:layout_marginEnd="10dp"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_13sdp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@id/startDataTxv"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@id/content_start_guidLine"
             app:layout_constraintTop_toBottomOf="@id/logo_imv"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/startDataTxv"
             tools:text="4천원 상당 편의점 상품권 1234567" />
 
         <TextView
             android:id="@+id/startDataTxv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="2021.07.03"
-            android:textSize="@dimen/_9sdp"
             android:textColor="#9F9F9F"
-            app:layout_constraintStart_toStartOf="@id/content_start_guidLine"
+            android:textSize="@dimen/_9sdp"
             app:layout_constraintBottom_toBottomOf="@id/content_bottom_guidLine"
-            />
+            app:layout_constraintStart_toStartOf="@id/content_start_guidLine"
+            tools:text="2021.07.03" />
 
 
         <TextView
             android:id="@+id/justBar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="-"
-            android:textSize="@dimen/_9sdp"
-            android:textColor="#9F9F9F"
             android:layout_marginStart="3dp"
-            app:layout_constraintEnd_toStartOf="@id/endDataTxv"
-            app:layout_constraintStart_toEndOf="@id/startDataTxv"
+            android:text="-"
+            android:textColor="#9F9F9F"
+            android:textSize="@dimen/_9sdp"
             app:layout_constraintBottom_toBottomOf="@id/content_bottom_guidLine"
-            />
+            app:layout_constraintEnd_toStartOf="@id/endDataTxv"
+            app:layout_constraintStart_toEndOf="@id/startDataTxv" />
 
         <TextView
             android:id="@+id/endDataTxv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="2021.08.03"
-            android:textSize="@dimen/_9sdp"
-            android:textColor="#9F9F9F"
             android:layout_marginStart="3dp"
-            app:layout_constraintStart_toEndOf="@id/justBar"
+            android:textColor="#9F9F9F"
+            android:textSize="@dimen/_9sdp"
             app:layout_constraintBottom_toBottomOf="@id/content_bottom_guidLine"
-            />
-
-
-
+            app:layout_constraintStart_toEndOf="@id/justBar"
+            tools:text="2021.08.03" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

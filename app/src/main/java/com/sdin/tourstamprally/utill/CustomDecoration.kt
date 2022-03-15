@@ -5,7 +5,7 @@ import android.graphics.Color
 import android.graphics.Paint
 import androidx.recyclerview.widget.RecyclerView
 
-class CustommDecoration(
+class CustomDecoration(
     val height: Float,
     val startPadding: Float,
     val endPadding: Float,

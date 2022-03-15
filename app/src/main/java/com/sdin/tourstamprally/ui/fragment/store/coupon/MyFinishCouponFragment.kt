@@ -1,17 +1,23 @@
 package com.sdin.tourstamprally.ui.fragment.store.coupon
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.sdin.tourstamprally.R
 import com.sdin.tourstamprally.databinding.FragmentFinishMycouponBinding
+import com.sdin.tourstamprally.databinding.UsedCouponLayoutBinding
 import com.sdin.tourstamprally.model.store_coupon.StoreMyCouponModel
 import com.sdin.tourstamprally.ui.fragment.BaseFragment
 import com.sdin.tourstamprally.utill.listener.observe.Observer
+import com.sdin.tourstamprally.utill.recyclerveiew.CustomItemDecoration
 
 class MyFinishCouponFragment : BaseFragment(), Observer<MutableList<StoreMyCouponModel>> {
 
@@ -32,6 +38,7 @@ class MyFinishCouponFragment : BaseFragment(), Observer<MutableList<StoreMyCoupo
 
     private fun initView() {
 
+
         initUsedItem()
         initOverItem()
 
@@ -39,87 +46,77 @@ class MyFinishCouponFragment : BaseFragment(), Observer<MutableList<StoreMyCoupo
 
     private fun initUsedItem() = with(binding!!) {
         usedList?.let {
-            if (it.size > 0) {
-                /*firstUsedCoupon.root.visibility = View.VISIBLE
-                with(firstUsedCoupon) {
-                    Glide.with(logoImv.context)
-                        .load("" + it[0].store_logo_icon)
-                        .into(logoImv)
-
-                    couponName.text = it[0].store_coupon_name
-                    startDataTxv.text = it[0].store_coupon_expiration_startDate
-                    endDataTxv.text = it[0].store_coupon_expiration_endDate
-
-                    Glide.with(stateImv.context)
-                        .load(R.drawable.used_store_coupon)
-                        .into(stateImv)
-
-                }*/
+            usedCouponRe.apply {
+                adapter = UnavailableCouponAdapter(0).apply {
+                    submitList(it)
+                }
+                addItemDecoration(
+                    CustomItemDecoration(
+                        topPadding = 20, bottomPadding = 20, null, null
+                    )
+                )
             }
+            usedCouponTxv.text = it.size.toString()
 
-            if (it.size > 1) {
-                /*secondUsedCoupon.root.visibility = View.VISIBLE
-                with(secondUsedCoupon) {
+            couponListTitle.setOnClickListener {
+                usedCouponRe.visibility =
+                    if (usedCouponRe.visibility == View.GONE) {
+                        Glide.with(overCouponArrowImb.context)
+                            .load(R.drawable.ic_arrow_down)
+                            .into(usedCouponArrowImb)
 
-                    Glide.with(logoImv.context)
-                        .load("" + it[1].store_logo_icon)
-                        .into(logoImv)
+                        View.VISIBLE
+                    } else {
 
-                    couponName.text = it[1].store_coupon_name
-                    startDataTxv.text = it[1].store_coupon_expiration_startDate
-                    endDataTxv.text = it[1].store_coupon_expiration_endDate
+                        Glide.with(overCouponArrowImb.context)
+                            .load(R.drawable.ic_arrow_up)
+                            .into(usedCouponArrowImb)
 
-                    Glide.with(stateImv.context)
-                        .load(R.drawable.used_store_coupon)
-                        .into(stateImv)
-                }*/
-
+                        View.GONE
+                    }
             }
         }
+
     }
 
     private fun initOverItem() = with(binding!!) {
         overList?.let {
-            if (it.size > 0) {
-                /*firstOverCoupon.root.visibility = View.VISIBLE
-                with(firstOverCoupon) {
-                    Glide.with(logoImv.context)
-                        .load("" + it[0].store_logo_icon)
-                        .into(logoImv)
+            overCouponRe.apply {
+                adapter = UnavailableCouponAdapter(1).apply {
+                    submitList(it)
+                }
 
-                    couponName.text = it[0].store_coupon_name
-                    startDataTxv.text = it[0].store_coupon_expiration_startDate
-                    endDataTxv.text = it[0].store_coupon_expiration_endDate
-
-                    Glide.with(stateImv.context)
-                        .load(R.drawable.overday_store_coupon)
-                        .into(stateImv)
-                }*/
+                addItemDecoration(
+                    CustomItemDecoration(
+                        topPadding = 20, bottomPadding = 20, null, null
+                    )
+                )
             }
 
-            if (it.size > 1) {
-                /*secondUsedCoupon.root.visibility = View.VISIBLE
-                with(secondUsedCoupon) {
-                    Glide.with(logoImv.context)
-                        .load("" + it[1].store_logo_icon)
-                        .into(logoImv)
+            overTimeTxv.text = it.size.toString()
 
-                    couponName.text = it[1].store_coupon_name
-                    startDataTxv.text = it[1].store_coupon_expiration_startDate
-                    endDataTxv.text = it[1].store_coupon_expiration_endDate
+            overListTitle.setOnClickListener {
+                overCouponRe.visibility =
+                    if (overCouponRe.visibility == View.GONE) {
+                        Glide.with(overCouponArrowImb.context)
+                            .load(R.drawable.ic_arrow_down)
+                            .into(overCouponArrowImb)
 
-                    Glide.with(stateImv.context)
-                        .load(R.drawable.overday_store_coupon)
-                        .into(stateImv)
-                }*/
+                        View.VISIBLE
+                    } else {
 
+                        Glide.with(overCouponArrowImb.context)
+                            .load(R.drawable.ic_arrow_up)
+                            .into(overCouponArrowImb)
+
+
+                        View.GONE
+                    }
             }
         }
     }
 
-    override fun update1(message: MutableList<StoreMyCouponModel>) {
-
-    }
+    override fun update1(message: MutableList<StoreMyCouponModel>) = Unit
 
     override fun update2(
         message1: MutableList<StoreMyCouponModel>,
@@ -128,6 +125,77 @@ class MyFinishCouponFragment : BaseFragment(), Observer<MutableList<StoreMyCoupo
         usedList = message1
         overList = message2
         initView()
-        Log.wtf("MyFinishCouponFragment", "MyFinishCouponFragment")
+    }
+
+    class UnavailableCouponAdapter(val state: Int) :
+        ListAdapter<StoreMyCouponModel, UnavailableCouponAdapter.ViewHolder>(differ) {
+        inner class ViewHolder(private val binding: UsedCouponLayoutBinding) :
+            RecyclerView.ViewHolder(binding.root) {
+
+            @SuppressLint("SetTextI18n")
+            fun onBind(model: StoreMyCouponModel) = with(binding) {
+                idxTxv.text = (absoluteAdapterPosition + 1).toString()
+
+                Glide.with(logoImv.context)
+                    .load("http://coratest.kr/imagefile/bsr/store_logo/" + model.store_logo_icon)
+                    .into(logoImv)
+
+                couponName.text = model.store_coupon_name
+                startDataTxv.text = model.store_coupon_expiration_startDate
+                endDataTxv.text = model.store_coupon_expiration_endDate
+
+                Glide.with(stateImv.context)
+                    .load(
+                        if (state == 0) {
+                            R.drawable.used_store_coupon
+                        } else {
+                            R.drawable.overday_store_coupon
+                        }
+
+                    )
+                    .into(stateImv)
+
+            }
+
+        }
+
+        override fun getItemCount(): Int {
+            return super.getItemCount()
+        }
+
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+            return ViewHolder(
+                UsedCouponLayoutBinding.inflate(
+                    LayoutInflater.from(parent.context),
+                    parent,
+                    false
+                )
+            )
+        }
+
+        override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+            holder.onBind(currentList[position])
+        }
+
+        companion object {
+            val differ = object : DiffUtil.ItemCallback<StoreMyCouponModel>() {
+                override fun areItemsTheSame(
+                    oldItem: StoreMyCouponModel,
+                    newItem: StoreMyCouponModel
+                ): Boolean {
+                    return oldItem.store_mycoupon_idx == newItem.store_mycoupon_idx
+                }
+
+                override fun areContentsTheSame(
+                    oldItem: StoreMyCouponModel,
+                    newItem: StoreMyCouponModel
+                ): Boolean {
+                    return oldItem == newItem
+                }
+
+            }
+        }
+
+
     }
 }
