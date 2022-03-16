@@ -115,9 +115,6 @@ class SelectCourseDialog(context: Context) :
         for (model in originalList) {
             if (locationIdx == model.location_idx) {
                 list.add(model)
-                Log.wtf("touristspot_name", model.touristspot_name)
-                Log.wtf("touristspot_address", model.touristspot_address)
-                Log.wtf("touristspot_img", model.touristspot_img)
             }
         }
 

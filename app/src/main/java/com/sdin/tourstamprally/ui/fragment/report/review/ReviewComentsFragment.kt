@@ -1,6 +1,7 @@
 package com.sdin.tourstamprally.ui.fragment.report.review
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
@@ -8,33 +9,36 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.constraintlayout.utils.widget.ImageFilterView
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners
-import com.bumptech.glide.request.RequestOptions
 import com.sdin.tourstamprally.R
 import com.sdin.tourstamprally.Utils
 import com.sdin.tourstamprally.adapter.ReviewCommentsAdapter
 import com.sdin.tourstamprally.databinding.FragmentReviewComentsBinding
 import com.sdin.tourstamprally.model.ReveiwCommentsDC
 import com.sdin.tourstamprally.model.ReviewDetailDC
+import com.sdin.tourstamprally.model.ReviewImg
 import com.sdin.tourstamprally.ui.fragment.BaseFragment
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.observers.DisposableSingleObserver
 import io.reactivex.rxjava3.schedulers.Schedulers
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
 
 class ReviewComentsFragment : BaseFragment() {
 
     private var review_idx: Int? = null
-    private var bining: FragmentReviewComentsBinding? = null
+    private var binding: FragmentReviewComentsBinding? = null
     private var likeState = false
     private val mutableList = arrayListOf<ReveiwCommentsDC>()
     private val args: ReviewComentsFragmentArgs by navArgs()
     private lateinit var commentAdapter: ReviewCommentsAdapter
+    private var originReviewDetailModel : ReviewDetailDC? = null
 
 
     override fun onCreateView(
@@ -42,20 +46,18 @@ class ReviewComentsFragment : BaseFragment() {
         savedInstanceState: Bundle?,
     ): View? {
 
-        bining =
+        binding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_review_coments, container, false)
 
         review_idx = args.reviewIdx
 
-        Log.wtf("review_idx", "review_idx $review_idx")
-
-        return bining?.root
+        return binding?.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         getData()
-        bining?.let { it ->
+        binding?.let { it ->
             it.likeImb.setOnClickListener { view ->
                 if (likeState) {
                     Glide.with(view.context)
@@ -74,9 +76,20 @@ class ReviewComentsFragment : BaseFragment() {
                         .subscribeOn(Schedulers.newThread())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribeWith(object : DisposableSingleObserver<Int>() {
+                            @SuppressLint("SetTextI18n")
                             override fun onSuccess(t: Int?) {
                                 t?.let { result ->
                                     if (result > 0) {
+                                        originReviewDetailModel?.let {
+                                            it.interestCount =  if (likeState) {
+                                                it.interestCount -1
+                                            }else {
+                                                it.interestCount +1
+                                            }
+                                            likeState = !likeState
+                                            binding?.likeCountTxv?.text = "좋아요 ${it.interestCount}개"
+
+                                        }
                                         Log.wtf("like OR Delete", "성공")
                                     }
                                 }
@@ -124,7 +137,7 @@ class ReviewComentsFragment : BaseFragment() {
                     }
 
                 } else {
-                    Toast.makeText(requireContext(), "답글을 작성해 주세요", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), "댓글을 작성해 주세요", Toast.LENGTH_SHORT).show()
                 }
 
 
@@ -156,7 +169,8 @@ class ReviewComentsFragment : BaseFragment() {
 
     @SuppressLint("SetTextI18n")
     private fun setReviewData(model: ReviewDetailDC) {
-        bining?.let {
+        binding?.let {
+            originReviewDetailModel = model
             it.userNameTxv.text = model.user_name
             it.ratingbar.rating = model.review_score
             it.spotNameTxv.text = model.touristspot_name
@@ -168,9 +182,12 @@ class ReviewComentsFragment : BaseFragment() {
             val oldTimeFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.KOREA)
             val newTimeFormat = SimpleDateFormat("yyyy.MM.dd a H:mm", Locale.KOREA)
             val data = oldTimeFormat.parse(model.review_updatetime)
-            val newDate: String = newTimeFormat.format(data)
+            data?.let { formatterDate ->
+                val newDate: String = newTimeFormat.format(formatterDate)
 
-            it.dataTxv.text = newDate
+                it.dataTxv.text = newDate
+            }
+
             if (model.interestStatus == 1) {
                 likeState = true
                 Glide.with(requireContext())
@@ -179,11 +196,21 @@ class ReviewComentsFragment : BaseFragment() {
                     .into(it.likeImb)
             }
 
-            Glide.with(requireContext())
+
+            if (model.reviewImgs.isNullOrEmpty()) {
+                val subImgsList = mutableListOf<ReviewImg>()
+                subImgsList.add(ReviewImg(0, review_idx!!, model.touristspot_img, null, null))
+                model.reviewImgs = subImgsList
+            }
+
+            initViewPager(model.reviewImgs!!.toMutableList())
+
+
+            /*Glide.with(requireContext())
                 .load("http://coratest.kr/imagefile/bsr/" + model.touristspot_img)
                 .apply(RequestOptions.bitmapTransform(RoundedCorners(20)))
                 .error(R.drawable.sample_bg)
-                .into(it.spotImv)
+                .into(it.spotImv)*/
 
             Glide.with(requireContext())
                 .load("http://coratest.kr/imagefile/bsr/" + model.user_profile)
@@ -192,6 +219,12 @@ class ReviewComentsFragment : BaseFragment() {
                 .into(it.userProfileImv)
         }
 
+    }
+
+    private fun initViewPager(images: MutableList<ReviewImg>) {
+        binding?.reviewImgsViewpager?.apply {
+            adapter = ImagesViewPager(images)
+        }
     }
 
 
@@ -216,12 +249,37 @@ class ReviewComentsFragment : BaseFragment() {
     }
 
     private fun initCommentsData(list: List<ReveiwCommentsDC>) {
-        bining?.commentsRecyclerview?.apply {
+        binding?.commentsRecyclerview?.apply {
             mutableList.clear()
             mutableList.addAll(list)
             commentAdapter = ReviewCommentsAdapter(mutableList)
             adapter = commentAdapter
         }
+    }
+
+    class ImagesViewPager(private val images: MutableList<ReviewImg>) :
+        RecyclerView.Adapter<ImagesViewPager.ViewHolder>() {
+        class ViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
+            fun onBind(model: ReviewImg) {
+                val imageFilterView = view.findViewById<ImageFilterView>(R.id.imageFilterView)
+                Glide.with(imageFilterView.context)
+                    .load("http://coratest.kr/imagefile/bsr/" + model.review_img_url)
+                    .into(imageFilterView)
+            }
+        }
+
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+            val inflater =
+                parent.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+            val view = inflater.inflate(R.layout.review_detail_images, parent, false)
+            return ViewHolder(view)
+        }
+
+        override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+            holder.onBind(images[position])
+        }
+
+        override fun getItemCount(): Int = images.size
     }
 
 }

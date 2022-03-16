@@ -1,5 +1,6 @@
 package com.sdin.tourstamprally.adapter.review
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -26,6 +27,8 @@ class MoreFragReviewAdapter(private val callback: (AllReviewModel) -> Unit) :
                 reviewContentTxv.text = model.review_contents
                 tourspotName.text = model.touristspot_name
 
+
+
                 Glide.with(userProfileImv.context)
                     .load("http://coratest.kr/imagefile/bsr/" + model.user_profile)
                     .placeholder(R.drawable.sample_profile_image)
@@ -34,7 +37,13 @@ class MoreFragReviewAdapter(private val callback: (AllReviewModel) -> Unit) :
                     .into(userProfileImv)
 
                 Glide.with(tourspotBgImv.context)
-                    .load("http://coratest.kr/imagefile/bsr/" + model.touristspot_img)
+                    .load(
+                        if (model.review_img_url != null) {
+                            "http://coratest.kr/imagefile/bsr/" + model.review_img_url
+                        } else {
+                            "http://coratest.kr/imagefile/bsr/" + model.touristspot_img
+                        }
+                    )
                     .apply(RequestOptions.bitmapTransform(RoundedCorners(30)))
                     .error(R.drawable.sample_bg)
                     .into(tourspotBgImv)

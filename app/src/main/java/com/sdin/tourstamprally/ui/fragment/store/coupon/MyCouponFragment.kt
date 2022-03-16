@@ -191,7 +191,6 @@ class MyCouponFragment : BaseFragment(), Observer<MutableList<StoreMyCouponModel
 
     override fun update1(message: MutableList<StoreMyCouponModel>) {
         list = message
-        Log.wtf("MyCouponFragment", "list size = ${list!!.size}")
         initView()
     }
 

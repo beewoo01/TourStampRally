@@ -23,6 +23,7 @@ import com.sdin.tourstamprally.model.Tour_Spot2;
 import com.sdin.tourstamprally.model.TouristSpotPoint;
 import com.sdin.tourstamprally.model.TouristSpotPointDC;
 import com.sdin.tourstamprally.model.TouristSpotPointImg;
+import com.sdin.tourstamprally.model.UserCurrentCourse;
 import com.sdin.tourstamprally.model.UserModel;
 import com.sdin.tourstamprally.model.VisitCountModel;
 import com.sdin.tourstamprally.model.course.SelectCourseModel;
@@ -393,6 +394,11 @@ public interface APIService {
 
     @GET("getMyStampCount")
     Single<Integer> getMyStampCount(
+            @Query("user_idx") int user_idx
+    );
+
+    @GET("getCurrentMyCourse")
+    Single<UserCurrentCourse> getCurrentMyCourse(
             @Query("user_idx") int user_idx
     );
 

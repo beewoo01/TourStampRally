@@ -13,7 +13,6 @@ import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.view.inputmethod.InputMethodManager
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
 import androidx.databinding.DataBindingUtil
@@ -28,11 +27,15 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.sdin.tourstamprally.R
 import com.sdin.tourstamprally.Utils
 import com.sdin.tourstamprally.databinding.ActivityMain2Binding
+import com.sdin.tourstamprally.ui.dialog.DefaultBSRDialog
 import com.sdin.tourstamprally.ui.fragment.auth.NFCListener
 import com.sdin.tourstamprally.utill.Quadruple
 import com.sdin.tourstamprally.utill.navutil.DialogNavigator
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.observers.DisposableSingleObserver
+import io.reactivex.rxjava3.schedulers.Schedulers
 
-class MainActivity2 : AppCompatActivity()/*, NavigationBarView.OnItemSelectedListener,
+class MainActivity2 : BaseActivity()/*, NavigationBarView.OnItemSelectedListener,
     ItemOnClick*/ {
 
     private lateinit var binding: ActivityMain2Binding
@@ -54,6 +57,10 @@ class MainActivity2 : AppCompatActivity()/*, NavigationBarView.OnItemSelectedLis
         get() {
             return getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         }
+
+    private val isNotFirstLogin : Boolean by lazy {
+        intent.getBooleanExtra("isNotFirstLogin", true)
+    }
 
     private val toolbarItem: Map<Int, Quadruple<Int, Int, Int, Int>> =
         hashMapOf(
@@ -97,6 +104,7 @@ class MainActivity2 : AppCompatActivity()/*, NavigationBarView.OnItemSelectedLis
         binding.activity = this@MainActivity2
         binding.toolbarLayout.activity = this
         binding.drawaLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
+
 
         appBarConfiguration = AppBarConfiguration(
             setOf(
@@ -224,6 +232,24 @@ class MainActivity2 : AppCompatActivity()/*, NavigationBarView.OnItemSelectedLis
         }
     }
 
+    fun logout() {
+        val pref = getSharedPreferences("rebuild_preference", MODE_PRIVATE)
+        val editor = pref.edit()
+        val phones = pref.getStringSet("phones", null);
+        if (phones != null) {
+            val list = phones.toMutableList()
+            list.remove(Utils.UserPhone)
+            editor.putStringSet("phones", list.toMutableSet())
+        }
+        editor.remove("phone")
+        editor.remove("password")
+
+        editor.apply()
+
+        startActivity(Intent(this, LoginActivity::class.java))
+        finish()
+    }
+
     override fun onResume() {
         super.onResume()
         if (TextUtils.isEmpty(Utils.UserPhone) || TextUtils.isEmpty(Utils.UserPassword)) {
@@ -292,7 +318,7 @@ class MainActivity2 : AppCompatActivity()/*, NavigationBarView.OnItemSelectedLis
         this.nfcListener = nfcListener
     }
 
-    private fun initView() {
+    override fun initView() {
 
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host) as NavHostFragment
@@ -309,6 +335,67 @@ class MainActivity2 : AppCompatActivity()/*, NavigationBarView.OnItemSelectedLis
 
         binding.navigationview.setupWithNavController(navController)
         binding.bottomNavigationView.setupWithCustomNavController(navController)
+
+        if (!isNotFirstLogin) {
+            getData()
+        }
+    }
+
+    private fun getData() {
+        apiService.getCurrentCoState(Utils.User_Idx)
+            .subscribeOn(Schedulers.newThread())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeWith(object : DisposableSingleObserver<Int>() {
+                override fun onSuccess(integer: Int) {
+
+                    DefaultBSRDialog(
+                        context = this@MainActivity2,
+                        title = "현재 진행중인 코스가 있습니다.\n계속 진행 하시겠습니까?",
+                        content = "취소 시 진행중인 코스는 모두\n인증취소 처리가 됩니다.",
+                        isSpecial =  false,
+                        isSwitchBtn = true,
+                        leftBtnStr = "취소",
+                        rightBtnStr = "계속 진행"
+                    ){ result ->
+                        if (result) {
+                            removeMyCourse()
+                        }
+
+                    }.show()
+                }
+
+                override fun onError(e: Throwable) {
+                    e.printStackTrace()
+                }
+            })
+    }
+
+    private fun removeMyCourse() {
+        apiService.removeMyCourse(Utils.User_Idx)
+            .subscribeOn(Schedulers.newThread())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeWith(object : DisposableSingleObserver<Int>() {
+                override fun onSuccess(result : Int) {
+                    when (result) {
+                        0 -> {
+                            Log.wtf("removeMyCourse", "정상적으로 삭제됨")
+                            //정상적으로 삭제됨
+                        }
+                        1 -> {
+                            Log.wtf("removeMyCourse", "기록 삭제 안됨")
+                            //기록 삭제 안됨
+                        }
+                        2 -> {
+                            Log.wtf("removeMyCourse", "코스 삭제 안됨")
+                            //코스 삭제 안됨
+                        }
+                    }
+                }
+
+                override fun onError(e: Throwable) {
+                    e.printStackTrace()
+                }
+            })
     }
 
     private fun BottomNavigationView.setupWithCustomNavController(navController: NavController) {
@@ -370,8 +457,6 @@ class MainActivity2 : AppCompatActivity()/*, NavigationBarView.OnItemSelectedLis
                 }
             }
 
-            Log.wtf("navListener", "navListener")
-            Log.wtf("navListener title", title)
 
             setScanToolbar(locate = locate)
             binding.toolbarLayout.titleTxv.text = title

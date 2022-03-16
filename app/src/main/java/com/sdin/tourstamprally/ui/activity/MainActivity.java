@@ -18,7 +18,6 @@ import android.os.Environment;
 import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -52,8 +51,6 @@ import com.sdin.tourstamprally.ui.fragment.AccountFragment;
 import com.sdin.tourstamprally.ui.fragment.CouponMainFragment;
 import com.sdin.tourstamprally.ui.fragment.DeabsFragment;
 import com.sdin.tourstamprally.ui.fragment.DirectionGuidFragment;
-import com.sdin.tourstamprally.ui.fragment.LocationFragment;
-import com.sdin.tourstamprally.ui.fragment.MainFragment;
 import com.sdin.tourstamprally.ui.fragment.report.review.MoreReviewFragment;
 import com.sdin.tourstamprally.ui.fragment.NFCFragment;
 import com.sdin.tourstamprally.ui.fragment.NoticeFragment;
@@ -800,7 +797,6 @@ public class MainActivity extends BaseActivity implements NavigationBarView.OnIt
 
     @Override
     public void ItemGuidForDetail(TouristSpotPoint model) {
-        Log.w("MainActivity", "ItemGuidForDetail");
         //setFragment(model.getTouristspotpoint_name(), TourDetailFragment.newInstance(model));
     }
 
@@ -813,7 +809,7 @@ public class MainActivity extends BaseActivity implements NavigationBarView.OnIt
 
     @Override
     public void onItemClick(Location_four location_four) {
-        setFragment(location_four.getLocation_name() + " 랠리 맵", LocationFragment.newInstance(location_four));
+        //setFragment(location_four.getLocation_name() + " 랠리 맵", LocationFragment.newInstance(location_four));
         setToolbar(3);
     }
 

@@ -35,6 +35,10 @@ data class AllReviewModel(
     val user_name: String,
 
     @SerializedName("user_profile")
-    val user_profile: String
+    val user_profile: String,
+
+    @SerializedName("review_img_url")
+    val review_img_url: String?
+
 ) : Serializable
 

@@ -129,7 +129,6 @@ public class SignUpActivity extends BaseActivity {
 
                 } else {
                     showToast(getString(R.string.fail_sms));
-                    Log.wtf("Auth", "실패");
                 }
 
             }
@@ -138,7 +137,6 @@ public class SignUpActivity extends BaseActivity {
             public void onFailure(@NotNull Call<String> call, @NotNull Throwable t) {
                 showToast(getString(R.string.fail_sms));
                 t.printStackTrace();
-                Log.e("getToken", t.getMessage());
             }
         });
     }

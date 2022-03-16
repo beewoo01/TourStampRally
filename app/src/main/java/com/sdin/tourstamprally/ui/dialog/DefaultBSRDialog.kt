@@ -17,12 +17,13 @@ import kotlin.math.log
 
 class DefaultBSRDialog(
     context: Context,
-    val title: String,
-    val content: String,
-    val isSpecial: Boolean,
-    val leftBtnStr: String,
-    val rightBtnStr: String,
-    val callback : (Boolean) -> Unit
+    private val title: String,
+    private val content: String,
+    private val isSpecial: Boolean,
+    private val isSwitchBtn : Boolean,
+    private val leftBtnStr: String,
+    private val rightBtnStr: String,
+    private val callback : (Boolean) -> Unit
 ) :
     Dialog(context, R.style.FullScreenDialogStyle) {
 
@@ -55,6 +56,19 @@ class DefaultBSRDialog(
             Glide.with(logoImv.context).load(R.drawable.ic_popup_content_logo).into(logoImv)
             contentLayout.background =
                 ContextCompat.getDrawable(contentLayout.context, R.drawable.bg_rounded_28)
+        }
+
+        if (isSwitchBtn) {
+            okTxv.apply {
+                background = ContextCompat.getDrawable(this.context, R.drawable.bg_default_di_swich_gray)
+                setTextColor(ContextCompat.getColor(this.context, R.color.black))
+            }
+
+            cancelTxv.apply {
+                background = ContextCompat.getDrawable(okTxv.context, R.drawable.bg_default_di_swich_main)
+                setTextColor(ContextCompat.getColor(this.context, R.color.white))
+            }
+
         }
 
         titleTxv.text = title

@@ -26,9 +26,12 @@ data class ReviewDetailDC(
         val user_profile: String,
 
         @SerializedName("interestCount")
-        val interestCount: Int,
+        var interestCount: Int,
         @SerializedName("commentCount")
         val commentCount: Int,
         @SerializedName("interestStatus")
         val interestStatus: Int,
+
+        @SerializedName("reviewImgs")
+        var reviewImgs : List<ReviewImg>?
 )

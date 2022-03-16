@@ -305,9 +305,13 @@ class VisitHistoryFragment : BaseFragment(), VisitItemClickListener {
 
     private fun showResetAlertDialog() {
         DefaultBSRDialog(
-            requireContext(), "스탬프 기록이 초기화 됩니다.",
-            "응모하기를 하지 않을 시\n현재 쿠폰으로 응모가 불가합니다.\n다시 도전하시겠습니까?",
-            false, "도전", "닫기"
+            context = requireContext(),
+            title=  "스탬프 기록이 초기화 됩니다.",
+            content = "응모하기를 하지 않을 시\n현재 쿠폰으로 응모가 불가합니다.\n다시 도전하시겠습니까?",
+            isSpecial = false,
+            isSwitchBtn = false,
+            leftBtnStr = "도전",
+            rightBtnStr = "닫기"
         ) { callback ->
 
             if (callback) {

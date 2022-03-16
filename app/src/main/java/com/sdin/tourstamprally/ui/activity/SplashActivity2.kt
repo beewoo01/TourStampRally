@@ -156,7 +156,6 @@ class SplashActivity2 : BaseActivity() {
         Handler(Looper.getMainLooper()).postDelayed({
             if (!isErr) {
                 if (permission(CHECKNUM)) {
-                    Log.wtf("startLoading", "permission")
                     CHECKNUM++
 
                     val msg = handler.obtainMessage()
@@ -167,7 +166,6 @@ class SplashActivity2 : BaseActivity() {
                     handler.sendMessage(msg)
 
                 } else {
-                    Log.wtf("startLoading", "else")
 
                     isErr = true
 
@@ -274,8 +272,6 @@ class SplashActivity2 : BaseActivity() {
     private fun permission(checkNum: Int): Boolean =
         when (checkNum) {
             0 -> {
-                Log.wtf("permission", "0")
-
                 requestPermissionLauncher.launch(
                     arrayOf(
                         Manifest.permission.CAMERA,
@@ -294,12 +290,10 @@ class SplashActivity2 : BaseActivity() {
             }
 
             1 -> {
-                Log.wtf("permission", "1")
                 Utils.getGPSState(this@SplashActivity2)
             }
 
             2 -> {
-                Log.wtf("permission", "2")
                 Utils.getNetworkStatus(this@SplashActivity2) < 3
             }
 

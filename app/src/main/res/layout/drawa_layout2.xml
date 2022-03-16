@@ -104,10 +104,10 @@
                 android:text="@string/logout"
                 android:textColor="@color/white"
                 android:textSize="@dimen/_13sdp"
+                app:drawableStartCompat="@drawable/logout_icon_resize"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:drawableStartCompat="@drawable/logout_icon_resize" />
+                app:layout_constraintStart_toStartOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -120,6 +120,7 @@
             android:drawablePadding="@dimen/_10sdp"
             android:elevation="@dimen/_5sdp"
             android:gravity="start|center_vertical"
+            android:onClick="@{() -> activity.drawerItemClick(0)}"
             android:outlineAmbientShadowColor="#98A2AA"
             android:outlineProvider="background"
             android:outlineSpotShadowColor="#9EB6CC"
@@ -144,6 +145,7 @@
             android:drawablePadding="@dimen/_10sdp"
             android:elevation="@dimen/_5sdp"
             android:gravity="start|center_vertical"
+            android:onClick="@{() -> activity.drawerItemClick(1)}"
             android:outlineAmbientShadowColor="#98A2AA"
             android:outlineProvider="background"
             android:outlineSpotShadowColor="#9EB6CC"
@@ -167,6 +169,7 @@
             android:drawablePadding="@dimen/_10sdp"
             android:elevation="@dimen/_5sdp"
             android:gravity="start|center_vertical"
+            android:onClick="@{() -> activity.drawerItemClick(2)}"
             android:outlineAmbientShadowColor="#98A2AA"
             android:outlineProvider="background"
             android:outlineSpotShadowColor="#9EB6CC"
@@ -191,6 +194,7 @@
             android:drawablePadding="@dimen/_10sdp"
             android:elevation="@dimen/_5sdp"
             android:gravity="start|center_vertical"
+            android:onClick="@{() -> activity.drawerItemClick(3)}"
             android:outlineAmbientShadowColor="#98A2AA"
             android:outlineProvider="background"
             android:outlineSpotShadowColor="#9EB6CC"
@@ -215,6 +219,7 @@
             android:drawablePadding="@dimen/_10sdp"
             android:elevation="@dimen/_5sdp"
             android:gravity="start|center_vertical"
+            android:onClick="@{() -> activity.drawerItemClick(4)}"
             android:outlineAmbientShadowColor="#98A2AA"
             android:outlineProvider="background"
             android:outlineSpotShadowColor="#9EB6CC"

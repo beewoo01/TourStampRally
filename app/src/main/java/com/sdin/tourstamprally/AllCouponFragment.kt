@@ -187,13 +187,9 @@ class AllCouponFragment : BaseFragment() {
 
                 selectedTouristSpotIdx =
                     (parent?.getItemAtPosition(position) as Pair<Int, String>).first
-                Log.wtf(
-                    "onTourSpItemSelectedListener",
-                    "selectedTouristSpotIdx $selectedTouristSpotIdx"
-                )
+
                 changeList()
 
-                Log.wtf("onTourSpItemSelectedListener", "position $position")
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) = Unit
@@ -212,7 +208,6 @@ class AllCouponFragment : BaseFragment() {
                     (parent?.getItemAtPosition(position) as Triple<*, *, MutableList<Pair<Int, String>>>).third
                 )
 
-                Log.wtf("onItemSelected", "position $position")
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) = Unit
@@ -226,7 +221,6 @@ class AllCouponFragment : BaseFragment() {
                 override fun onTabSelected(tab: TabLayout.Tab?) {
                     val position: Int? = tab?.position
                     position?.let {
-                        Log.wtf("tabLayout selected", "position? $position")
                         couponListState = it
                         changeList()
                     }
@@ -290,7 +284,9 @@ class AllCouponFragment : BaseFragment() {
                     title = "쿠폰 발급은 계정당 하나만 \n가능합니다.",
                     content = "쿠폰을 발급 받을시 다른 쿠폰은 받을수 없습니다.\n 발급받으시겠습니까?",
                     isSpecial = false,
-                    "받기", "취소",
+                    isSwitchBtn = false,
+                    leftBtnStr = "받기",
+                    rightBtnStr = "취소",
 
                     callback = {
                         if (it) {
@@ -503,7 +499,7 @@ class AllCouponFragment : BaseFragment() {
                     }
                 } else {
                     val text: String = list[position].second
-                    Log.wtf("LocationSpinnerAdapter", "text $text")
+
                     view?.findViewById<TextView>(R.id.nameTxv)?.apply {
                         this.text = text
                         parent?.context?.let {
@@ -520,7 +516,7 @@ class AllCouponFragment : BaseFragment() {
 
         override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup?): View? {
             var view: View? = convertView
-            Log.wtf("LocationSpinnerAdapter", "getView")
+
             if (view == null) {
                 view =
                     LayoutInflater.from(context)

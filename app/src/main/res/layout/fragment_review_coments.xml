@@ -10,7 +10,6 @@
         tools:context=".ui.fragment.report.review.ReviewComentsFragment">
 
 
-
         <androidx.core.widget.NestedScrollView
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -25,62 +24,43 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <TextView
-                    android:id="@+id/comment_txv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_20sdp"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:text="댓글 0"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/_12sdp"
-                    android:textStyle="bold"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/review_container" />
+
+
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/review_container"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:background="@drawable/bg_rounded_21"
-                    android:paddingHorizontal="@dimen/_15sdp"
                     android:paddingTop="@dimen/_10sdp"
-                    android:paddingBottom="@dimen/_10sdp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintBottom_toTopOf="@id/comment_txv"
                     app:layout_constraintTop_toTopOf="parent">
 
-                    <ImageButton
-                        android:id="@+id/like_imb"
-                        android:layout_width="@dimen/_20sdp"
-                        android:layout_height="@dimen/_20sdp"
-                        android:layout_marginEnd="@dimen/_10sdp"
-                        android:background="@null"
-                        android:src="@drawable/heart_resize"
-                        app:layout_constraintBottom_toBottomOf="@id/likeCount_txv"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="@id/likeCount_txv" />
+                    <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/start_guid"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_percent="0.06" />
+
+                    <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/end_guid"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_percent="0.94" />
+
 
                     <ImageView
                         android:id="@+id/user_profile_imv"
                         android:layout_width="@dimen/_30sdp"
                         android:layout_height="@dimen/_30sdp"
                         android:src="@drawable/sample_profile_image"
-                        app:layout_constraintEnd_toStartOf="@id/user_name_txv"
-                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintStart_toStartOf="@id/start_guid"
                         app:layout_constraintTop_toTopOf="parent" />
 
-                    <ImageView
-                        android:id="@+id/spot_imv"
-                        android:layout_width="0dp"
-                        android:layout_height="@dimen/_110sdp"
-                        android:layout_marginTop="@dimen/_10sdp"
-                        android:scaleType="fitXY"
-                        android:src="@drawable/sample_bg"
-                        app:layout_constraintBottom_toTopOf="@id/spot_name_txv"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="@id/user_profile_imv"
-                        app:layout_constraintTop_toBottomOf="@id/user_profile_imv" />
 
                     <TextView
                         android:id="@+id/user_name_txv"
@@ -95,78 +75,8 @@
                         app:layout_constraintBottom_toBottomOf="@id/user_profile_imv"
                         app:layout_constraintEnd_toStartOf="@id/ratingbar"
                         app:layout_constraintStart_toEndOf="@id/user_profile_imv"
-                        app:layout_constraintTop_toTopOf="@id/user_profile_imv" />
-
-                    <TextView
-                        android:id="@+id/data_txv"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/gray"
-                        android:textSize="@dimen/_10sdp"
-                        app:layout_constraintBottom_toBottomOf="@id/user_profile_imv"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="@id/user_profile_imv" />
-
-                    <TextView
-                        android:id="@+id/spot_name_txv"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/_10sdp"
-                        android:layout_marginTop="@dimen/_10sdp"
-                        android:maxLength="8"
-                        android:maxLines="1"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/_15sdp"
-                        android:textStyle="bold"
-                        app:layout_constraintBottom_toTopOf="@id/review_content_txv"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/spot_imv" />
-
-                    <TextView
-                        android:id="@+id/address_txv"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/_7sdp"
-
-                        android:textColor="@color/gray"
-                        android:textSize="@dimen/_8sdp"
-                        app:layout_constraintBottom_toBottomOf="@id/spot_name_txv"
-                        app:layout_constraintStart_toEndOf="@id/spot_name_txv"
-                        app:layout_constraintTop_toTopOf="@id/spot_name_txv" />
-
-                    <TextView
-                        android:id="@+id/review_content_txv"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/_5sdp"
-                        android:textColor="@color/black"
-                        app:layout_constraintBottom_toTopOf="@id/likeCount_txv"
-                        app:layout_constraintStart_toStartOf="@id/spot_name_txv"
-                        app:layout_constraintTop_toBottomOf="@id/spot_name_txv" />
-
-                    <TextView
-                        android:id="@+id/likeCount_txv"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/_10sdp"
-                        android:text="좋아요 0개"
-                        android:textColor="@color/gray"
-                        android:textSize="@dimen/_9sdp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="@id/spot_name_txv"
-                        app:layout_constraintTop_toBottomOf="@id/review_content_txv" />
-
-                    <TextView
-                        android:id="@+id/commentCount_txv"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/_8sdp"
-                        android:text="댓글 0개"
-                        android:textColor="@color/gray"
-                        android:textSize="@dimen/_9sdp"
-                        app:layout_constraintBottom_toBottomOf="@id/likeCount_txv"
-                        app:layout_constraintStart_toEndOf="@id/likeCount_txv"
-                        app:layout_constraintTop_toTopOf="@id/likeCount_txv" />
+                        app:layout_constraintTop_toTopOf="@id/user_profile_imv"
+                        tools:text="라온소프트" />
 
                     <androidx.appcompat.widget.AppCompatRatingBar
                         android:id="@+id/ratingbar"
@@ -186,7 +96,143 @@
                         app:layout_constraintStart_toEndOf="@id/user_name_txv"
                         app:layout_constraintTop_toTopOf="@id/user_name_txv" />
 
+
+                    <TextView
+                        android:id="@+id/data_txv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/gray"
+                        android:textSize="@dimen/_8sdp"
+                        tools:text="2022.03.09 오후 19:23"
+                        app:layout_constraintBottom_toBottomOf="@id/user_profile_imv"
+                        app:layout_constraintEnd_toEndOf="@id/end_guid"
+                        app:layout_constraintTop_toTopOf="@id/user_profile_imv" />
+
+
+                    <androidx.viewpager2.widget.ViewPager2
+                        android:id="@+id/review_imgs_viewpager"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_marginVertical="@dimen/_5sdp"
+                        app:layout_constraintBottom_toBottomOf="@id/bottom_content_guid"
+                        app:layout_constraintStart_toStartOf="@id/start_guid"
+                        app:layout_constraintEnd_toEndOf="@id/end_guid"
+                        app:layout_constraintTop_toBottomOf="@id/user_profile_imv"
+                        />
+
+                    <androidx.constraintlayout.utils.widget.ImageFilterView
+                        android:id="@+id/spot_imv"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/sample_bg"
+                        app:round="@dimen/_15sdp"
+                        android:visibility="gone"
+                        android:layout_marginVertical="@dimen/_5sdp"
+                        app:layout_constraintBottom_toBottomOf="@id/bottom_content_guid"
+                        app:layout_constraintStart_toStartOf="@id/start_guid"
+                        app:layout_constraintEnd_toEndOf="@id/end_guid"
+                        app:layout_constraintTop_toBottomOf="@id/user_profile_imv" />
+
+
+                    <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/bottom_content_guid"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        app:layout_constraintGuide_percent="0.7"
+                        />
+
+                    <TextView
+                        android:id="@+id/spot_name_txv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:maxLength="8"
+                        android:maxLines="1"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_14sdp"
+                        android:textStyle="bold"
+                        tools:text="한일교류의길"
+                        app:layout_constraintTop_toBottomOf="@id/bottom_content_guid"
+                        app:layout_constraintStart_toStartOf="@id/start_guid"
+                        />
+
+                    <TextView
+                        android:id="@+id/address_txv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_7sdp"
+                        android:textColor="@color/gray"
+                        android:textSize="@dimen/_8sdp"
+                        tools:text="부산광역시 동구 초량동"
+                        app:layout_constraintBottom_toBottomOf="@id/spot_name_txv"
+                        app:layout_constraintStart_toEndOf="@id/spot_name_txv"
+                        app:layout_constraintTop_toTopOf="@id/spot_name_txv" />
+
+                    <TextView
+                        android:id="@+id/review_content_txv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:textColor="@color/black"
+                        tools:text="컨텐츠"
+                        app:layout_constraintBottom_toTopOf="@id/likeCount_txv"
+                        app:layout_constraintStart_toStartOf="@id/start_guid"
+                        app:layout_constraintTop_toBottomOf="@id/spot_name_txv" />
+
+                    <TextView
+                        android:id="@+id/likeCount_txv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:text="좋아요 0개"
+                        android:textColor="@color/gray"
+                        android:textSize="@dimen/_9sdp"
+                        android:layout_marginBottom="@dimen/_10sdp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="@id/start_guid"
+                        app:layout_constraintTop_toBottomOf="@id/review_content_txv" />
+
+                    <TextView
+                        android:id="@+id/commentCount_txv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_8sdp"
+                        android:text="댓글 0개"
+                        android:textColor="@color/gray"
+                        android:textSize="@dimen/_9sdp"
+                        app:layout_constraintBottom_toBottomOf="@id/likeCount_txv"
+                        app:layout_constraintStart_toEndOf="@id/likeCount_txv"
+                        app:layout_constraintTop_toTopOf="@id/likeCount_txv" />
+
+                    <ImageButton
+                        android:id="@+id/like_imb"
+                        android:layout_width="@dimen/_20sdp"
+                        android:layout_height="@dimen/_20sdp"
+                        android:background="@null"
+                        android:contentDescription="@string/like"
+                        android:src="@drawable/heart_resize"
+                        app:layout_constraintBottom_toBottomOf="@id/likeCount_txv"
+                        app:layout_constraintEnd_toEndOf="@id/end_guid"
+                        app:layout_constraintTop_toTopOf="@id/likeCount_txv" />
+
+
                 </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <TextView
+                    android:id="@+id/comment_txv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_20sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:text="댓글 0"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_12sdp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/review_container"
+                    app:layout_constraintBottom_toTopOf="@id/comments_recyclerview"
+                    />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/comments_recyclerview"
@@ -196,12 +242,15 @@
                     android:layout_marginTop="@dimen/_10sdp"
                     android:overScrollMode="never"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constrainedHeight="true"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/comment_txv"
                     tools:itemCount="5"
                     tools:listitem="@layout/item_re_comments" />
+
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.core.widget.NestedScrollView>
@@ -225,10 +274,10 @@
                 android:layout_marginEnd="@dimen/_10sdp"
                 android:background="@drawable/bg_rounded_03"
                 android:backgroundTint="@color/comment_edt_color"
-                android:padding="@dimen/_5sdp"
-                android:textSize="@dimen/_10sdp"
                 android:maxLength="20"
                 android:maxLines="2"
+                android:padding="@dimen/_5sdp"
+                android:textSize="@dimen/_10sdp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/write_imb"
                 app:layout_constraintStart_toStartOf="parent"
@@ -240,8 +289,8 @@
                 android:layout_width="@dimen/_30sdp"
                 android:layout_height="@dimen/_30sdp"
                 android:layout_marginEnd="@dimen/_10sdp"
-                android:src="@drawable/send_comment_resize"
                 android:background="@null"
+                android:src="@drawable/send_comment_resize"
                 app:layout_constraintBottom_toBottomOf="@id/writeComment_edt"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@id/writeComment_edt"

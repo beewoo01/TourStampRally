@@ -170,14 +170,14 @@ public class NFCFragment extends BaseFragment implements NFCListener, ScanListen
             case 0: {
                 // 인증성공 POPUP
                 new ScanResultPopup(requireContext(), 0, "NFC", () -> {
-                    Log.wtf("ScanResultPopup", "touristspotIdx " + touristspotIdx);
+
                     return null;
                 }).show();
                 break;
             }
 
             case 1: {
-                // TODO: 2022/03/13 코스 선택 안함 POPUP
+                //코스 선택 안함 POPUP
                 getCourseInfo();
                 break;
             }
@@ -210,6 +210,7 @@ public class NFCFragment extends BaseFragment implements NFCListener, ScanListen
                         "현재 진행중인 코스를\n중단 하시겠습니까?",
                         "중간 시 해당 코스는 모두\n실패 처리가 됩니다.",
                         true,
+                        false,
                         "취소",
                         "중단",
                         isCancel -> {
@@ -379,20 +380,17 @@ public class NFCFragment extends BaseFragment implements NFCListener, ScanListen
         switch (position) {
             case 0 : {
                 //코스 선택 안함
-                Log.wtf("NFCFragment", "코스 선택 안함");
                 getCourseInfo();
                 break;
             }
 
             case 1 : {
-                Log.wtf("NFCFragment", "코스 있음");
                 //코스 있음
                 break;
             }
 
             case 2 : {
                 //코스 시간 지남 POPUP
-                Log.wtf("NFCFragment", "코스 시간 지남");
                 new DialogFailTimeOver(requireContext()).show();
                 break;
             }

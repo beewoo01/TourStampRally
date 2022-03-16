@@ -1,6 +1,7 @@
 package com.sdin.tourstamprally.model
 
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
 data class UserCurrentCourse(
     @SerializedName("user_current_course_idx")
@@ -13,4 +14,4 @@ data class UserCurrentCourse(
     val user_current_course_updatetime : String,
     @SerializedName("user_current_course_createtime")
     val user_current_course_createtime : String
-)
+) : Serializable

@@ -3,6 +3,7 @@ plugins {
     id("kotlin-android")
     id("androidx.navigation.safeargs.kotlin")
     id("kotlin-kapt")
+    id 'com.google.gms.google-services'
 }
 
 android {
@@ -19,6 +20,10 @@ android {
         versionCode 11
         versionName "2.1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES'
     }
 
     buildTypes {
@@ -58,6 +63,8 @@ dependencies {
     //implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.6.10"
     implementation 'com.google.android.gms:play-services-location:19.0.1'
+    implementation 'com.google.firebase:firebase-messaging:23.0.1'
+    //implementation 'com.google.firebase:firebase-messaging:23.0.1'
 
     /*implementation 'com.google.zxing:core:3.4.1'*/
     testImplementation 'junit:junit:4.13.2'

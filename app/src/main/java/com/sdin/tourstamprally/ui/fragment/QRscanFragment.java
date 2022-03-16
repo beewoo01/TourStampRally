@@ -186,8 +186,6 @@ public class QRscanFragment extends BaseFragment implements DialogListener, Scan
             case 0: {
                 // 인증성공 POPUP
                 new ScanResultPopup(requireContext(), 0, "NFC", () -> {
-                    Log.wtf("ScanResultPopup", "touristspotIdx " + touristspotIdx);
-
                     //check_spot_point_nfc
                     return null;
                 }).show();
@@ -243,6 +241,7 @@ public class QRscanFragment extends BaseFragment implements DialogListener, Scan
                         "현재 진행중인 코스를\n중단 하시겠습니까?",
                         "중간 시 해당 코스는 모두\n실패 처리가 됩니다.",
                         true,
+                        false,
                         "취소",
                         "중단",
                         isCancel -> {

@@ -77,9 +77,6 @@ class MoreReviewFragment : BaseFragment() {
                     result?.let {
 
                         reviewList = result.toMutableList()
-                        /*val arrayList = arrayListOf<AllReviewModel>()
-                        arrayList.addAll(result)
-                        reviewList.addAll(result)*/
                         initData()
 
                     }
@@ -166,7 +163,6 @@ class MoreReviewFragment : BaseFragment() {
     }
 
     private fun search(data: String?) {
-        Log.wtf("search", "data $data")
         val arrayList = mutableListOf<AllReviewModel>()
 
         if (data.isNullOrEmpty()) {

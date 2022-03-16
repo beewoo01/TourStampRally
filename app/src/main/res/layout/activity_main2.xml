@@ -56,8 +56,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_below="@+id/toolbar_layout"
-                android:background="@color/textColor"
-                />
+                android:background="@color/gray_e" />
 
             <!--<androidx.fragment.app.FragmentContainerView
                 android:id="@+id/nav_host_fragmnet"

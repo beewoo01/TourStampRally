@@ -14,13 +14,16 @@ import android.widget.Toast;
 
 import com.sdin.tourstamprally.FindPasswordActivity;
 import com.sdin.tourstamprally.R;
-import com.sdin.tourstamprally.RetrofitGenerator;
 import com.sdin.tourstamprally.Utils;
-import com.sdin.tourstamprally.api.APIService;
 import com.sdin.tourstamprally.databinding.ActivityLoginBinding;
 import com.sdin.tourstamprally.model.UserModel;
 
 import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -39,74 +42,54 @@ public class LoginActivity extends BaseActivity {
         //isAutoLogin();
 
 
-        if (!TextUtils.isEmpty(getIntent().getStringExtra("phone"))){
-            //Log.wtf("phone", "phonephonephonephone");
+        if (!TextUtils.isEmpty(getIntent().getStringExtra("phone"))) {
             binding.editPhone.setText(getIntent().getStringExtra("phone"));
         }
 
-        if (!TextUtils.isEmpty(getIntent().getStringExtra("psw"))){
-            //Log.wtf("psw", "pswpswpswpswpsw");
+        if (!TextUtils.isEmpty(getIntent().getStringExtra("psw"))) {
             binding.editPassword.setText(getIntent().getStringExtra("psw"));
         }
 
     }
 
-    /*private void isAutoLogin(){
 
-        SharedPreferences preferences = setSharedPref();
-        phone = preferences.getString("phone", "");
-        psw = preferences.getString("password", "");
-        Log.d("isAutoLogin phone", phone);
-        Log.d("isAutoLogin psw", psw);
-        if (!TextUtils.isEmpty(phone) && !TextUtils.isEmpty(psw)){
-            *//*Utils.UserPhone = phone;
-            Utils.UserPassword = psw;*//*
-            login();
-            //movoToMain();
-        } else if (!TextUtils.isEmpty(phone) && TextUtils.isEmpty(psw)) {
-            binding.editPhone.setText(phone);
-        }
-
-    }*/
-
-    public void autoSaveClick(View view){
-        if (binding.autoLoginRbt.isChecked() && binding.saveIdRbt.isChecked()){
-            if (view.getId() == R.id.auto_login_rbt){
+    public void autoSaveClick(View view) {
+        if (binding.autoLoginRbt.isChecked() && binding.saveIdRbt.isChecked()) {
+            if (view.getId() == R.id.auto_login_rbt) {
                 binding.saveIdRbt.setChecked(false);
-            }else {
+            } else {
                 binding.autoLoginRbt.setChecked(false);
             }
         }
     }
 
 
-    public void validation(){
-        if (!TextUtils.isEmpty(binding.editPhone.getText()) || !TextUtils.isEmpty(binding.editPassword.getText())){
+    public void validation() {
+        if (!TextUtils.isEmpty(binding.editPhone.getText()) || !TextUtils.isEmpty(binding.editPassword.getText())) {
             phone = binding.editPhone.getText().toString();
             psw = binding.editPassword.getText().toString();
             login();
-            
-        }else {
+
+        } else {
             Toast.makeText(LoginActivity.this, "로그인 정보를 정확히 입력해 주세요", Toast.LENGTH_SHORT).show();
         }
 
     }
 
-    private void login(){
+    private void login() {
 
         apiService.userLoginExists(phone, psw).enqueue(new Callback<String>() {
             @Override
             public void onResponse(@NotNull Call<String> call, @NotNull Response<String> response) {
                 String result = response.body();
                 //Log.d("result JOIN", result);
-                if (result != null){
-                    if (result.equals("true")){
+                if (result != null) {
+                    if (result.equals("true")) {
                         saveInfo();
-                        //Toast.makeText(LoginActivity.this, "로그인 성공!!" + result, Toast.LENGTH_SHORT).show();
-                    }else {
+                    } else {
                         Toast.makeText(LoginActivity.this, "로그인에 실패하셨습니다.", Toast.LENGTH_SHORT).show();
                     }
-                }else {
+                } else {
                     Toast.makeText(LoginActivity.this, "로그인에 실패하셨습니다.", Toast.LENGTH_SHORT).show();
                 }
 
@@ -119,8 +102,19 @@ public class LoginActivity extends BaseActivity {
         });
     }
 
-    private void saveInfo(){
+    private void saveInfo() {
+        /*FirebaseMessaging.getInstance().getToken()
+                .addOnCompleteListener(task -> {
+                    if (!task.isSuccessful()) {
+                        Log.wtf("LoginActivity",
+                                "Fetching FCM registration token failed" , task.getException());
 
+                    }
+
+                    String token = task.getResult();
+                    Log.wtf("LoginActivity", "token =" + token);
+
+                });*/
 
         apiService.userLogin(phone, psw).enqueue(new Callback<UserModel>() {
             @Override
@@ -128,22 +122,22 @@ public class LoginActivity extends BaseActivity {
                 UserModel result = response.body();
                 //Log.d("result JOIN", result.toString());
                 try {
-                    if (result == null || result.equals("null") ){
-                        //Log.d("result", result.toString());
+                    if (result == null || result.equals("null")) {
+
                         Toast.makeText(LoginActivity.this, "로그인에 실패하셨습니다.", Toast.LENGTH_SHORT).show();
-                        //Toast.makeText(LoginActivity.this, "로그인 성공!!" + result, Toast.LENGTH_SHORT).show();
-                    }else {
-                        //Log.d("result!!", result.toString());
-                        if (result.getEnable().equals("0") ){
-                            if (binding.autoLoginRbt.isChecked()){
-                                //Log.wtf("autoLoginRbt", "checked");
+
+                    } else {
+                        if (result.getEnable().equals("0")) {
+                            if (binding.autoLoginRbt.isChecked()) {
                                 setShearedString("phone", binding.editPhone.getText().toString());
                                 setShearedString("password", binding.editPassword.getText().toString());
 
-                            }else if (binding.saveIdRbt.isChecked()){
-                                //Log.wtf("saveIdRbt", "checked");
+                            } else if (binding.saveIdRbt.isChecked()) {
                                 setShearedString("phone", binding.editPhone.getText().toString());
                             }
+
+
+
                             Utils.UserPhone = binding.editPhone.getText().toString();
                             Utils.UserPassword = binding.editPassword.getText().toString();
                             Utils.User_Idx = result.getUserIdx();
@@ -152,13 +146,13 @@ public class LoginActivity extends BaseActivity {
                             Utils.User_Location = result.getLocation();
                             Utils.User_Profile = result.getUser_profile();
 
-                            movoToMain();
-                        }else {
+                            moveToMain();
+                        } else {
                             Toast.makeText(LoginActivity.this, "로그인에 실패하셨습니다.", Toast.LENGTH_SHORT).show();
                         }
 
                     }
-                }catch (Exception e){
+                } catch (Exception e) {
                     Toast.makeText(LoginActivity.this, "로그인에 실패하셨습니다.", Toast.LENGTH_SHORT).show();
                     e.printStackTrace();
                 }
@@ -173,31 +167,67 @@ public class LoginActivity extends BaseActivity {
         });
 
 
-
     }
 
-    private void movoToMain(){
-        startActivity(new Intent(LoginActivity.this, MainActivity2.class));
+    private void moveToMain() {
+        Set<String> set = getIds();
+        boolean isNotFirstLogin = true;
+        Intent intent;
+        if (set != null) {
+            List<String> list = new ArrayList<>(set);
+            isNotFirstLogin = list.contains(binding.editPhone.getText().toString());
+            intent = new Intent(LoginActivity.this, MainActivity2.class);
+            intent.putExtra("isNotFirstLogin", isNotFirstLogin);
+            if (!isNotFirstLogin) {
+                list.add(binding.editPhone.getText().toString());
+                Set<String> saveSet = new HashSet<>(list);
+                setShearedStringSet(saveSet);
+            }
+        } else {
+            Set<String> saveSet = new HashSet<>();
+            saveSet.add(binding.editPhone.getText().toString());
+            setShearedStringSet(saveSet);
+            intent = new Intent(LoginActivity.this, MainActivity2.class);
+            intent.putExtra("isNotFirstLogin", isNotFirstLogin);
+        }
+
+
+
+
+        startActivity(intent);
         finish();
     }
 
-    private SharedPreferences setSharedPref(){
+    private SharedPreferences setSharedPref() {
         return getSharedPreferences("rebuild_preference", Context.MODE_PRIVATE);
     }
 
-    private void setShearedString(String key, String value){
+    private void setShearedString(String key, String value) {
         SharedPreferences preferences = setSharedPref();
         SharedPreferences.Editor editor = preferences.edit();
         editor.putString(key, value);
         editor.apply();
-
     }
 
-    public void Forgot_psw(){
+    private void setShearedStringSet(Set<String> value) {
+        SharedPreferences preferences = setSharedPref();
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putStringSet("phones", value);
+        editor.apply();
+    }
+
+
+    private Set<String> getIds() {
+        SharedPreferences preferences = setSharedPref();
+        return preferences.getStringSet("phones", null);
+    }
+
+
+    public void Forgot_psw() {
         startActivity(new Intent(this, FindPasswordActivity.class));
     }
 
-    public void SignUp(){
+    public void SignUp() {
         startActivity(new Intent(this, TermsOfConditionsActivity.class));
     }
 

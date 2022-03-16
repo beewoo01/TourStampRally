@@ -24,14 +24,16 @@ import androidx.databinding.DataBindingUtil
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.gms.dynamic.IFragmentWrapper
 import com.google.android.gms.location.*
 import com.google.android.material.tabs.TabLayout
 import com.sdin.tourstamprally.R
+import com.sdin.tourstamprally.Utils
 import com.sdin.tourstamprally.adapter.StoreReAdapter
 import com.sdin.tourstamprally.databinding.FragmentSelectGuidStoreBinding
 import com.sdin.tourstamprally.model.StoreModel
+import com.sdin.tourstamprally.model.UserCurrentCourse
 import com.sdin.tourstamprally.ui.fragment.BaseFragment
-import com.sdin.tourstamprally.utill.CurrentCourseSingleton.UserCurrentCourseSpotIdx
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.observers.DisposableSingleObserver
 import io.reactivex.rxjava3.schedulers.Schedulers
@@ -47,10 +49,11 @@ class SelectGuidStoreFragment : BaseFragment() {
 
     private var storeReAdapter: StoreReAdapter? = null
 
-    private lateinit var allStoreList: List<StoreModel>
+    private var allStoreList: List<StoreModel> = mutableListOf()
     private val categoryArr = arrayOf(R.id.restaurant_txv, R.id.cafe_txv, R.id.accommodation_txv)
     private var storeListState = 0 /*0 : 전체, 1 : 주변, 2 : 코스별*/
     private var storeListCategory = 3 /*0 : 식당 , 1 : 카페, 2 : 숙박시설, 3: 미선택*/
+    private var currentSpotIdx : Int? = null
 
 
     override fun onCreateView(
@@ -100,10 +103,6 @@ class SelectGuidStoreFragment : BaseFragment() {
                         changeList()
                     }
 
-                    Log.wtf(
-                        this@SelectGuidStoreFragment.javaClass.name,
-                        "tab?.position?? ${tab?.position}"
-                    )
 
                 }
 
@@ -131,15 +130,11 @@ class SelectGuidStoreFragment : BaseFragment() {
         currentList.run {
             forEach { model ->
                 val location = Location("")
-                Log.wtf("changeListToAround", "current latitude ${myLocation.latitude}")
-                Log.wtf("changeListToAround", "current longitude ${myLocation.longitude}")
-                Log.wtf("changeListToAround", "latitude ${model.store_latitude}")
-                Log.wtf("changeListToAround", "longitude ${model.store_longitude}")
+
                 location.latitude = model.store_latitude.toDouble()
                 location.longitude = model.store_longitude.toDouble()
                 val distance = myLocation.distanceTo(location)
-                Log.wtf("changeListToAround", "store_name ${model.store_name}")
-                Log.wtf("changeListToAround", "distance $distance")
+
 
                 if (distance > 300) {
                     //30M 초과
@@ -160,34 +155,47 @@ class SelectGuidStoreFragment : BaseFragment() {
     }
 
     private fun changeListToCourse(): MutableList<StoreModel> { /*코스별*/
-        Log.wtf("changeListToCourse", "changeListToCourse")
         val courseList = mutableListOf<StoreModel>()
-        when {
-            UserCurrentCourseSpotIdx != null -> {
-                allStoreList.forEach { model ->
+        if (currentSpotIdx != null) {
+            allStoreList.forEach { model ->
 
-                    if (model.store_touristspot_idx == UserCurrentCourseSpotIdx) {
-                        Log.wtf("changeListToCourse", "UserCurrentCourseSpotIdx")
-                        courseList.add(model)
-                    }
+                if (model.store_touristspot_idx == currentSpotIdx) {
+                    courseList.add(model)
                 }
             }
-            UserCurrentCourseSpotIdx == null -> {
-                Toast.makeText(requireContext(), "선택된 코스가 없습니다.", Toast.LENGTH_SHORT).show()
-            }
-            courseList.size <= 0 -> {
-                Toast.makeText(requireContext(), "현재 코스는 등록된 매장이 없습니다.", Toast.LENGTH_SHORT).show()
-            }
+        }else if (currentSpotIdx == null) {
+            Toast.makeText(requireContext(), "선택된 코스가 없습니다.", Toast.LENGTH_SHORT).show()
+        }
+
+        if (currentSpotIdx != null && courseList.size <= 0) {
+            Toast.makeText(requireContext(), "현재 코스는 등록된 매장이 없습니다.", Toast.LENGTH_SHORT).show()
         }
 
         return courseList
-        /*storeReAdapter?.submitList(courseList)
-        mapView.removeAllPOIItems()
-        addMapMarkers(courseList)*/
+    }
+
+    private fun getCurrentCourse() {
+        apiService.getCurrentMyCourse(Utils.User_Idx)
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeWith(object : DisposableSingleObserver<UserCurrentCourse?>() {
+                override fun onSuccess(result: UserCurrentCourse?) {
+                    if (result != null) {
+                        currentSpotIdx = result.user_current_course_spot_idx
+                    } else {
+                        currentSpotIdx = null
+                    }
+                }
+
+                override fun onError(e: Throwable) {
+
+                    e.printStackTrace()
+                }
+
+            })
     }
 
     private fun changeList() {
-        Log.wtf("test", "test")
+
         val stateList = mutableListOf<StoreModel>()
 
         when (storeListState) {
@@ -460,13 +468,14 @@ class SelectGuidStoreFragment : BaseFragment() {
 
             mapView.removeAllPOIItems()
             addMapMarkers(list = list)
+            getCurrentCourse()
 
         }
 
 
     }
 
-    private fun changeMapMarkers(list : MutableList<StoreModel>) {
+    private fun changeMapMarkers(list: MutableList<StoreModel>) {
         mapView.removeAllPOIItems()
         val marker = arrayOfNulls<MapPOIItem>(list.size).apply {
             repeat(size) {

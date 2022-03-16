@@ -177,7 +177,6 @@ class NFCFragment : BaseFragment(), NFCListener {
             4 -> {
                 //이미 인증됨  POPUP
                 ScanResultPopup(requireContext(), 2, "NFC"){
-                    Log.wtf("ScanResultPopup", "touristspotIdx $touristspotIdx")
                     touristspotIdx?.let {
                         apiService.selectSpotSimpleInfo(it)
                             .subscribeOn(Schedulers.newThread())
@@ -209,11 +208,12 @@ class NFCFragment : BaseFragment(), NFCListener {
                 // 현재 코스가 아님 POPUP
                 DefaultBSRDialog(
                     requireContext(),
-                    "현재 진행중인 코스를\n중단 하시겠습니까?",
-                    "중간 시 해당 코스는 모두\n실패 처리가 됩니다.",
-                    true,
-                    "취소",
-                    "중단"
+                    title ="현재 진행중인 코스를\n중단 하시겠습니까?",
+                    content = "중간 시 해당 코스는 모두\n실패 처리가 됩니다.",
+                    isSpecial = true,
+                    isSwitchBtn = false,
+                    leftBtnStr = "취소",
+                    rightBtnStr = "중단"
                 ) { isCancel: Boolean ->
                     if (!isCancel) {
                         apiService.removeMyCourse(Utils.User_Idx)
