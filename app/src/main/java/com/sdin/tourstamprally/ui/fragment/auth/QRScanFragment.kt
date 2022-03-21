@@ -50,15 +50,18 @@ class QRScanFragment : BaseFragment() {
 
     override fun onResume() {
         super.onResume()
-        codeScanner?.startPreview()
+        Log.wtf("QRScanFragment", "onResume")
+        //codeScanner?.startPreview()
     }
 
     override fun onPause() {
         super.onPause()
+        Log.wtf("QRScanFragment", "onPause")
         codeScanner?.releaseResources()
     }
 
     private fun initView() = with(binding!!) {
+        Log.wtf("QRScanFragment", "initView")
         codeScanner = CodeScanner(requireContext(), scannerView)
         codeScanner?.decodeCallback = DecodeCallback { result: Result ->
             requireActivity().runOnUiThread {
@@ -70,6 +73,9 @@ class QRScanFragment : BaseFragment() {
         moveNfcBtn.setOnClickListener {
             findNavController().navigate(R.id.action_fragment_qr_scan_to_fragment_nfc)
         }
+
+        //삼덕세계
+        //1-92 지자체 리아과제 codebr
 
         getData()
     }
