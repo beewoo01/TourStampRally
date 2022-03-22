@@ -10,10 +10,10 @@ import android.location.Location
 import android.location.LocationManager
 import android.os.Build
 import android.os.Bundle
-import android.os.Looper
 import android.provider.Settings
-import android.util.Log
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
@@ -24,8 +24,8 @@ import androidx.databinding.DataBindingUtil
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.gms.dynamic.IFragmentWrapper
-import com.google.android.gms.location.*
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import com.google.android.material.tabs.TabLayout
 import com.sdin.tourstamprally.R
 import com.sdin.tourstamprally.Utils
@@ -34,10 +34,13 @@ import com.sdin.tourstamprally.databinding.FragmentSelectGuidStoreBinding
 import com.sdin.tourstamprally.model.StoreModel
 import com.sdin.tourstamprally.model.UserCurrentCourse
 import com.sdin.tourstamprally.ui.fragment.BaseFragment
+import com.sdin.tourstamprally.utill.GpsTracker
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.observers.DisposableSingleObserver
 import io.reactivex.rxjava3.schedulers.Schedulers
-import net.daum.mf.map.api.*
+import net.daum.mf.map.api.MapPOIItem
+import net.daum.mf.map.api.MapPoint
+import net.daum.mf.map.api.MapView
 
 class SelectGuidStoreFragment : BaseFragment() {
 
@@ -53,7 +56,7 @@ class SelectGuidStoreFragment : BaseFragment() {
     private val categoryArr = arrayOf(R.id.restaurant_txv, R.id.cafe_txv, R.id.accommodation_txv)
     private var storeListState = 0 /*0 : 전체, 1 : 주변, 2 : 코스별*/
     private var storeListCategory = 3 /*0 : 식당 , 1 : 카페, 2 : 숙박시설, 3: 미선택*/
-    private var currentSpotIdx : Int? = null
+    private var currentSpotIdx: Int? = null
 
 
     override fun onCreateView(
@@ -163,7 +166,7 @@ class SelectGuidStoreFragment : BaseFragment() {
                     courseList.add(model)
                 }
             }
-        }else if (currentSpotIdx == null) {
+        } else if (currentSpotIdx == null) {
             Toast.makeText(requireContext(), "선택된 코스가 없습니다.", Toast.LENGTH_SHORT).show()
         }
 
@@ -332,8 +335,8 @@ class SelectGuidStoreFragment : BaseFragment() {
         super.onPause()
         mapView.removeAllPOIItems()
         binding?.mapLayout?.removeView(mapView)
-        fusedLocationClient?.removeLocationUpdates(locationCallback)
-        fusedLocationClient = null
+        /*fusedLocationClient?.removeLocationUpdates(locationCallback)
+        fusedLocationClient = null*/
 
     }
 
@@ -378,7 +381,12 @@ class SelectGuidStoreFragment : BaseFragment() {
             return
         }
 
-        fusedLocationClient?.apply {
+        val gpsTracker = GpsTracker(requireContext())
+        val latitude = gpsTracker.latitude
+        val longitude = gpsTracker.longitude
+        mapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(latitude, longitude), true)
+
+        /*fusedLocationClient?.apply {
             lastLocation.addOnSuccessListener { location ->
 
                 location?.let {
@@ -402,11 +410,11 @@ class SelectGuidStoreFragment : BaseFragment() {
                 locationCallback,
                 Looper.getMainLooper()
             )
-        }
+        }*/
 
     }
 
-    private val locationCallback = object : LocationCallback() {
+    /*private val locationCallback = object : LocationCallback() {
         override fun onLocationResult(locationResult: LocationResult) {
             for (location in locationResult.locations) {
                 if (location != null) {
@@ -419,7 +427,7 @@ class SelectGuidStoreFragment : BaseFragment() {
                 }
             }
         }
-    }
+    }*/
 
     private val requestPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { map ->

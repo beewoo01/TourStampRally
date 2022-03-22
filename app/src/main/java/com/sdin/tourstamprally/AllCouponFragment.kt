@@ -281,13 +281,12 @@ class AllCouponFragment : BaseFragment() {
         binding?.couponRe?.apply {
             allCouponAdapter = AllCouponAdapter { responseModel ->
                 DefaultBSRDialog(requireContext(),
-                    title = "쿠폰 발급은 계정당 하나만 \n가능합니다.",
-                    content = "쿠폰을 발급 받을시 다른 쿠폰은 받을수 없습니다.\n 발급받으시겠습니까?",
+                    title = "쿠폰을 발급\n받으시겠습니까?",
+                    content = "",
                     isSpecial = false,
                     isSwitchBtn = false,
                     leftBtnStr = "받기",
                     rightBtnStr = "취소",
-
                     callback = {
                         if (it) {
                             apiService.getCouponFromFree(

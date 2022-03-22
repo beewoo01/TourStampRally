@@ -113,7 +113,7 @@ public class ScanResultDialog extends BaseDialog {
 
         findViewById(R.id.close_btn).setOnClickListener(v -> {
             if (dialogListener != null) {
-                dialogListener.onDissMiss();
+                dialogListener.onDisMiss();
             }
             dismiss();
         });
@@ -151,7 +151,7 @@ public class ScanResultDialog extends BaseDialog {
             resulButton.setText("재시도하기 >");
             resulButton.setOnClickListener(v -> {
                 if (dialogListener != null) {
-                    dialogListener.onDissMiss();
+                    dialogListener.onDisMiss();
                 }
                 dismiss();
             });
@@ -196,7 +196,7 @@ public class ScanResultDialog extends BaseDialog {
         //Log.wtf("getData!!", String.valueOf(touristhistory_touristspotpoint_idx));
 
         if (dialogListener != null) {
-            dialogListener.onDissMiss();
+            dialogListener.onDisMiss();
         }
 
         apiService.select_success_data(String.valueOf(touristhistory_touristspotpoint_idx)).enqueue(new Callback<RallyMapDTO>() {

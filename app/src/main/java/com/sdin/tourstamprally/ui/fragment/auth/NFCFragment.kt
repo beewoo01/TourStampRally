@@ -29,7 +29,7 @@ import kotlin.experimental.and
 
 class NFCFragment : BaseFragment(), NFCListener {
 
-    private var binding : FragmentNfcBinding? = null
+    private var binding: FragmentNfcBinding? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -132,15 +132,15 @@ class NFCFragment : BaseFragment(), NFCListener {
         when (result) {
             0 -> {
                 // 인증성공 POPUP
-                ScanResultPopup(requireContext(), 0, "NFC"){
+                ScanResultPopup(requireContext(), 0, "NFC", null) {
                     Log.wtf("ScanResultPopup", "touristspotIdx $touristspotIdx")
                     touristspotIdx?.let {
                         apiService.selectSpotSimpleInfo(it)
                             .subscribeOn(Schedulers.newThread())
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribeWith(object : DisposableSingleObserver<RallyMapModel>() {
-                                override fun onSuccess(result : RallyMapModel) {
-                                    if(result != null) {
+                                override fun onSuccess(result: RallyMapModel) {
+                                    if (result != null) {
                                         val action = NFCFragmentDirections.checkSpotPointNfc(
                                             title = result.touristspot_name,
                                             state = 1,
@@ -170,20 +170,20 @@ class NFCFragment : BaseFragment(), NFCListener {
             }
             3 -> {
                 // 태그 정보 잘못됨 POPUP
-                ScanResultPopup(requireContext(), 1, "NFC") {
+                ScanResultPopup(requireContext(), 1, "NFC", null) {
 
                 }.show()
             }
             4 -> {
                 //이미 인증됨  POPUP
-                ScanResultPopup(requireContext(), 2, "NFC"){
+                ScanResultPopup(requireContext(), 2, "NFC", null) {
                     touristspotIdx?.let {
                         apiService.selectSpotSimpleInfo(it)
                             .subscribeOn(Schedulers.newThread())
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribeWith(object : DisposableSingleObserver<RallyMapModel>() {
-                                override fun onSuccess(result : RallyMapModel) {
-                                    if(result != null) {
+                                override fun onSuccess(result: RallyMapModel) {
+                                    if (result != null) {
                                         val action = NFCFragmentDirections.checkSpotPointNfc(
                                             title = result.touristspot_name,
                                             state = 1,
@@ -208,7 +208,7 @@ class NFCFragment : BaseFragment(), NFCListener {
                 // 현재 코스가 아님 POPUP
                 DefaultBSRDialog(
                     requireContext(),
-                    title ="현재 진행중인 코스를\n중단 하시겠습니까?",
+                    title = "현재 진행중인 코스를\n중단 하시겠습니까?",
                     content = "중간 시 해당 코스는 모두\n실패 처리가 됩니다.",
                     isSpecial = true,
                     isSwitchBtn = false,
@@ -220,7 +220,7 @@ class NFCFragment : BaseFragment(), NFCListener {
                             .subscribeOn(Schedulers.newThread())
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribeWith(object : DisposableSingleObserver<Int>() {
-                                override fun onSuccess(result : Int) {
+                                override fun onSuccess(result: Int) {
                                     when (result) {
                                         0 -> {
                                             //정상적으로 삭제됨
@@ -248,7 +248,7 @@ class NFCFragment : BaseFragment(), NFCListener {
         }
     }
 
-    private fun showToast(msg : String) {
+    private fun showToast(msg: String) {
         Toast.makeText(requireContext(), msg, Toast.LENGTH_SHORT).show()
     }
 

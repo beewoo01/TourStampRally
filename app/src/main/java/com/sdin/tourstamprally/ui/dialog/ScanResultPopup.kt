@@ -6,6 +6,7 @@ import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.WindowManager
@@ -14,11 +15,13 @@ import androidx.databinding.DataBindingUtil
 import com.bumptech.glide.Glide
 import com.sdin.tourstamprally.R
 import com.sdin.tourstamprally.databinding.DialogScanResult2Binding
+import com.sdin.tourstamprally.utill.listener.DialogListener
 
 class ScanResultPopup(
     context: Context,
-    val scanResult: Int,
-    val parentFragment: String,
+    private val scanResult: Int,
+    private val parentFragment: String,
+    private val dismissListener : DialogListener?,
     val callBack : () -> Unit
 ) :
     Dialog(context, R.style.FullScreenDialogStyle) {
@@ -62,8 +65,16 @@ class ScanResultPopup(
         }
 
         binding?.closeImb?.setOnClickListener {
+            Log.wtf("ScanResultPopup", "closeImb click")
+            dismissListener?.onDisMiss()
             dismiss()
         }
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        Log.wtf("onBackPressed", "ScanResultDialog")
+        dismissListener?.onDisMiss()
     }
 
     @SuppressLint("SetTextI18n")
@@ -136,6 +147,7 @@ class ScanResultPopup(
             background = ContextCompat.getDrawable(this.context, R.drawable.scan_fail_button_bg)
 
             setOnClickListener {
+                dismissListener?.onDisMiss()
                 dismiss()
             }
         }

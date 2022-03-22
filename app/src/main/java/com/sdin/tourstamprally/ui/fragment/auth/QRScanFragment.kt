@@ -23,11 +23,12 @@ import com.sdin.tourstamprally.ui.dialog.course.SelectCourseDialog
 import com.sdin.tourstamprally.ui.fragment.BaseFragment
 import com.sdin.tourstamprally.ui.fragment.report.review.MoreReviewFragmentDirections
 import com.sdin.tourstamprally.utill.GpsTracker
+import com.sdin.tourstamprally.utill.listener.DialogListener
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.observers.DisposableSingleObserver
 import io.reactivex.rxjava3.schedulers.Schedulers
 
-class QRScanFragment : BaseFragment() {
+class QRScanFragment : BaseFragment(), DialogListener {
 
     private var binding: FragmentQrScanBinding? = null
     private var codeScanner: CodeScanner? = null
@@ -51,7 +52,7 @@ class QRScanFragment : BaseFragment() {
     override fun onResume() {
         super.onResume()
         Log.wtf("QRScanFragment", "onResume")
-        //codeScanner?.startPreview()
+        codeScanner?.startPreview()
     }
 
     override fun onPause() {
@@ -73,9 +74,6 @@ class QRScanFragment : BaseFragment() {
         moveNfcBtn.setOnClickListener {
             findNavController().navigate(R.id.action_fragment_qr_scan_to_fragment_nfc)
         }
-
-        //삼덕세계
-        //1-92 지자체 리아과제 codebr
 
         getData()
     }
@@ -146,14 +144,14 @@ class QRScanFragment : BaseFragment() {
         when (result) {
             0 -> {
                 // 인증성공 POPUP
-                ScanResultPopup(requireContext(), 0, "QR") {
+                ScanResultPopup(requireContext(), 0, "QR", this@QRScanFragment) {
                     touristspotIdx?.let {
                         apiService.selectSpotSimpleInfo(it)
                             .subscribeOn(Schedulers.newThread())
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribeWith(object : DisposableSingleObserver<RallyMapModel>() {
-                                override fun onSuccess(result : RallyMapModel) {
-                                    if(result != null) {
+                                override fun onSuccess(result: RallyMapModel) {
+                                    if (result != null) {
                                         moveFragment(result)
                                     }
                                 }
@@ -176,20 +174,20 @@ class QRScanFragment : BaseFragment() {
             }
             3 -> {
                 // 태그 정보 잘못됨 POPUP
-                ScanResultPopup(requireContext(), 1, "QR") {
+                ScanResultPopup(requireContext(), 1, "QR", this@QRScanFragment) {
 
                 }.show()
             }
             4 -> {
                 //이미 인증됨  POPUP
-                ScanResultPopup(requireContext(), 2, "QR") {
+                ScanResultPopup(requireContext(), 2, "QR", this@QRScanFragment) {
                     touristspotIdx?.let {
                         apiService.selectSpotSimpleInfo(it)
                             .subscribeOn(Schedulers.newThread())
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribeWith(object : DisposableSingleObserver<RallyMapModel>() {
-                                override fun onSuccess(result : RallyMapModel) {
-                                    if(result != null) {
+                                override fun onSuccess(result: RallyMapModel) {
+                                    if (result != null) {
                                         moveFragment(result)
                                     }
                                 }
@@ -210,7 +208,7 @@ class QRScanFragment : BaseFragment() {
                 // 현재 코스가 아님 POPUP
                 DefaultBSRDialog(
                     requireContext(),
-                    title= "현재 진행중인 코스를\n중단 하시겠습니까?",
+                    title = "현재 진행중인 코스를\n중단 하시겠습니까?",
                     content = "중간 시 해당 코스는 모두\n실패 처리가 됩니다.",
                     isSpecial = true,
                     isSwitchBtn = false,
@@ -222,7 +220,7 @@ class QRScanFragment : BaseFragment() {
                             .subscribeOn(Schedulers.newThread())
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribeWith(object : DisposableSingleObserver<Int>() {
-                                override fun onSuccess(result : Int) {
+                                override fun onSuccess(result: Int) {
                                     when (result) {
                                         0 -> {
                                             //정상적으로 삭제됨
@@ -288,6 +286,10 @@ class QRScanFragment : BaseFragment() {
             return Utils.distance(latitude, longitude, userLatitude, userLongitude)
         }
         return 0.0
+    }
+
+    override fun onDisMiss() {
+        codeScanner?.startPreview()
     }
 
 }

@@ -2,8 +2,11 @@ package com.sdin.tourstamprally.ui.dialog
 
 import android.app.Dialog
 import android.content.Context
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.WindowManager
 import androidx.databinding.DataBindingUtil
 import com.sdin.tourstamprally.R
 import com.sdin.tourstamprally.databinding.DialogFailTimeoverBinding
@@ -24,6 +27,10 @@ class DialogFailTimeOver(context: Context) :
         )
 
         setContentView(binding?.root!!)
+
+        window!!.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING)
+        window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        window!!.attributes.windowAnimations = R.style.AnimationPopupStyle
 
         binding?.checkTxv?.setOnClickListener {
             dismiss()

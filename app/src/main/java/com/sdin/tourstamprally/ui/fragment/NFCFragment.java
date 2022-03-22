@@ -169,7 +169,7 @@ public class NFCFragment extends BaseFragment implements NFCListener, ScanListen
         switch (result) {
             case 0: {
                 // 인증성공 POPUP
-                new ScanResultPopup(requireContext(), 0, "NFC", () -> {
+                new ScanResultPopup(requireContext(), 0, "NFC", null ,() -> {
 
                     return null;
                 }).show();
@@ -190,13 +190,13 @@ public class NFCFragment extends BaseFragment implements NFCListener, ScanListen
 
             case 3: {
                 // 태그 정보 잘못됨 POPUP
-                new ScanResultPopup(requireContext(), 1, "NFC", () -> null).show();
+                new ScanResultPopup(requireContext(), 1, "NFC", null ,() -> null).show();
                 break;
             }
 
             case 4: {
                 //이미 인증됨  POPUP
-                new ScanResultPopup(requireContext(), 2, "NFC", () -> {
+                new ScanResultPopup(requireContext(), 2, "NFC", null ,() -> {
                     Log.wtf("ScanResultPopup", "touristspotIdx " + touristspotIdx);
                     return null;
                 }).show();
@@ -242,7 +242,7 @@ public class NFCFragment extends BaseFragment implements NFCListener, ScanListen
         } else {
 
             Log.wtf("distance_calculation", "30M넘음");
-            new ScanResultPopup(requireContext(), 1, "NFC", () -> null).show();
+            new ScanResultPopup(requireContext(), 1, "NFC", null ,() -> null).show();
             //showFailDialog();
         }
     }

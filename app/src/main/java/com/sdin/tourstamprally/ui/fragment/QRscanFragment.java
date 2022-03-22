@@ -185,7 +185,7 @@ public class QRscanFragment extends BaseFragment implements DialogListener, Scan
         switch (result) {
             case 0: {
                 // 인증성공 POPUP
-                new ScanResultPopup(requireContext(), 0, "NFC", () -> {
+                new ScanResultPopup(requireContext(), 0, "QR", null, () -> {
                     //check_spot_point_nfc
                     return null;
                 }).show();
@@ -221,13 +221,13 @@ public class QRscanFragment extends BaseFragment implements DialogListener, Scan
 
             case 3: {
                 // 태그 정보 잘못됨 POPUP
-                new ScanResultPopup(requireContext(), 1, "NFC", () -> null).show();
+                new ScanResultPopup(requireContext(), 1, "QR", null, () -> null).show();
                 break;
             }
 
             case 4: {
                 //이미 인증됨  POPUP
-                new ScanResultPopup(requireContext(), 2, "NFC", () -> {
+                new ScanResultPopup(requireContext(), 2, "QR", null ,() -> {
                     Log.wtf("ScanResultPopup", "touristspotIdx " + touristspotIdx);
                     return null;
                 }).show();
@@ -376,7 +376,7 @@ public class QRscanFragment extends BaseFragment implements DialogListener, Scan
 
 
     @Override
-    public void onDissMiss() {
+    public void onDisMiss() {
         codeScanner.startPreview();
     }
 
