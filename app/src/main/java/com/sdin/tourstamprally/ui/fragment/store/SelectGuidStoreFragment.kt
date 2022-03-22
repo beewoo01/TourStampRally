@@ -44,6 +44,12 @@ import net.daum.mf.map.api.MapView
 
 class SelectGuidStoreFragment : BaseFragment() {
 
+    /**
+     * TODO
+     * 1. 쿠폰은 발급받은일로 부터 7일 까지 소유할수 있다.
+     * 2. 일주일이 지나면 소유자는 소유권을 잃어버리며, 해당 쿠폰은 발급화면에서 보여진다.
+     * 3. 쿠폰 사용기간이 발급받은일이로 부터 일주일 전에 소멸된다면 사용가능 기간은 쿠폰 사용기간이 된다.
+    * */
     private var binding: FragmentSelectGuidStoreBinding? = null
 
     private lateinit var mapView: MapView
