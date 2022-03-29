@@ -138,24 +138,30 @@ class LocationFragment : BaseFragment() {
     }
 
     @SuppressLint("SetTextI18n")
-    private fun setProgress() {
-        var allLocationPercent = 0
+    private fun setProgress() = with(binding!!) {
+        /*var allLocationPercent = 0
         var myLocationPercent = 0
         for (model in list) {
             model.allCount?.let {
                 allLocationPercent += it
                 myLocationPercent += it
             }
-        }
-        val allCount: Int =
-            (((myLocationPercent.toDouble() / allLocationPercent.toDouble())) * 100).roundToInt()
 
-        with(binding!!) {
-            seekBarLocation.max = allLocationPercent
-            seekBarLocation.progress = myLocationPercent
-            seekPercentTxv.text = "$allCount%"
-            locationPgb.visibility = View.GONE
-        }
+        }*/
+
+        /*val allCount: Int =
+            (((myLocationPercent.toDouble() / allLocationPercent.toDouble())) * 100).roundToInt()*/
+        val myCount =
+            ((model.myHistoryCount.toDouble()) / model.allPointCount.toDouble() * 100).roundToInt()
+
+        seekBarLocation.max = model.allPointCount
+        seekBarLocation.progress = myCount
+        Log.wtf("setProgress", "allPointCount ${model.allPointCount}")
+        Log.wtf("setProgress", "myHistoryCount ${model.myHistoryCount}")
+        Log.wtf("setProgress", "myCount $myCount")
+        seekPercentTxv.text = "${myCount}%"
+        locationPgb.visibility = View.GONE
+
     }
 
 

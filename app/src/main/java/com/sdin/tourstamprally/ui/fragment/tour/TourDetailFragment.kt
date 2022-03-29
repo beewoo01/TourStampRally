@@ -52,6 +52,7 @@ class TourDetailFragment : BaseFragment() {
         val model: TourDetailFragmentArgs by navArgs()
         touristSpotPointModel = model.touristSpotPointDC
         Log.wtf("onCreateView", "touristSpotPointModel")
+        Log.wtf("onCreateView", touristSpotPointModel.touristspotpoint_detail_explan)
         binding?.fragment = this@TourDetailFragment
         return binding?.root
     }

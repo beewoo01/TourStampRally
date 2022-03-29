@@ -33,7 +33,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_chainStyle="packed"
-                tools:text="코스 완주 실패" />
+                android:text="코스 완주 실패" />
 
 
             <TextView

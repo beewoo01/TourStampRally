@@ -1,7 +1,6 @@
 package com.sdin.tourstamprally.ui.fragment.auth
 
 import android.graphics.Outline
-import android.nfc.NdefMessage
 import android.nfc.NfcAdapter
 import android.os.Bundle
 import android.util.Log
@@ -21,11 +20,9 @@ import com.sdin.tourstamprally.ui.dialog.DialogFailTimeOver
 import com.sdin.tourstamprally.ui.dialog.ScanResultPopup
 import com.sdin.tourstamprally.ui.dialog.course.SelectCourseDialog
 import com.sdin.tourstamprally.ui.fragment.BaseFragment
-import com.sdin.tourstamprally.ui.fragment.auth.NFCListener
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.observers.DisposableSingleObserver
 import io.reactivex.rxjava3.schedulers.Schedulers
-import kotlin.experimental.and
 
 class NFCFragment : BaseFragment(), NFCListener {
 
@@ -253,7 +250,7 @@ class NFCFragment : BaseFragment(), NFCListener {
     }
 
     private fun getCourseInfo() {
-        SelectCourseDialog(requireContext()).show()
+        SelectCourseDialog(requireContext(), null).show()
     }
 
     override fun onReadTag(action: String) {

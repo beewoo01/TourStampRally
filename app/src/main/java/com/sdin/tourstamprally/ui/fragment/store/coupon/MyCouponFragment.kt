@@ -47,12 +47,12 @@ class MyCouponFragment : BaseFragment(), Observer<MutableList<StoreMyCouponModel
         binding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_my_coupon, container, false)
 
-        getData()
+        //getData()
 
         return binding?.root
     }
 
-    private fun getData() {
+    /*private fun getData() {
         apiService.getMyStampCount(Utils.User_Idx).subscribeOn(Schedulers.newThread())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeWith(object : DisposableSingleObserver<Int>() {
@@ -65,7 +65,7 @@ class MyCouponFragment : BaseFragment(), Observer<MutableList<StoreMyCouponModel
                 }
 
             })
-    }
+    }*/
 
 
     private fun initView() = with(binding!!) {

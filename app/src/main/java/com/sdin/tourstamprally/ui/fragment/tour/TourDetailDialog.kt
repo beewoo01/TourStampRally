@@ -5,6 +5,7 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.text.method.ScrollingMovementMethod
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.WindowManager
@@ -51,6 +52,8 @@ class TourDetailDialog(context: Context, val touristSpotPoint: TouristSpotPointD
             contentTxv.movementMethod = ScrollingMovementMethod()
             if (!touristSpotPoint.touristspotpoint_detail_explan.isNullOrEmpty()) {
                 contentTxv.text = touristSpotPoint.touristspotpoint_detail_explan
+                Log.wtf("initView Content", "touristspotpoint_detail_explan")
+                Log.wtf("initView Content", "${touristSpotPoint.touristspotpoint_detail_explan}")
             } else {
                 contentTxv.visibility = View.GONE
             }

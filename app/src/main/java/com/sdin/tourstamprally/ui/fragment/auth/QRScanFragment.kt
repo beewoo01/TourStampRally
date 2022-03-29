@@ -14,14 +14,12 @@ import com.google.zxing.Result
 import com.sdin.tourstamprally.R
 import com.sdin.tourstamprally.Utils
 import com.sdin.tourstamprally.databinding.FragmentQrScanBinding
-import com.sdin.tourstamprally.model.RallyMapDTO
 import com.sdin.tourstamprally.model.RallyMapModel
 import com.sdin.tourstamprally.ui.dialog.DefaultBSRDialog
 import com.sdin.tourstamprally.ui.dialog.DialogFailTimeOver
 import com.sdin.tourstamprally.ui.dialog.ScanResultPopup
 import com.sdin.tourstamprally.ui.dialog.course.SelectCourseDialog
 import com.sdin.tourstamprally.ui.fragment.BaseFragment
-import com.sdin.tourstamprally.ui.fragment.report.review.MoreReviewFragmentDirections
 import com.sdin.tourstamprally.utill.GpsTracker
 import com.sdin.tourstamprally.utill.listener.DialogListener
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
@@ -116,11 +114,14 @@ class QRScanFragment : BaseFragment(), DialogListener {
     }
 
     private fun getCourseInfo() {
-        SelectCourseDialog(requireContext()).show()
+        SelectCourseDialog(requireContext()) {
+            codeScanner?.startPreview()
+        }.show()
     }
 
     private fun checkIn(taggingStr: String) {
 
+        Log.wtf("checkIn", "taggingStr? $taggingStr" )
         //final String finalText = "T05100AA028";
         //테스트용
         apiService.checkInStemp(Utils.User_Idx, taggingStr, Utils.UserPhone)
@@ -232,9 +233,12 @@ class QRScanFragment : BaseFragment(), DialogListener {
                                             //코스 삭제 안됨
                                         }
                                     }
+
+                                    codeScanner?.startPreview()
                                 }
 
                                 override fun onError(e: Throwable) {
+                                    codeScanner?.startPreview()
                                     e.printStackTrace()
                                 }
                             })

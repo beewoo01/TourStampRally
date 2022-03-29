@@ -157,6 +157,7 @@
                     android:scrollbars="vertical"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_10sdp"
+                    tools:text="1243e241242141242141242142141241241242142141242142142141242141221421412421412421"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"

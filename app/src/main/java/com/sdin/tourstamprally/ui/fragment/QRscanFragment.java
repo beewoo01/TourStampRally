@@ -153,7 +153,7 @@ public class QRscanFragment extends BaseFragment implements DialogListener, Scan
     }
 
     private void getCourseInfo() {
-        new SelectCourseDialog(requireContext()).show();
+        new SelectCourseDialog(requireContext(), null).show();
     }
 
 

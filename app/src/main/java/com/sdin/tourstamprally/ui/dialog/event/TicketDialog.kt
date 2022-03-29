@@ -62,7 +62,7 @@ class TicketDialog(
         }
 
 
-        congratsTxv.text = "축하합니다!\n스탬프를 ${couponCount}번쩨 모두 획득하셨습니다."
+        congratsTxv.text = "축하합니다!\n스탬프를 ${couponCount}번째 모두 획득하셨습니다."
         couponModel.coupon_touristspot_idx
 
 

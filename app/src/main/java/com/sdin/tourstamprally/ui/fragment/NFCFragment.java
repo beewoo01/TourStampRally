@@ -399,7 +399,7 @@ public class NFCFragment extends BaseFragment implements NFCListener, ScanListen
     }
 
     private void getCourseInfo() {
-        new SelectCourseDialog(requireContext()).show();
+        new SelectCourseDialog(requireContext(), null).show();
     }
 
     /*@Override

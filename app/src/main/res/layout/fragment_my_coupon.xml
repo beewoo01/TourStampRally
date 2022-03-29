@@ -8,7 +8,7 @@
         android:layout_height="match_parent">
 
 
-        <View
+        <!--<View
             android:id="@+id/toppad"
             android:layout_width="0dp"
             android:layout_height="@dimen/_70sdp"
@@ -81,7 +81,7 @@
             android:background="@color/gray"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/toppad" />
+            app:layout_constraintTop_toBottomOf="@id/toppad" />-->
 
         <View
             android:id="@+id/middle_view"
@@ -90,7 +90,7 @@
             android:background="@color/light_goldenrod_yellow"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/line1" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/base_txv"

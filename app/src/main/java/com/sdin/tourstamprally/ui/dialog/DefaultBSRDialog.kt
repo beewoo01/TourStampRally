@@ -75,8 +75,6 @@ class DefaultBSRDialog(
         contentTxv.text = content
         okTxv.text = leftBtnStr
         cancelTxv.text = rightBtnStr
-        contentLayout.background =
-            ContextCompat.getDrawable(contentLayout.context, R.drawable.bg_rounded_22)
 
         okTxv.setOnClickListener {
             callback(true)

@@ -5,7 +5,6 @@ import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -28,7 +27,7 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.observers.DisposableSingleObserver
 import io.reactivex.rxjava3.schedulers.Schedulers
 
-class SelectCourseDialog(context: Context) :
+class SelectCourseDialog(context: Context, val callback: (() -> Unit?)?) :
     BaseDialog(context, R.style.FullScreenDialogStyle) {
 
     private var binding: DialogSelectCourseBinding? = null
@@ -57,9 +56,15 @@ class SelectCourseDialog(context: Context) :
 
     }
 
+    override fun onBackPressed() {
+        super.onBackPressed()
+        callback?.invoke()
+    }
+
     private fun initView() = with(binding!!) {
         closeImb.setOnClickListener {
             dismiss()
+            callback?.invoke()
         }
 
         getData()
@@ -139,12 +144,14 @@ class SelectCourseDialog(context: Context) :
                                     Toast.makeText(this@SelectCourseDialog.context, "관광지 등록에 실패하였습니다. 관리자에게 문의 해주세요.", Toast.LENGTH_SHORT).show()
                                 }
                                 dismiss()
+                                callback?.invoke()
                             }
 
                             override fun onError(e: Throwable) {
                                 e.printStackTrace()
                                 Toast.makeText(this@SelectCourseDialog.context, "관광지 등록에 실패하였습니다. 관리자에게 문의 해주세요.", Toast.LENGTH_SHORT).show()
                                 dismiss()
+                                callback?.invoke()
                             }
 
                         })
