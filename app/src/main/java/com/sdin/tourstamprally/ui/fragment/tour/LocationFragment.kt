@@ -51,27 +51,6 @@ class LocationFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstancdState: Bundle?) {
         binding?.apply {
             locationTxv.text = model.location_name
-            /*seekBarLocation.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
-
-                var originalProgress : Int = 0
-
-                override fun onProgressChanged(
-                    seekBar: SeekBar?,
-                    progress: Int,
-                    fromUser: Boolean
-                ) {
-                    if (fromUser) {
-                        seekBar?.progress = originalProgress
-                    }
-                }
-
-                override fun onStartTrackingTouch(seekBar: SeekBar?) = Unit
-
-                override fun onStopTrackingTouch(seekBar: SeekBar?) {
-                    originalProgress = seekBar?.progress!!
-                }
-
-            })*/
 
             Glide.with(topLayout.context)
                 .load("http://coratest.kr/imagefile/bsr/" + model.location_img)
@@ -154,7 +133,7 @@ class LocationFragment : BaseFragment() {
         val myCount =
             ((model.myHistoryCount.toDouble()) / model.allPointCount.toDouble() * 100).roundToInt()
 
-        seekBarLocation.max = model.allPointCount
+        seekBarLocation.max = 100
         seekBarLocation.progress = myCount
         Log.wtf("setProgress", "allPointCount ${model.allPointCount}")
         Log.wtf("setProgress", "myHistoryCount ${model.myHistoryCount}")

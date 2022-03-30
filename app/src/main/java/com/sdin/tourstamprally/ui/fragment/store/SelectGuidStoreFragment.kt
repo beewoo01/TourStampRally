@@ -188,11 +188,7 @@ class SelectGuidStoreFragment : BaseFragment() {
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeWith(object : DisposableSingleObserver<UserCurrentCourse?>() {
                 override fun onSuccess(result: UserCurrentCourse?) {
-                    if (result != null) {
-                        currentSpotIdx = result.user_current_course_spot_idx
-                    } else {
-                        currentSpotIdx = null
-                    }
+                    currentSpotIdx = result?.user_current_course_spot_idx
                 }
 
                 override fun onError(e: Throwable) {

@@ -271,6 +271,7 @@ class MainFragment : BaseFragment() {
 
                 val allCountd =
                     (model.myHistoryCount.toDouble() / model.allPointCount.toDouble() * 100).toInt()
+                //holderBinding.seekbar.max = model.allPointCount
                 holderBinding.seekbar.max = model.allPointCount
                 holderBinding.seekbar.progress = model.myHistoryCount
                 holderBinding.seekTxv.text = "$allCountd%"

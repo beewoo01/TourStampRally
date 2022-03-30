@@ -1,6 +1,8 @@
 package com.sdin.tourstamprally.ui.fragment.report
 
 import android.annotation.SuppressLint
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -306,7 +308,7 @@ class VisitHistoryFragment : BaseFragment(), VisitItemClickListener {
     private fun showResetAlertDialog() {
         DefaultBSRDialog(
             context = requireContext(),
-            title=  "스탬프 기록이 초기화 됩니다.",
+            title = "스탬프 기록이 초기화 됩니다.",
             content = "응모하기를 하지 않을 시\n현재 쿠폰으로 응모가 불가합니다.\n다시 도전하시겠습니까?",
             isSpecial = false,
             isSwitchBtn = false,
@@ -349,6 +351,11 @@ class VisitHistoryFragment : BaseFragment(), VisitItemClickListener {
 
     private fun showSuccessEventJoin() {
         DialogEventJoinSuccess(requireContext()) {
+            requireActivity().startActivity(
+                Intent(
+                    Intent.ACTION_VIEW, Uri.parse("http://bsrp.co.kr/list.php?bbs_id=main")
+                )
+            )
 
         }.show()
     }
