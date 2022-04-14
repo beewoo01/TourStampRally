@@ -19,13 +19,48 @@
 
         <ImageView
             android:id="@+id/logoImv"
-            android:layout_width="@dimen/_150sdp"
-            android:layout_height="@dimen/_150sdp"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:src="@drawable/mainlogo"
-            app:layout_constraintBottom_toTopOf="@+id/edit_phone"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintBottom_toTopOf="@+id/top_bottom_guid"
+            app:layout_constraintEnd_toEndOf="@id/end_guid"
+            app:layout_constraintStart_toStartOf="@id/start_guid"
+            app:layout_constraintTop_toTopOf="@id/top_top_guid"
+            android:contentDescription="@string/mainlogo" />
+
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/top_top_guid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.12"
+            />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/top_bottom_guid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.31"
+            />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/start_guid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.25"
+            />
+
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/end_guid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.75"
+            />
         <!--<ImageView
             android:id="@+id/logoImv"
             android:layout_width="@dimen/_150sdp"
@@ -37,6 +72,7 @@
             app:layout_constraintTop_toTopOf="parent" />-->
 
         <TextView
+            android:id="@+id/sub_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="'BSR'에 로그인하시면 스탬프 미션을 즐기고 \n푸짐한 혜택도 받을 수 있습니다."

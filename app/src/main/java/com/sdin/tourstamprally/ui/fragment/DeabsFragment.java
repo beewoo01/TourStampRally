@@ -1,21 +1,18 @@
 package com.sdin.tourstamprally.ui.fragment;
 
+import android.annotation.SuppressLint;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -24,12 +21,8 @@ import com.sdin.tourstamprally.R;
 import com.sdin.tourstamprally.Utils;
 import com.sdin.tourstamprally.databinding.DeabsItemBinding;
 import com.sdin.tourstamprally.databinding.FragmentDeabsBinding;
-import com.sdin.tourstamprally.databinding.StepRallyLocationItemBinding;
 import com.sdin.tourstamprally.model.InterestModel;
 import com.sdin.tourstamprally.model.Location;
-import com.sdin.tourstamprally.model.Tour_Spot;
-import com.sdin.tourstamprally.model.Tour_Spot2;
-import com.sdin.tourstamprally.utill.DecoRation;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -48,8 +41,8 @@ public class DeabsFragment extends BaseFragment {
     //private List<Tour_Spot2> list;
     private ArrayList<InterestModel> interestList;
     private List<Location> location_list;
-    private DeabsApdater deabsApdater;
-    private LocaAdapter locaAdapter;
+    private DeabsAdapter deabsAdapter;
+    private DeapLocationAdapter deapLocationAdapter;
     private Location nowLocation;
     private int nowCategory = 0; // 0 -> 전체  1 -> 관광지 2 -> 매장
     private Map<Integer, Pair<RelativeLayout, TextView>> map;
@@ -135,7 +128,7 @@ public class DeabsFragment extends BaseFragment {
 
         }
 
-        deabsApdater.change();
+        deabsAdapter.change();
     }
 
     private void getData() {
@@ -148,13 +141,13 @@ public class DeabsFragment extends BaseFragment {
                     nowLocation = new Location(0, "전체");
                     //location_list.add(0, nowLocation);
                     location_list.add(0, nowLocation);
-                    locaAdapter = new LocaAdapter(new ArrayList<>(location_list));
-                    binding.locationRe.setAdapter(locaAdapter);
+                    deapLocationAdapter = new DeapLocationAdapter(new ArrayList<>(location_list));
+                    binding.locationRe.setAdapter(deapLocationAdapter);
                     binding.fragmentDeabsPgb.setVisibility(View.GONE);
 
-                    locaAdapter.itemOnclickLo = location -> {
+                    deapLocationAdapter.itemOnclickLo = location -> {
                         nowLocation = location;
-                        deabsApdater.change();
+                        deabsAdapter.change();
                     };
 
                 } else {
@@ -176,9 +169,9 @@ public class DeabsFragment extends BaseFragment {
                     if (list != null) {
                         interestList = new ArrayList<>(list);
                         ArrayList<InterestModel> arrayList = new ArrayList<>(interestList);
-                        deabsApdater = new DeabsApdater(arrayList);
+                        deabsAdapter = new DeabsAdapter(arrayList);
 
-                        binding.deabsRe.setAdapter(deabsApdater);
+                        binding.deabsRe.setAdapter(deabsAdapter);
                         binding.deabsRe.setItemAnimator(null);
                     }
 
@@ -198,14 +191,14 @@ public class DeabsFragment extends BaseFragment {
         void onItemClick(Location location);
     }
 
-    class LocaAdapter extends RecyclerView.Adapter<LocaAdapter.ViewHolder> {
+    class DeapLocationAdapter extends RecyclerView.Adapter<DeapLocationAdapter.ViewHolder> {
 
         private final ArrayList<Location> arrayList;
 
         private ItemOnclickLo itemOnclickLo;
         private int selectedItem = 0;
 
-        public LocaAdapter(ArrayList<Location> arrayList) {
+        public DeapLocationAdapter(ArrayList<Location> arrayList) {
             this.arrayList = arrayList;
         }
 
@@ -220,13 +213,16 @@ public class DeabsFragment extends BaseFragment {
             return new ViewHolder(view);
         }
 
+        @SuppressLint("NotifyDataSetChanged")
         @Override
         public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+
             holder.textView.setText(arrayList.get(position).getLocation_name());
 
             holder.textView.setOnClickListener(v -> {
                 itemOnclickLo.onItemClick(arrayList.get(position));
-                selectedItem = position;
+                int finalPosition = position;
+                selectedItem = finalPosition;
                 notifyDataSetChanged();
             });
 
@@ -253,11 +249,11 @@ public class DeabsFragment extends BaseFragment {
     }
 
 
-    class DeabsApdater extends RecyclerView.Adapter<DeabsApdater.ViewHolder> {
+    class DeabsAdapter extends RecyclerView.Adapter<DeabsAdapter.ViewHolder> {
 
         private final ArrayList<InterestModel> arrayList;
 
-        public DeabsApdater( ArrayList<InterestModel> arrayList) {
+        public DeabsAdapter(ArrayList<InterestModel> arrayList) {
             this.arrayList = arrayList;
         }
 
@@ -294,23 +290,24 @@ public class DeabsFragment extends BaseFragment {
 
         @Override
         public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+            int finalPosition = position;
             Glide.with(requireContext())
                     .load("http://coratest.kr/imagefile/bsr/"
-                            + arrayList.get(position).getTs_img())
+                            + arrayList.get(finalPosition).getTs_img())
                     .error(R.drawable.sample_bg)
                     .into(holder.binding.tourImageImv);
             holder.binding.deabImv.setVisibility(View.VISIBLE);
-            holder.binding.title.setText(arrayList.get(position).getTs_name());
-            holder.binding.tag.setText(arrayList.get(position).getTs_tag());
+            holder.binding.title.setText(arrayList.get(finalPosition).getTs_name());
+            holder.binding.tag.setText(arrayList.get(finalPosition).getTs_tag());
             holder.binding.deabImv.setOnClickListener(v -> {
-                apiService.remove_intest(arrayList.get(position).getInter_idx(),
-                        arrayList.get(position).getTs_type()).enqueue(new Callback<Integer>() {
+                apiService.remove_intest(arrayList.get(finalPosition).getInter_idx(),
+                        arrayList.get(finalPosition).getTs_type()).enqueue(new Callback<Integer>() {
                     @Override
                     public void onResponse(@NotNull Call<Integer> call, @NotNull Response<Integer> response) {
                         if (response.isSuccessful()) {
                             //Log.wtf("RESULT", response.body().toString());
                             if (response.body() == 1) {
-                                removeData(position);
+                                removeData(finalPosition);
 
                             }
                         } else {
@@ -324,9 +321,8 @@ public class DeabsFragment extends BaseFragment {
                     }
                 });
             });
-
-
         }
+
 
         private void removeData(int position){
             interestList.remove(arrayList.get(position));

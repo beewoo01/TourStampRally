@@ -61,11 +61,9 @@ public class CustomScannerActivity extends AppCompatActivity implements Decorate
             scannerAlphaField.setAccessible(true);
             scannerAlphaField.set(viewFinder, new int[1]);
 
-        } catch (NoSuchFieldException e) {
+        } catch (NoSuchFieldException | IllegalAccessException e) {
             e.printStackTrace();
 
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
         }
     }
 

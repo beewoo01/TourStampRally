@@ -2,6 +2,7 @@ package com.sdin.tourstamprally.ui.fragment.report.review
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.icu.number.IntegerWidth
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
@@ -17,10 +18,12 @@ import com.bumptech.glide.Glide
 import com.sdin.tourstamprally.R
 import com.sdin.tourstamprally.Utils
 import com.sdin.tourstamprally.adapter.ReviewCommentsAdapter
+import com.sdin.tourstamprally.data.UserInfo
 import com.sdin.tourstamprally.databinding.FragmentReviewComentsBinding
 import com.sdin.tourstamprally.model.ReveiwCommentsDC
 import com.sdin.tourstamprally.model.ReviewDetailDC
 import com.sdin.tourstamprally.model.ReviewImg
+import com.sdin.tourstamprally.ui.dialog.reviewcommnet.ReportDialog
 import com.sdin.tourstamprally.ui.fragment.BaseFragment
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.observers.DisposableSingleObserver
@@ -33,12 +36,13 @@ import kotlin.collections.ArrayList
 class ReviewComentsFragment : BaseFragment() {
 
     private var review_idx: Int? = null
+    private var reviewUserIdx : Int = 0
     private var binding: FragmentReviewComentsBinding? = null
     private var likeState = false
     private val mutableList = arrayListOf<ReveiwCommentsDC>()
     private val args: ReviewComentsFragmentArgs by navArgs()
     private lateinit var commentAdapter: ReviewCommentsAdapter
-    private var originReviewDetailModel : ReviewDetailDC? = null
+    private var originReviewDetailModel: ReviewDetailDC? = null
 
 
     override fun onCreateView(
@@ -50,6 +54,7 @@ class ReviewComentsFragment : BaseFragment() {
             DataBindingUtil.inflate(inflater, R.layout.fragment_review_coments, container, false)
 
         review_idx = args.reviewIdx
+        reviewUserIdx = args.reviewUserIdx
 
         return binding?.root
     }
@@ -81,10 +86,10 @@ class ReviewComentsFragment : BaseFragment() {
                                 t?.let { result ->
                                     if (result > 0) {
                                         originReviewDetailModel?.let {
-                                            it.interestCount =  if (likeState) {
-                                                it.interestCount -1
-                                            }else {
-                                                it.interestCount +1
+                                            it.interestCount = if (likeState) {
+                                                it.interestCount - 1
+                                            } else {
+                                                it.interestCount + 1
                                             }
                                             likeState = !likeState
                                             binding?.likeCountTxv?.text = "좋아요 ${it.interestCount}개"
@@ -230,9 +235,10 @@ class ReviewComentsFragment : BaseFragment() {
 
     private fun getCommentsData() {
         review_idx?.let {
-            apiService.select_review_comments(it).subscribeOn(Schedulers.newThread())
+            apiService.select_review_comments(it, Utils.User_Idx)
+                .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(object : DisposableSingleObserver<List<ReveiwCommentsDC>>() {
+                .subscribeWith(object : DisposableSingleObserver<List<ReveiwCommentsDC>?>() {
                     override fun onSuccess(t: List<ReveiwCommentsDC>?) {
                         t?.let { list ->
                             initCommentsData(list)
@@ -252,10 +258,45 @@ class ReviewComentsFragment : BaseFragment() {
         binding?.commentsRecyclerview?.apply {
             mutableList.clear()
             mutableList.addAll(list)
-            commentAdapter = ReviewCommentsAdapter(mutableList)
+            commentAdapter = ReviewCommentsAdapter(mutableList) { model ->
+                ReportDialog { cause ->
+                    Log.wtf("model.user_name", model.user_name)
+                    val index = commentAdapter.list.indexOf(model)
+                    mutableList.remove(model)
+                    commentAdapter.removeList(index)
+                    reportComment(model, cause)
+                    Toast.makeText(requireContext(), cause, Toast.LENGTH_SHORT).show()
+
+                }.show(requireActivity().supportFragmentManager, "")
+            }
             adapter = commentAdapter
         }
     }
+
+    private fun reportComment(model: ReveiwCommentsDC, cause: String) {
+
+        apiService.insert_review_comment_report(
+            model.review_comment_idx,
+            Utils.User_Idx,
+            cause,
+            reviewUserIdx
+        )
+            .subscribeOn(Schedulers.newThread())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeWith(object : DisposableSingleObserver<Int>() {
+                override fun onSuccess(t: Int) {
+                    if (t > 0) {
+                        Toast.makeText(requireContext(), "신고가 접수되었습니다.", Toast.LENGTH_SHORT).show()
+                    }
+                }
+
+                override fun onError(e: Throwable) {
+                    e.printStackTrace()
+                }
+
+            })
+    }
+
 
     class ImagesViewPager(private val images: MutableList<ReviewImg>) :
         RecyclerView.Adapter<ImagesViewPager.ViewHolder>() {

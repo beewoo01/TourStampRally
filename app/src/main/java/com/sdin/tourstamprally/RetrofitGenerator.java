@@ -28,7 +28,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitGenerator {
 
-    private static RetrofitGenerator instance = new RetrofitGenerator();
+    private static final RetrofitGenerator instance = new RetrofitGenerator();
     public static RetrofitGenerator getInstance() {
         return instance;
     }

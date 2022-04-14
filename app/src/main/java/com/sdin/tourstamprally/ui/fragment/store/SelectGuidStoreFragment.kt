@@ -280,7 +280,7 @@ class SelectGuidStoreFragment : BaseFragment() {
     }
 
 
-    private fun permissionDialog() {
+    /*private fun permissionDialog() {
         AlertDialog.Builder(requireContext())
             .apply {
                 setTitle("백그라운드 위치 권한을 위해 항상 허용으로 설정해주세요.")
@@ -295,7 +295,7 @@ class SelectGuidStoreFragment : BaseFragment() {
                 setPositiveButton("네", listener)
                 setNegativeButton("아니오", null)
             }.show()
-    }
+    }*/
 
     private fun showDialogForLocationServiceSetting() {
         AlertDialog.Builder(requireContext()).apply {
@@ -439,7 +439,7 @@ class SelectGuidStoreFragment : BaseFragment() {
         }
 
 
-    private fun backgroundPermission() {
+    /*private fun backgroundPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             ActivityCompat.requestPermissions(
                 requireActivity(),
@@ -450,7 +450,7 @@ class SelectGuidStoreFragment : BaseFragment() {
         } else {
             return
         }
-    }
+    }*/
 
     private fun initItem(list: MutableList<StoreModel>) {
         binding?.run {

@@ -63,7 +63,7 @@ public class Utils {
 
     }
 
-    public static boolean getPermissionStatus(Context context){
+    /*public static boolean getPermissionStatus(Context context){
         boolean check = false;
         if (Constant.ACCESS_FINE_LOCATION_STAT == PackageManager.PERMISSION_GRANTED) {
             if (Build.VERSION.SDK_INT >= 29) {
@@ -80,7 +80,7 @@ public class Utils {
             check = false;
         }
         return check;
-    }
+    }*/
 
     public static int getNetworkStatus(Context context) {
         final int TYPE_WIFI = 1;

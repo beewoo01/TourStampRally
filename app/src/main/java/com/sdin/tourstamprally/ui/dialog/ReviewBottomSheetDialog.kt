@@ -12,6 +12,11 @@ import com.sdin.tourstamprally.R
 
 class ReviewBottomSheetDialog(val callback : (Int) -> Unit) : BottomSheetDialogFragment() {
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setStyle(STYLE_NORMAL, R.style.AppBottomSheetDialogTheme)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

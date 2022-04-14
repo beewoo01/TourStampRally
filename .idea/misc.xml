@@ -3,12 +3,14 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="app/src/main/res/drawable-v24/bg_default_di_swich_gray.xml" value="0.2095" />
+        <entry key="app/src/main/res/drawable-v24/bg_default_di_swich_main.xml" value="0.154" />
         <entry key="app/src/main/res/drawable-v24/bg_rounded_18.xml" value="0.5815" />
         <entry key="app/src/main/res/drawable-v24/bg_rounded_20.xml" value="0.5815" />
         <entry key="app/src/main/res/drawable-v24/bg_rounded_21.xml" value="0.3592592592592593" />
         <entry key="app/src/main/res/drawable-v24/bg_rounded_22.xml" value="0.181" />
-        <entry key="app/src/main/res/drawable-v24/bg_rounded_23.xml" value="0.5815" />
-        <entry key="app/src/main/res/drawable-v24/bg_rounded_24.xml" value="0.5815" />
+        <entry key="app/src/main/res/drawable-v24/bg_rounded_23.xml" value="0.5" />
+        <entry key="app/src/main/res/drawable-v24/bg_rounded_24.xml" value="0.25" />
         <entry key="app/src/main/res/drawable-v24/bg_rounded_25.xml" value="0.5034632034632035" />
         <entry key="app/src/main/res/drawable-v24/bg_rounded_result_di.xml" value="0.1775" />
         <entry key="app/src/main/res/drawable-v24/bg_white_coupon.xml" value="0.49780701754385964" />
@@ -16,7 +18,10 @@
         <entry key="app/src/main/res/drawable-v24/logo_coupon_ver.xml" value="0.49780701754385964" />
         <entry key="app/src/main/res/drawable-v24/navi_ic2_resize.xml" value="0.5815" />
         <entry key="app/src/main/res/drawable/alarm_settings_icon_resize.xml" value="0.41388888888888886" />
+        <entry key="app/src/main/res/drawable/arrow_down_resize.xml" value="0.2285" />
         <entry key="app/src/main/res/drawable/back_ic_resize.xml" value="0.49912280701754386" />
+        <entry key="app/src/main/res/drawable/bg_default_di_swich_gray.xml" value="0.154" />
+        <entry key="app/src/main/res/drawable/bg_default_di_swich_main.xml" value="0.2095" />
         <entry key="app/src/main/res/drawable/bg_ok_overtime.xml" value="0.238" />
         <entry key="app/src/main/res/drawable/bg_overtime.xml" value="0.238" />
         <entry key="app/src/main/res/drawable/bg_rounded_01.xml" value="0.5034632034632035" />
@@ -53,19 +58,31 @@
         <entry key="app/src/main/res/drawable/coupon_spinner_bg.xml" value="0.2325" />
         <entry key="app/src/main/res/drawable/coupon_spuinner_bg.xml" value="0.2325" />
         <entry key="app/src/main/res/drawable/coupon_status_icon_resize.xml" value="0.3175925925925926" />
+        <entry key="app/src/main/res/drawable/custom_rating.xml" value="0.2075" />
+        <entry key="app/src/main/res/drawable/custom_rating_false.xml" value="0.2075" />
+        <entry key="app/src/main/res/drawable/custom_rating_true.xml" value="0.2075" />
         <entry key="app/src/main/res/drawable/dash_line.xml" value="0.2725" />
         <entry key="app/src/main/res/drawable/default_circle_indicator.xml" value="0.214" />
         <entry key="app/src/main/res/drawable/detail_dialog_viewpager_item.xml" value="0.1775" />
         <entry key="app/src/main/res/drawable/full_white_round_bg.xml" value="0.218" />
         <entry key="app/src/main/res/drawable/hamberger_menu_resize.xml" value="0.3592592592592593" />
         <entry key="app/src/main/res/drawable/heart_resize.xml" value="0.41388888888888886" />
+        <entry key="app/src/main/res/drawable/ic_arrow_bottom_super_resize.xml" value="0.2285" />
+        <entry key="app/src/main/res/drawable/ic_arrow_down.xml" value="0.1565" />
         <entry key="app/src/main/res/drawable/ic_arrow_down_24.xml" value="0.2725" />
+        <entry key="app/src/main/res/drawable/ic_arrow_up.xml" value="0.1565" />
+        <entry key="app/src/main/res/drawable/ic_arrow_up_24.xml" value="0.1565" />
+        <entry key="app/src/main/res/drawable/ic_arrow_up_super_resize.xml" value="0.1565" />
         <entry key="app/src/main/res/drawable/ic_coupon_background.xml" value="0.2725" />
         <entry key="app/src/main/res/drawable/ic_detail_location.xml" value="0.5815" />
+        <entry key="app/src/main/res/drawable/ic_empty_rating.xml" value="0.2075" />
         <entry key="app/src/main/res/drawable/ic_event_logo.xml" value="0.238" />
         <entry key="app/src/main/res/drawable/ic_event_popup_close.xml" value="0.218" />
+        <entry key="app/src/main/res/drawable/ic_full_rating.xml" value="0.2075" />
         <entry key="app/src/main/res/drawable/ic_hamburger_white_24.xml" value="0.36018518518518516" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.1175" />
+        <entry key="app/src/main/res/drawable/ic_logo_bg_white.xml" value="0.2065" />
+        <entry key="app/src/main/res/drawable/ic_main_fragment_logo_ic.xml" value="0.1465" />
         <entry key="app/src/main/res/drawable/ic_menu_black.xml" value="0.36018518518518516" />
         <entry key="app/src/main/res/drawable/ic_menu_white.xml" value="0.36018518518518516" />
         <entry key="app/src/main/res/drawable/ic_navi.xml" value="0.5815" />
@@ -97,21 +114,25 @@
         <entry key="app/src/main/res/drawable/viewpager_circle_indicator.xml" value="0.214" />
         <entry key="app/src/main/res/drawable/write_review_picturebg.xml" value="0.1785" />
         <entry key="app/src/main/res/font/app_font.xml" value="0.4411492122335496" />
+        <entry key="app/src/main/res/font/montserttat_font.xml" value="0.29008341056533826" />
         <entry key="app/src/main/res/layout-v28/drawa_layout2.xml" value="0.2867274569402229" />
         <entry key="app/src/main/res/layout/activity_find_password.xml" value="0.15381319622964867" />
-        <entry key="app/src/main/res/layout/activity_login.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/activity_login.xml" value="0.335" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.2535087719298246" />
         <entry key="app/src/main/res/layout/activity_main2.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_splash.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/activity_terms_of_conditions.xml" value="0.5" />
         <entry key="app/src/main/res/layout/coupon_rcv_item.xml" value="0.20664437944003344" />
         <entry key="app/src/main/res/layout/detail_dialog_viewpager_item.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/dialog_cause.xml" value="0.23642439431913115" />
         <entry key="app/src/main/res/layout/dialog_del_check.xml" value="0.2365231926452152" />
         <entry key="app/src/main/res/layout/dialog_detail.xml" value="0.5" />
         <entry key="app/src/main/res/layout/dialog_event_join_success.xml" value="0.375" />
         <entry key="app/src/main/res/layout/dialog_fail_timeover.xml" value="0.45" />
         <entry key="app/src/main/res/layout/dialog_guid.xml" value="0.24250214224507283" />
-        <entry key="app/src/main/res/layout/dialog_ready.xml" value="0.21868211440984794" />
+        <entry key="app/src/main/res/layout/dialog_ready.xml" value="0.335" />
         <entry key="app/src/main/res/layout/dialog_ready_fragment.xml" value="0.4964912280701754" />
+        <entry key="app/src/main/res/layout/dialog_report.xml" value="0.375" />
         <entry key="app/src/main/res/layout/dialog_scan_result2.xml" value="0.335" />
         <entry key="app/src/main/res/layout/dialog_select_course.xml" value="0.375" />
         <entry key="app/src/main/res/layout/dialog_stemp.xml" value="0.25" />
@@ -125,16 +146,21 @@
         <entry key="app/src/main/res/layout/fragment_account.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_all_coupon.xml" value="0.335" />
         <entry key="app/src/main/res/layout/fragment_blank.xml" value="0.2365038560411311" />
+        <entry key="app/src/main/res/layout/fragment_coupon_detail.xml" value="0.375" />
         <entry key="app/src/main/res/layout/fragment_coupon_main.xml" value="0.3582427536231884" />
+        <entry key="app/src/main/res/layout/fragment_deabs.xml" value="0.3247863247863248" />
         <entry key="app/src/main/res/layout/fragment_direction_guid.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/fragment_finish_coupon.xml" value="0.2365231926452152" />
+        <entry key="app/src/main/res/layout/fragment_finish_mycoupon.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_location.xml" value="0.2365038560411311" />
         <entry key="app/src/main/res/layout/fragment_main.xml" value="0.25" />
-        <entry key="app/src/main/res/layout/fragment_more_review.xml" value="0.335" />
-        <entry key="app/src/main/res/layout/fragment_my_coupon.xml" value="0.20664437944003344" />
+        <entry key="app/src/main/res/layout/fragment_more_review.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/fragment_my_coupon.xml" value="0.335" />
+        <entry key="app/src/main/res/layout/fragment_my_coupon_parent.xml" value="0.2365231926452152" />
         <entry key="app/src/main/res/layout/fragment_nfc.xml" value="0.143101970865467" />
         <entry key="app/src/main/res/layout/fragment_notice.xml" value="0.2365038560411311" />
         <entry key="app/src/main/res/layout/fragment_qr_scan.xml" value="0.3813405797101449" />
-        <entry key="app/src/main/res/layout/fragment_review_coments.xml" value="0.2365038560411311" />
+        <entry key="app/src/main/res/layout/fragment_review_coments.xml" value="0.375" />
         <entry key="app/src/main/res/layout/fragment_select_guid_store.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_set_alarm.xml" value="0.24250214224507283" />
         <entry key="app/src/main/res/layout/fragment_store_detail.xml" value="0.335" />
@@ -148,14 +174,17 @@
         <entry key="app/src/main/res/layout/guid_store_item.xml" value="0.55" />
         <entry key="app/src/main/res/layout/image_viewpager_item.xml" value="0.24250214224507283" />
         <entry key="app/src/main/res/layout/img_popup.xml" value="0.375" />
+        <entry key="app/src/main/res/layout/item_re_comments.xml" value="0.165" />
         <entry key="app/src/main/res/layout/item_re_rally_map.xml" value="0.1501713796058269" />
-        <entry key="app/src/main/res/layout/mycoupon_item.xml" value="0.335" />
+        <entry key="app/src/main/res/layout/mycoupon_item.xml" value="0.25" />
         <entry key="app/src/main/res/layout/nodialot_dialog.xml" value="0.24250214224507283" />
         <entry key="app/src/main/res/layout/notice_item.xml" value="0.24250214224507283" />
         <entry key="app/src/main/res/layout/popup_user_withdrawal.xml" value="0.45" />
-        <entry key="app/src/main/res/layout/re_item_morereview.xml" value="0.15038560411311053" />
+        <entry key="app/src/main/res/layout/re_item_morereview.xml" value="0.6091644204851752" />
+        <entry key="app/src/main/res/layout/re_item_review_location.xml" value="0.15002089427496865" />
         <entry key="app/src/main/res/layout/re_item_store_hashtag.xml" value="2.0" />
         <entry key="app/src/main/res/layout/review_bottom_sheet_dialog.xml" value="0.165" />
+        <entry key="app/src/main/res/layout/review_detail_images.xml" value="0.23425925925925925" />
         <entry key="app/src/main/res/layout/scan_result_dialog.xml" value="0.25" />
         <entry key="app/src/main/res/layout/select_course_re_item.xml" value="0.5" />
         <entry key="app/src/main/res/layout/select_location_item.xml" value="0.335" />
@@ -166,8 +195,9 @@
         <entry key="app/src/main/res/layout/test_layout.xml" value="0.31215469613259667" />
         <entry key="app/src/main/res/layout/toolbar_layout.xml" value="0.2535087719298246" />
         <entry key="app/src/main/res/layout/toolbar_layout2.xml" value="0.3403205918618989" />
+        <entry key="app/src/main/res/layout/used_coupon_layout.xml" value="0.3664688427299703" />
         <entry key="app/src/main/res/layout/visithistory_item.xml" value="0.3813405797101449" />
-        <entry key="app/src/main/res/layout/write_review_picture_item.xml" value="1.5" />
+        <entry key="app/src/main/res/layout/write_review_picture_item.xml" value="0.45" />
         <entry key="app/src/main/res/menu/bottom_menu.xml" value="0.4964912280701754" />
         <entry key="app/src/main/res/menu/drawalayout_menu.xml" value="0.5" />
         <entry key="app/src/main/res/menu/drawer_menu.xml" value="0.39166666666666666" />

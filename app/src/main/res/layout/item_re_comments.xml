@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -43,9 +43,11 @@
         android:textSize="@dimen/_8sdp"
         android:textColor="@color/Gray"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/user_name_txv"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="@id/user_name_txv"
         />
+
+
 
     <View
         android:id="@+id/line"
@@ -62,7 +64,8 @@
         android:id="@+id/comment_txv"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="좋은 정보 감사합니다."
+        tools:text="좋은 정보 감사합니다.\n좋은 정보 감사합니다.\n"
+        android:textColor="@color/black"
         android:textSize="@dimen/_11sdp"
         android:maxLines="2"
         android:paddingHorizontal="1dp"
@@ -70,6 +73,18 @@
         app:layout_constraintTop_toBottomOf="@id/line"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@id/user_profile_imv"
+        app:layout_constraintBottom_toTopOf="@id/report_txv"
+        />
+
+    <TextView
+        android:id="@+id/report_txv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/report_ko"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:textColor="@color/Gray_Cloud"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/comment_txv"
         app:layout_constraintBottom_toBottomOf="parent"
         />
 

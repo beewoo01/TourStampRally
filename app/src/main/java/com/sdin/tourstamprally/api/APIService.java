@@ -47,34 +47,6 @@ import retrofit2.http.QueryMap;
 
 public interface APIService {
 
-
-    /* test
-    @GET("_appV1/IF103.php")
-    Call<IF103> getIF103(@Query("token") String token,
-                         @Query("page") int page);
-    */
-
-//    /*ID 중복확인*/
-//    @GET("confirm_id")
-//    Call<ResponseBody> duplicateCheckUserId(@Query("user_id") String user_id);
-//
-//    /*로그인*/
-//    @GET("login_insteacher")
-//    Call<ResponseBody> userLogin(@Query("vteacher_id") String vteacher_id,
-//                                 @Query("userpw") String userpw);
-//
-
-//
-//    /*로그인*/
-//    @GET("login_nurse")
-//    Call<ResponseBody> nurseLogin(@Query("nurse_id") String userid,
-//                                  @Query("userpw") String userpw);
-//
-//    /* 제공인력 정보 가져오기*/
-//    @GET("insteacher_user_info")
-//    Call<List<UserModel>> getUserInfo(@Query("vteacher_id") String vteacher_id);
-
-
     /*로그인*/
     @GET("login")
     Call<ResponseBody> Login(@Query("id") String id,
@@ -259,7 +231,8 @@ public interface APIService {
                                                 @Query("user_idx") int user_idx);
 
     @GET("select_review_comments")
-    Single<List<ReveiwCommentsDC>> select_review_comments(@Query("review_idx") int review_idx);
+    Single<List<ReveiwCommentsDC>> select_review_comments(@Query("review_idx") int review_idx,
+                                                          @Query("user_idx") int user_idx);
 
     @GET("inordel_review_interest")
     Single<Integer> inordel_review_interest(@Query("review_interest_review_idx") int review_idx,
@@ -400,6 +373,14 @@ public interface APIService {
     @GET("getCurrentMyCourse")
     Single<UserCurrentCourse> getCurrentMyCourse(
             @Query("user_idx") int user_idx
+    );
+
+    @GET("insert_review_comment_report")
+    Single<Integer> insert_review_comment_report(
+            @Query("review_comment_idx") int review_comment_idx,
+            @Query("user_idx") int user_idx,
+            @Query("review_comment_report_cause") String review_comment_report_cause,
+            @Query("review_user_idx") int review_user_idx
     );
 
 

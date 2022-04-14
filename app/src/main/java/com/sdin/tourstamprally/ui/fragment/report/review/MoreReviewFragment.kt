@@ -110,7 +110,8 @@ class MoreReviewFragment : BaseFragment() {
                     MoreReviewFragmentDirections.actionFragmentMoreReviewToFragmentReviewComents(
                         title = allReviewModel.touristspot_name,
                         state = 4,
-                        reviewIdx = allReviewModel.review_idx
+                        reviewIdx = allReviewModel.review_idx,
+                        reviewUserIdx = allReviewModel.user_idx
                     )
 
                 findNavController().navigate(action)

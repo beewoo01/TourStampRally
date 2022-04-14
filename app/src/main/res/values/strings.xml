@@ -106,5 +106,7 @@
     <string name="coupon">쿠폰</string>
     <string name="arrow">arrow</string>
     <string name="like">like</string>
+    <string name="report_ko">신고하기</string>
+    <string name="plzChooseReportCause">신고사유를 선택해주세요.</string>
 
 </resources>

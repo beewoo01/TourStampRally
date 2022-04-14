@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="@dimen/_10sdp"
+    android:paddingHorizontal="@dimen/_15sdp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/plzChooseReportCause"
+        android:textColor="@color/black"
+        android:textSize="@dimen/_12sdp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/close_imb"
+        app:layout_constraintBottom_toBottomOf="@id/close_imb"
+        />
+
+    <ImageButton
+        android:id="@+id/close_imb"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:src="@drawable/ic_close_btn_bg_main"
+        android:scaleType="fitCenter"
+        android:background="@null"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="@string/close" />
+
+
+    <RadioGroup
+        android:id="@+id/radio_group"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/close_imb"
+        app:layout_constraintBottom_toTopOf="@id/report_btn"
+        >
+
+        <RadioButton
+            android:id="@+id/first_report"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_35sdp"
+            android:text="욕설 ⋅ 명예회손"
+            android:paddingStart="@dimen/_5sdp"
+            android:button="@drawable/custom_checkbox"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:checked="false"
+            app:layout_constraintTop_toBottomOf="@id/title"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:ignore="RtlSymmetry" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/gray_e"
+            />
+
+
+        <RadioButton
+            android:id="@+id/second_report"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_35sdp"
+            android:text="홍보성"
+            android:paddingStart="@dimen/_5sdp"
+            android:button="@drawable/custom_checkbox"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:checked="false"
+            app:layout_constraintTop_toBottomOf="@id/title"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:ignore="RtlSymmetry" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/gray_e"
+            />
+
+
+        <RadioButton
+            android:id="@+id/third_report"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_35sdp"
+            android:text="음란물 ⋅ 선전성"
+            android:paddingStart="@dimen/_5sdp"
+            android:button="@drawable/custom_checkbox"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:checked="false"
+            app:layout_constraintTop_toBottomOf="@id/title"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:ignore="RtlSymmetry" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/gray_e"
+            />
+
+        <RadioButton
+            android:id="@+id/four_report"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_35sdp"
+            android:text="같은 내용 반복"
+            android:paddingStart="@dimen/_5sdp"
+            android:button="@drawable/custom_checkbox"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:checked="false"
+            app:layout_constraintTop_toBottomOf="@id/title"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:ignore="RtlSymmetry" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/gray_e"
+            />
+
+        <RadioButton
+            android:id="@+id/five_report"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_35sdp"
+            android:text="기타사유"
+            android:paddingStart="@dimen/_5sdp"
+            android:button="@drawable/custom_checkbox"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:checked="false"
+            app:layout_constraintTop_toBottomOf="@id/title"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:ignore="RtlSymmetry" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/gray_e"
+            />
+
+
+    </RadioGroup>
+
+
+    <Button
+        android:id="@+id/report_btn"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/_30sdp"
+        android:background="@drawable/bg_rounded_04"
+        android:text="신고하기"
+        android:textColor="@color/white"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_marginBottom="@dimen/_10sdp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/radio_group"
+        app:layout_constraintBottom_toBottomOf="parent"
+        />
+
+
+
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

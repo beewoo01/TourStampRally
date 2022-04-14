@@ -1,5 +1,6 @@
 package com.sdin.tourstamprally.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -7,11 +8,13 @@ import com.bumptech.glide.Glide
 import com.sdin.tourstamprally.R
 import com.sdin.tourstamprally.databinding.ItemReCommentsBinding
 import com.sdin.tourstamprally.model.ReveiwCommentsDC
+import com.sdin.tourstamprally.ui.dialog.reviewcommnet.ReportDialog
 import java.text.SimpleDateFormat
 import java.util.*
 
-class ReviewCommentsAdapter(val list: MutableList<ReveiwCommentsDC>) :
+class ReviewCommentsAdapter(val list: MutableList<ReveiwCommentsDC>, val callback : (ReveiwCommentsDC) -> Unit) :
     RecyclerView.Adapter<ReviewCommentsAdapter.ViewHolder>() {
+
     inner class ViewHolder(val binding: ItemReCommentsBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun onBind(data: ReveiwCommentsDC) {
@@ -31,12 +34,16 @@ class ReviewCommentsAdapter(val list: MutableList<ReveiwCommentsDC>) :
                 .circleCrop()
                 .error(R.drawable.sample_profile_image)
                 .into(binding.userProfileImv)
+
+            binding.reportTxv.setOnClickListener {
+                callback(data)
+            }
         }
     }
 
-    fun addList(model: ReveiwCommentsDC) {
-        list.add(model)
-        notifyItemInserted(list.lastIndex)
+    fun removeList(index : Int) {
+        notifyItemRemoved(index)
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

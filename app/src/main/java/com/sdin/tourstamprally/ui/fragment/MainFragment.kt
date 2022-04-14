@@ -153,7 +153,8 @@ class MainFragment : BaseFragment() {
                     val action = MainFragmentDirections.actionMainfragmentToFragmentReviewComents(
                         title = model.touristspot_name,
                         state = 4,
-                        reviewIdx = model.review_idx
+                        reviewIdx = model.review_idx,
+                        reviewUserIdx = model.user_idx
                     )
 
                     findNavController().navigate(action)
