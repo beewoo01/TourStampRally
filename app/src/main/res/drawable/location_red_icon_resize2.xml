@@ -3,8 +3,8 @@
 
     <item
         android:drawable="@drawable/location_red_icon"
-        android:width="@dimen/_8sdp"
-        android:height="@dimen/_11sdp"
+        android:width="10dp"
+        android:height="13dp"
         />
 
 </layer-list>

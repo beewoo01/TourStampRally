@@ -3,6 +3,7 @@ package com.sdin.tourstamprally.adapter.tour.direction
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.drawable.Drawable
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.SeekBar
@@ -17,6 +18,8 @@ import com.sdin.tourstamprally.databinding.DirectionGuidLocationItemBinding
 import com.sdin.tourstamprally.model.StoreModel
 import com.sdin.tourstamprally.model.TopFourLocationModel
 import com.sdin.tourstamprally.utill.GpsTracker
+import com.sdin.tourstamprally.utill.LocationUtil
+import net.daum.mf.map.api.MapPolyline
 import kotlin.math.floor
 
 class DirectionGuidAdapter(context: Context, private val callback: (TopFourLocationModel) -> Unit) :
@@ -39,26 +42,19 @@ class DirectionGuidAdapter(context: Context, private val callback: (TopFourLocat
             binding.apply {
                 locationSpotTxv.text = model.location_name
 
-                var meter = Utils.distance(
+                val meter = LocationUtil.calcDistance(
                     latitude,
                     longitude,
                     model.touristspot_latitude,
                     model.touristspot_longitude
                 )
 
-                val meterStr = if (meter < 1000) {
-                    "${floor(meter * 10) / 10.0}m"
-                } else {
-                    meter /= 1000
-                    "${floor(meter * 10) / 10.0}km"
-                }
-
-                directionFromStempTxv.text = meterStr
+                directionFromStempTxv.text = meter
 
                 if (model.location_img.isNotEmpty()) {
                     Glide.with(locationBg.context)
                         .load("http://coratest.kr/imagefile/bsr/" + model.location_img)
-                        .into(object : CustomTarget<Drawable>(){
+                        .into(object : CustomTarget<Drawable>() {
                             override fun onResourceReady(
                                 resource: Drawable,
                                 transition: Transition<in Drawable>?
@@ -75,7 +71,8 @@ class DirectionGuidAdapter(context: Context, private val callback: (TopFourLocat
                 if (model.location_idx > 0) {
                     val allCount = model.allPointCount
                     val clearCount = model.myHistoryCount
-                    val allCounted : Int = (((clearCount.toDouble() / allCount.toDouble()) * 100).toInt())
+                    val allCounted: Int =
+                        (((clearCount.toDouble() / allCount.toDouble()) * 100).toInt())
 
                     seekBarDirectionItem.max = allCount
                     seekBarDirectionItem.progress = clearCount

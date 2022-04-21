@@ -67,7 +67,7 @@ public class Utils {
         boolean check = false;
         if (Constant.ACCESS_FINE_LOCATION_STAT == PackageManager.PERMISSION_GRANTED) {
             if (Build.VERSION.SDK_INT >= 29) {
-                if (Constant.ACCESS_BACKGROUND_LOCATION_STAT == PackageManager.PERMISSION_GRANTED) {
+
                     check = true;
                 } else {
                     check = false;
@@ -611,7 +611,6 @@ public class Utils {
                 entireFile += (line + "\n"); // <---------- add each line to entireFile
             }
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
 

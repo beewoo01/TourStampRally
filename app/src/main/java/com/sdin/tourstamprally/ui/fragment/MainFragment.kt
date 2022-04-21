@@ -176,9 +176,7 @@ class MainFragment : BaseFragment() {
     ) : RecyclerView.Adapter<RallyRecyclerviewAdapter.ViewHolder>() {
         inner class ViewHolder(private val holderBinding: StepRallyLocationItemBinding) :
             RecyclerView.ViewHolder(holderBinding.root) {
-            /*init {
-                holderBinding.holder = this
-            }*/
+
             @SuppressLint("SetTextI18n")
             fun onBind(model: TopFourLocationModel) {
                 holderBinding.location.text = model.location_name

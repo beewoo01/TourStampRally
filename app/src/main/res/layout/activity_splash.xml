@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    >
 
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/background"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/splash_bgclean"
+        tools:background="@drawable/splash_bgclean"
         tools:context=".SplashActivity2">
-        <!--android:background="@drawable/splash_bgclean"-->
 
         <ImageView
             android:id="@+id/logo"
@@ -19,61 +20,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            android:contentDescription="@string/mainlogo" />
 
-            />
-
-
-        <!--<ImageView
-            android:id="@+id/logo"
-            android:layout_width="@dimen/_150sdp"
-            android:layout_height="@dimen/_150sdp"
-            android:layout_marginTop="@dimen/_60sdp"
-            android:src="@drawable/splash_top_logo"
-            android:scaleType="fitXY"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-
-            />-->
-        <!--android:src="@drawable/splash_logo"-->
-
-
-        <!--<TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="대한민국 구석구석 \n 몰랐던 관광지 즐겨보자"
-            android:textColor="@color/white"
-            android:gravity="center"
-            android:textStyle="bold"
-            android:textSize="@dimen/_15sdp"
-            android:fontFamily="@font/variablefont_wght"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/guid_line"
-            app:layout_constraintBottom_toBottomOf="@id/guid_line"
-            />
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guid_line"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.68"
-            />
-
-        <TextView
-            android:id="@+id/bottom_txv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Welcom You"
-            android:textColor="@color/white"
-            android:textSize="@dimen/_14sdp"
-            android:fontFamily="@font/variablefont_wght"
-            android:layout_marginBottom="@dimen/_40sdp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            />-->
 
         <ImageView
             android:layout_width="@dimen/_100sdp"
@@ -82,7 +30,8 @@
             android:src="@drawable/splash_logo2"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            android:contentDescription="@string/busan" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

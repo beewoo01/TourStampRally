@@ -39,6 +39,8 @@ data class StoreModel(
     val store_latitude: String,
     @SerializedName("store_longitude")
     val store_longitude: String,
+    @SerializedName("user_store_interest_idx")
+    var user_store_interest_idx: Int,
 
     var storeSubDto: StoreSubDTO? = null
 

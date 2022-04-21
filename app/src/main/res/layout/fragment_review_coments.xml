@@ -14,6 +14,7 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:overScrollMode="never"
+            android:fillViewport="true"
             app:layout_constraintBottom_toTopOf="@id/writeComment_container"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -25,17 +26,24 @@
                 android:layout_height="match_parent">
 
 
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/topGuidLine"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layout_constraintGuide_percent="0.24"
+                    />
 
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/review_container"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="0dp"
                     android:background="@drawable/bg_rounded_21"
                     android:paddingTop="@dimen/_10sdp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintBottom_toTopOf="@id/comment_txv"
+                    app:layout_constraintBottom_toBottomOf="@id/topGuidLine"
                     app:layout_constraintTop_toTopOf="parent">
 
                     <androidx.constraintlayout.widget.Guideline
@@ -127,7 +135,7 @@
                         android:scaleType="centerCrop"
                         android:src="@drawable/sample_bg"
                         app:round="@dimen/_15sdp"
-                        android:visibility="gone"
+
                         android:layout_marginVertical="@dimen/_5sdp"
                         app:layout_constraintBottom_toBottomOf="@id/bottom_content_guid"
                         app:layout_constraintStart_toStartOf="@id/start_guid"

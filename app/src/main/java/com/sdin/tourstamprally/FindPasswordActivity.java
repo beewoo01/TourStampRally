@@ -1,5 +1,6 @@
 package com.sdin.tourstamprally;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 
@@ -64,20 +65,40 @@ public class FindPasswordActivity extends BaseActivity {
                     binding.editEmail.getText().toString(), binding.editPassword.getText().toString()).enqueue(new Callback<Integer>() {
 
                 @Override
-                public void onResponse(Call<Integer> call, Response<Integer> response) {
-                    //Log.d("FindPasswordActivity", "onResponse");
+                public void onResponse(@NonNull Call<Integer> call, @NonNull Response<Integer> response) {
                     if (response.isSuccessful()) {
-                        //String result1 = String.valueOf(response.body());
                         Integer result = response.body();
                         if (result != null) {
-                            //Log.d("result", result.toString());
+                            /**
+                             * 0 ~ -1 -> Error
+                             * -2 -> email not equals
+                             * -3 -> name not equals
+                             * */
 
-                            if (result == 1) {
-                                showToast("비밀번호 변경을 완료하였습니다.");
-                                finish();
-                            } else {
-                                showToast("비밀번호 변경에 실패하였습니다.");
+                            switch (result) {
+                                case -2 : {
+                                    showToast("이메일 주소가 일치하지 않습니다.");
+                                    break;
+                                }
+
+                                case -3 : {
+                                    showToast("이름이 일치하지 않습니다.");
+                                    break;
+                                }
+
+                                case 0 :
+                                case -1 : {
+                                    showToast("비밀번호 변경에 실패하였습니다.");
+                                    break;
+                                }
+
+                                default: {
+                                    showToast("비밀번호 변경을 완료하였습니다.");
+                                    finish();
+                                    break;
+                                }
                             }
+
                         } else {
                             showToast("비밀번호 변경에 실패하였습니다.");
                         }
@@ -86,7 +107,7 @@ public class FindPasswordActivity extends BaseActivity {
                 }
 
                 @Override
-                public void onFailure(Call<Integer> call, Throwable t) {
+                public void onFailure(@NonNull Call<Integer> call, @NonNull Throwable t) {
                     t.printStackTrace();
                     showToast("비밀번호 변경에 실패하였습니다.");
                 }

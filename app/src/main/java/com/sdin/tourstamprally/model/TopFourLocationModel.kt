@@ -26,7 +26,7 @@ data class TopFourLocationModel(
     val allPointCount: Int = 0,
     @SerializedName("touristspot_latitude")
     val touristspot_latitude: Double = 0.0,
-    @SerializedName("touristspot_longitude+")
+    @SerializedName("touristspot_longitude")
     val touristspot_longitude : Double = 0.0,
     @SerializedName("touristspotpoint_createtime")
     val touristspotpoint_createtime : String?

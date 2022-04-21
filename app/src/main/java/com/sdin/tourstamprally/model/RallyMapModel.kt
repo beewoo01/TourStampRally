@@ -38,5 +38,8 @@ data class RallyMapModel(
     val touristspotpoint_name: String,*/
 
     @SerializedName("touristspot_img")
-    val touristspot_img: String
+    val touristspot_img: String,
+
+    @SerializedName("user_touristspot_interest_idx")
+    var user_touristspot_interest_idx: Int?
 ) : Serializable

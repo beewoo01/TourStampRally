@@ -48,9 +48,7 @@ class DirectionGuidFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstancdState: Bundle?) {
         super.onViewCreated(view, savedInstancdState)
         paramList = args.locationModelList.toMutableList()
-        for (item in paramList) {
-            Log.wtf("item", item.location_name)
-        }
+
         initView()
         getData()
 
@@ -59,14 +57,9 @@ class DirectionGuidFragment : BaseFragment() {
 
     private fun initView() {
 
-        val spinnerAdapter = SelectLocationAdapter(
-            requireActivity().resources.getStringArray(R.array.area_direction).toMutableList(),
-            requireContext()
-        )
 
         binding?.apply {
-            /*spinnerTourRecord.adapter = spinnerAdapter
-            spinnerTourRecord.onItemSelectedListener = selectedListener*/
+
             searchEdt.addTextChangedListener(object : TextWatcher {
                 override fun beforeTextChanged(
                     s: CharSequence?,
@@ -178,6 +171,10 @@ class DirectionGuidFragment : BaseFragment() {
     }
 
     private fun setHashTag() {
+        if (context == null) {
+            return
+        }
+
         binding?.tagRe?.apply {
             adapter = DirectionGuidTagAdapter() { model ->
                 model.hashTag?.let { search(it) }

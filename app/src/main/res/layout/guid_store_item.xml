@@ -15,50 +15,85 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/_10sdp">
 
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/center_guidLine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.5" />
+
+
         <androidx.constraintlayout.utils.widget.ImageFilterView
             android:id="@+id/store_imv"
-            android:layout_width="@dimen/_50sdp"
-            android:layout_height="@dimen/_50sdp"
+            android:layout_width="110dp"
+            android:layout_height="0dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/enjoy_busan"
+            android:src="@color/black"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:round="@dimen/_10sdp" />
+
+        <ImageButton
+            android:id="@+id/like_imb"
+            android:layout_width="38dp"
+            android:layout_height="38dp"
+            android:background="@null"
+            android:contentDescription="@string/like"
+            android:src="@drawable/heart_resize"
+            app:layout_constraintEnd_toEndOf="@id/store_imv"
+            app:layout_constraintTop_toTopOf="@id/store_imv"
+            />
+
+
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/name_guidLine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.2" />
 
 
         <TextView
             android:id="@+id/store_name_txv"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_height="25dp"
+            android:gravity="start|center_vertical"
+            android:layout_marginStart="10dp"
+            android:autoSizeTextType="uniform"
+
+            android:includeFontPadding="false"
             android:text="@{model.store_name}"
             android:textColor="@color/black"
-            android:textSize="@dimen/_12sdp"
-            app:layout_constraintBottom_toTopOf="@id/store_location_txv"
             app:layout_constraintStart_toEndOf="@id/store_imv"
-            app:layout_constraintTop_toTopOf="@id/store_imv"
+            app:layout_constraintTop_toTopOf="@id/name_guidLine"
             tools:text="암소갈비집" />
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:drawablePadding="@dimen/_3sdp"
-            android:gravity="center"
-            android:text="211m"
-            android:textSize="@dimen/_7sdp"
+            android:gravity="start|center_vertical"
+            android:textSize="10sp"
+            android:layout_marginStart="10dp"
+            app:layout_constraintEnd_toStartOf="@id/plus_imb"
             app:drawableStartCompat="@drawable/location_red_icon_resize2"
             app:layout_constraintBottom_toBottomOf="@id/store_name_txv"
             app:layout_constraintStart_toEndOf="@id/store_name_txv"
-            app:layout_constraintTop_toTopOf="@id/store_name_txv" />
+            app:layout_constraintTop_toTopOf="@id/store_name_txv"
+            tools:text="211m"
+            tools:ignore="SmallSp" />
 
         <TextView
             android:id="@+id/store_location_txv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@{model.location_name}"
-            android:textSize="@dimen/_8sdp"
+            android:textSize="11sp"
+            app:layout_constraintVertical_bias="0.2"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/store_dash_txv"
             app:layout_constraintStart_toStartOf="@id/store_name_txv"
@@ -71,7 +106,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_4sdp"
             android:text="|"
-            android:textSize="@dimen/_8sdp"
+            android:textSize="11sp"
             app:layout_constraintBottom_toBottomOf="@id/store_location_txv"
             app:layout_constraintEnd_toStartOf="@id/store_distance_txv"
             app:layout_constraintStart_toEndOf="@id/store_location_txv"
@@ -83,7 +118,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_4sdp"
             android:text="스탬프존 거리 20m"
-            android:textSize="@dimen/_8sdp"
+            android:textSize="11sp"
             app:layout_constraintBottom_toBottomOf="@id/store_location_txv"
             app:layout_constraintStart_toEndOf="@id/store_dash_txv"
             app:layout_constraintTop_toTopOf="@id/store_location_txv" />
@@ -94,6 +129,7 @@
             android:layout_height="48dp"
             android:background="@null"
             android:contentDescription="@string/see_detail"
+            android:scaleType="center"
             android:src="@drawable/plus_icon_resize"
             app:layout_constraintBottom_toBottomOf="@id/store_imv"
             app:layout_constraintEnd_toEndOf="parent"

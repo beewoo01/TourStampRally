@@ -189,6 +189,12 @@ public interface APIService {
     Call<Integer> remove_intest(@Query("interest_idx") int interest_idx,
                                 @Query("ts_type") int ts_type);
 
+    @GET("insert_store_inter")
+    Call<Integer> insert_store_inter(
+            @Query("user_store_interest_user_idx") int user_idx,
+            @Query("user_store_interest_store_idx") int store_idx
+    );
+
 
     @GET("gabia_token")
     Call<String> getToken();
@@ -264,7 +270,7 @@ public interface APIService {
     );
 
     @GET("selectAllStore")
-    Single<List<StoreModel>> selectAllStore();
+    Single<List<StoreModel>> selectAllStore(@Query("user_idx") int user_idx);
 
     @GET("selectStoreDetail")
     Single<StoreSubDTO> selectStoreDetail(

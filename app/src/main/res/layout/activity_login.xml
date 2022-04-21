@@ -83,29 +83,38 @@
             app:layout_constraintTop_toBottomOf="@+id/logoImv" />
 
 
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/center_guidLine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.5"
+            />
         <EditText
             android:id="@+id/edit_phone"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_marginHorizontal="@dimen/_30sdp"
             android:background="@drawable/bg_rounded_03"
             android:drawableEnd="@drawable/person_icon_resize"
-            android:hint="아이디"
+            android:hint="@string/id"
             android:inputType="number"
             android:maxLength="11"
             android:maxLines="1"
             android:padding="@dimen/_10sdp"
-            android:textSize="@dimen/_10sdp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:textSize="13sp"
+            tools:text="아아아"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:ignore="TouchTargetSizeCheck" />
+            app:layout_constraintTop_toTopOf="@id/center_guidLine"
+            app:layout_constraintBottom_toBottomOf="@id/center_guidLine"
+            tools:ignore="TouchTargetSizeCheck"
+            android:importantForAutofill="no" />
 
         <EditText
             android:id="@+id/edit_password"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_marginHorizontal="@dimen/_30sdp"
@@ -117,7 +126,8 @@
             android:maxLength="12"
             android:maxLines="1"
             android:padding="@dimen/_10sdp"
-            android:textSize="@dimen/_10sdp"
+            android:textSize="13sp"
+            tools:text="아아아"
             app:layout_constraintBottom_toTopOf="@+id/forgot_psw"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -169,20 +179,29 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/_30sdp"
-            android:layout_marginTop="@dimen/_20sdp"
             android:background="@drawable/bg_rounded_04"
             android:onClick="@{() -> activity.validation()}"
             android:text="@string/login"
             android:textColor="@color/white"
+            app:layout_constraintBottom_toTopOf="@id/join_container"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/save_id_rbt" />
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/bottom_guidLine"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/_30sdp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.95"
+            />
+
+        <LinearLayout
+            android:id="@+id/join_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@id/bottom_guidLine"
+            app:layout_constraintBottom_toBottomOf="@id/bottom_guidLine"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
 

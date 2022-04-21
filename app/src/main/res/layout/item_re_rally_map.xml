@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    >
+    xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/topLayout"
         android:layout_width="@dimen/_130sdp"
         android:layout_height="@dimen/_130sdp"
         android:layout_margin="@dimen/_10sdp"
-        app:cardElevation="@dimen/_10sdp"
         app:cardCornerRadius="@dimen/_10sdp"
-        >
+        app:cardElevation="@dimen/_10sdp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -22,6 +21,7 @@
                 android:id="@+id/spot_imv"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
+                android:contentDescription="@string/backgroundImage"
                 android:scaleType="fitXY"
                 android:src="@drawable/sample_bg"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -35,11 +35,26 @@
                 android:layout_width="@dimen/_50sdp"
                 android:layout_height="@dimen/_50sdp"
                 android:layout_margin="@dimen/_20sdp"
+                android:contentDescription="@string/logo"
                 android:src="@drawable/logo_gray"
                 app:layout_constraintBottom_toTopOf="@id/spot_container"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageButton
+                android:id="@+id/deep_imb"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:background="@null"
+                android:contentDescription="@string/heart"
+                android:src="@drawable/heart_resize"
+                app:layout_constraintBottom_toTopOf="@id/spot_container"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.9"
+                app:layout_constraintStart_toEndOf="@id/logo_imv"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0" />
 
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -58,6 +73,7 @@
                     android:id="@+id/location_imv"
                     android:layout_width="@dimen/_20sdp"
                     android:layout_height="@dimen/_20sdp"
+                    android:contentDescription="@string/location"
                     android:src="@drawable/icon_deep_blue"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@id/spotText_container"
@@ -83,9 +99,9 @@
                         android:layout_height="wrap_content"
                         android:maxLength="12"
                         android:maxLines="1"
-                        android:text="부산포 개항가도 일번임"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/_10sdp" />
+                        android:textSize="@dimen/_10sdp"
+                        tools:text="부산포 개항가도 일번임" />
 
                     <TextView
                         android:id="@+id/explan_txv"
@@ -93,9 +109,9 @@
                         android:layout_height="wrap_content"
                         android:maxLength="16"
                         android:maxLines="1"
-                        android:text="부산광역시 동구 초량동"
                         android:textColor="@color/gray"
-                        android:textSize="@dimen/_6sdp" />
+                        android:textSize="@dimen/_6sdp"
+                        tools:text="부산광역시 동구 초량동" />
 
                 </LinearLayout>
 

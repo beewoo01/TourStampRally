@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="fragment"
             type="com.sdin.tourstamprally.ui.fragment.store.SelectGuidStoreFragment" />
@@ -24,17 +25,17 @@
             <com.google.android.material.tabs.TabItem
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="전체" />
+                android:text="@string/all" />
 
             <com.google.android.material.tabs.TabItem
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="주변" />
+                android:text="@string/around" />
 
             <com.google.android.material.tabs.TabItem
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="코스별" />
+                android:text="@string/course" />
 
         </com.google.android.material.tabs.TabLayout>
 
@@ -56,14 +57,17 @@
         <TextView
             android:id="@+id/restaurant_txv"
             android:layout_width="0dp"
-            android:layout_height="@dimen/_30sdp"
+            android:layout_height="40dp"
             android:layout_marginTop="@dimen/_10sdp"
+            android:autoSizeMaxTextSize="14sp"
+            android:autoSizeTextType="uniform"
             android:background="@drawable/bg_rounded_category"
             android:gravity="center"
-            android:text="식당"
-            android:tag="0"
             android:onClick="@{fragment::setCategory}"
+            android:tag="0"
+            android:text="@string/restaurant"
             android:textColor="@color/mainColor"
+            android:textSize="13sp"
             app:layout_constraintEnd_toStartOf="@id/cafe_txv"
             app:layout_constraintStart_toStartOf="@id/start_guidline"
             app:layout_constraintTop_toBottomOf="@id/tabLayout" />
@@ -71,13 +75,15 @@
         <TextView
             android:id="@+id/cafe_txv"
             android:layout_width="0dp"
-            android:layout_height="@dimen/_30sdp"
+            android:layout_height="40dp"
             android:layout_marginHorizontal="@dimen/_10sdp"
+            android:autoSizeMaxTextSize="14sp"
+            android:autoSizeTextType="uniform"
             android:background="@drawable/bg_rounded_category"
             android:gravity="center"
-            android:text="카페"
-            android:tag="1"
             android:onClick="@{fragment::setCategory}"
+            android:tag="1"
+            android:text="@string/cafe"
             android:textColor="@color/mainColor"
             app:layout_constraintBottom_toBottomOf="@id/restaurant_txv"
             app:layout_constraintEnd_toStartOf="@id/accommodation_txv"
@@ -87,12 +93,14 @@
         <TextView
             android:id="@+id/accommodation_txv"
             android:layout_width="0dp"
-            android:layout_height="@dimen/_30sdp"
-            android:tag="2"
+            android:layout_height="40dp"
+            android:autoSizeMaxTextSize="14sp"
+            android:autoSizeTextType="uniform"
             android:background="@drawable/bg_rounded_category"
             android:gravity="center"
-            android:text="숙박시설"
             android:onClick="@{fragment::setCategory}"
+            android:tag="2"
+            android:text="숙박시설"
             android:textColor="@color/mainColor"
             app:layout_constraintBottom_toBottomOf="@id/restaurant_txv"
             app:layout_constraintEnd_toEndOf="@id/end_guidline"
@@ -116,7 +124,7 @@
 
             <include
                 android:id="@+id/bottom_sheet_incl"
-                layout="@layout/store_bottom_sheet"/>
+                layout="@layout/store_bottom_sheet" />
 
 
         </androidx.coordinatorlayout.widget.CoordinatorLayout>

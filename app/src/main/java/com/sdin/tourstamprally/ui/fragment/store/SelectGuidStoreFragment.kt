@@ -3,12 +3,10 @@ package com.sdin.tourstamprally.ui.fragment.store
 import android.Manifest
 import android.app.AlertDialog
 import android.content.Context
-import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
 import android.location.LocationManager
-import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import android.view.LayoutInflater
@@ -41,6 +39,9 @@ import io.reactivex.rxjava3.schedulers.Schedulers
 import net.daum.mf.map.api.MapPOIItem
 import net.daum.mf.map.api.MapPoint
 import net.daum.mf.map.api.MapView
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class SelectGuidStoreFragment : BaseFragment() {
 
@@ -49,14 +50,14 @@ class SelectGuidStoreFragment : BaseFragment() {
      * 1. 쿠폰은 발급받은일로 부터 7일 까지 소유할수 있다.
      * 2. 일주일이 지나면 소유자는 소유권을 잃어버리며, 해당 쿠폰은 발급화면에서 보여진다.
      * 3. 쿠폰 사용기간이 발급받은일이로 부터 일주일 전에 소멸된다면 사용가능 기간은 쿠폰 사용기간이 된다.
-    * */
+     * */
     private var binding: FragmentSelectGuidStoreBinding? = null
 
     private lateinit var mapView: MapView
 
     private var fusedLocationClient: FusedLocationProviderClient? = null
 
-    private var storeReAdapter: StoreReAdapter? = null
+    private lateinit var storeReAdapter: StoreReAdapter
 
     private var allStoreList: List<StoreModel> = mutableListOf()
     private val categoryArr = arrayOf(R.id.restaurant_txv, R.id.cafe_txv, R.id.accommodation_txv)
@@ -343,7 +344,7 @@ class SelectGuidStoreFragment : BaseFragment() {
     }
 
     private fun getData() {
-        apiService.selectAllStore().subscribeOn(Schedulers.newThread())
+        apiService.selectAllStore(Utils.User_Idx).subscribeOn(Schedulers.newThread())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeWith(object : DisposableSingleObserver<List<StoreModel>>() {
                 override fun onSuccess(list: List<StoreModel>) {
@@ -444,7 +445,7 @@ class SelectGuidStoreFragment : BaseFragment() {
             ActivityCompat.requestPermissions(
                 requireActivity(),
                 arrayOf(
-                    Manifest.permission.ACCESS_BACKGROUND_LOCATION
+
                 ), 2
             )
         } else {
@@ -469,6 +470,67 @@ class SelectGuidStoreFragment : BaseFragment() {
                             it
                         )
                     findNavController().navigate(action)
+
+                }, interCallback = { model ->
+
+                    if (model.user_store_interest_idx > 0) {
+
+                        apiService.remove_intest(model.user_store_interest_idx, 2)
+                            .enqueue(object : Callback<Int> {
+                                override fun onResponse(call: Call<Int>, response: Response<Int>) {
+                                    if (response.isSuccessful) {
+                                        val result = response.body()
+                                        if (result != null) {
+                                            if (result > 0) {
+                                                val currentList: MutableList<StoreModel> =
+                                                    mutableListOf()
+                                                currentList.addAll(storeReAdapter.currentList)
+                                                val position = currentList.indexOf(model)
+                                                model.user_store_interest_idx = 0
+                                                currentList[position] = model
+                                            }
+                                        }
+                                    }
+                                }
+
+                                override fun onFailure(call: Call<Int>, t: Throwable) {
+                                    t.printStackTrace()
+                                }
+
+                            })
+
+                    } else {
+
+                        apiService.insert_store_inter(Utils.User_Idx, model.store_idx)
+                            .enqueue(object : Callback<Int> {
+                                override fun onResponse(call: Call<Int>, response: Response<Int>) {
+                                    if (response.isSuccessful) {
+                                        val result = response.body()
+                                        if (result != null) {
+                                            if (result > 0) {
+
+                                                val currentList: MutableList<StoreModel> =
+                                                    mutableListOf()
+                                                currentList.addAll(storeReAdapter.currentList)
+                                                val position = currentList.indexOf(model)
+                                                model.user_store_interest_idx = result
+                                                currentList[position] = model
+
+                                            }
+                                        }
+
+
+                                    }
+                                }
+
+                                override fun onFailure(call: Call<Int>, t: Throwable) {
+                                    t.printStackTrace()
+                                }
+
+                            })
+
+
+                    }
 
                 })
                 storeReAdapter?.submitList(list)

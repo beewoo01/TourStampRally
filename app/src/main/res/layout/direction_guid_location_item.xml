@@ -1,33 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardCornerRadius="@dimen/_15sdp"
         android:layout_margin="@dimen/_15sdp"
-        >
+        app:cardCornerRadius="@dimen/_15sdp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/location_bg"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/black">
+            android:background="@drawable/sample_bg">
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:foreground="#4D000000"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/location_spot_txv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_30sdp"
-                android:text="해운대"
                 android:textColor="@color/white"
                 android:textSize="@dimen/_15sdp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toTopOf="@id/descript_txv"
                 app:layout_constraintHorizontal_chainStyle="packed"
                 app:layout_constraintStart_toStartOf="@id/seekBar_direction_item"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="해운대" />
 
             <TextView
                 android:id="@+id/descript_txv"
@@ -48,13 +57,13 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/_20sdp"
                 android:drawablePadding="@dimen/_3sdp"
-                android:text="스탬프존 거리 20m"
                 android:textColor="@color/white"
+                app:drawableStartCompat="@drawable/location_red_icon_resize"
                 app:layout_constraintBottom_toTopOf="@id/seekBar_direction_item"
                 app:layout_constraintEnd_toStartOf="@id/dashLine_txv"
                 app:layout_constraintStart_toStartOf="@id/location_spot_txv"
                 app:layout_constraintTop_toBottomOf="@id/descript_txv"
-                app:drawableStartCompat="@drawable/location_red_icon_resize" />
+                tools:text="스탬프존 거리 20m" />
 
 
             <TextView
@@ -62,7 +71,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_3sdp"
-                android:text="|"
+                android:text="@string/justDiv"
                 android:textColor="@color/white"
                 app:layout_constraintBottom_toBottomOf="@id/direction_from_stemp_txv"
                 app:layout_constraintStart_toEndOf="@id/direction_from_stemp_txv"
@@ -73,7 +82,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_3sdp"
-                android:text="참여자"
+                android:text="@string/participants"
                 android:textColor="@color/white"
                 app:layout_constraintBottom_toBottomOf="@id/direction_from_stemp_txv"
                 app:layout_constraintStart_toEndOf="@id/dashLine_txv"
@@ -84,7 +93,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_3sdp"
-                android:text="0"
+                android:text="@string/zero"
                 android:textColor="@color/peachColor"
                 android:textSize="@dimen/_12sdp"
                 app:layout_constraintBottom_toBottomOf="@id/direction_from_stemp_txv"
@@ -93,17 +102,19 @@
 
 
             <ImageView
+                android:id="@+id/logo_imv"
                 android:layout_width="@dimen/_70sdp"
                 android:layout_height="@dimen/_70sdp"
+                android:contentDescription="@string/logo"
                 android:src="@drawable/tour_record_logo"
                 app:layout_constraintBottom_toBottomOf="@id/dashLine_txv"
                 app:layout_constraintEnd_toEndOf="@id/seek_percent_txv"
-                app:layout_constraintTop_toTopOf="@id/location_spot_txv"
-                />
+                app:layout_constraintTop_toTopOf="@id/location_spot_txv" />
+
 
             <ProgressBar
-                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
                 android:id="@+id/seekBar_direction_item"
+                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
                 android:layout_width="0dp"
                 android:layout_height="4dp"
                 android:layout_marginStart="@dimen/_25sdp"
@@ -127,7 +138,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/_10sdp"
-                android:text="0%"
+                android:text="@string/zero_percent"
                 android:textColor="@color/seekColor"
                 android:textSize="@dimen/_17sdp"
                 android:textStyle="bold"

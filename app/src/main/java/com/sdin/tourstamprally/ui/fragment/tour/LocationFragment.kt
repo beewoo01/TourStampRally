@@ -36,6 +36,7 @@ class LocationFragment : BaseFragment() {
     private var binding: FragmentLocationBinding? = null
     private lateinit var model: TopFourLocationModel
     private lateinit var list: List<RallyMapModel>
+    private lateinit var locationFragmentAdapter : LocationFragAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -97,8 +98,13 @@ class LocationFragment : BaseFragment() {
     }
 
     private fun setRecyclerViewAdapter() {
+        if (context == null) {
+            binding?.locationPgb?.visibility = View.GONE
+            return
+        }
+
         binding?.recyclerviewLocationRe?.apply {
-            adapter = LocationFragAdapter(callback = { selectedModel ->
+            locationFragmentAdapter = LocationFragAdapter(callback = { selectedModel ->
                 val action =
                     LocationFragmentDirections.actionFragmentLocationToFragmentTourSpotPoint(
                         selectedModel.touristspot_name,
@@ -108,43 +114,109 @@ class LocationFragment : BaseFragment() {
 
                 findNavController().navigate(action)
 
+            }, interCallback = {
+
+                it.user_touristspot_interest_idx?.let { interIdx ->
+
+                    if (interIdx > 0) {
+                        deleteTourInter(it)
+                    } else {
+
+                        interTour(it)
+                    }
+
+                }
+
+
             }).apply {
                 submitList(list)
             }
+
+            adapter = locationFragmentAdapter
+
             layoutManager = GridLayoutManager(requireContext(), 2)
+
             setProgress()
+        }
+    }
+
+    private fun interTour(model: RallyMapModel) {
+        apiService.insert_intest(Utils.User_Idx, model.touristspot_idx)
+            .enqueue(object : Callback<Int> {
+                override fun onResponse(call: Call<Int>, response: Response<Int>) {
+                    if (response.isSuccessful) {
+                        val result = response.body()
+                        if (result != null) {
+                            if (result > 0) {
+
+                                val currentList: MutableList<RallyMapModel> = mutableListOf()
+                                currentList.addAll(locationFragmentAdapter.currentList)
+                                val position = currentList.indexOf(model)
+                                val subModel = model
+                                subModel.user_touristspot_interest_idx = result
+                                currentList[position] = subModel
+
+                            }
+                        }
+                    }
+                }
+
+                override fun onFailure(call: Call<Int>, t: Throwable) {
+                    t.printStackTrace()
+                }
+
+            })
+    }
+
+    private fun deleteTourInter(model: RallyMapModel) {
+        model.user_touristspot_interest_idx?.let {
+            apiService.remove_intest(it, 1).enqueue(object : Callback<Int>{
+                override fun onResponse(call: Call<Int>, response: Response<Int>) {
+                    if (response.isSuccessful) {
+                        val result = response.body()
+                        if (result != null) {
+                            if (result > 0) {
+                                val currentList: MutableList<RallyMapModel> = mutableListOf()
+                                currentList.addAll(locationFragmentAdapter.currentList)
+                                val position = currentList.indexOf(model)
+                                val subModel = model
+                                subModel.user_touristspot_interest_idx = 0
+                                currentList[position] = subModel
+
+                            }
+
+                        }
+                    }
+                }
+
+                override fun onFailure(call: Call<Int>, t: Throwable) {
+                    t.printStackTrace()
+                }
+
+            })
         }
     }
 
     @SuppressLint("SetTextI18n")
     private fun setProgress() = with(binding!!) {
-        /*var allLocationPercent = 0
-        var myLocationPercent = 0
-        for (model in list) {
-            model.allCount?.let {
-                allLocationPercent += it
-                myLocationPercent += it
-            }
-
-        }*/
-
-        /*val allCount: Int =
-            (((myLocationPercent.toDouble() / allLocationPercent.toDouble())) * 100).roundToInt()*/
         val myCount =
             ((model.myHistoryCount.toDouble()) / model.allPointCount.toDouble() * 100).roundToInt()
 
         seekBarLocation.max = 100
         seekBarLocation.progress = myCount
-        Log.wtf("setProgress", "allPointCount ${model.allPointCount}")
+        /*Log.wtf("setProgress", "allPointCount ${model.allPointCount}")
         Log.wtf("setProgress", "myHistoryCount ${model.myHistoryCount}")
-        Log.wtf("setProgress", "myCount $myCount")
+        Log.wtf("setProgress", "myCount $myCount")*/
         seekPercentTxv.text = "${myCount}%"
         locationPgb.visibility = View.GONE
 
     }
 
 
-    class LocationFragAdapter(private val callback: (RallyMapModel) -> Unit) :
+    class LocationFragAdapter(
+        private val callback: (RallyMapModel) -> Unit,
+        private val interCallback: (RallyMapModel) -> Unit
+    ) :
         ListAdapter<RallyMapModel, LocationFragAdapter.ViewHolder>(differ) {
         inner class ViewHolder(private val viewHolderBinding: ItemReRallyMapBinding) :
             RecyclerView.ViewHolder(viewHolderBinding.root) {
@@ -178,6 +250,45 @@ class LocationFragment : BaseFragment() {
 
                     topLayout.setOnClickListener {
                         callback(model)
+                    }
+
+                    model.user_touristspot_interest_idx?.let {
+                        val deepImg =
+                            if (it <= 0) {
+                                R.drawable.heart_resize
+                            } else {
+                                R.drawable.full_heart_resize
+                            }
+
+                        Glide.with(deepImb.context).load(deepImg).into(deepImb)
+                    } ?: kotlin.run {
+                        Glide.with(deepImb.context).load(R.drawable.heart_resize).into(deepImb)
+                    }
+
+
+                    deepImb.setOnClickListener {
+                        model.user_touristspot_interest_idx?.let {
+                            val heartImage =
+                                if (it > 0) {
+                                    R.drawable.heart_resize
+
+
+                                } else {
+                                    R.drawable.full_heart_resize
+                                }
+                            Glide.with(deepImb.context)
+                                .load(heartImage)
+                                .into(deepImb)
+
+                            interCallback(model)
+
+                        } ?: kotlin.run {
+                            Glide.with(deepImb.context)
+                                .load(R.drawable.full_heart_resize)
+                                .into(deepImb)
+
+                            interCallback(model)
+                        }
                     }
 
 

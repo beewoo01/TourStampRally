@@ -44,7 +44,8 @@
     <string name="email">E-mail</string>
     <string name="input_email">E-mail을 입력해주세요</string>
 
-    <string name="location">지역</string>
+    <string name="location_ko">지역</string>
+    <string name="location">location</string>
     <string name="busan">부산광역시</string>
     <string name="seoul">서울특별시</string>
 
@@ -87,7 +88,8 @@
 
     <string name="kakaoNativeAppKey">e8301ff2af31ff1516d8e761cbcadd1b</string>
     <string name="save">저장</string>
-    <string name="backimv">backImv</string>
+    <string name="backimv">back icon</string>
+    <string name="backgroundImage">background Image</string>
     <string name="fail_sms">SMS발송 요청을 실패하였습니다.</string>
     <string name="user_withdrawal">지금까지 BSR 서비스를 이용해주셔서 감사합니다. \n 회원을 탈퇴하면 BSR 서비스 내 나의 계정 정보 및 \n 기록 내역이 삭제 되고 복구 할 수 없습니다.</string>
     <string name="imagree">위 내용을 숙지하였으며, 동의합니다.</string>
@@ -99,6 +101,7 @@
     <string name="profile">profile</string>
     <string name="menu">menu</string>
     <string name="mainlogo">MainLogo</string>
+    <string name="logo">Logo</string>
     <string name="see_detail">상세보기</string>
     <string name="close">close</string>
     <string name="image">image</string>
@@ -108,5 +111,19 @@
     <string name="like">like</string>
     <string name="report_ko">신고하기</string>
     <string name="plzChooseReportCause">신고사유를 선택해주세요.</string>
+    <string name="search">search</string>
+    <string name="plz_search_tour">관광지를 검색해주세요.</string>
+    <string name="popular">popular</string>
+    <string name="heart">heart</string>
+    <string name="zero">0</string>
+    <string name="participants">참여자</string>
+    <string name="justDiv">|</string>
+    <string name="zero_percent">0%</string>
+    <string name="restaurant">식당</string>
+    <string name="all">전체</string>
+    <string name="around">주변</string>
+    <string name="course">코스별</string>
+    <string name="id">아이디</string>
+    <string name="cafe">카페</string>
 
 </resources>

@@ -12,7 +12,9 @@ import com.sdin.tourstamprally.model.StoreModel
 
 class StoreReAdapter(
     /*private val list: MutableList<StoreModel>,*/
-    private val callback : (StoreModel) -> Unit
+    private val callback : (StoreModel) -> Unit,
+    private val interCallback : (StoreModel) -> Unit,
+
 ) :
     ListAdapter<StoreModel, StoreReAdapter.ViewHolder>(diff) {
 
@@ -28,8 +30,31 @@ class StoreReAdapter(
                     .error(R.drawable.sample_profile_image)
                     .into(storeImv)
 
+                val heartImg =
+                if (storeModel.user_store_interest_idx > 0) {
+                    R.drawable.full_heart_resize
+
+                } else {
+                    R.drawable.heart_resize
+                }
+
+                Glide.with(likeImb.context).load(heartImg).into(likeImb)
+
                 plusImb.setOnClickListener {
                     callback(storeModel)
+                }
+
+                likeImb.setOnClickListener {
+                    val heartChangeImg =
+                        if (storeModel.user_store_interest_idx > 0) {
+                            R.drawable.heart_resize
+                        } else {
+                            R.drawable.full_heart_resize
+                        }
+
+                    interCallback(storeModel)
+
+                    Glide.with(likeImb.context).load(heartChangeImg).into(likeImb)
                 }
             }
         }
