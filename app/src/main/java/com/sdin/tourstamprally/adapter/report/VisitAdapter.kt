@@ -2,6 +2,7 @@ package com.sdin.tourstamprally.adapter.report
 
 import android.animation.ValueAnimator
 import android.annotation.SuppressLint
+import android.util.Log
 import android.util.SparseBooleanArray
 import android.view.LayoutInflater
 import android.view.View
@@ -227,6 +228,7 @@ class VisitAdapter(
 
 
     private fun onViewHolderItemClick(position: Int) {
+        Log.wtf("onViewHolderItemClick", "position  $position")
         if (selectedItems[position]) {
             // 펼쳐진 Item을 클릭 시
             selectedItems.delete(position)

@@ -123,27 +123,14 @@ class MainFragment : BaseFragment() {
             tourList.toTypedArray()
         )
         findNavController().navigate(action)
-        /*findNavController().navigate(R.id.action_mainfragment_to_fragment_direction_guid,
-            Bundle().apply {
-                putParcelableArrayList("model", ArrayList<Location_four>().apply {
-                    addAll(tourList)
-                })
-            }
-        )*/
+
     }
 
     fun reviewMoreClick() {
         //리뷰보기
-        Log.wtf("reviewMoreClick", "reviewMoreClick")
         val action = MainFragmentDirections.actionMainfragmentToFragmentMoreReview()
         findNavController().navigate(action)
 
-        /*findNavController().navigate(
-            R.id.action_mainfragment_to_fragment_more_review,
-            Bundle().apply {
-                putString("title", "리뷰보기")
-            }
-        )*/
     }
 
     private fun initReviewData(reviewDataList: MutableList<AllReviewModel>) {
@@ -172,7 +159,7 @@ class MainFragment : BaseFragment() {
 
     inner class RallyRecyclerviewAdapter(
         val context: Context,
-        val adapterList: MutableList<TopFourLocationModel>
+        private val adapterList: MutableList<TopFourLocationModel>
     ) : RecyclerView.Adapter<RallyRecyclerviewAdapter.ViewHolder>() {
         inner class ViewHolder(private val holderBinding: StepRallyLocationItemBinding) :
             RecyclerView.ViewHolder(holderBinding.root) {
@@ -211,66 +198,9 @@ class MainFragment : BaseFragment() {
                     })
 
                 setPopular(model)
-                if (model.allPointCount > 0) {
-                    setFavorite(model)
-                }
-
-                holderBinding.dibsImv.setOnClickListener {
-                    holderBinding.dibsImv.isEnabled = false
-                    if (model.allSpotCount == model.myInterCount) {
-
-                        Glide.with(it.context).load(R.drawable.heart_resize)
-                            .into(holderBinding.dibsImv)
-
-                        apiService.multipleDelDeaps(
-                            Utils.User_Idx,
-                            model.location_idx
-                        ).subscribeOn(Schedulers.newThread())
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .subscribeWith(object : DisposableSingleObserver<Int>() {
-
-                                override fun onSuccess(t: Int) {
-                                    holderBinding.dibsImv.isEnabled = true
-                                    model.myInterCount = 0
-                                }
-
-                                override fun onError(e: Throwable) {
-                                    Glide.with(it.context).load(R.drawable.full_heart_resize)
-                                        .into(holderBinding.dibsImv)
-                                    holderBinding.dibsImv.isEnabled = true
-                                    e.printStackTrace()
-                                }
-                            })
-                    } else {
-                        //DEAP 추가
-                        Glide.with(it.context).load(R.drawable.full_heart_resize)
-                            .into(holderBinding.dibsImv)
-
-                        apiService.multipleInserDeaps(
-                            Utils.User_Idx,
-                            model.location_idx
-                        ).subscribeOn(Schedulers.newThread())
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .subscribeWith(object : DisposableSingleObserver<Int>() {
-                                override fun onSuccess(integer: Int) {
-                                    model.myInterCount = model.allSpotCount
-                                    holderBinding.dibsImv.isEnabled = true
-
-                                }
-
-                                override fun onError(e: Throwable) {
-                                    Glide.with(it.context).load(R.drawable.heart_resize)
-                                        .into(holderBinding.dibsImv)
-                                    holderBinding.dibsImv.isEnabled = true
-                                    e.printStackTrace()
-                                }
-                            })
-                    }
-                }
 
                 val allCountd =
                     (model.myHistoryCount.toDouble() / model.allPointCount.toDouble() * 100).toInt()
-                //holderBinding.seekbar.max = model.allPointCount
                 holderBinding.seekbar.max = model.allPointCount
                 holderBinding.seekbar.progress = model.myHistoryCount
                 holderBinding.seekTxv.text = "$allCountd%"
@@ -281,20 +211,10 @@ class MainFragment : BaseFragment() {
             private fun setPopular(model: TopFourLocationModel) {
                 if (model.popular > model.allPointCount) {
                     holderBinding.newsImv.visibility = View.VISIBLE
-                    //Glide.with(context).load(R.drawable.hot_icon).into(holderBinding.newsImv)
                     setGlide(holderBinding.newsImv, R.drawable.hot_icon)
                 } else {
                     holderBinding.newsImv.visibility = View.VISIBLE
                     setGlide(holderBinding.newsImv, R.drawable.new_icon)
-                    //Glide.with(context).load(R.drawable.new_icon).into(holderBinding.newsImv)
-                }
-            }
-
-            private fun setFavorite(model: TopFourLocationModel) {
-                if (model.allSpotCount == model.myInterCount) {
-                    setGlide(holderBinding.dibsImv, R.drawable.full_heart_resize)
-                } else {
-                    setGlide(holderBinding.dibsImv, R.drawable.heart_resize)
                 }
             }
 
