@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_10sdp">
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/center_guidLine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.5" />
+
+
+        <androidx.constraintlayout.utils.widget.ImageFilterView
+            android:id="@+id/store_imv"
+            android:layout_width="100dp"
+            android:layout_height="0dp"
+            android:scaleType="centerCrop"
+            android:src="@color/black"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintDimensionRatio="5:4"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:round="@dimen/_10sdp"
+            tools:src="@drawable/sample_bg" />
+
+        <!--<ImageButton
+            android:id="@+id/like_imb"
+            android:layout_width="38dp"
+            android:layout_height="38dp"
+            android:background="@null"
+            android:contentDescription="@string/like"
+            android:src="@drawable/heart_resize"
+            app:layout_constraintEnd_toEndOf="@id/store_imv"
+            app:layout_constraintTop_toTopOf="@id/store_imv"
+            />-->
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/name_guidLine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.2" />
+
+
+        <TextView
+            android:id="@+id/spot_name_txv"
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            android:layout_marginStart="10dp"
+            android:autoSizeTextType="uniform"
+            android:gravity="start|center_vertical"
+            android:includeFontPadding="false"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@id/store_imv"
+            app:layout_constraintTop_toTopOf="@id/name_guidLine"
+            tools:text="초량이바구길" />
+
+        <TextView
+            android:id="@+id/distanceTxv"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginStart="10dp"
+            android:drawablePadding="@dimen/_3sdp"
+            android:gravity="start|center_vertical"
+            android:textSize="10sp"
+            app:drawableStartCompat="@drawable/location_red_icon_resize2"
+            app:layout_constraintBottom_toBottomOf="@id/spot_name_txv"
+            app:layout_constraintEnd_toStartOf="@id/plus_imb"
+            app:layout_constraintHorizontal_bias="0.8"
+            app:layout_constraintStart_toEndOf="@id/spot_name_txv"
+            app:layout_constraintTop_toTopOf="@id/spot_name_txv"
+            tools:ignore="SmallSp"
+            tools:text="211m" />
+
+        <TextView
+            android:id="@+id/spot_location_txv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="10sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/dash_txv"
+            app:layout_constraintStart_toStartOf="@id/spot_name_txv"
+            app:layout_constraintTop_toBottomOf="@id/spot_name_txv"
+            app:layout_constraintVertical_bias="0.2"
+            tools:text="해운대구"
+            tools:ignore="SmallSp" />
+
+        <TextView
+            android:id="@+id/dash_txv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_4sdp"
+            android:text="@string/justBar"
+            android:textSize="10sp"
+            app:layout_constraintBottom_toBottomOf="@id/spot_location_txv"
+            app:layout_constraintEnd_toStartOf="@id/spot_distance_txv"
+            app:layout_constraintStart_toEndOf="@id/spot_location_txv"
+            app:layout_constraintTop_toTopOf="@id/spot_location_txv"
+            tools:ignore="SmallSp" />
+
+        <TextView
+            android:id="@+id/spot_distance_txv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_4sdp"
+            android:textSize="10sp"
+            app:layout_constraintBottom_toBottomOf="@id/spot_location_txv"
+            app:layout_constraintStart_toEndOf="@id/dash_txv"
+            app:layout_constraintTop_toTopOf="@id/spot_location_txv"
+            tools:ignore="SmallSp"
+            tools:text="스탬프존 거리 20m" />
+
+        <ImageButton
+            android:id="@+id/plus_imb"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@null"
+            android:contentDescription="@string/see_detail"
+            android:scaleType="center"
+            android:src="@drawable/plus_icon_resize"
+            app:layout_constraintBottom_toBottomOf="@id/store_imv"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/store_imv" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

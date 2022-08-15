@@ -1,6 +1,5 @@
 package com.sdin.tourstamprally.adapter
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -8,7 +7,6 @@ import com.bumptech.glide.Glide
 import com.sdin.tourstamprally.R
 import com.sdin.tourstamprally.databinding.ItemReCommentsBinding
 import com.sdin.tourstamprally.model.ReveiwCommentsDC
-import com.sdin.tourstamprally.ui.dialog.reviewcommnet.ReportDialog
 import java.text.SimpleDateFormat
 import java.util.*
 

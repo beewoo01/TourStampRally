@@ -1,6 +1,6 @@
 <resources>
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar.Bridge">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
@@ -34,54 +34,12 @@
         <!--        <item name="android:windowExitAnimation">@anim/slide_down</item>-->
     </style>
 
-    <style name="Divider">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">1dp</item>
-        <item name="android:background">?android:attr/listDivider</item>
-    </style>
-
-
-
-    <style name="MyAppTheme.DatePicker" parent="AppTheme">
-        <item name="colorControlNormal">@android:color/transparent</item>
-        <item name="android:textSize">@dimen/_11sdp</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:textColor">@color/black</item>
-    </style>
-
 
     <style name="TextViewStyle">
         <item name="android:textColor">@color/black</item>
         <item name="android:textSize">@dimen/_13sdp</item>
     </style>
 
-
-    <style name="DialogButtonStyle_pressed">
-        <item name="android:textColor">@color/white</item>
-    </style>
-
-    <style name="DialogButtonStyle_normal">
-        <item name="android:textColor">@color/Black</item>
-    </style>
-
-
-    <style name="SpinnerTheme" parent="AppTheme">
-        <item name="dropDownListViewStyle">@style/SpinnerDivideStyle</item>
-    </style>
-
-    <style name="SpinnerDivideStyle" parent="android:style/Widget.ListView.DropDown">
-        <item name="android:divider">#FFFFFF</item> <!-- divider 색 -->
-        <item name="android:dividerHeight">2dp</item> <!-- divider 높이 -->
-    </style>
-
-    <style name="starRatingBar" parent="android:style/Widget.Material.RatingBar.Small">
-        <item name="android:progressDrawable">@drawable/custom_rating</item>
-        <item name="minHeight">10dp</item>
-        <item name="minWidth">10dp</item>
-        <item name="maxHeight">10dp</item>
-        <item name="maxWidth">10dp</item>
-
-    </style>
 
     <style name="smallRatingBar" parent="android:style/Widget.Material.RatingBar.Small">
 
@@ -106,6 +64,37 @@
 
     <style name="AppModalStyle" parent="Widget.Design.BottomSheet.Modal">
         <item name="android:background">@drawable/bg_rounded_05</item>
+    </style>
+
+    <style name="CustomBottomSheetDialogTheme" parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/CustomBottomSheetStyle</item>
+    </style>
+
+    <style name="CustomBottomSheetStyle" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@android:color/transparent</item>
+    </style>
+
+    <style name="Widget.around.tour.Chip" parent="Widget.MaterialComponents.Chip.Choice">
+        <item name="chipStrokeColor">@color/mainColor</item>
+        <item name="chipStrokeWidth">1dp</item>
+        <item name="chipBackgroundColor">@color/bg_filter_chip_state_list</item>
+        <item name="android:textColor">@color/text_filter_chip_state_list</item>
+        <item name="textStartPadding">8dp</item>
+        <item name="chipIconSize">12dp</item>
+        <item name="iconStartPadding">3dp</item>
+        <item name="chipEndPadding">2dp</item>
+    </style>
+
+    <style name="Widget.around.store.Chip" parent="Widget.MaterialComponents.Chip.Choice">
+        <item name="chipStrokeColor">@color/mainColor</item>
+        <item name="chipStrokeWidth">1dp</item>
+        <item name="chipBackgroundColor">@color/bg_filter_chip_state_list</item>
+        <item name="android:textColor">@color/text_filter_chip_state_list</item>
+        <item name="textStartPadding">20dp</item>
+        <item name="textEndPadding">20dp</item>
+        <item name="chipIconSize">12dp</item>
+        <item name="iconStartPadding">3dp</item>
+        <item name="chipEndPadding">2dp</item>
     </style>
 
 </resources>

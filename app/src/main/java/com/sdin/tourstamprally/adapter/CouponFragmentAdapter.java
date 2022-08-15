@@ -5,7 +5,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
-import com.sdin.tourstamprally.ui.fragment.store.coupon.MyCouponFragment;
+import com.sdin.tourstamprally.ui.fragment.around.coupon.MyCouponFragment;
 
 
 public class CouponFragmentAdapter extends FragmentStateAdapter {

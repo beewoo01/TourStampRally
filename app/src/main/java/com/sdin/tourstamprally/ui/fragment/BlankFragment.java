@@ -1,18 +1,18 @@
 package com.sdin.tourstamprally.ui.fragment;
 
+import static java.util.stream.Collectors.toList;
+
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
-import androidx.databinding.DataBindingUtil;
-
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+
+import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
+import androidx.databinding.DataBindingUtil;
 
 import com.sdin.tourstamprally.R;
 import com.sdin.tourstamprally.Utils;
@@ -32,8 +32,6 @@ import java.util.Map;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
-import static java.util.stream.Collectors.toList;
 
 public class BlankFragment extends BaseFragment {
 

@@ -3,10 +3,6 @@ package com.sdin.tourstamprally.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.google.gson.annotations.SerializedName;
-
-import java.io.Serializable;
-
 public class Location_four implements Comparable<Tour_Spot>, Parcelable {
 
     private int myInterCount;

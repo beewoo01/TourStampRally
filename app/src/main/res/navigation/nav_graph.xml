@@ -2,7 +2,6 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/nav_graph"
     app:startDestination="@id/page_home">
 
     <fragment
@@ -10,15 +9,23 @@
         android:name="com.sdin.tourstamprally.ui.fragment.MainFragment"
         android:label="@string/home"
         tools:layout="@layout/fragment_main">
+
         <action
-            android:id="@+id/action_mainfragment_to_fragment_direction_guid"
+            android:id="@+id/action_page_home_to_fragment_direction_guid"
             app:destination="@id/fragment_direction_guid">
 
-            <!--<argument
-                android:name="location_model_list"
-                app:argType="com.sdin.tourstamprally.model.Location_four[]"
-                app:nullable="false" />-->
+            <!-- <argument
+                 android:name="location_model_list"
+                 app:argType="com.sdin.tourstamprally.model.Location_four[]"
+                 app:nullable="false" />-->
+
         </action>
+
+        <!--<argument
+            android:name="location_model_list"
+            app:argType="com.sdin.tourstamprally.model.Location_four[]"
+            app:nullable="false" />
+    </action>-->
 
         <action
             android:id="@+id/action_mainfragment_to_fragment_location"
@@ -31,14 +38,9 @@
 
         </action>
 
-        <!--<argument
-            android:name="model"
-            app:argType="com.sdin.tourstamprally.model.Location_four"
-            app:nullable="false" />
-    </action>-->
         <action
             android:id="@+id/action_mainfragment_to_fragment_more_review"
-            app:destination="@id/fragment_more_review"/>
+            app:destination="@id/fragment_more_review" />
 
         <action
             android:id="@+id/action_mainfragment_to_fragment_review_coments"
@@ -59,12 +61,38 @@
                 app:argType="integer"
                 app:nullable="false" />-->
         </action>
+
+        <action
+            android:id="@+id/action_page_home_to_page_stamp"
+            app:destination="@id/page_stamp" />
+
+        <action
+            android:id="@+id/action_page_home_to_fragment_tour_spot_point"
+            app:destination="@id/fragment_tour_spot_point">
+            <argument
+                android:name="title"
+                app:argType="string"
+                app:nullable="false" />
+        </action>
+
+        <action
+            android:id="@+id/action_page_home_to_page_store"
+            app:destination="@id/page_store" />
+        <action
+            android:id="@+id/action_page_home_to_couponBannerFragment"
+            app:destination="@id/couponBannerFragment">
+            <argument
+                android:name="title"
+                app:argType="string"
+                app:nullable="false" />
+        </action>
+
     </fragment>
 
     <fragment
         android:id="@+id/fragment_direction_guid"
         android:name="com.sdin.tourstamprally.ui.fragment.tour.DirectionGuidFragment"
-        android:label="길안내 관광지"
+        android:label="투어 전체보기"
         tools:layout="@layout/fragment_direction_guid">
 
         <argument
@@ -81,10 +109,24 @@
                 app:argType="string"
                 app:nullable="false" />
 
-            <!--<argument
-                android:name="model"
-                app:argType="com.sdin.tourstamprally.model.Location_four"
-                app:nullable="false" />-->
+
+        </action>
+        <action
+            android:id="@+id/action_fragment_direction_guid_to_page_stamp"
+            app:destination="@id/page_stamp" />
+        <action
+            android:id="@+id/action_fragment_direction_guid_to_fragment_review_coments"
+            app:destination="@id/fragment_review_coments">
+
+            <argument
+                android:name="title"
+                app:argType="string"
+                app:nullable="false" />
+
+            <argument
+                android:name="state"
+                android:defaultValue="1"
+                app:argType="integer" />
 
         </action>
     </fragment>
@@ -100,11 +142,6 @@
             app:argType="com.sdin.tourstamprally.model.TopFourLocationModel"
             app:nullable="false" />
 
-        <!--<argument
-            android:name="model"
-            app:argType="com.sdin.tourstamprally.model.Location_four"
-            app:nullable="false" />-->
-
         <action
             android:id="@+id/action_fragment_location_to_fragment_tour_spot_point"
             app:destination="@id/fragment_tour_spot_point">
@@ -115,6 +152,9 @@
                 app:nullable="false" />
 
         </action>
+        <action
+            android:id="@+id/action_fragment_location_to_page_stamp"
+            app:destination="@id/page_stamp" />
 
         <!--<argument
             android:name="model"
@@ -146,10 +186,14 @@
                 app:nullable="false" />
 
         </action>
+        <action
+            android:id="@+id/action_fragment_tour_spot_point_to_page_stamp"
+            app:destination="@id/page_stamp" />
     </fragment>
 
     <fragment
         android:id="@+id/fragment_tour_detail"
+        android:label="fragment_tour_detail"
         android:name="com.sdin.tourstamprally.ui.fragment.tour.TourDetailFragment"
         tools:layout="@layout/fragment_tour_detail">
 
@@ -157,14 +201,17 @@
             android:name="touristSpotPointDC"
             app:argType="com.sdin.tourstamprally.model.TouristSpotPointDC"
             app:nullable="false" />
+        <action
+            android:id="@+id/action_fragment_tour_detail_to_page_stamp"
+            app:destination="@id/page_stamp" />
 
     </fragment>
 
 
     <fragment
         android:id="@+id/fragment_more_review"
-        android:label="리뷰보기"
         android:name="com.sdin.tourstamprally.ui.fragment.report.review.MoreReviewFragment"
+        android:label="리뷰보기"
         tools:layout="@layout/fragment_more_review">
 
         <action
@@ -203,8 +250,10 @@
         <argument
             android:name="review_user_idx"
             app:argType="integer"
-            app:nullable="false"
-            />
+            app:nullable="false" />
+        <action
+            android:id="@+id/action_fragment_review_coments_to_page_stamp"
+            app:destination="@id/page_stamp" />
 
     </fragment>
 
@@ -212,7 +261,7 @@
     <fragment
         android:id="@+id/page_report"
         android:name="com.sdin.tourstamprally.ui.fragment.report.VisitHistoryFragment"
-        android:label="방문기록"
+        android:label="응모"
         tools:layout="@layout/fragment_visithistory">
 
         <action
@@ -226,6 +275,9 @@
 
 
         </action>
+        <action
+            android:id="@+id/action_page_report_to_page_stamp"
+            app:destination="@id/page_stamp" />
     </fragment>
 
     <fragment
@@ -303,13 +355,26 @@
 
     <fragment
         android:id="@+id/page_store"
-        android:name="com.sdin.tourstamprally.ui.fragment.store.SelectGuidStoreFragment"
-        android:label="매장 리스트"
-        tools:layout="@layout/fragment_select_guid_store">
+        android:name="com.sdin.tourstamprally.ui.fragment.around.AroundFragment"
+        android:label="주변"
+        tools:layout="@layout/fragment_around">
 
         <action
             android:id="@+id/action_page_store_to_storeDetailFragment"
             app:destination="@id/storeDetailFragment">
+
+            <argument
+                android:name="title"
+                app:argType="string"
+                app:nullable="false" />
+
+        </action>
+        <action
+            android:id="@+id/action_page_store_to_page_stamp"
+            app:destination="@id/page_stamp" />
+        <action
+            android:id="@+id/action_page_store_to_fragment_tour_spot_point"
+            app:destination="@id/fragment_tour_spot_point">
 
             <argument
                 android:name="title"
@@ -322,7 +387,7 @@
 
     <fragment
         android:id="@+id/storeDetailFragment"
-        android:name="com.sdin.tourstamprally.ui.fragment.store.StoreDetailFragment"
+        android:name="com.sdin.tourstamprally.ui.fragment.around.StoreDetailFragment"
         android:label="fragment_store_detail"
         tools:layout="@layout/fragment_store_detail">
 
@@ -330,6 +395,9 @@
             android:name="store_model"
             app:argType="com.sdin.tourstamprally.model.StoreModel"
             app:nullable="false" />
+        <action
+            android:id="@+id/action_storeDetailFragment_to_page_stamp"
+            app:destination="@id/page_stamp" />
 
     </fragment>
 
@@ -338,6 +406,12 @@
         android:id="@+id/account_admin"
         android:name="com.sdin.tourstamprally.ui.fragment.AccountFragment"
         tools:layout="@layout/fragment_account" />
+
+    <!--<activity
+        android:id="@+id/draw_layout"
+        android:name="com.sdin.tourstamprally.ui.activity.MainActivity2"
+        tools:layout="@layout/drawa_layout2"/>-->
+
 
     <fragment
         android:id="@+id/notice"
@@ -349,10 +423,9 @@
         android:name="com.sdin.tourstamprally.ui.fragment.SetAlarmFragment"
         tools:layout="@layout/fragment_set_alarm" />
 
-    <dialog
-        android:id="@+id/ready_dialog"
+    <!--<dialog
         android:name="com.sdin.tourstamprally.ui.sample.ReadyDialogFragment"
-        tools:layout="@layout/dialog_ready_fragment" />
+        tools:layout="@layout/dialog_ready_fragment" />-->
 
     <fragment
         android:id="@+id/bascet_list"
@@ -371,20 +444,37 @@
 
     <fragment
         android:id="@+id/coupon_list"
-        android:name="com.sdin.tourstamprally.ui.fragment.store.coupon.MyCouponParentFragment"
+        android:name="com.sdin.tourstamprally.ui.fragment.around.coupon.MyCouponParentFragment"
         android:label="fragment_my_coupon_parent"
         tools:layout="@layout/fragment_my_coupon_parent" />
 
-    <fragment
+    <!--<fragment
         android:id="@+id/myParantFragment"
         android:name="com.sdin.tourstamprally.ui.fragment.store.coupon.MyCouponParentFragment"
         android:label="fragment_coupon_detail"
-        tools:layout="@layout/fragment_my_coupon_parent" />
+        tools:layout="@layout/fragment_my_coupon_parent" />-->
 
     <fragment
         android:id="@+id/couponDetailFragment"
         android:name="com.sdin.tourstamprally.CouponDetailFragment"
         tools:layout="@layout/fragment_coupon_detail" />
+
+    <fragment
+        android:id="@+id/couponBannerFragment"
+        android:name="com.sdin.tourstamprally.CouponBannerFragment"
+        tools:layout="@layout/fragment_coupon_banner">
+        <argument
+            android:name="bannerModel"
+            app:argType="com.sdin.tourstamprally.model.StoreBannerCouponDTO"
+            app:nullable="false" />
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/draw_layout"
+        android:name="com.sdin.tourstamprally.ui.fragment.empty.EmptyFragment"
+        android:label="empty"
+        tools:layout="@layout/fragment_empty" />
 
 
 </navigation>

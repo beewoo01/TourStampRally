@@ -120,7 +120,7 @@ public class ScanResultDialog extends BaseDialog {
 
         if (isSucess == 1) {
 
-            setBackgrountImg(R.drawable.nfc_tag_ok_bg, constraintLayout);
+            setBackgrountImg(R.drawable.ic_scan_result_di_success_bg, constraintLayout);
 
             resulButton.setBackground(ContextCompat.getDrawable(context, R.drawable.scan_button_bg));
             resulButton.setTextColor(ContextCompat.getColor(context, R.color.scan_dialog_text_color));
@@ -131,7 +131,8 @@ public class ScanResultDialog extends BaseDialog {
 
             });
 
-            Glide.with(findViewById(R.id.title_imv).getContext()).load(R.drawable.nfc_tag_ok_stamp).into((ImageView) findViewById(R.id.title_imv));
+            //nfc_tag_ok_stamp
+            Glide.with(findViewById(R.id.title_imv).getContext()).load(R.drawable.ic_scan_result_di_success_stemp).into((ImageView) findViewById(R.id.title_imv));
             Glide.with(context).load(R.drawable.mainlogo).into((ImageView) findViewById(R.id.logo));
 
 
@@ -144,8 +145,7 @@ public class ScanResultDialog extends BaseDialog {
 
         } else if (isSucess == 0) {
 
-            setBackgrountImg(R.drawable.nfc_tag_fail_bg, constraintLayout);
-
+            setBackgrountImg(R.drawable.ic_scan_fail_bg, constraintLayout);
             resulButton.setBackground(ContextCompat.getDrawable(context, R.drawable.scan_fail_button_bg));
             resulButton.setTextColor(ContextCompat.getColor(context, R.color.white));
             resulButton.setText("재시도하기 >");
@@ -188,7 +188,7 @@ public class ScanResultDialog extends BaseDialog {
             inner_result.setText(msg);//이미 획득 완료하신 스탬프 입니다.
             inner_result.setTextSize(15);
 
-            inner_result.setTextColor(ContextCompat.getColor(context, R.color.Black));
+            inner_result.setTextColor(ContextCompat.getColor(context, R.color.black));
         }
     }
 

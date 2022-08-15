@@ -1,6 +1,5 @@
 package com.sdin.tourstamprally.adapter
 
-import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.content.Context
 import android.util.SparseBooleanArray
@@ -52,8 +51,6 @@ class ViSitReAdapter(
 
     inner class ViewHolder(val binding: VisithistoryItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
-
-        //private var onViewHolderItemClickListener: OnViewHolderItemClickListener? = null
 
         @SuppressLint("SetTextI18n", "ClickableViewAccessibility")
         fun onBind(model: history_spotModel2, selectedItems: SparseBooleanArray) {
@@ -125,7 +122,8 @@ class ViSitReAdapter(
                 .into(binding.visitHistoryImv)
 
             if (model.review_idx > 0) {
-                binding.reviewLayout.visibility = View.VISIBLE
+                binding.reviewLayout.visibility = View.GONE
+                //binding.reviewLayout.visibility = View.VISIBLE
                 binding.nameTxv.text = Utils.User_Name
                 Glide.with(binding.profileIcon.context)
                     .load("http://coratest.kr/imagefile/bsr/" + Utils.User_Profile).circleCrop()
@@ -192,12 +190,12 @@ class ViSitReAdapter(
                 }
             }
 
-            changeVisibility(selectedItems[absoluteAdapterPosition])
+            //changeVisibility(selectedItems[absoluteAdapterPosition])
         }
 
         @SuppressLint("Recycle")
         private fun changeVisibility(isExpanded: Boolean) {
-            val va = if (isExpanded) {
+            /*val va = if (isExpanded) {
                 ValueAnimator.ofInt(0, 600)
             } else {
                 ValueAnimator.ofInt(600, 0)
@@ -215,7 +213,7 @@ class ViSitReAdapter(
                     }
             }
 
-            va.start()
+            va.start()*/
         }
 
     }

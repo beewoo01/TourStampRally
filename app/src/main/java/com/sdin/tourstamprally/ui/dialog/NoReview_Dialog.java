@@ -13,7 +13,6 @@ import androidx.databinding.DataBindingUtil;
 
 import com.sdin.tourstamprally.R;
 import com.sdin.tourstamprally.databinding.NodialotDialogBinding;
-import com.sdin.tourstamprally.databinding.PopupUserWithdrawalSuccessBinding;
 import com.sdin.tourstamprally.utill.ItemOnClickAb;
 
 public class NoReview_Dialog extends Dialog {

@@ -171,10 +171,10 @@ class SelectCourseDialog(context: Context, val callback: (() -> Unit?)?) :
             RecyclerView.ViewHolder(binding.root) {
             fun onBind(model: SelectCourseModel) = with(binding) {
                 if (absoluteAdapterPosition % 2 > 0) {
-                    Glide.with(locationImv.context).load(R.drawable.icon_sky_blue).into(locationImv)
+                    Glide.with(locationImv.context).load(R.drawable.location_sky).into(locationImv)
 
                 } else {
-                    Glide.with(locationImv.context).load(R.drawable.icon_deep_blue)
+                    Glide.with(locationImv.context).load(R.drawable.location_puple)
                         .into(locationImv)
                 }
 

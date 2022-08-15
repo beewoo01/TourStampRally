@@ -1,7 +1,6 @@
 package com.sdin.tourstamprally;
 
 import android.app.Application;
-import android.util.Log;
 
 import com.kakao.sdk.common.KakaoSdk;
 

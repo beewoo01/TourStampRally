@@ -16,10 +16,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.sdin.tourstamprally.databinding.TourRecordItemReBinding;
 import com.sdin.tourstamprally.model.Tour_Spot;
-import com.sdin.tourstamprally.ui.activity.MainActivity;
 import com.sdin.tourstamprally.ui.dialog.GuidDialog;
-import com.sdin.tourstamprally.utill.listener.ItemOnClick;
 import com.sdin.tourstamprally.utill.ItemOnClickAb;
+import com.sdin.tourstamprally.utill.listener.ItemOnClick;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -31,7 +30,7 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHo
     public static final String TAG = LocationAdapter.class.getSimpleName();
     @SuppressLint("SimpleDateFormat")
     private final SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd");
-    private final ItemOnClick listener;
+    //private final ItemOnClick listener;
     private Tour_Spot send_model;
     private final Context context;
     //private SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd 'T' HH:mm:ss.SSSX " , Locale.US);
@@ -40,7 +39,7 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHo
     public LocationAdapter(ArrayList<Tour_Spot> list, Context context) {
         this.list = list;
         this.context = context;
-        listener = (MainActivity) context;
+        //listener = (MainActivity) context;
 
     }
 
@@ -65,11 +64,11 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHo
     private final ItemOnClick itemOnClick = new ItemOnClickAb() {
         @Override
         public void ItemGuid(int position) {
-            if (position == 1 || position == 2) {
-                listener.ItemGuid(position);
-            } else {
-                //listener.ItemGuidForPoint(send_model);
-            }
+//            if (position == 1 || position == 2) {
+//                listener.ItemGuid(position);
+//            } else {
+//                //listener.ItemGuidForPoint(send_model);
+//            }
         }
     };
 

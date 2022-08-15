@@ -50,7 +50,7 @@
                     android:background="@null"
                     android:onClick="@{() -> fragment.profileSetOnClick()}"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/profile_set_img"
+                    android:src="@drawable/profile_setting_ic"
                     app:layout_constraintBottom_toBottomOf="@id/profile_imb"
                     app:layout_constraintEnd_toEndOf="@id/profile_imb"
                     tools:ignore="TouchTargetSizeCheck" />

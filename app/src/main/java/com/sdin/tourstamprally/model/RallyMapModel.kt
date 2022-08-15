@@ -10,17 +10,14 @@ data class RallyMapModel(
     @SerializedName("touristspot_name")
     val touristspot_name: String,
 
-    /*@SerializedName("touristspotpoint_idx")
-    val touristspotpoint_idx : Int,*/
-
     @SerializedName("test_touristspotpoint_idx")
-    val touristspotpoint_idx : Int?,
+    val touristspotpoint_idx: Int?,
 
     @SerializedName("touristspot_latitude")
-    val touristspot_latitude : Double,
+    var touristspot_latitude: Double,
 
     @SerializedName("touristspot_longitude")
-    val touristspot_longitude : Double,
+    var touristspot_longitude: Double,
 
     @SerializedName("touristspot_address")
     val touristspot_address: String?,
@@ -34,12 +31,30 @@ data class RallyMapModel(
     @SerializedName("test_touristspotpoint_name")
     val touristspotpoint_name: String?,
 
-    /*@SerializedName("touristspotpoint_name")
-    val touristspotpoint_name: String,*/
-
     @SerializedName("touristspot_img")
     val touristspot_img: String,
 
     @SerializedName("user_touristspot_interest_idx")
     var user_touristspot_interest_idx: Int?
-) : Serializable
+) : Serializable {
+
+    constructor(
+        touristspot_idx: Int,
+        touristspot_name: String,
+        touristspot_latitude: Double,
+        touristspot_longitude: Double,
+        touristspot_img: String
+    ) : this(
+        touristspot_idx = touristspot_idx,
+        touristspot_name = touristspot_name,
+        touristspotpoint_idx = null,
+        touristspot_latitude = touristspot_latitude,
+        touristspot_longitude = touristspot_longitude,
+        touristspot_address = null,
+        allCount = null,
+        myCount = null,
+        touristspotpoint_name = null,
+        touristspot_img = touristspot_img,
+        user_touristspot_interest_idx = null
+    )
+}

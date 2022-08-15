@@ -3,24 +3,18 @@ package com.sdin.tourstamprally.adapter.tour.direction
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.drawable.Drawable
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.SeekBar
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
-import com.sdin.tourstamprally.Utils
 import com.sdin.tourstamprally.databinding.DirectionGuidLocationItemBinding
-import com.sdin.tourstamprally.model.StoreModel
 import com.sdin.tourstamprally.model.TopFourLocationModel
 import com.sdin.tourstamprally.utill.GpsTracker
 import com.sdin.tourstamprally.utill.LocationUtil
-import net.daum.mf.map.api.MapPolyline
-import kotlin.math.floor
 
 class DirectionGuidAdapter(context: Context, private val callback: (TopFourLocationModel) -> Unit) :
     ListAdapter<TopFourLocationModel, DirectionGuidAdapter.ViewHolder>(differ) {

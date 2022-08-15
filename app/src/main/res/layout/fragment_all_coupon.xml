@@ -33,10 +33,10 @@
                 android:layout_height="wrap_content"
                 android:text="주변" />
 
-            <com.google.android.material.tabs.TabItem
+            <!--<com.google.android.material.tabs.TabItem
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="코스별" />
+                android:text="코스별" />-->
 
         </com.google.android.material.tabs.TabLayout>
 
@@ -55,8 +55,43 @@
             android:orientation="vertical"
             app:layout_constraintGuide_percent="0.9" />
 
+        <!--<androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/restaurant_txv"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_30sdp"
+            android:background="@drawable/bg_rounded_category"
+            android:onClick="@{fragment::setCategory}"
+            app:layout_constraintBottom_toTopOf="@id/spinner_location"
+            app:layout_constraintEnd_toStartOf="@id/cafe_txv"
+            app:layout_constraintStart_toStartOf="@id/start_guidline"
+            app:layout_constraintTop_toBottomOf="@id/tabLayout">
+            <ImageView
+                android:id="@+id/imageView10"
+                android:layout_width="@dimen/_12sdp"
+                android:layout_height="@dimen/_12sdp"
+                android:layout_marginStart="@dimen/_15sdp"
+                app:srcCompat="@drawable/ic_menu_restaurant_off"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
 
-        <TextView
+            <TextView
+                android:id="@+id/textView7"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/_28sdp"
+                android:text="식당"
+                android:textSize="@dimen/_11sdp"
+                android:textColor="@color/mainColor"
+                android:gravity="center"
+                android:layout_marginStart="@dimen/_8sdp"
+                app:layout_constraintStart_toEndOf="@id/imageView10"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>-->
+
+        <!--<TextView
             android:id="@+id/restaurant_txv"
             android:layout_width="0dp"
             android:layout_height="@dimen/_30sdp"
@@ -70,9 +105,83 @@
             app:layout_constraintBottom_toTopOf="@id/spinner_location"
             app:layout_constraintEnd_toStartOf="@id/cafe_txv"
             app:layout_constraintStart_toStartOf="@id/start_guidline"
-            app:layout_constraintTop_toBottomOf="@id/tabLayout" />
+            app:layout_constraintTop_toBottomOf="@id/tabLayout" />-->
 
-        <TextView
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/restaurant_con"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_30sdp"
+            android:layout_marginVertical="@dimen/_15sdp"
+            android:tag="0"
+            android:onClick="@{fragment::setCategory}"
+            android:background="@drawable/bg_rounded_category"
+            app:layout_constraintBottom_toTopOf="@id/spinner_location"
+            app:layout_constraintEnd_toStartOf="@id/cafe_con"
+            app:layout_constraintStart_toStartOf="@id/start_guidline"
+            app:layout_constraintTop_toBottomOf="@id/tabLayout">
+
+            <ImageView
+                android:id="@+id/restaurant_img"
+                android:layout_width="@dimen/_12sdp"
+                android:layout_height="@dimen/_12sdp"
+                android:layout_marginStart="@dimen/_15sdp"
+                app:srcCompat="@drawable/ic_menu_restaurant_off"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/restaurant_txv"/>
+
+            <TextView
+                android:id="@+id/restaurant_txv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="식당"
+                android:layout_marginEnd="@dimen/_20sdp"
+                android:textColor="@color/mainColor"
+                app:layout_constraintStart_toEndOf="@+id/restaurant_img"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cafe_con"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_30sdp"
+            android:layout_marginHorizontal="@dimen/_10sdp"
+            android:tag="1"
+            android:onClick="@{fragment::setCategory}"
+            android:background="@drawable/bg_rounded_category"
+            app:layout_constraintBottom_toBottomOf="@id/restaurant_con"
+            app:layout_constraintEnd_toStartOf="@id/accommodation_con"
+            app:layout_constraintStart_toEndOf="@id/restaurant_con"
+            app:layout_constraintTop_toTopOf="@id/restaurant_con">
+
+            <ImageView
+                android:id="@+id/cafe_img"
+                android:layout_width="@dimen/_13sdp"
+                android:layout_height="@dimen/_13sdp"
+                android:layout_marginStart="@dimen/_15sdp"
+                app:srcCompat="@drawable/ic_menu_cafe_off"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/cafe_txv"/>
+
+            <TextView
+                android:id="@+id/cafe_txv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="카페"
+                android:layout_marginEnd="@dimen/_20sdp"
+                android:textColor="@color/mainColor"
+                app:layout_constraintStart_toEndOf="@+id/cafe_img"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!--<TextView
             android:id="@+id/cafe_txv"
             android:layout_width="0dp"
             android:layout_height="@dimen/_30sdp"
@@ -83,12 +192,48 @@
             android:tag="1"
             android:text="카페"
             android:textColor="@color/mainColor"
-            app:layout_constraintBottom_toBottomOf="@id/restaurant_txv"
+            app:layout_constraintBottom_toBottomOf="@id/restaurant_con"
             app:layout_constraintEnd_toStartOf="@id/accommodation_txv"
-            app:layout_constraintStart_toEndOf="@id/restaurant_txv"
-            app:layout_constraintTop_toTopOf="@id/restaurant_txv" />
+            app:layout_constraintStart_toEndOf="@id/restaurant_con"
+            app:layout_constraintTop_toTopOf="@id/restaurant_con" />-->
 
-        <TextView
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/accommodation_con"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_30sdp"
+            android:onClick="@{fragment::setCategory}"
+            android:tag="2"
+            android:background="@drawable/bg_rounded_category"
+            app:layout_constraintBottom_toBottomOf="@id/restaurant_con"
+            app:layout_constraintEnd_toEndOf="@id/end_guidline"
+            app:layout_constraintStart_toEndOf="@id/cafe_con"
+            app:layout_constraintTop_toTopOf="@id/restaurant_con">
+
+            <ImageView
+                android:id="@+id/accommodation_img"
+                android:layout_width="@dimen/_12sdp"
+                android:layout_height="@dimen/_12sdp"
+                android:layout_marginStart="@dimen/_5sdp"
+                app:srcCompat="@drawable/ic_menu_bed_off"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/accommodation_txv"/>
+
+            <TextView
+                android:id="@+id/accommodation_txv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="숙박시설"
+                android:layout_marginEnd="@dimen/_5sdp"
+                android:textColor="@color/mainColor"
+                app:layout_constraintStart_toEndOf="@+id/accommodation_img"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!--<TextView
             android:id="@+id/accommodation_txv"
             android:layout_width="0dp"
             android:layout_height="@dimen/_30sdp"
@@ -98,10 +243,10 @@
             android:tag="2"
             android:text="숙박시설"
             android:textColor="@color/mainColor"
-            app:layout_constraintBottom_toBottomOf="@id/restaurant_txv"
+            app:layout_constraintBottom_toBottomOf="@id/restaurant_con"
             app:layout_constraintEnd_toEndOf="@id/end_guidline"
-            app:layout_constraintStart_toEndOf="@id/cafe_txv"
-            app:layout_constraintTop_toTopOf="@id/restaurant_txv" />
+            app:layout_constraintStart_toEndOf="@id/cafe_con"
+            app:layout_constraintTop_toTopOf="@id/restaurant_con" />-->
 
         <!--<androidx.constraintlayout.widget.Guideline
             android:id="@+id/bottom_content_guidLine"
@@ -139,7 +284,7 @@
             app:layout_constraintBottom_toTopOf="@id/allTxv"
             app:layout_constraintEnd_toStartOf="@id/spinner_course"
             app:layout_constraintStart_toStartOf="@id/bottom_start_guidLine"
-            app:layout_constraintTop_toBottomOf="@id/restaurant_txv"
+            app:layout_constraintTop_toBottomOf="@id/restaurant_con"
             tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
 
         <!--<Spinner
@@ -253,6 +398,8 @@
             app:layout_constraintStart_toStartOf="@id/bottom_start_guidLine"
             app:layout_constraintTop_toBottomOf="@id/line"
             tools:listitem="@layout/mycoupon_item" />
+
+
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

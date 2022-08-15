@@ -8,30 +8,34 @@
         android:id="@+id/background"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:background="@drawable/splash_bgclean"
+        tools:background="@drawable/drawalayout_drarient"
         tools:context=".SplashActivity2">
 
-        <ImageView
-            android:id="@+id/logo"
-            android:layout_width="@dimen/_150sdp"
-            android:layout_height="@dimen/_150sdp"
-            android:layout_marginTop="@dimen/_60sdp"
-            android:src="@drawable/splash_logo"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:contentDescription="@string/mainlogo" />
+
 
 
         <ImageView
+            android:id="@+id/small_logo"
             android:layout_width="@dimen/_100sdp"
             android:layout_height="@dimen/_100sdp"
             android:layout_marginBottom="@dimen/_20sdp"
-            android:src="@drawable/splash_logo2"
+            android:src="@drawable/ic_splash_logo"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             android:contentDescription="@string/busan" />
+
+        <ImageView
+            android:id="@+id/logo"
+            android:layout_width="@dimen/_170sdp"
+            android:layout_height="@dimen/_170sdp"
+            android:layout_marginTop="@dimen/_30sdp"
+            app:srcCompat="@drawable/splash_text_img"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/small_logo" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

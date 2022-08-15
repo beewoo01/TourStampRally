@@ -1,106 +1,127 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".ui.fragment.DirectionGuidFragment">
 
     <data>
         <variable
             name="fragment"
-            type="com.sdin.tourstamprally.ui.fragment.DirectionGuidFragment" />
+            type="com.sdin.tourstamprally.ui.fragment.report.VisitHistoryFragment" />
     </data>
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center_horizontal"
-        android:orientation="vertical"
-        android:background="@color/light_grey"
-        tools:context=".ui.fragment.DirectionGuidFragment">
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_35sdp"
-            android:background="@drawable/bg_rounded_full_white"
-            android:layout_marginTop="@dimen/_15sdp"
-            android:layout_marginHorizontal="@dimen/_25sdp"
-            android:paddingHorizontal="@dimen/_10sdp"
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:background="@color/gray_e2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             >
 
-            <EditText
-                android:id="@+id/search_edt"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_gravity="center"
-                android:maxLines="1"
-                android:maxLength="18"
-                android:inputType="text"
-                android:gravity="center_vertical"
-                android:textSize="@dimen/_13sdp"
-                android:hint="관광지를 검색해주세요."
-                android:background="@null"
-                />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_35sdp"
+                android:background="@drawable/bg_rounded_full_white"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:layout_marginHorizontal="@dimen/_25sdp"
+                android:paddingHorizontal="@dimen/_10sdp"
+                >
 
-            <ImageButton
-                android:id="@+id/search_btn"
-                android:layout_width="@dimen/_30sdp"
-                android:layout_height="@dimen/_30sdp"
-                android:layout_gravity="center_vertical"
-                android:src="@drawable/search_ic_resize"
-                android:background="@null"
-                />
+                <EditText
+                    android:id="@+id/search_edt"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_gravity="center"
+                    android:maxLines="1"
+                    android:maxLength="18"
+                    android:inputType="text"
+                    android:gravity="center_vertical"
+                    android:textSize="@dimen/_13sdp"
+                    android:hint="관광지를 검색해주세요."
+                    android:background="@null"
+                    android:importantForAutofill="no" />
 
+                <ImageButton
+                    android:id="@+id/search_btn"
+                    android:layout_width="@dimen/_30sdp"
+                    android:layout_height="@dimen/_30sdp"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/search_ic_resize"
+                    android:background="@null"
+                    android:contentDescription="@string/search" />
 
-
-
-        </LinearLayout>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/category_recyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginHorizontal="@dimen/_10sdp"
-            android:overScrollMode="never"
-            android:layout_marginVertical="@dimen/_5sdp"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:listitem="@layout/direction_guid_tag_item" />
-
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/white">
-
-
-
+            </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/visit_recyclerView"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:orientation="vertical"
-                android:overScrollMode="never"
-                tools:listitem="@layout/visithistory_item"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <ProgressBar
-                android:id="@+id/progressBar"
-                android:layout_width="wrap_content"
+                android:id="@+id/category_recyclerView"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                />
+                android:orientation="horizontal"
+                android:layout_marginHorizontal="@dimen/_10sdp"
+                android:overScrollMode="never"
+                android:layout_marginVertical="@dimen/_5sdp"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/direction_guid_tag_item" />
 
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white">
 
 
-    </LinearLayout>
+
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/visit_recyclerView"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:orientation="vertical"
+                    android:overScrollMode="never"
+                    tools:listitem="@layout/visithistory_item"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ProgressBar
+                    android:id="@+id/progressBar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/btn_getstamp"
+            android:layout_width="@dimen/_60sdp"
+            android:layout_height="@dimen/_60sdp"
+            android:scaleType="fitCenter"
+            android:background="@color/trans"
+            app:srcCompat="@drawable/ic_btn_stamp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.9"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.97"
+            android:contentDescription="@string/getStamp" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -31,13 +31,13 @@
 
 
     <string-array name="area_direction">
-        <item>전체</item>
-        <item>중구</item>
-        <item>서구</item>
-        <item>동구</item>
-        <item>영도구</item>
-        <item>부산진구</item>
-        <item>남구</item>
+        <item>로드투어</item>
+        <item>하드투어</item>
+        <item>트레킹투어</item>
+        <item>축제투어</item>
+        <item>웹툰투어</item>
+        <item>역사투어</item>
+        <!--<item>남구</item>
         <item>북구</item>
         <item>해운대구</item>
         <item>사하구</item>
@@ -47,7 +47,7 @@
         <item>수영구</item>
         <item>사상구</item>
         <item>기장군</item>
-        <item>기타</item>
+        <item>기타</item>-->
     </string-array>
 
 

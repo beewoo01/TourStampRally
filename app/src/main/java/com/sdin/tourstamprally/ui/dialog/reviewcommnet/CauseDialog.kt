@@ -4,7 +4,6 @@ import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
 import com.sdin.tourstamprally.R
-import com.sdin.tourstamprally.ui.dialog.BaseDialog
 
 class CauseDialog(context: Context, val callBack : () -> Unit) :
     Dialog(context, R.style.FullScreenDialogStyle) {

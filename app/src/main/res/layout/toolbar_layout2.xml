@@ -12,13 +12,14 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:id="@+id/conview">
 
         <RelativeLayout
             android:id="@+id/toolbar_layout"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/white"
+            android:background="@color/trans"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -32,7 +33,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginStart="12dp"
                 android:contentDescription="@string/mainlogo"
-                android:src="@drawable/ic_main_fragment_logo_ic"
+                android:src="@drawable/ic_splash_logo"
                 />
 
             <!--<ImageView
@@ -72,7 +73,7 @@
                 tools:text="@string/nfc_scan" />
 
 
-            <ImageButton
+            <!--<ImageButton
                 android:id="@+id/tap_imb"
                 android:layout_width="@dimen/_40sdp"
                 android:layout_height="@dimen/_40sdp"
@@ -81,7 +82,7 @@
                 android:background="@null"
                 android:contentDescription="@string/menu"
                 android:onClick="@{() -> activity.openDrawer()}"
-                tools:src="@drawable/ic_menu_white" />
+                tools:src="@drawable/ic_menu_white" />-->
             <!--android:src="@drawable/ic_hamburger_white_24"-->
 
 

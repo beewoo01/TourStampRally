@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    >
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <FrameLayout
         android:id="@+id/background_container"
@@ -143,32 +142,20 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/swipe_view"
-
                 >
-
-                <TextView
-                    android:id="@+id/reviewTxv"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:textColor="@color/black"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:text="근대도시로 성장한 부산을 확인할 수 있는 길입니다."
-
-                    />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/review_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_15sdp"
                     android:background="@drawable/review_bg"
                     android:padding="@dimen/_15sdp"
+                    android:layout_marginBottom="@dimen/_10sdp"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toTopOf="@id/buttonLayout"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/reviewTxv"
+                    app:layout_constraintTop_toTopOf="parent"
                     >
 
                     <ImageView
@@ -222,33 +209,97 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-                <TextView
-                    android:id="@+id/gotoReview"
-                    android:layout_width="wrap_content"
+
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/buttonLayout"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="리뷰 작성하기 >"
-                    android:textSize="@dimen/_10sdp"
-                    android:textColor="@color/popupColor"
-                    android:textStyle="bold"
-                    android:layout_marginTop="@dimen/_10sdp"
+
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/review_layout"
-                    app:layout_constraintBottom_toTopOf="@id/delReview"
-                    />
+                    >
+                    <TextView
+                        android:id="@+id/gotoReview"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/_37sdp"
+                        android:layout_marginEnd="@dimen/_10sdp"
+                        android:background="@drawable/bg_rounded_03_blue"
+                        android:text="리뷰 작성하기 >"
+                        android:gravity="center"
+                        android:textSize="@dimen/_10sdp"
+                        android:textColor="@color/white"
+                        android:textStyle="bold"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/delReview"
+                        />
 
-                <TextView
-                    android:id="@+id/delReview"
-                    android:layout_width="wrap_content"
+                    <TextView
+                        android:id="@+id/delReview"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/_37sdp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:padding="@dimen/_12sdp"
+                        android:background="@drawable/bg_rounded_02_blue"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:text="리뷰 삭제하기 >"
+                        android:textSize="@dimen/_10sdp"
+                        android:textColor="@color/popupColor"
+                        android:textStyle="bold"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/gotoReview"
+                        />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <!--<LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="리뷰 삭제하기 >"
-                    android:textSize="@dimen/_10sdp"
-                    android:textColor="@color/popupColor"
-                    android:textStyle="bold"
-                    android:layout_marginTop="@dimen/_10sdp"
+                    android:orientation="horizontal"
+                    android:layout_marginHorizontal="@dimen/_20sdp"
+                    android:weightSum="2"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/gotoReview"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    />
+                    app:layout_constraintTop_toTopOf="parent">
+                    <TextView
+                        android:id="@+id/gotoReview"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/_12sdp"
+                        android:layout_marginEnd="@dimen/_10sdp"
+                        android:background="@drawable/bg_rounded_03_blue"
+                        android:text="리뷰 작성하기 >"
+                        android:gravity="center"
+                        android:textSize="@dimen/_10sdp"
+                        android:textColor="@color/white"
+                        android:textStyle="bold"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        />
+
+                    <TextView
+                        android:id="@+id/delReview"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:padding="@dimen/_12sdp"
+                        android:background="@drawable/bg_rounded_02_blue"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:text="리뷰 삭제하기 >"
+                        android:textSize="@dimen/_10sdp"
+                        android:textColor="@color/popupColor"
+                        android:textStyle="bold"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        />
+
+                </LinearLayout>-->
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

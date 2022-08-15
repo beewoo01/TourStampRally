@@ -1,20 +1,18 @@
 package com.sdin.tourstamprally.ui.fragment;
 
+import static java.util.stream.Collectors.toList;
+
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-
-import androidx.core.content.ContextCompat;
-import androidx.databinding.DataBindingUtil;
-
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 
-import com.google.gson.Gson;
+import androidx.core.content.ContextCompat;
+import androidx.databinding.DataBindingUtil;
+
 import com.sdin.tourstamprally.R;
 import com.sdin.tourstamprally.Utils;
 import com.sdin.tourstamprally.adapter.LocationAdapter;
@@ -25,23 +23,16 @@ import com.sdin.tourstamprally.utill.GpsTracker;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
-import static java.util.stream.Collectors.toList;
 
 public class TourRecordFragment extends BaseFragment {
 

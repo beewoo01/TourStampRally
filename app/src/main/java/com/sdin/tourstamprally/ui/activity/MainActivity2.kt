@@ -26,8 +26,11 @@ import com.bumptech.glide.Glide
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.sdin.tourstamprally.R
 import com.sdin.tourstamprally.Utils
+import com.sdin.tourstamprally.data.PreferenceUtil
 import com.sdin.tourstamprally.databinding.ActivityMain2Binding
 import com.sdin.tourstamprally.ui.dialog.DefaultBSRDialog
+import com.sdin.tourstamprally.ui.dialog.DialogFailTimeOver
+import com.sdin.tourstamprally.ui.dialog.HomeBottomSheetDialog
 import com.sdin.tourstamprally.ui.fragment.auth.NFCListener
 import com.sdin.tourstamprally.utill.Quadruple
 import com.sdin.tourstamprally.utill.navutil.DialogNavigator
@@ -45,13 +48,13 @@ class MainActivity2 : BaseActivity()/*, NavigationBarView.OnItemSelectedListener
     private var pendingIntent: PendingIntent? = null
     private lateinit var writingTagFilters: Array<IntentFilter>
     private var nfcListener: NFCListener? = null
-
     private lateinit var navController: NavController
 
     private lateinit var appBarConfiguration: AppBarConfiguration
 
     private var currentPhotoPath: String? = null
 
+    private lateinit var prefs : PreferenceUtil
     private var currentBottomMenu: Int = R.id.page_home
     private val _immKeyboard: InputMethodManager
         get() {
@@ -67,8 +70,8 @@ class MainActivity2 : BaseActivity()/*, NavigationBarView.OnItemSelectedListener
 
             //1번 Normal
             1 to Quadruple(
-                background = R.color.White,
-                title_color = R.color.Black,
+                background = R.color.white,
+                title_color = R.color.black,
                 backBtn_ic = R.drawable.back_ic_resize,
                 tab_ic = R.drawable.ic_menu_black
             ),
@@ -76,7 +79,7 @@ class MainActivity2 : BaseActivity()/*, NavigationBarView.OnItemSelectedListener
             //2번 Scan
             2 to Quadruple(
                 background = R.color.popup_buttonColor,
-                title_color = R.color.White,
+                title_color = R.color.white,
                 backBtn_ic = R.drawable.ic_backspace_white_24,
                 tab_ic = R.drawable.ic_menu_white
             ),
@@ -84,26 +87,29 @@ class MainActivity2 : BaseActivity()/*, NavigationBarView.OnItemSelectedListener
             //3번 Menu
             3 to Quadruple(
                 background = R.color.mainColor,
-                title_color = R.color.White,
+                title_color = R.color.white,
                 backBtn_ic = R.drawable.ic_backspace_white_24,
                 tab_ic = R.drawable.ic_menu_white
             ),
 
             4 to Quadruple(
                 background = R.color.comment_mainColor,
-                title_color = R.color.Black,
+                title_color = R.color.white,
                 backBtn_ic = R.drawable.back_ic_resize,
                 tab_ic = R.drawable.ic_menu_black
             )
         )
 
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
+        prefs = PreferenceUtil(applicationContext)
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this@MainActivity2, R.layout.activity_main2)
         binding.activity = this@MainActivity2
         binding.toolbarLayout.activity = this
         binding.drawaLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
+
 
 
         appBarConfiguration = AppBarConfiguration(
@@ -116,12 +122,70 @@ class MainActivity2 : BaseActivity()/*, NavigationBarView.OnItemSelectedListener
             ),
             binding.drawaLayout
         )
+        /*setStatusBarTransparent()
+        binding.innerContainer.setPadding(0, statusBarHeight(), 0, navigationHeight())*/
+
+        //다시보지않기
+        if(prefs.getString(Utils.User_Idx.toString(), "n") == "never"){
+            if (!isNotFirstLogin) {
+                getData()
+            }
+        }
+        else{
+            HomeBottomSheetDialog {
+                if (it == 1) {
+                    if (!isNotFirstLogin) {
+                        getData()
+                    }
+                }
+            }.show(supportFragmentManager, "")
+        }
 
         initView()
         setNFC()
         //binding.bottomNavigationView.menu.findItem(R.id.page_home).setChecked(true)
 
     }
+
+    /*//actionbar 제거
+    fun Activity.setStatusBarTransparent() {
+
+        window.apply {
+            setFlags(
+                WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
+                WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
+            )
+        }
+        *//*if(Build.VERSION.SDK_INT >= 30) {	// API 30 에 적용
+            WindowCompat.setDecorFitsSystemWindows(window, false)
+        }*//*
+    }
+    fun Context.statusBarHeight(): Int {
+        val resourceId = resources.getIdentifier("status_bar_height", "dimen", "android")
+
+        return if (resourceId > 0) resources.getDimensionPixelSize(resourceId)
+        else 0
+    }
+
+    fun Context.navigationHeight(): Int {
+        val resourceId = resources.getIdentifier("navigation_bar_height", "dimen", "android")
+        return if (resourceId > 0) resources.getDimensionPixelSize(resourceId)
+        else 0
+    }
+    fun Activity.setStatusBarOrigin() {
+        window.apply {
+            clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
+        }
+        if(Build.VERSION.SDK_INT >= 30) {	// API 30 에 적용
+            WindowCompat.setDecorFitsSystemWindows(window, true)
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        setStatusBarOrigin()
+    }*/
+
 
     override fun onBackPressed() {
         super.onBackPressed()
@@ -154,9 +218,11 @@ class MainActivity2 : BaseActivity()/*, NavigationBarView.OnItemSelectedListener
     }
 
     fun backBtnClick() {
+        Log.wtf("main2", "backbtn")
         if (navController.currentDestination?.label == "NFC") {
             navController.navigateUp()
         }
+//        navController.navigate(R.layout.fragment_main)
         navController.popBackStack()
     }
 
@@ -235,7 +301,7 @@ class MainActivity2 : BaseActivity()/*, NavigationBarView.OnItemSelectedListener
     fun logout() {
         val pref = getSharedPreferences("rebuild_preference", MODE_PRIVATE)
         val editor = pref.edit()
-        val phones = pref.getStringSet("phones", null);
+        val phones = pref.getStringSet("phones", null)
         if (phones != null) {
             val list = phones.toMutableList()
             list.remove(Utils.UserPhone)
@@ -335,10 +401,32 @@ class MainActivity2 : BaseActivity()/*, NavigationBarView.OnItemSelectedListener
 
         binding.navigationview.setupWithNavController(navController)
         binding.bottomNavigationView.setupWithCustomNavController(navController)
+        navController.addOnDestinationChangedListener { controller, destination, arguments ->
+            if (destination.label == "empty") {
+                navController.popBackStack()
+                openDrawer()
+            }
 
-        if (!isNotFirstLogin) {
-            getData()
+            Log.wtf("navController", "destination.id? " + destination.id)
+            Log.wtf("navController", "destination.label? " + destination.label)
+            Log.wtf("navController", "destination.navigatorName? " + destination.navigatorName)
         }
+        /* binding.bottomNavigationView.setOnItemSelectedListener { item ->
+
+             when(item.itemId) {
+                 R.id.drawlay -> {
+                     Log.wtf("bottomNavigationView","drawlay")
+                     openDrawer()
+                 }
+                 else -> {
+                     Log.wtf("bottomNavigationView","else")
+                     binding.bottomNavigationView.setupWithCustomNavController(navController)
+                 }
+             }
+
+             true
+         }*/
+
     }
 
     private fun getData() {
@@ -355,10 +443,11 @@ class MainActivity2 : BaseActivity()/*, NavigationBarView.OnItemSelectedListener
                         isSpecial =  false,
                         isSwitchBtn = true,
                         leftBtnStr = "취소",
-                        rightBtnStr = "계속 진행"
+                        rightBtnStr = "계속"
                     ){ result ->
                         if (result) {
                             removeMyCourse()
+                            DialogFailTimeOver(this@MainActivity2).show()
                         }
 
                     }.show()
@@ -405,6 +494,7 @@ class MainActivity2 : BaseActivity()/*, NavigationBarView.OnItemSelectedListener
         )
     }
 
+
     private fun testMenuId(id: Int) {
         when (id) {
             R.id.page_home -> {
@@ -427,14 +517,18 @@ class MainActivity2 : BaseActivity()/*, NavigationBarView.OnItemSelectedListener
 
             val title: String
             val locate: Int
+
+            Log.wtf("main2" , "navListener")
             //testMenuId(destination.id)
             if (destination.label == "홈") {
-                binding.webViewLayout.visibility = View.VISIBLE
-                binding.toolbarLayout.logoMainToolbar.visibility = View.VISIBLE
-                binding.toolbarLayout.titleTxv.visibility = View.INVISIBLE
-                binding.toolbarLayout.backBtn.visibility = View.INVISIBLE
+                binding.toolbarLayout.conview.visibility = View.GONE
+                /* binding.toolbarLayout.logoMainToolbar.visibility = View.VISIBLE
+                 binding.toolbarLayout.titleTxv.visibility = View.INVISIBLE
+                 binding.toolbarLayout.backBtn.visibility = View.INVISIBLE*/
+
             } else {
-                binding.webViewLayout.visibility = View.GONE
+//                binding.webViewLayout.visibility = View.GONE
+                binding.toolbarLayout.conview.visibility = View.VISIBLE
                 binding.toolbarLayout.logoMainToolbar.visibility = View.INVISIBLE
                 binding.toolbarLayout.titleTxv.visibility = View.VISIBLE
                 binding.toolbarLayout.backBtn.visibility = View.VISIBLE
@@ -458,10 +552,15 @@ class MainActivity2 : BaseActivity()/*, NavigationBarView.OnItemSelectedListener
             }
 
 
+
             setScanToolbar(locate = locate)
             binding.toolbarLayout.titleTxv.text = title
 
         }
+
+
+
+
 
 
     private fun setScanToolbar(locate: Int) {
@@ -492,12 +591,13 @@ class MainActivity2 : BaseActivity()/*, NavigationBarView.OnItemSelectedListener
 
 
             //메뉴
-            Glide.with(this@MainActivity2)
-                .load(ContextCompat.getDrawable(this@MainActivity2, item.tab_ic))
-                .into(binding.toolbarLayout.tapImb)
+            /* Glide.with(this@MainActivity2)
+                 .load(ContextCompat.getDrawable(this@MainActivity2, item.tab_ic))
+                 .into(binding.toolbarLayout.tapImb)*/
         }
 
 
     }
+
 
 }

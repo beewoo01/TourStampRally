@@ -18,7 +18,6 @@ import com.sdin.tourstamprally.Utils
 import com.sdin.tourstamprally.databinding.VisithistoryItemBinding
 import com.sdin.tourstamprally.model.HistorySpotModel
 import com.sdin.tourstamprally.model.ReviewWriter
-import com.sdin.tourstamprally.model.history_spotModel2
 import com.sdin.tourstamprally.ui.dialog.Del_Review_Dialog
 import com.sdin.tourstamprally.ui.dialog.NoReview_Dialog
 import com.sdin.tourstamprally.utill.listener.VisitItemClickListener
@@ -27,8 +26,8 @@ import java.text.SimpleDateFormat
 
 @SuppressLint("SimpleDateFormat")
 class VisitAdapter(
-    private val visitItemClickListener : VisitItemClickListener,
-    private val reviewWriterCallback : (ReviewWriter) -> Unit
+    private val visitItemClickListener: VisitItemClickListener,
+    private val reviewWriterCallback: (ReviewWriter) -> Unit
 
 ) :
     ListAdapter<HistorySpotModel, VisitAdapter.ViewHolder>(differ) {
@@ -163,7 +162,6 @@ class VisitAdapter(
                     }
 
 
-
                 } else {
                     binding.gotoReview.setOnClickListener {
                         reviewWriterCallback(
@@ -181,18 +179,26 @@ class VisitAdapter(
                     reviewLayout.visibility = View.GONE
                 }
 
-                changeVisibility(selectedItems[absoluteAdapterPosition])
+                changeVisibility(selectedItems[absoluteAdapterPosition], model.review_idx)
             }
         }
 
         @SuppressLint("Recycle")
-        private fun changeVisibility(isExpanded: Boolean) {
-            val animator = if (isExpanded) {
-                ValueAnimator.ofInt(0, 600)
-            } else {
-                ValueAnimator.ofInt(600, 0)
-            }
+        private fun changeVisibility(isExpanded: Boolean, reviewIdx: Int) {
+            Log.wtf("changeVisibility", "current height = " + binding.reviewParentLayout.height)
+            val height =
+                if (reviewIdx > 0) {
+                    600
+                } else {
+                    230
+                }
 
+            val animator = if (isExpanded) {
+                ValueAnimator.ofInt(0, height)
+            } else {
+                ValueAnimator.ofInt(height, 0)
+
+            }
             animator.duration = 100
             animator.addUpdateListener {
                 binding.reviewParentLayout.apply {
@@ -204,6 +210,7 @@ class VisitAdapter(
                         View.GONE
                     }
                 }
+                Log.wtf("changeVisibility", "current height = " + binding.reviewParentLayout.height)
             }
 
             animator.start()
@@ -214,12 +221,25 @@ class VisitAdapter(
     fun setChange(position: Int) {
         var model = currentList[position]
         model = HistorySpotModel(
-            model.allCount, model.myCount,
-            model.location_idx, model.location_name,
-            model.touristspot_idx, model.touristspot_name,
-            model.touristspot_explan,  model.touristspot_img,
-            model.touristhistory_updatetime, 0, 0F, null,
-            model.couponCount, model.coupon_idx, model.coupon_number, model.coupon_status, model.coupon_createtime
+            model.allCount,
+            model.myCount,
+            model.location_idx,
+            model.location_name,
+            model.touristspot_idx,
+            model.touristspot_name,
+            model.touristspot_explan,
+            model.touristspot_img,
+            model.touristhistory_updatetime,
+            0,
+            0F,
+            null,
+            model.couponCount,
+            model.coupon_idx,
+            model.coupon_number,
+            model.coupon_status,
+            model.coupon_createtime,
+            model.touristspot_latitude,
+            model.touristspot_longitude
         )
 
         currentList[position] = model

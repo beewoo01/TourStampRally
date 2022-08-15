@@ -4,7 +4,7 @@
     <item
         android:id="@+id/page_home"
         android:enabled="true"
-        android:icon="@drawable/home_ic"
+        android:icon="@drawable/ic_bsr_bottom_nav_1_ic"
         android:menuCategory="secondary"
         android:title="@string/home"
         />
@@ -12,33 +12,33 @@
     <item
         android:id="@+id/page_store"
         android:enabled="true"
-        android:icon="@drawable/store_ic"
+        android:icon="@drawable/ic_bsr_bottom_nav_2_ic"
         android:menuCategory="secondary"
-        android:title="@string/store"
+        android:title="@string/near"
         />
 
     <item
         android:id="@+id/page_report"
         android:enabled="true"
-        android:icon="@drawable/folder_ic"
+        android:icon="@drawable/ic_bsr_bottom_nav_3_ic"
         android:menuCategory="secondary"
-        android:title="@string/report"
-        />
-
-    <item
-        android:id="@+id/page_stamp"
-        android:enabled="true"
-        android:icon="@drawable/report_ic"
-        android:menuCategory="secondary"
-        android:title="@string/stamp"
+        android:title="@string/application"
         />
 
     <item
         android:id="@+id/store_coupon"
         android:enabled="true"
-        android:icon="@drawable/ic_coupon"
+        android:icon="@drawable/ic_bsr_bottom_nav_4_ic"
         android:menuCategory="secondary"
         android:title="@string/coupon"
+        />
+
+    <item
+        android:id="@+id/draw_layout"
+        android:enabled="true"
+        android:icon="@drawable/ic_bsr_bottom_nav_5_ic"
+        android:menuCategory="secondary"
+        android:title="@string/more"
         />
 
 </menu>

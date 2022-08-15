@@ -1,6 +1,2 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <dimen name="normal_textSize">13sp</dimen>
-    <dimen name="px300">75dp</dimen>
-    <dimen name="px510">12sp</dimen>
-</resources>
+<resources></resources>

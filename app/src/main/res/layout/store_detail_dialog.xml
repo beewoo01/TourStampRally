@@ -6,7 +6,7 @@
     <data>
         <variable
             name="dialog"
-            type="com.sdin.tourstamprally.ui.fragment.store.StoreDetailDialog" />
+            type="com.sdin.tourstamprally.ui.fragment.around.StoreDetailDialog" />
 
         <variable
             name="model"

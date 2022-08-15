@@ -3,10 +3,8 @@ package com.sdin.tourstamprally.utill;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
-import android.util.Log;
 
 import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
@@ -15,9 +13,6 @@ import org.apache.commons.net.ftp.FTPReply;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.net.SocketException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 public class FtpThread extends Thread{
     private String export;

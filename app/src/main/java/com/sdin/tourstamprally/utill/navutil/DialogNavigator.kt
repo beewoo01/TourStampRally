@@ -1,23 +1,13 @@
 package com.sdin.tourstamprally.utill.navutil
 
-import android.app.Dialog
-import android.content.Context
 import android.os.Bundle
-import android.util.AttributeSet
-import android.util.Log
 import androidx.annotation.IdRes
-import androidx.core.content.withStyledAttributes
-import androidx.fragment.app.FragmentManager
 import androidx.navigation.NavController
 import androidx.navigation.NavController.OnDestinationChangedListener
 import androidx.navigation.NavDestination
-import androidx.navigation.Navigator
-import androidx.navigation.fragment.FragmentNavigator
 import androidx.navigation.ui.NavigationUI
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.sdin.tourstamprally.R
 import java.lang.ref.WeakReference
-import java.util.*
 
 object DialogNavigator {
 

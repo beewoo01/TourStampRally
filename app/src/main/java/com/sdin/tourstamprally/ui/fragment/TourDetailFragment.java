@@ -6,19 +6,16 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
-
-import android.text.TextUtils;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.kakao.sdk.common.util.KakaoCustomTabsClient;
@@ -26,16 +23,11 @@ import com.kakao.sdk.navi.NaviClient;
 import com.kakao.sdk.navi.model.CoordType;
 import com.kakao.sdk.navi.model.Location;
 import com.kakao.sdk.navi.model.NaviOption;
-import com.kakao.sdk.template.model.FeedTemplate;
 import com.sdin.tourstamprally.R;
-import com.sdin.tourstamprally.Utils;
 import com.sdin.tourstamprally.databinding.FragmentTourDetailBinding;
-import com.sdin.tourstamprally.model.Tour_Spot;
 import com.sdin.tourstamprally.model.TouristSpotPoint;
-import com.sdin.tourstamprally.ui.dialog.DetailDialog;
 import com.sdin.tourstamprally.ui.dialog.ReadyDialog;
 
-import net.daum.android.map.MapViewTouchEventListener;
 import net.daum.mf.map.api.MapPOIItem;
 import net.daum.mf.map.api.MapPoint;
 import net.daum.mf.map.api.MapView;
@@ -45,12 +37,7 @@ import org.jetbrains.annotations.NotNull;
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 
 public class TourDetailFragment extends BaseFragment {

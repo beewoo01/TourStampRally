@@ -8,14 +8,11 @@ import android.graphics.Bitmap
 import android.graphics.Color.BLACK
 import android.graphics.Color.WHITE
 import android.os.Bundle
-import android.util.Log
 import android.util.TypedValue
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.MultiFormatWriter
@@ -23,11 +20,7 @@ import com.google.zxing.common.BitMatrix
 import com.sdin.tourstamprally.databinding.FragmentCouponDetailBinding
 import com.sdin.tourstamprally.model.store_coupon.StoreMyCouponModel
 import com.sdin.tourstamprally.ui.fragment.BaseFragment
-import java.text.ParseException
 import java.text.SimpleDateFormat
-import java.time.LocalDate
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 import java.time.format.DateTimeParseException
 import java.util.*
 
@@ -111,6 +104,7 @@ class CouponDetailFragment : BaseFragment() {
 
 
         }
+
 
 
     }

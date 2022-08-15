@@ -1,20 +1,15 @@
 package com.sdin.tourstamprally;
 
 import android.content.Context;
-import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.Build;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
-
-
-import com.sdin.tourstamprally.data.Constant;
 
 import java.io.BufferedReader;
 import java.io.IOException;

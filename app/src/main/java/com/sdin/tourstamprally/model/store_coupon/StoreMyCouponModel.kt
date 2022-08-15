@@ -3,7 +3,6 @@ package com.sdin.tourstamprally.model.store_coupon
 import android.os.Parcel
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
-import java.io.Serializable
 
 data class  StoreMyCouponModel(
     @SerializedName("store_name")

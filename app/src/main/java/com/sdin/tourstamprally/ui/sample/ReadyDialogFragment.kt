@@ -1,8 +1,5 @@
 package com.sdin.tourstamprally.ui.sample
 
-import android.app.Dialog
-import android.content.Context
-import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import androidx.core.content.ContextCompat
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
 import androidx.navigation.fragment.findNavController
 import com.sdin.tourstamprally.R

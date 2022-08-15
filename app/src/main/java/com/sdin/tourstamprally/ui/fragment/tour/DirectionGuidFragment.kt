@@ -3,37 +3,44 @@ package com.sdin.tourstamprally.ui.fragment.tour
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.viewpager2.adapter.FragmentStateAdapter
+import com.google.android.material.tabs.TabLayoutMediator
 import com.sdin.tourstamprally.R
-import com.sdin.tourstamprally.adapter.tour.SelectLocationAdapter
-import com.sdin.tourstamprally.adapter.tour.direction.DirectionGuidAdapter
-import com.sdin.tourstamprally.adapter.tour.direction.DirectionGuidTagAdapter
 import com.sdin.tourstamprally.databinding.FragmentDirectionGuidBinding
 import com.sdin.tourstamprally.model.TopFourLocationModel
 import com.sdin.tourstamprally.model.TourTagModelDC
 import com.sdin.tourstamprally.ui.fragment.BaseFragment
+import com.sdin.tourstamprally.ui.fragment.report.review.MoreReviewFragment
+import com.sdin.tourstamprally.utill.listener.Observer
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.util.*
-import kotlin.collections.HashSet
 
-class DirectionGuidFragment : BaseFragment() {
+class DirectionGuidFragment : BaseFragment(), com.sdin.tourstamprally.utill.listener.Observable {
 
     private var binding: FragmentDirectionGuidBinding? = null
     private val args: DirectionGuidFragmentArgs by navArgs()
     private lateinit var paramList: MutableList<TopFourLocationModel>
     private val hashTagList = mutableListOf<TourTagModelDC>()
-    private lateinit var directionGuidAdapter: DirectionGuidAdapter
+    //private lateinit var directionGuidAdapter: DirectionGuidAdapter
+
+    private val observerList = arrayListOf<Observer>()
+    private val guidFragment by lazy {
+        DirectionGuid2Fragment().newInstance(paramList)
+        //DirectionGuid2Fragment.newInstance(paramList)
+    }
+
+    private val moreReviewFrag by lazy {
+        MoreReviewFragment()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -42,6 +49,17 @@ class DirectionGuidFragment : BaseFragment() {
     ): View? {
         binding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_direction_guid, container, false)
+
+        binding?.fragment = this
+
+        binding?.btnGetstamp?.setOnClickListener {
+            val action = DirectionGuidFragmentDirections.actionFragmentDirectionGuidToPageStamp()
+            findNavController().navigate(action)
+        }
+
+
+
+
         return binding?.root
     }
 
@@ -54,11 +72,41 @@ class DirectionGuidFragment : BaseFragment() {
 
 
     }
+    inner class ViewPagerAdapter(private val list : MutableList<Fragment>)
+        : FragmentStateAdapter(requireActivity()) {
+
+        override fun getItemCount(): Int {
+            return list.count()
+        }
+
+        override fun createFragment(position: Int): Fragment {
+            return list[position]
+        }
+
+    }
 
     private fun initView() {
 
 
         binding?.apply {
+
+            //viewpager
+            val fragmentList = mutableListOf<Fragment>()
+            //val guidFragment = DirectionGuid2Fragment.newInstance(paramList)
+            fragmentList.add(guidFragment)
+            fragmentList.add(moreReviewFrag)
+            registerObserver(guidFragment)
+            registerObserver(moreReviewFrag)
+
+
+            viewpagerguide.adapter = ViewPagerAdapter(fragmentList)
+            TabLayoutMediator(binding?.tabLayout!!, binding?.viewpagerguide!!){ tab, position ->
+                when(position){
+                    0 -> tab.text = "투어"
+                    1 -> tab.text = "리뷰"
+                }
+
+            }.attach()
 
             searchEdt.addTextChangedListener(object : TextWatcher {
                 override fun beforeTextChanged(
@@ -83,7 +131,7 @@ class DirectionGuidFragment : BaseFragment() {
                 search(searchData = searchEdt.text.toString())
             }
 
-            locationRe.apply {
+            /*locationRe.apply {
 
                 setHasFixedSize(true)
                 layoutManager = LinearLayoutManager(requireContext())
@@ -110,12 +158,12 @@ class DirectionGuidFragment : BaseFragment() {
                 }
 
                 adapter = directionGuidAdapter
-            }
+            }*/
         }
     }
 
     private fun getData() {
-        binding?.directionGuidPgb?.visibility = View.VISIBLE
+//        binding?.directionGuidPgb?.visibility = View.VISIBLE
 
         apiService.hashTag.enqueue(object : Callback<List<TourTagModelDC>> {
             override fun onResponse(
@@ -134,7 +182,7 @@ class DirectionGuidFragment : BaseFragment() {
 
 
                                     for ((index, str) in set.withIndex()) {
-                                        Log.wtf("str $index", str)
+                                        //Log.wtf("str $index", str)
                                         if (str.trim() != "") {
                                             hashTagList.add(TourTagModelDC(str, model.location_idx))
                                         }
@@ -158,7 +206,7 @@ class DirectionGuidFragment : BaseFragment() {
                             }
                         }
 
-                        setHashTag()
+                        //setHashTag()
                     }
                 }
             }
@@ -175,7 +223,7 @@ class DirectionGuidFragment : BaseFragment() {
             return
         }
 
-        binding?.tagRe?.apply {
+        /*binding?.tagRe?.apply {
             adapter = DirectionGuidTagAdapter() { model ->
                 model.hashTag?.let { search(it) }
             }.apply {
@@ -187,7 +235,7 @@ class DirectionGuidFragment : BaseFragment() {
                 LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, true)
         }
 
-        binding?.directionGuidPgb?.visibility = View.GONE
+        binding?.directionGuidPgb?.visibility = View.GONE*/
     }
 
     private val selectedListener = object : AdapterView.OnItemSelectedListener {
@@ -206,39 +254,49 @@ class DirectionGuidFragment : BaseFragment() {
 
     }
 
+    /*class Observerparent{
+        val parentObserver = mutableListOf<(String)->Unit>()
+        var observerdata : String by Delegates.observable(""){property, oldValue, newValue ->
+            parentObserver.forEach { it(newValue) }
+
+        }
+    }*/
+
     private fun search(searchData: String) {
         val searchList = mutableListOf<TopFourLocationModel>()
-        val locationIndexes: HashSet<Int> = hashSetOf()
 
         if (searchData.isEmpty()) {
             searchList.addAll(paramList)
-            //directionGuidAdapter.submitList(searchList)
 
         } else {
 
-            for (tagModel in hashTagList) {
-                if (tagModel.hashTag?.lowercase()?.contains(searchData) == true) {
-                    locationIndexes.add(tagModel.location_idx)
-                }
-            }
-
-            for (model in paramList) {
-                if (model.location_name.lowercase() == searchData) {
-                    locationIndexes.add(model.location_idx)
-                }
-            }
-
-            for (idx in locationIndexes) {
-                for (model in paramList) {
-                    if (idx == model.location_idx) {
-                        searchList.add(model)
-                    }
-                }
-            }
-
+            notifyObservers(searchData)
         }
 
-        directionGuidAdapter.submitList(searchList)
     }
+
+
+    companion object {
+
+        @JvmStatic
+        fun newInstance() =
+            MoreReviewFragment()
+    }
+
+    override fun registerObserver(observer: Observer) {
+        observerList.add(observer)
+    }
+
+    override fun unregisterObserver(observer: Observer) {
+        observerList.remove(observer)
+    }
+
+    override fun notifyObservers(search: String) {
+        observerList.forEach {
+            it.update(search)
+
+        }
+    }
+
 
 }

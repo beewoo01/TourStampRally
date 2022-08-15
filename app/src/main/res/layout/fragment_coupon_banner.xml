@@ -1,0 +1,319 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".CouponBannerFragment">
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    >
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/top_guid_line"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.07"
+        />
+
+    <ImageView
+        android:id="@+id/logo_imv"
+        android:layout_width="@dimen/_70sdp"
+        android:layout_height="@dimen/_70sdp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/top_guid_line"
+        tools:src="@drawable/sample_profile_image" />
+
+    <TextView
+        android:id="@+id/store_name_txv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:textColor="@color/black"
+        android:textSize="@dimen/_13sdp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/logo_imv"
+        tools:text="스타벅스" />
+
+    <TextView
+        android:id="@+id/coupon_name_txv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="5천원 상당 커피 상품권"
+        android:textColor="@color/black"
+        android:textSize="@dimen/_15sdp"
+        android:textStyle="bold"
+        android:layout_marginBottom="@dimen/_10sdp"
+        app:layout_constraintTop_toBottomOf="@+id/store_name_txv"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/bar_cord_imv" />
+
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/middle_guid"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.5"
+        />
+
+    <ImageView
+        android:id="@+id/bar_cord_imv"
+        android:layout_width="@dimen/_200sdp"
+        android:layout_height="@dimen/_80sdp"
+        android:layout_marginTop="@dimen/_10sdp"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/coupon_name_txv"
+        app:layout_constraintBottom_toBottomOf="@id/middle_guid"
+        android:visibility="invisible"
+        />
+
+    <TextView
+        android:id="@+id/coupon_number_txv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/gray"
+        android:textSize="@dimen/_12sdp"
+        android:layout_marginEnd="@dimen/_10sdp"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintEnd_toStartOf="@id/copy_coupon_num_txv"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/copy_coupon_num_txv"
+        app:layout_constraintBottom_toBottomOf="@id/copy_coupon_num_txv"
+        tools:text="1234 1234 1234"
+        android:visibility="invisible"/>
+
+    <TextView
+        android:id="@+id/copy_coupon_num_txv"
+        android:layout_width="@dimen/_35sdp"
+        android:layout_height="@dimen/_20sdp"
+        android:background="#F6F6F6"
+        android:text="번호복사"
+        android:textSize="@dimen/_8sdp"
+        android:textColor="@color/black"
+        android:gravity="center"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:layout_marginStart="@dimen/_10sdp"
+        app:layout_constraintTop_toBottomOf="@id/bar_cord_imv"
+        app:layout_constraintStart_toEndOf="@id/coupon_number_txv"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:visibility="invisible"
+        />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/bottom_container"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/_150sdp"
+        android:layout_marginHorizontal="@dimen/_30sdp"
+        app:cardCornerRadius="@dimen/_10sdp"
+        app:cardElevation="0dp"
+        app:layout_constraintTop_toBottomOf="@+id/coupon_number_txv"
+        app:layout_constraintBottom_toTopOf="@+id/btn_img_save"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#F6F6F6">
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/start_guidLine"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.1" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/end_guidLine"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.9" />
+
+            <View
+                android:id="@+id/validity_pad"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toTopOf="@id/state_pad"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/validity_txv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="유효기간"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_12sdp"
+                app:layout_constraintBottom_toBottomOf="@id/validity_pad"
+                app:layout_constraintStart_toStartOf="@id/start_guidLine"
+                app:layout_constraintTop_toTopOf="@id/validity_pad" />
+
+            <TextView
+                android:id="@+id/validity_date_txv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_12sdp"
+                app:layout_constraintBottom_toBottomOf="@id/validity_pad"
+                app:layout_constraintEnd_toEndOf="@id/end_guidLine"
+                app:layout_constraintTop_toTopOf="@id/validity_pad"
+                tools:text="2021년 8월 3일" />
+
+            <View
+                android:id="@+id/validity_line"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:background="@color/gray_e"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/validity_pad" />
+
+            <View
+                android:id="@+id/state_pad"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toTopOf="@id/issue_pad"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/validity_pad" />
+
+            <TextView
+                android:id="@+id/state_txv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="쿠폰 상태"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_12sdp"
+                app:layout_constraintBottom_toBottomOf="@id/state_pad"
+                app:layout_constraintStart_toStartOf="@id/start_guidLine"
+                app:layout_constraintTop_toTopOf="@id/state_pad" />
+
+            <TextView
+                android:id="@+id/coupon_state_txv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_12sdp"
+                app:layout_constraintBottom_toBottomOf="@id/state_pad"
+                app:layout_constraintEnd_toEndOf="@id/end_guidLine"
+                app:layout_constraintTop_toTopOf="@id/state_pad"
+                tools:text="사용안함" />
+
+            <View
+                android:id="@+id/state_line"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:background="@color/gray_e"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/state_pad" />
+
+
+            <View
+                android:id="@+id/issue_pad"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toTopOf="@id/locate_pad"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/state_pad" />
+
+
+            <TextView
+                android:id="@+id/issue_txv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="쿠폰 발급일"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_12sdp"
+                app:layout_constraintBottom_toBottomOf="@id/issue_pad"
+                app:layout_constraintStart_toStartOf="@id/start_guidLine"
+                app:layout_constraintTop_toTopOf="@id/issue_pad" />
+
+            <TextView
+                android:id="@+id/issue_date_txv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_12sdp"
+                app:layout_constraintBottom_toBottomOf="@id/issue_pad"
+                app:layout_constraintEnd_toEndOf="@id/end_guidLine"
+                app:layout_constraintTop_toTopOf="@id/issue_pad"
+                tools:text="2021년 7월 3일" />
+
+            <View
+                android:id="@+id/issue_line"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:background="@color/gray_e"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/issue_pad" />
+
+            <View
+                android:id="@+id/locate_pad"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/issue_pad" />
+
+
+            <TextView
+                android:id="@+id/exchange_txv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="교환처"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_12sdp"
+                app:layout_constraintBottom_toBottomOf="@id/locate_pad"
+                app:layout_constraintStart_toStartOf="@id/start_guidLine"
+                app:layout_constraintTop_toTopOf="@id/locate_pad" />
+
+            <TextView
+                android:id="@+id/exchange_locate_txv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_12sdp"
+                app:layout_constraintBottom_toBottomOf="@id/locate_pad"
+                app:layout_constraintEnd_toEndOf="@id/end_guidLine"
+                app:layout_constraintTop_toTopOf="@id/locate_pad"
+                tools:text="스타벅스" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </androidx.cardview.widget.CardView>
+
+    <Button
+        android:id="@+id/btn_img_save"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/_30sdp"
+        android:layout_marginVertical="@dimen/_10sdp"
+        android:text="교환권 저장"
+        android:background="@drawable/bg_rounded_03_purple"
+        android:textSize="@dimen/_13sdp"
+        android:textColor="@color/white"
+        android:textAlignment="center"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/bottom_container"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

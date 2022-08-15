@@ -1,6 +1,5 @@
 package com.sdin.tourstamprally.utill
 
-import android.location.Location
 import kotlin.math.acos
 import kotlin.math.cos
 import kotlin.math.round

@@ -2,6 +2,7 @@ package com.sdin.tourstamprally.api;
 
 
 import com.sdin.tourstamprally.model.AllReviewModel;
+import com.sdin.tourstamprally.model.AroundTouristSpot;
 import com.sdin.tourstamprally.model.CouponModel;
 import com.sdin.tourstamprally.model.HistorySpotModel;
 import com.sdin.tourstamprally.model.InterestModel;
@@ -14,22 +15,23 @@ import com.sdin.tourstamprally.model.ReveiwCommentsDC;
 import com.sdin.tourstamprally.model.ReviewDetailDC;
 import com.sdin.tourstamprally.model.ReviewImg;
 import com.sdin.tourstamprally.model.StoreAllCouponModel;
+import com.sdin.tourstamprally.model.StoreBannerCouponDTO;
 import com.sdin.tourstamprally.model.StoreModel;
 import com.sdin.tourstamprally.model.StoreSubDTO;
+import com.sdin.tourstamprally.model.TaggingnoCourseDTO;
 import com.sdin.tourstamprally.model.TopFourLocationModel;
 import com.sdin.tourstamprally.model.TourTagModelDC;
 import com.sdin.tourstamprally.model.Tour_Spot;
 import com.sdin.tourstamprally.model.Tour_Spot2;
-import com.sdin.tourstamprally.model.TouristSpotPoint;
 import com.sdin.tourstamprally.model.TouristSpotPointDC;
 import com.sdin.tourstamprally.model.TouristSpotPointImg;
 import com.sdin.tourstamprally.model.UserCurrentCourse;
 import com.sdin.tourstamprally.model.UserModel;
-import com.sdin.tourstamprally.model.VisitCountModel;
+import com.sdin.tourstamprally.model.around.AllArroundEntity;
+import com.sdin.tourstamprally.model.around.coursePoint.AroundCoursePoint;
 import com.sdin.tourstamprally.model.course.SelectCourseModel;
 import com.sdin.tourstamprally.model.store_coupon.StoreMyCouponModel;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -37,10 +39,7 @@ import java.util.Map;
 import io.reactivex.rxjava3.core.Single;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
-import retrofit2.http.Body;
-import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
-import retrofit2.http.POST;
 import retrofit2.http.Query;
 import retrofit2.http.QueryMap;
 
@@ -120,8 +119,8 @@ public interface APIService {
     @GET("update_user_psw")
     Call<Integer> update_user_psw(@Query("user_name") String name,
                                   @Query("user_phone") String phone,
-                                  @Query("user_email") String email,
-                                  @Query("user_password") String password
+                                  @Query("user_email") String email/*,
+                                  @Query("user_password") String password*/
     );
 
     @GET("insert_multiple_tourspot_deaps")
@@ -142,6 +141,9 @@ public interface APIService {
 
     @GET("getTourist")
     Call<List<Tour_Spot>> getTour(@Query("userIdx") int idx);
+
+    @GET("getArround")
+    Call<List<AllArroundEntity>> getAllLocation();
 
     @GET("getFourLocations")
     Call<List<TopFourLocationModel>> getFourLocations(@Query("userIdx") int idx);
@@ -218,8 +220,12 @@ public interface APIService {
     @GET("select_history_spot")
     Call<List<HistorySpotModel>> getHistorySpot(@Query("user_idx") int user_idx);
 
-    @GET("select_visit_count")
-    Call<List<VisitCountModel>> getVisitCount(@Query("user_idx") int user_idx);
+    @GET("getHistorySpotVisit")
+    Call<List<HistorySpotModel>> getHistorySpotVisit(@Query("user_idx") int user_idx,
+                                                     @Query("location_idx") int location_idx);
+
+//    @GET("select_visit_count")
+//    Call<List<VisitCountModel>> getVisitCount(@Query("user_idx") int user_idx);
 
 
     @GET("insert_writeReview")
@@ -389,5 +395,32 @@ public interface APIService {
             @Query("review_user_idx") int review_user_idx
     );
 
+    @GET("getTourSpotLocationMatchSearch")
+    Single<List<LocationJoinTouristSpot>> getTourSpotLocationMatchSearch();
+
+    @GET("select_tour_location_for_spot_main")
+    Call<List<RallyMapModel>> select_tour_location_for_spot_main(@Query("user_idx") int user_idx,
+                                                                 @Query("location_idx") int location_idx,
+                                                                 @Query("touristspot_idx") int touristspot_idx);
+
+    @GET("hasTaggingInfonocourse")
+    Call <List<TaggingnoCourseDTO>> hasTaggingInfonocourse(@Query("tagginInfo") String tagginInfo);
+
+    @GET("selectTouristspotidx")
+    Single<Integer> selectTouristspotidx(
+            @Query("tagginInfo") String tagginInfo
+    );
+
+    @GET("selectAroundTouristSpot")
+    Single<List<AroundTouristSpot>> selectAroundTouristSpot();
+
+    @GET("selectAroundCoursePoint")
+    Single<List<AroundCoursePoint>> selectAroundCoursePoint(
+            @Query("user_idx") int user_idx,
+            @Query("touristspot_idx") int touristspot_idx
+    );
+
+    @GET("selectBannerCoupon")
+    Call <List<StoreBannerCouponDTO>> selectBannerCoupon();
 
 }

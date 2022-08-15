@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<MotionScene 
+<MotionScene
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:motion="http://schemas.android.com/apk/res-auto">
 
@@ -7,20 +7,20 @@
         motion:constraintSetEnd="@+id/end"
         motion:constraintSetStart="@id/start"
         motion:duration="1000">
-       <KeyFrameSet>
-           <KeyAttribute
-               motion:motionTarget="@id/background_img"
-               motion:framePosition="100"
-               android:alpha="0"
-               />
+        <KeyFrameSet>
+            <KeyAttribute
+                motion:motionTarget="@id/background_img"
+                motion:framePosition="100"
+                android:alpha="0"
+                />
 
-           <KeyAttribute
-               motion:motionTarget="@id/background_img"
-               motion:framePosition="50"
-               android:alpha="0"
-               />
+            <KeyAttribute
+                motion:motionTarget="@id/background_img"
+                motion:framePosition="50"
+                android:alpha="0"
+                />
 
-       </KeyFrameSet>
+        </KeyFrameSet>
         <OnSwipe
             motion:touchAnchorId="@id/main_item_scv"
             motion:dragDirection="dragUp"
@@ -29,7 +29,7 @@
 
     <ConstraintSet android:id="@+id/start">
         <Constraint
-            android:layout_height="@dimen/_210sdp"
+            android:layout_height="@dimen/_400sdp"
             motion:layout_constraintStart_toStartOf="parent"
             motion:layout_constraintTop_toTopOf="parent"
             motion:layout_constraintEnd_toEndOf="parent"

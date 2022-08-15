@@ -1,10 +1,17 @@
 package com.sdin.tourstamprally.model;
 
+import com.google.gson.annotations.SerializedName;
+
 public class Location {
+    @SerializedName("location_idx")
     private int location_idx;
+    @SerializedName("location_name")
     private String location_name;
+    @SerializedName("location_img")
     private String location_img;
+    @SerializedName("location_createtime")
     private String location_createtime;
+    @SerializedName("location_updatetime")
     private String location_updatetime;
 
     public Location(){
@@ -63,5 +70,16 @@ public class Location {
 
     public void setLocation_updatetime(String location_updatetime) {
         this.location_updatetime = location_updatetime;
+    }
+
+    @Override
+    public String toString() {
+        return "Location{" +
+                "location_idx=" + location_idx +
+                ", location_name='" + location_name + '\'' +
+                ", location_img='" + location_img + '\'' +
+                ", location_createtime='" + location_createtime + '\'' +
+                ", location_updatetime='" + location_updatetime + '\'' +
+                '}';
     }
 }

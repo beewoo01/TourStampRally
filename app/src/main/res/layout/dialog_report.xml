@@ -44,7 +44,6 @@
         >
 
         <RadioButton
-            android:id="@+id/first_report"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_35sdp"
             android:text="욕설 ⋅ 명예회손"
@@ -65,7 +64,6 @@
 
 
         <RadioButton
-            android:id="@+id/second_report"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_35sdp"
             android:text="홍보성"
@@ -86,7 +84,6 @@
 
 
         <RadioButton
-            android:id="@+id/third_report"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_35sdp"
             android:text="음란물 ⋅ 선전성"
@@ -106,7 +103,6 @@
             />
 
         <RadioButton
-            android:id="@+id/four_report"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_35sdp"
             android:text="같은 내용 반복"
@@ -126,7 +122,6 @@
             />
 
         <RadioButton
-            android:id="@+id/five_report"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_35sdp"
             android:text="기타사유"

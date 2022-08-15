@@ -10,8 +10,6 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,9 +19,9 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
 import androidx.exifinterface.media.ExifInterface
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import java.io.*
-import java.lang.Exception
 import java.text.SimpleDateFormat
 import java.util.*
 

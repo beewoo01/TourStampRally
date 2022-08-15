@@ -26,7 +26,7 @@
 
         <androidx.constraintlayout.utils.widget.ImageFilterView
             android:id="@+id/store_imv"
-            android:layout_width="110dp"
+            android:layout_width="100dp"
             android:layout_height="0dp"
             android:scaleType="centerCrop"
             android:src="@color/black"
@@ -36,16 +36,15 @@
             app:layout_constraintTop_toTopOf="parent"
             app:round="@dimen/_10sdp" />
 
-        <ImageButton
+        <!--<ImageButton
             android:id="@+id/like_imb"
-            android:layout_width="38dp"
-            android:layout_height="38dp"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:background="@null"
             android:contentDescription="@string/like"
             android:src="@drawable/heart_resize"
             app:layout_constraintEnd_toEndOf="@id/store_imv"
-            app:layout_constraintTop_toTopOf="@id/store_imv"
-            />
+            app:layout_constraintTop_toTopOf="@id/store_imv" />-->
 
 
 
@@ -64,19 +63,21 @@
             android:gravity="start|center_vertical"
             android:layout_marginStart="10dp"
             android:autoSizeTextType="uniform"
-
             android:includeFontPadding="false"
             android:text="@{model.store_name}"
             android:textColor="@color/black"
+            android:textStyle="bold"
+            android:textSize="16sp"
             app:layout_constraintStart_toEndOf="@id/store_imv"
             app:layout_constraintTop_toTopOf="@id/name_guidLine"
             tools:text="암소갈비집" />
 
         <TextView
-            android:layout_width="0dp"
+            android:id="@+id/distanceTxv"
+            android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:drawablePadding="@dimen/_3sdp"
-            android:gravity="start|center_vertical"
+            android:gravity="end|center_vertical"
             android:textSize="10sp"
             android:layout_marginStart="10dp"
             app:layout_constraintEnd_toStartOf="@id/plus_imb"
@@ -84,6 +85,7 @@
             app:layout_constraintBottom_toBottomOf="@id/store_name_txv"
             app:layout_constraintStart_toEndOf="@id/store_name_txv"
             app:layout_constraintTop_toTopOf="@id/store_name_txv"
+            app:layout_constraintHorizontal_bias="0.8"
             tools:text="211m"
             tools:ignore="SmallSp" />
 
@@ -95,12 +97,11 @@
             android:textSize="11sp"
             app:layout_constraintVertical_bias="0.2"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/store_dash_txv"
             app:layout_constraintStart_toStartOf="@id/store_name_txv"
             app:layout_constraintTop_toBottomOf="@id/store_name_txv"
             tools:text="해운대구" />
 
-        <TextView
+        <!--<TextView
             android:id="@+id/store_dash_txv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -121,7 +122,7 @@
             android:textSize="11sp"
             app:layout_constraintBottom_toBottomOf="@id/store_location_txv"
             app:layout_constraintStart_toEndOf="@id/store_dash_txv"
-            app:layout_constraintTop_toTopOf="@id/store_location_txv" />
+            app:layout_constraintTop_toTopOf="@id/store_location_txv" />-->
 
         <ImageButton
             android:id="@+id/plus_imb"

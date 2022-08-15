@@ -2,7 +2,6 @@ package com.sdin.tourstamprally.ui.fragment.report.review
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.icu.number.IntegerWidth
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
@@ -12,13 +11,13 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.constraintlayout.utils.widget.ImageFilterView
 import androidx.databinding.DataBindingUtil
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.sdin.tourstamprally.R
 import com.sdin.tourstamprally.Utils
 import com.sdin.tourstamprally.adapter.ReviewCommentsAdapter
-import com.sdin.tourstamprally.data.UserInfo
 import com.sdin.tourstamprally.databinding.FragmentReviewComentsBinding
 import com.sdin.tourstamprally.model.ReveiwCommentsDC
 import com.sdin.tourstamprally.model.ReviewDetailDC
@@ -30,7 +29,6 @@ import io.reactivex.rxjava3.observers.DisposableSingleObserver
 import io.reactivex.rxjava3.schedulers.Schedulers
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
 
 
 class ReviewComentsFragment : BaseFragment() {
@@ -55,6 +53,11 @@ class ReviewComentsFragment : BaseFragment() {
 
         review_idx = args.reviewIdx
         reviewUserIdx = args.reviewUserIdx
+
+        binding?.btnGetstamp?.setOnClickListener {
+            val action = ReviewComentsFragmentDirections.actionFragmentReviewComentsToPageStamp()
+            findNavController().navigate(action)
+        }
 
         return binding?.root
     }

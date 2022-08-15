@@ -1,7 +1,6 @@
 package com.sdin.tourstamprally.utill
 
 import android.graphics.Canvas
-import android.graphics.Color
 import android.graphics.Paint
 import androidx.recyclerview.widget.RecyclerView
 

@@ -3,19 +3,17 @@ package com.sdin.tourstamprally.ui.fragment;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.navigation.Navigation;
-
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
 
 import com.sdin.tourstamprally.R;
 import com.sdin.tourstamprally.adapter.DirectionGuid_Adapter;
@@ -31,12 +29,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class DirectionGuidFragment extends BaseFragment implements LocationReItemClick {
     //길안내 관광지
@@ -78,7 +71,7 @@ public class DirectionGuidFragment extends BaseFragment implements LocationReIte
 
 
     private void getData() {
-        binding.directionGuidPgb.setVisibility(View.VISIBLE);
+//        binding.directionGuidPgb.setVisibility(View.VISIBLE);
 
         /*apiService.getHashTag().enqueue(new Callback<List<TourTagModel>>() {
             @Override
@@ -132,8 +125,8 @@ public class DirectionGuidFragment extends BaseFragment implements LocationReIte
                 location_history_Map,
                 particiMap*/);
 
-        binding.locationRe.setAdapter(adapter);
-        binding.locationRe.setHasFixedSize(true);
+        /*binding.locationRe.setAdapter(adapter);
+        binding.locationRe.setHasFixedSize(true);*/
     }
 
 
@@ -144,9 +137,9 @@ public class DirectionGuidFragment extends BaseFragment implements LocationReIte
             //Log.wtf("setOnItemClickListener", "param = " + param +"1");
             search(param.getHashTag());
         });
-        binding.tagRe.setAdapter(tagAdapter);
+       /* binding.tagRe.setAdapter(tagAdapter);
         binding.tagRe.setHasFixedSize(true);
-        binding.directionGuidPgb.setVisibility(View.GONE);
+        binding.directionGuidPgb.setVisibility(View.GONE);*/
     }
 
 
@@ -166,6 +159,7 @@ public class DirectionGuidFragment extends BaseFragment implements LocationReIte
         binding.spinnerTourRecord.setOnItemSelectedListener(selectedListener);*/
         setTourSpotList();
         getData();
+
         binding.searchEdt.addTextChangedListener(new TextWatcher() {
 
             @Override

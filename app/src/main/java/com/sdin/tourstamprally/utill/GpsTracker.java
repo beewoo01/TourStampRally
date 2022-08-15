@@ -14,8 +14,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 
-import static android.content.Context.LOCATION_SERVICE;
-
 public class GpsTracker extends Service implements LocationListener {
 
     private final Context context;

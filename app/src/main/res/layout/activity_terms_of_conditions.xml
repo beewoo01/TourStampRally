@@ -148,7 +148,7 @@
             android:id="@+id/all_agree"
             android:layout_width="0dp"
             android:layout_height="@dimen/_35sdp"
-            android:background="@drawable/bg_rounded_02"
+            android:background="@drawable/bg_rounded_02_gray"
             android:gravity="center"
             android:onClick="@{ activity::allagree }"
             app:layout_constraintBottom_toTopOf="@+id/btn_next_to_signup"

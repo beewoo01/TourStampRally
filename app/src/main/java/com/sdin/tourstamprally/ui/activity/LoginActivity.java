@@ -1,18 +1,16 @@
 package com.sdin.tourstamprally.ui.activity;
 
-import androidx.annotation.NonNull;
-import androidx.databinding.DataBindingUtil;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
-import com.sdin.tourstamprally.FindPasswordActivity;
+import androidx.annotation.NonNull;
+import androidx.databinding.DataBindingUtil;
+
 import com.sdin.tourstamprally.R;
 import com.sdin.tourstamprally.Utils;
 import com.sdin.tourstamprally.databinding.ActivityLoginBinding;

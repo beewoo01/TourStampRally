@@ -14,6 +14,7 @@ import android.widget.AdapterView
 import android.widget.BaseAdapter
 import android.widget.TextView
 import android.widget.Toast
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -31,7 +32,6 @@ import com.sdin.tourstamprally.utill.recyclerveiew.CustomItemDecoration
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.observers.DisposableSingleObserver
 import io.reactivex.rxjava3.schedulers.Schedulers
-import kotlin.collections.HashMap
 
 class AllCouponFragment : BaseFragment() {
 
@@ -39,7 +39,7 @@ class AllCouponFragment : BaseFragment() {
     private var couponListState = 0 /*0 : 전체, 1 : 주변, 2 : 코스별*/
     private var couponListCategory = 3 /*0 : 식당 , 1 : 카페, 2 : 숙박시설, 3: 미선택*/
     private lateinit var allStoreCouponList: MutableList<StoreAllCouponModel>
-    private val categoryArr = arrayOf(R.id.restaurant_txv, R.id.cafe_txv, R.id.accommodation_txv)
+    private val categoryArr = arrayOf(R.id.restaurant_con, R.id.cafe_con, R.id.accommodation_con)
     private var currentLatitude: Double? = null
     private var currentLongitude: Double? = null
     private var allCouponAdapter: AllCouponAdapter? = null
@@ -331,7 +331,7 @@ class AllCouponFragment : BaseFragment() {
 
     }
 
-    private fun successGetStoreCoupon(model: StoreAllCouponModel) {
+    fun successGetStoreCoupon(model: StoreAllCouponModel) {
         allStoreCouponList.remove(model)
         if (allCouponAdapter == null) {
         } else {
@@ -405,17 +405,69 @@ class AllCouponFragment : BaseFragment() {
         }
 
         for (txv in categoryArr) {
+            //수정
+            Log.wtf("txv in couponListCategory : ",""+couponListCategory.toString())
+            Log.wtf("txv in view : ","view.id = "+ view.id +" txv = "+txv)
             if (view.id == txv && couponListCategory < 3) {
-                view.background =
-                    ContextCompat.getDrawable(view.context, R.drawable.bg_rounded_category_selected)
-
-                (view as TextView).setTextColor(ContextCompat.getColor(view.context, R.color.white))
-            } else {
-                binding?.root?.findViewById<TextView>(txv)?.let {
-                    it.background =
-                        ContextCompat.getDrawable(view.context, R.drawable.bg_rounded_category)
-                    it.setTextColor(ContextCompat.getColor(view.context, R.color.mainColor))
+                /* view.background =
+                     ContextCompat.getDrawable(view.context, R.drawable.bg_rounded_category_selected)*/
+                when (couponListCategory) {
+                    0 -> {
+                        binding?.restaurantCon?.background = ContextCompat.getDrawable(view.context, R.drawable.bg_rounded_category_selected)
+                        binding?.restaurantTxv?.setTextColor(ContextCompat.getColor(view.context, R.color.white))
+                        binding?.restaurantImg?.setImageResource(R.drawable.ic_menu_restaurant_on)
+                        binding?.cafeCon?.background = ContextCompat.getDrawable(view.context, R.drawable.bg_rounded_category)
+                        binding?.cafeTxv?.setTextColor(ContextCompat.getColor(view.context, R.color.mainColor))
+                        binding?.cafeImg?.setImageResource(R.drawable.ic_menu_cafe_off)
+                        binding?.accommodationCon?.background = ContextCompat.getDrawable(view.context, R.drawable.bg_rounded_category)
+                        binding?.accommodationTxv?.setTextColor(ContextCompat.getColor(view.context, R.color.mainColor))
+                        binding?.accommodationImg?.setImageResource(R.drawable.ic_menu_bed_off)
+                    }
+                    1 -> {
+                        binding?.restaurantCon?.background = ContextCompat.getDrawable(view.context, R.drawable.bg_rounded_category)
+                        binding?.restaurantTxv?.setTextColor(ContextCompat.getColor(view.context, R.color.mainColor))
+                        binding?.restaurantImg?.setImageResource(R.drawable.ic_menu_restaurant_off)
+                        binding?.cafeCon?.background = ContextCompat.getDrawable(view.context, R.drawable.bg_rounded_category_selected)
+                        binding?.cafeTxv?.setTextColor(ContextCompat.getColor(view.context, R.color.white))
+                        binding?.cafeImg?.setImageResource(R.drawable.ic_menu_cafe_on)
+                        binding?.accommodationCon?.background = ContextCompat.getDrawable(view.context, R.drawable.bg_rounded_category)
+                        binding?.accommodationTxv?.setTextColor(ContextCompat.getColor(view.context, R.color.mainColor))
+                        binding?.accommodationImg?.setImageResource(R.drawable.ic_menu_bed_off)
+                    }
+                    2 -> {
+                        binding?.restaurantCon?.background = ContextCompat.getDrawable(view.context, R.drawable.bg_rounded_category)
+                        binding?.restaurantTxv?.setTextColor(ContextCompat.getColor(view.context, R.color.mainColor))
+                        binding?.restaurantImg?.setImageResource(R.drawable.ic_menu_restaurant_off)
+                        binding?.cafeCon?.background = ContextCompat.getDrawable(view.context, R.drawable.bg_rounded_category)
+                        binding?.cafeTxv?.setTextColor(ContextCompat.getColor(view.context, R.color.mainColor))
+                        binding?.cafeImg?.setImageResource(R.drawable.ic_menu_cafe_off)
+                        binding?.accommodationCon?.background = ContextCompat.getDrawable(view.context, R.drawable.bg_rounded_category_selected)
+                        binding?.accommodationTxv?.setTextColor(ContextCompat.getColor(view.context, R.color.white))
+                        binding?.accommodationImg?.setImageResource(R.drawable.ic_menu_bed_on)
+                    }
                 }
+
+                //(view as TextView).setTextColor(ContextCompat.getColor(view.context, R.color.white))
+            } else {
+                if (couponListCategory == 3) {
+                    Log.wtf("teewge", "3333")
+                    binding?.run {
+
+                        root.findViewById<ConstraintLayout>(txv)?.let {
+                            it.background =
+                                ContextCompat.getDrawable(view.context, R.drawable.bg_rounded_category)
+
+                        }
+
+                        restaurantImg.setImageResource(R.drawable.ic_menu_restaurant_off)
+                        restaurantTxv.setTextColor(ContextCompat.getColor(requireContext(), R.color.mainColor))
+                        cafeImg.setImageResource(R.drawable.ic_menu_cafe_off)
+                        cafeTxv.setTextColor(ContextCompat.getColor(requireContext(), R.color.mainColor))
+                        accommodationImg.setImageResource(R.drawable.ic_menu_bed_off)
+                        accommodationTxv.setTextColor(ContextCompat.getColor(requireContext(), R.color.mainColor))
+                    }
+                }
+
             }
         }
 

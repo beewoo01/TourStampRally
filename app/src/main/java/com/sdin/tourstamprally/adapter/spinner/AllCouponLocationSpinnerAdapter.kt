@@ -1,7 +1,6 @@
 package com.sdin.tourstamprally.adapter.spinner
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup

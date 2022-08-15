@@ -32,10 +32,7 @@
     <string name="password_confirm">비밀번호 확인</string>
     <string name="input_password_confirm">비밀번호를 다시 한번 입력해주세요</string>
 
-    <string name="input_change_psw">변경할 비밀번호를 입력해주세요</string>
-    <string name="input_change_pswcirn">변경할 비밀번호를 다시 입력해주세요</string>
-
-    <string name="input_find_password">비밀번호 변경</string>
+    <string name="input_find_password">비밀번호 찾기</string>
     <string name="explan_find_password">비밀번호를 찾기 위해 필요한 정보를 정확하게 입력해주세요.</string>
 
     <string name="name">이름</string>
@@ -47,19 +44,9 @@
     <string name="location_ko">지역</string>
     <string name="location">location</string>
     <string name="busan">부산광역시</string>
-    <string name="seoul">서울특별시</string>
-
-
-    <string name="stemp_rally_location">스탬프 랠리 구역</string>
-    <string name="coupon_exchange">쿠폰 교환</string>
-    <string name="watch_review">리뷰 보기</string>
-
-
-    <string name="more_btn">더보기 ></string>
 
 
     <string name="check">확인</string>
-    <string name="cancle">취소</string>
     <string name="back">back</string>
 
 
@@ -71,18 +58,10 @@
     <string name="change"><u>회원탈퇴</u></string>
 
 
-    <string name="account_admin">계정관리</string>
-    <string name="notice">공지사항</string>
-    <string name="coupon_list">쿠폰현황</string>
-    <string name="notify_setting">알림설정</string>
-    <string name="bascet_list">찜한목록</string>
     <string name="logout">로그아웃</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="select_service_dialog">원하는 서비스를 선택해주세요</string>
-    <string name="more_tour">관광지 자세히 보기</string>
     <string name="nfcscan">NFC 스캔</string>
     <string name="qrscan">QR코드 스캔</string>
-    <string name="navi">내비</string>
     <string name="view_spotpoint">상세 위치 보기</string>
     <string name="explain_guid_location">인기 관광지를 만나보세요!</string>
 
@@ -95,16 +74,14 @@
     <string name="imagree">위 내용을 숙지하였으며, 동의합니다.</string>
     <string name="home">홈</string>
     <string name="store">매장</string>
-    <string name="report">기록</string>
-    <string name="stamp">스탬프</string>
-    <string name="camera">카메라</string>
+    <string name="near">주변</string>
+    <string name="application">응모</string>
+    <string name="more">더보기</string>
     <string name="profile">profile</string>
-    <string name="menu">menu</string>
     <string name="mainlogo">MainLogo</string>
     <string name="logo">Logo</string>
     <string name="see_detail">상세보기</string>
     <string name="close">close</string>
-    <string name="image">image</string>
     <string name="photo">photo</string>
     <string name="coupon">쿠폰</string>
     <string name="arrow">arrow</string>
@@ -121,9 +98,24 @@
     <string name="zero_percent">0%</string>
     <string name="restaurant">식당</string>
     <string name="all">전체</string>
-    <string name="around">주변</string>
     <string name="course">코스별</string>
     <string name="id">아이디</string>
     <string name="cafe">카페</string>
+    <string name="send">send</string>
+    <string name="finish">완료</string>
+    <string name="possess">보유</string>
+    <string name="icon">icon</string>
+    <string name="getStamp">스탬프획득</string>
+    <string name="roadTour">로드투어</string>
+    <string name="hardTour">하드투어</string>
+    <string name="trackingTour">트래킹투어</string>
+    <string name="historyTour">역사투어</string>
+    <string name="find_treasure">보물찾기</string>
+    <string name="festival_tour">축제투어</string>
+    <string name="webtoon_tour">웹툰투어</string>
+    <string name="watch_all">전체보기</string>
+    <string name="justBar">|</string>
+    <string name="slide">slide</string>
+    <string name="tour">관광지</string>
 
 </resources>

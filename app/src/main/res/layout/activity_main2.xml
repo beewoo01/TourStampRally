@@ -11,11 +11,18 @@
             name="activity"
             type="com.sdin.tourstamprally.ui.activity.MainActivity2" />
     </data>
-
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:id="@+id/inner_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
     <androidx.drawerlayout.widget.DrawerLayout
         android:id="@+id/drawaLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         android:fitsSystemWindows="true"
         tools:openDrawer="end"
         >
@@ -25,7 +32,7 @@
             android:layout_height="match_parent"
             >
 
-            <RelativeLayout
+           <!-- <RelativeLayout
                 android:id="@+id/webView_layout"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_30sdp"
@@ -39,24 +46,19 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />
 
-                <!--X버튼 추가 해야할듯-->
+                &lt;!&ndash;X버튼 추가 해야할듯&ndash;&gt;
 
-            </RelativeLayout>
+            </RelativeLayout>-->
 
 
-            <include
-                android:id="@+id/toolbar_layout"
-                layout="@layout/toolbar_layout2"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:layout_below="@+id/webView_layout" />
 
-            <View
+
+            <!--<View
                 android:id="@+id/toolbar_line"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_below="@+id/toolbar_layout"
-                android:background="@color/gray_e" />
+                android:background="@color/gray_e" />-->
 
             <!--<androidx.fragment.app.FragmentContainerView
                 android:id="@+id/nav_host_fragmnet"
@@ -67,6 +69,12 @@
                 app:navGraph="@navigation/nav_graph"
                 app:defaultNavHost="true"
                 />-->
+            <include
+                android:id="@+id/toolbar_layout"
+                layout="@layout/toolbar_layout2"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:layout_alignParentTop="true" />
 
             <androidx.fragment.app.FragmentContainerView
                 android:id="@+id/nav_host"
@@ -74,7 +82,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_above="@+id/bottom_navigation_view"
-                android:layout_below="@+id/toolbar_line"
+                android:layout_below="@id/toolbar_layout"
                 android:tag="container"
                 app:defaultNavHost="true"
                 app:navGraph="@navigation/nav_graph" />
@@ -110,6 +118,6 @@
         </com.google.android.material.navigation.NavigationView>
 
     </androidx.drawerlayout.widget.DrawerLayout>
-
+</androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

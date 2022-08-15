@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.fragment.around.store.AroundStoreFragment">
+
+        <HorizontalScrollView
+            android:id="@+id/category_ScrollView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:scrollbars="none"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="@dimen/_8sdp"
+            >
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/store_chipGroup"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:paddingHorizontal="12dp"
+                app:singleLine="true"
+                app:singleSelection="true"
+                app:selectionRequired="true"
+                app:checkedChip="@id/all_chip"
+                android:layout_gravity="center_vertical"
+                >
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/all_chip"
+                    style="@style/Widget.around.store.Chip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/_40sdp"
+                    android:text="@string/all"
+                    app:chipIconEnabled="false"
+                    />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/restaurant_chip"
+                    style="@style/Widget.around.tour.Chip"
+                    app:iconStartPadding="15dp"
+                    app:textEndPadding="15dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/_40sdp"
+                    android:text="@string/restaurant"
+                    app:chipIconEnabled="true"
+                    app:chipIcon="@drawable/selector_restaurant"
+                    />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/cafe_chip"
+                    style="@style/Widget.around.tour.Chip"
+                    app:iconStartPadding="15dp"
+                    app:textEndPadding="15dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/_40sdp"
+                    android:text="@string/cafe"
+                    app:chipIconEnabled="true"
+                    app:chipIcon="@drawable/selector_cafe"
+                    />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/accommodation_chip"
+                    style="@style/Widget.around.tour.Chip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/_40sdp"
+                    android:text="숙박시설"
+                    app:chipIconEnabled="true"
+                    app:chipIcon="@drawable/selector_hotel"
+                    />
+
+            </com.google.android.material.chip.ChipGroup>
+
+
+        </HorizontalScrollView>
+
+
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:id="@+id/category_layout"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/_10sdp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/category_ScrollView">
+
+            <RelativeLayout
+                android:id="@+id/map_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <include
+                android:id="@+id/bottom_sheet_incl"
+                layout="@layout/store_include_layout" />
+
+
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+</layout>

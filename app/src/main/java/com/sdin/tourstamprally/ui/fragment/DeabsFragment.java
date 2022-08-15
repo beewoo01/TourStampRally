@@ -3,18 +3,17 @@ package com.sdin.tourstamprally.ui.fragment;
 import android.annotation.SuppressLint;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
-import androidx.databinding.DataBindingUtil;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
+import androidx.databinding.DataBindingUtil;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.sdin.tourstamprally.R;
@@ -227,9 +226,9 @@ public class DeabsFragment extends BaseFragment {
             });
 
             if (selectedItem == position) {
-                holder.textView.setTextColor(ContextCompat.getColor(requireContext(), R.color.mainColor));
-            } else {
                 holder.textView.setTextColor(ContextCompat.getColor(requireContext(), R.color.black));
+            } else {
+                holder.textView.setTextColor(ContextCompat.getColor(requireContext(), R.color.gray));
             }
         }
 

@@ -184,7 +184,7 @@ class SwipeHelperCallback : ItemTouchHelper.Callback() {
                 holderBinding.titleTxv.setTextColor(
                     ContextCompat.getColor(
                         viewHolder.binding.titleTxv.context,
-                        R.color.Black
+                        R.color.black
                     )
                 )
                 holderBinding.backgroundContainer.setBackgroundColor(

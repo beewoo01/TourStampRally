@@ -1,19 +1,17 @@
 package com.sdin.tourstamprally.ui.fragment;
 
 import android.os.Bundle;
-
-import androidx.databinding.DataBindingUtil;
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.databinding.DataBindingUtil;
+import androidx.fragment.app.Fragment;
 
 import com.sdin.tourstamprally.R;
 import com.sdin.tourstamprally.adapter.StoreAdapter;
 import com.sdin.tourstamprally.databinding.FragmentStoreListBinding;
 import com.sdin.tourstamprally.model.Tour_Spot;
-import com.sdin.tourstamprally.utill.DecoRation;
 
 import java.util.ArrayList;
 

@@ -1,12 +1,9 @@
 package com.sdin.tourstamprally.utill;
 
-import android.content.Context;
 import android.graphics.Rect;
-import android.util.TypedValue;
 import android.view.View;
 
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class DecoRation extends RecyclerView.ItemDecoration {

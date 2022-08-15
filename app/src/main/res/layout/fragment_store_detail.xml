@@ -10,9 +10,15 @@
 
         <variable
             name="fragment"
-            type="com.sdin.tourstamprally.ui.fragment.store.StoreDetailFragment" />
+            type="com.sdin.tourstamprally.ui.fragment.around.StoreDetailFragment" />
     </data>
-
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="@id/baseline">
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -21,7 +27,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/baseline">
+        app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -288,10 +294,25 @@
                 app:layout_constraintTop_toBottomOf="@id/mapView_container" />
 
 
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
     </androidx.core.widget.NestedScrollView>
+    <ImageButton
+        android:id="@+id/btn_getstamp"
+        android:layout_width="@dimen/_60sdp"
+        android:layout_height="@dimen/_60sdp"
+        android:scaleType="fitCenter"
+        android:background="@color/trans"
+        app:srcCompat="@drawable/ic_btn_stamp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.9"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.97"/>
+</androidx.constraintlayout.widget.ConstraintLayout>
 
 
 </layout>

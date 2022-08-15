@@ -1,15 +1,15 @@
 package com.sdin.tourstamprally.ui.fragment;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
-
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
 import com.google.android.material.tabs.TabLayout;
 import com.sdin.tourstamprally.R;
@@ -24,29 +24,15 @@ import com.sdin.tourstamprally.view.TabIndicatorRectF;
  */
 public class CouponMainFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
     private  FragmentCouponMainBinding binding;
     private FragmentStateAdapter pagerAdapter;
     private int numPage = 2;
     private int nowPage = 0;
-    // TODO: Rename and change types of parameters
-    private int mParam1;
 
     public CouponMainFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param num Parameter 1.
-     * @return A new instance of fragment CouponMainFragment.
-     */
-    // TODO: Rename and change types and number of parameters
     public static CouponMainFragment newInstance(int num) {
         CouponMainFragment fragment = new CouponMainFragment();
         Bundle args = new Bundle();
@@ -59,13 +45,13 @@ public class CouponMainFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
+        /*if (getArguments() != null) {
             mParam1 = getArguments().getInt("num", 0);
-        }
+        }*/
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 

@@ -159,7 +159,7 @@ class WriteReviewFragment : BaseFragment() {
                     .load(R.drawable.review_camara_black)
                     .into(addPictureImv)
 
-                addPictureTxv.setTextColor(ContextCompat.getColor(addPictureTxv.context, R.color.Black))
+                addPictureTxv.setTextColor(ContextCompat.getColor(addPictureTxv.context, R.color.black))
             }
 
         }

@@ -10,10 +10,8 @@ import android.view.WindowManager
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import com.bumptech.glide.Glide
-import com.kakao.sdk.template.model.Content
 import com.sdin.tourstamprally.R
 import com.sdin.tourstamprally.databinding.DialogStempResetBinding
-import kotlin.math.log
 
 class DefaultBSRDialog(
     context: Context,

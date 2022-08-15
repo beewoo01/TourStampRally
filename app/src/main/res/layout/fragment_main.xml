@@ -5,6 +5,7 @@
 
 
     <data>
+
         <variable
             name="fragment"
             type="com.sdin.tourstamprally.ui.fragment.MainFragment" />
@@ -25,18 +26,84 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />-->
 
-        <ImageView
+        <!--<androidx.viewpager2.widget.ViewPager2
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/_210sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>-->
+
+        <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/background_img"
             android:layout_width="0dp"
-            android:layout_height="@dimen/_210sdp"
+            android:layout_height="@dimen/_400sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <!-- <ViewFlipper
+             android:id="@+id/background_img"
+             android:layout_width="0dp"
+             android:layout_height="@dimen/_350sdp"
+             app:layout_constraintEnd_toEndOf="parent"
+             app:layout_constraintStart_toStartOf="parent"
+             app:layout_constraintTop_toTopOf="parent" >
+
+             <ImageView
+                 android:id="@+id/img1"
+                 android:layout_width="match_parent"
+                 android:layout_height="match_parent"
+                 android:scaleType="centerCrop"
+                 app:srcCompat="@drawable/ic_main_slide_img1" />
+
+
+
+             <ImageView
+                 android:id="@+id/img2"
+                 android:layout_width="match_parent"
+                 android:layout_height="match_parent"
+                 android:scaleType="centerCrop"
+                 app:srcCompat="@drawable/ic_main_slide_img6" />
+
+             <ImageView
+                 android:id="@+id/img3"
+                 android:layout_width="match_parent"
+                 android:layout_height="match_parent"
+                 android:scaleType="centerCrop"
+                 app:srcCompat="@drawable/ic_main_slide_img5" />
+
+             <ImageView
+                 android:id="@+id/img4"
+                 android:layout_width="match_parent"
+                 android:layout_height="match_parent"
+                 android:scaleType="centerCrop"
+                 app:srcCompat="@drawable/ic_main_slide_img3" />
+
+         </ViewFlipper>-->
+
+        <ImageView
+            android:id="@+id/main_slide_img"
+            android:layout_width="@dimen/_110sdp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:contentDescription="@string/logo"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_splash_logo" />
+
+        <!--<ImageView
+            android:id="@+id/background_img"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_400sdp"
             android:onClick="@{ () -> fragment.cuverClick()}"
             android:scaleType="centerCrop"
             android:src="@drawable/enjoy_busan"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent" />-->
 
-        <Space
+        <androidx.legacy.widget.Space
             android:id="@+id/baseline"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -53,13 +120,11 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/baseline"
-
-            >
+            app:layout_constraintTop_toTopOf="@id/baseline">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content">
 
                 <LinearLayout
                     android:id="@+id/main_stemp_layout"
@@ -72,8 +137,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
 
-
-                    <androidx.constraintlayout.widget.ConstraintLayout
+                    <!--<androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/main_top_layout"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/_20sdp"
@@ -114,9 +178,9 @@
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
-                    </androidx.constraintlayout.widget.ConstraintLayout>
+                    </androidx.constraintlayout.widget.ConstraintLayout>-->
 
-                    <RelativeLayout
+                    <!-- <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/_300sdp">
 
@@ -139,15 +203,282 @@
                             android:layout_height="wrap_content"
                             android:layout_centerInParent="true" />
 
-                    </RelativeLayout>
+                    </RelativeLayout>-->
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="@dimen/_20sdp"
+                        android:layout_marginTop="@dimen/_20sdp"
+                        android:baselineAligned="false"
+                        android:orientation="horizontal"
+                        android:weightSum="4">
+
+                        <LinearLayout
+                            android:id="@+id/roadtour_con"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginEnd="@dimen/_7sdp"
+                            android:layout_weight="1"
+                            android:clickable="true"
+                            android:orientation="vertical"
+                            android:tag="1">
+
+                            <ImageButton
+                                android:id="@+id/btn_roadtour"
+                                android:layout_width="wrap_content"
+                                android:layout_height="@dimen/_50sdp"
+                                android:background="@drawable/bg_main_btn"
+                                android:contentDescription="@string/roadTour"
+                                android:padding="@dimen/_8sdp"
+                                android:scaleType="fitCenter"
+                                app:srcCompat="@drawable/ic_main_roadtour" />
+
+                            <TextView
+                                android:id="@+id/roadtour_tvx"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/_5sdp"
+                                android:gravity="center"
+                                android:text="@string/roadTour"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/hardtour_con"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_7sdp"
+                            android:layout_marginEnd="@dimen/_7sdp"
+                            android:layout_weight="1"
+                            android:clickable="true"
+                            android:orientation="vertical"
+                            android:tag="2">
+
+                            <ImageButton
+                                android:id="@+id/btn_hardtour"
+                                android:layout_width="wrap_content"
+                                android:layout_height="@dimen/_50sdp"
+                                android:background="@drawable/bg_main_btn"
+                                android:contentDescription="@string/hardTour"
+                                android:padding="@dimen/_10sdp"
+                                android:scaleType="fitCenter"
+                                app:srcCompat="@drawable/ic_main_hardtour" />
+
+                            <TextView
+                                android:id="@+id/hardtour_tvx"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/_5sdp"
+                                android:gravity="center"
+                                android:text="@string/hardTour"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/trackingtour_con"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_7sdp"
+                            android:layout_marginEnd="@dimen/_7sdp"
+                            android:layout_weight="1"
+                            android:clickable="true"
+                            android:orientation="vertical"
+                            android:tag="3">
+
+                            <ImageButton
+                                android:id="@+id/btn_trackingtour"
+                                android:layout_width="wrap_content"
+                                android:layout_height="@dimen/_50sdp"
+                                android:background="@drawable/bg_main_btn"
+                                android:contentDescription="@string/trackingTour"
+                                android:padding="@dimen/_10sdp"
+                                android:scaleType="fitCenter"
+                                app:srcCompat="@drawable/ic_main_trakingtour" />
+
+                            <TextView
+                                android:id="@+id/trackingtour_tvx"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/_5sdp"
+                                android:gravity="center"
+                                android:text="@string/trackingTour"
+                                android:textStyle="bold" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/findtreasure_con"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_7sdp"
+                            android:layout_weight="1"
+                            android:clickable="true"
+                            android:orientation="vertical"
+                            android:tag="4">
+
+                            <ImageButton
+                                android:id="@+id/btn_findtreasure"
+                                android:layout_width="wrap_content"
+                                android:layout_height="@dimen/_50sdp"
+                                android:background="@drawable/bg_main_btn"
+                                android:contentDescription="@string/find_treasure"
+                                android:padding="@dimen/_10sdp"
+                                android:scaleType="fitCenter"
+                                app:srcCompat="@drawable/ic_main_findtreasure" />
+
+                            <TextView
+                                android:id="@+id/findtreasure_tvx"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/_5sdp"
+                                android:gravity="center"
+                                android:text="@string/find_treasure"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/festivaltour_con"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="@dimen/_20sdp"
+                        android:layout_marginTop="@dimen/_20sdp"
+                        android:baselineAligned="false"
+                        android:clickable="true"
+                        android:orientation="horizontal"
+                        android:tag="5"
+                        android:weightSum="4">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="@dimen/_7sdp"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <ImageButton
+                                android:id="@+id/btn_festivaltour"
+                                android:layout_width="wrap_content"
+                                android:layout_height="@dimen/_50sdp"
+                                android:background="@drawable/bg_main_btn"
+                                android:contentDescription="@string/festival_tour"
+                                android:padding="@dimen/_10sdp"
+                                android:scaleType="fitCenter"
+                                app:srcCompat="@drawable/ic_main_festivaltour" />
+
+                            <TextView
+                                android:id="@+id/festivaltour_tvx"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/_5sdp"
+                                android:gravity="center"
+                                android:text="@string/festival_tour"
+                                android:textStyle="bold" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/webtoontour_con"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_7sdp"
+                            android:layout_marginEnd="@dimen/_7sdp"
+                            android:layout_weight="1"
+                            android:clickable="true"
+                            android:orientation="vertical"
+                            android:tag="6">
+
+                            <ImageButton
+                                android:id="@+id/btn_webtoontour"
+                                android:layout_width="wrap_content"
+                                android:layout_height="@dimen/_50sdp"
+                                android:background="@drawable/bg_main_btn"
+                                android:contentDescription="@string/webtoon_tour"
+                                android:padding="@dimen/_12sdp"
+                                android:scaleType="fitCenter"
+                                app:srcCompat="@drawable/ic_main_webtoontour" />
+
+                            <TextView
+                                android:id="@+id/webtoontour_tvx"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/_5sdp"
+                                android:gravity="center"
+                                android:text="@string/webtoon_tour"
+                                android:textStyle="bold" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/historytour_con"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_7sdp"
+                            android:layout_marginEnd="@dimen/_7sdp"
+                            android:layout_weight="1"
+                            android:clickable="true"
+                            android:orientation="vertical"
+                            android:tag="7">
+
+                            <ImageButton
+                                android:id="@+id/btn_historytour"
+                                android:layout_width="wrap_content"
+                                android:layout_height="@dimen/_50sdp"
+                                android:background="@drawable/bg_main_btn"
+                                android:contentDescription="@string/historyTour"
+                                android:padding="@dimen/_10sdp"
+                                android:scaleType="fitCenter"
+                                app:srcCompat="@drawable/ic_main_historytour" />
+
+                            <TextView
+                                android:id="@+id/historytour_tvx"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/_5sdp"
+                                android:gravity="center"
+                                android:text="@string/historyTour"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/viewall_con"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_7sdp"
+                            android:layout_weight="1"
+                            android:clickable="true"
+                            android:orientation="vertical">
+
+                            <ImageButton
+                                android:id="@+id/btn_viewall"
+                                android:layout_width="wrap_content"
+                                android:layout_height="@dimen/_50sdp"
+                                android:background="@drawable/bg_main_btn2"
+                                android:contentDescription="@string/watch_all"
+                                android:padding="@dimen/_13sdp"
+                                android:scaleType="fitCenter"
+                                app:srcCompat="@drawable/ic_main_viewall" />
+
+                            <TextView
+                                android:id="@+id/viewall_tvx"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/_5sdp"
+                                android:gravity="center"
+                                android:text="@string/watch_all"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+
+                    </LinearLayout>
 
                 </LinearLayout>
 
-
                 <LinearLayout
+                    android:id="@+id/main_cos"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_10sdp"
                     android:background="@drawable/bg_rounded_05"
                     android:orientation="vertical"
                     android:padding="@dimen/_20sdp"
@@ -159,16 +490,17 @@
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/main_bottom_layout"
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/_20sdp"
+                        android:layout_height="wrap_content"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent">
 
                         <ImageView
                             android:id="@+id/coupon_imv"
-                            android:layout_width="@dimen/_10sdp"
-                            android:layout_height="@dimen/_10sdp"
-                            android:src="@drawable/comment_ic"
+                            android:layout_width="@dimen/_20sdp"
+                            android:layout_height="@dimen/_20sdp"
+                            android:contentDescription="@string/course"
+                            android:src="@drawable/ic_main_location"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
@@ -177,15 +509,16 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/_5sdp"
-                            android:text="@string/watch_review"
-                            android:textColor="@color/mainColor"
-                            android:textSize="@dimen/_13sdp"
+                            android:text="현재 이용중인 코스"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_14sdp"
+                            android:textStyle="bold"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toEndOf="@id/coupon_imv"
                             app:layout_constraintTop_toTopOf="parent" />
 
 
-                        <TextView
+                        <!--<TextView
                             android:id="@+id/more_coupon_btn"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -195,42 +528,178 @@
                             android:textSize="@dimen/_10sdp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
+                            app:layout_constraintTop_toTopOf="parent" />-->
 
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <RelativeLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/main_review_recyclerview"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                        <com.dinuscxj.progressbar.CircleProgressBar
+                            android:id="@+id/progress_circle"
+                            android:layout_width="@dimen/_150sdp"
+                            android:layout_height="@dimen/_150sdp"
                             android:layout_centerInParent="true"
-                            android:layout_marginTop="@dimen/_10sdp"
-                            android:overScrollMode="never"
-                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                            tools:itemCount="1"
-                            tools:listitem="@layout/re_item_review_main" />
+                            android:layout_marginTop="@dimen/_30sdp"
+                            android:textAlignment="gravity"
+                            app:progress_background_color="@color/gray_e2"
+                            app:progress_end_color="#4b1ded"
+                            app:progress_start_color="#ffd4a4"
+                            app:progress_stroke_cap="square"
+                            app:progress_stroke_width="20dp "
+                            app:style="solid_line" />
 
-                        <ProgressBar
-                            android:id="@+id/review_re_progressbar"
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:id="@+id/circle_iv"
+                            android:layout_width="@dimen/_120sdp"
+                            android:layout_height="@dimen/_120sdp"
+                            android:layout_centerInParent="true"
+                            android:layout_gravity="center"
+                            android:alpha="0.9"
+                            android:background="@android:color/transparent"
+                            android:src="@drawable/ic_main_slide_img3"
+                            app:civ_border_overlay="true" />
+
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:id="@+id/circle_iv_bg"
+                            android:layout_width="@dimen/_120sdp"
+                            android:layout_height="@dimen/_120sdp"
+                            android:layout_centerInParent="true"
+                            android:layout_gravity="center"
+                            android:alpha="0.3"
+                            android:background="@drawable/bg_circle"
+                            app:civ_border_overlay="true" />
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/progresslayout"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_centerInParent="true" />
+                            android:layout_centerInParent="true">
+
+                            <TextView
+                                android:id="@+id/tour_title_txv"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:shadowColor="#000000"
+                                android:shadowDx="2.0"
+                                android:shadowDy="2.0"
+                                android:shadowRadius="2.0"
+                                android:text="@string/roadTour"
+                                android:textColor="#74C2FF"
+                                android:textSize="@dimen/_12sdp"
+                                android:textStyle="bold"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <TextView
+                                android:id="@+id/tour_content_txv"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/_5sdp"
+                                android:shadowColor="#000000"
+                                android:shadowDx="2.0"
+                                android:shadowDy="2.0"
+                                android:shadowRadius="2.0"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/_17sdp"
+                                android:textStyle="bold"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/tour_title_txv"
+                                tools:text="초량이바구길" />
+
+                            <TextView
+                                android:id="@+id/tour_percent_txv"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/_10sdp"
+                                android:textColor="#FC8FCB"
+                                android:textSize="@dimen/_17sdp"
+                                android:textStyle="bold"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/tour_content_txv"
+                                tools:text="60%" />
+
+                            <TextView
+                                android:id="@+id/tvx_nohistory"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:text="현재 이용중인 코스는\n없습니다."
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_12sdp"
+                                android:visibility="invisible"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                        <!-- <androidx.recyclerview.widget.RecyclerView
+                             android:id="@+id/main_review_recyclerview"
+                             android:layout_width="match_parent"
+                             android:layout_height="wrap_content"
+                             android:layout_centerInParent="true"
+                             android:layout_marginTop="@dimen/_10sdp"
+                             android:overScrollMode="never"
+                             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                             tools:itemCount="1"
+                             tools:listitem="@layout/re_item_review_main" />
+
+                         <ProgressBar
+                             android:id="@+id/review_re_progressbar"
+                             android:layout_width="wrap_content"
+                             android:layout_height="wrap_content"
+                             android:layout_centerInParent="true" />-->
 
                     </RelativeLayout>
 
 
                 </LinearLayout>
 
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:background="#ececec"
+                    android:padding="@dimen/_20sdp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/main_cos"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    >
 
+                    <androidx.viewpager.widget.ViewPager
+                        android:id="@+id/viewpager_ad"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_90sdp"
+                        android:background="@drawable/bg_main_btn" />
+
+                </LinearLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.core.widget.NestedScrollView>
 
+        <ImageButton
+            android:id="@+id/btn_getstamp"
+            android:layout_width="@dimen/_60sdp"
+            android:layout_height="@dimen/_60sdp"
+            android:background="@color/trans"
+            android:contentDescription="@string/qrscan"
+            android:scaleType="fitCenter"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.9"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.97"
+            app:srcCompat="@drawable/ic_btn_stamp" />
     </androidx.constraintlayout.motion.widget.MotionLayout>
 
 </layout>

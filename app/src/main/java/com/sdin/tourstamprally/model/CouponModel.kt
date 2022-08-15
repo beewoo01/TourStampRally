@@ -17,6 +17,7 @@ data class CouponModel(
     var coupon_createtime : String,
     @SerializedName("coupon_updatetime")
     var coupon_updatetime : String,
+
     )
 
 /*

@@ -15,8 +15,10 @@ import com.sdin.tourstamprally.R
 import com.sdin.tourstamprally.Utils
 import com.sdin.tourstamprally.databinding.FragmentQrScanBinding
 import com.sdin.tourstamprally.model.RallyMapModel
+import com.sdin.tourstamprally.model.TaggingnoCourseDTO
 import com.sdin.tourstamprally.ui.dialog.DefaultBSRDialog
 import com.sdin.tourstamprally.ui.dialog.DialogFailTimeOver
+import com.sdin.tourstamprally.ui.dialog.QRScanWanttogoDialog
 import com.sdin.tourstamprally.ui.dialog.ScanResultPopup
 import com.sdin.tourstamprally.ui.dialog.course.SelectCourseDialog
 import com.sdin.tourstamprally.ui.fragment.BaseFragment
@@ -25,12 +27,17 @@ import com.sdin.tourstamprally.utill.listener.DialogListener
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.observers.DisposableSingleObserver
 import io.reactivex.rxjava3.schedulers.Schedulers
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class QRScanFragment : BaseFragment(), DialogListener {
 
     private var binding: FragmentQrScanBinding? = null
     private var codeScanner: CodeScanner? = null
     private val gpsTracker: GpsTracker? = null
+
+    private var taginfo : String? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -64,6 +71,8 @@ class QRScanFragment : BaseFragment(), DialogListener {
         codeScanner = CodeScanner(requireContext(), scannerView)
         codeScanner?.decodeCallback = DecodeCallback { result: Result ->
             requireActivity().runOnUiThread {
+                taginfo = result.text
+
                 Log.wtf("taginfo", result.text)
                 checkIn(result.text)
             }
@@ -99,7 +108,7 @@ class QRScanFragment : BaseFragment(), DialogListener {
             0 -> {
                 //코스 선택 안함
                 Log.wtf("QRFragment", "코스 선택 안함")
-                getCourseInfo()
+                getCourseInfo() //주석
             }
             1 -> {
                 Log.wtf("QRFragment", "코스 있음")
@@ -119,7 +128,7 @@ class QRScanFragment : BaseFragment(), DialogListener {
         }.show()
     }
 
-    private fun checkIn(taggingStr: String) {
+    fun checkIn(taggingStr: String) {
 
         Log.wtf("checkIn", "taggingStr? $taggingStr" )
         //final String finalText = "T05100AA028";
@@ -144,6 +153,8 @@ class QRScanFragment : BaseFragment(), DialogListener {
         val touristspotIdx = map["touristspot_idx"]
         when (result) {
             0 -> {
+
+                Log.wtf("setCheckInResult","0")
                 // 인증성공 POPUP
                 ScanResultPopup(requireContext(), 0, "QR", this@QRScanFragment) {
                     touristspotIdx?.let {
@@ -166,21 +177,58 @@ class QRScanFragment : BaseFragment(), DialogListener {
 
             }
             1 -> { //코스 선택 안함 POPUP
-                getCourseInfo()
+//                getCourseInfo() //주석
+                //여기에 팝업 들어가면될듯
+                Log.wtf("setCheckInResult","1")
+                apiService.hasTaggingInfonocourse(taginfo).enqueue(object : Callback<List<TaggingnoCourseDTO>>{
+                    override fun onResponse(
+                        call: Call<List<TaggingnoCourseDTO>>,
+                        response: Response<List<TaggingnoCourseDTO>>
+                    ) {
+                        if (response.isSuccessful){
+                            val result = response.body()
+                            if(result?.size!! > 1){
+                                Log.wtf("resultsize",result?.size.toString())
+                                result?.let {
+                                    QRScanWanttogoDialog(requireContext(),result, callback = {} ){
+                                        //선택된 tag 받아와서 checkin 쓰면될듯
+                                        checkIn(it)
+                                    }.show()
+                                }
+                                /*codeScanner?.startPreview()*/
+                            }
+                            else{
+                                getCourseInfo()
+                            }
+
+                        }else{
+                            getCourseInfo()
+                        }
+                    }
+
+                    override fun onFailure(call: Call<List<TaggingnoCourseDTO>>, t: Throwable) {
+                        t.printStackTrace()
+                    }
+
+                })
+
             }
 
             2 -> {
                 // 시간 오버 POPUP
+
                 DialogFailTimeOver(requireContext()).show()
             }
             3 -> {
                 // 태그 정보 잘못됨 POPUP
+                Log.wtf("setCheckInResult","1")
                 ScanResultPopup(requireContext(), 1, "QR", this@QRScanFragment) {
 
                 }.show()
             }
             4 -> {
                 //이미 인증됨  POPUP
+                Log.wtf("setCheckInResult","2")
                 ScanResultPopup(requireContext(), 2, "QR", this@QRScanFragment) {
                     touristspotIdx?.let {
                         apiService.selectSpotSimpleInfo(it)
@@ -205,12 +253,11 @@ class QRScanFragment : BaseFragment(), DialogListener {
             }
 
             5 -> {
-
                 // 현재 코스가 아님 POPUP
                 DefaultBSRDialog(
                     requireContext(),
-                    title = "현재 진행중인 코스를\n중단 하시겠습니까?",
-                    content = "중간 시 해당 코스는 모두\n실패 처리가 됩니다.",
+                    title = "\n현재 코스에 없는 스탬프 입니다.\n코스를 변경하시겠습니까?",
+                    content = "중단 시 진행중인 코스는\n완주실패 처리가 됩니다.\n\n",
                     isSpecial = true,
                     isSwitchBtn = false,
                     leftBtnStr = "취소",
@@ -225,6 +272,8 @@ class QRScanFragment : BaseFragment(), DialogListener {
                                     when (result) {
                                         0 -> {
                                             //정상적으로 삭제됨
+//                                            codeScanner?.startPreview()
+                                            getCourse()
                                         }
                                         1 -> {
                                             //기록 삭제 안됨
@@ -243,13 +292,58 @@ class QRScanFragment : BaseFragment(), DialogListener {
                                 }
                             })
                     }
+                    else{
+                        codeScanner?.startPreview()
+                    }
 
                 }.show()
             }
+
             else -> {
                 showToast("인증에 실패하였습니다. 관리자에게 문의해주세요 $result")
             }
         }
+    }
+
+    private fun getCourse(){
+        Log.wtf("getCourse", taginfo)
+        apiService.selectTouristspotidx(taginfo)
+            .subscribeOn(Schedulers.newThread())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeWith(object : DisposableSingleObserver<Int>(){
+                override fun onSuccess(t: Int) {
+                    Log.wtf("insertcourse", t.toString())
+                    insertcourse(t)
+                }
+
+                override fun onError(e: Throwable) {
+                    e.printStackTrace()
+                }
+
+            })
+    }
+    private fun insertcourse(idx : Int){
+
+        apiService.insertCurrentCourse(idx, Utils.User_Idx)
+            .subscribeOn(Schedulers.newThread())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeWith(object : DisposableSingleObserver<Int>() {
+                override fun onSuccess(result: Int) {
+                    if (result > 0) {
+                        Log.wtf("insertcourse","success")
+                        Log.wtf("insertcourse", taginfo)
+                        checkIn(taginfo!!)
+
+                    } else {
+                        Log.wtf("insertcourse","fail")
+                    }
+                }
+
+                override fun onError(e: Throwable) {
+                    e.printStackTrace()
+                }
+
+            })
     }
 
     private fun moveFragment(model: RallyMapModel) {

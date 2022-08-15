@@ -25,7 +25,6 @@ import com.sdin.tourstamprally.Utils
 import com.sdin.tourstamprally.data.Constant
 import com.sdin.tourstamprally.databinding.ActivitySplashBinding
 import com.sdin.tourstamprally.model.UserModel
-import com.sdin.tourstamprally.ui.dialog.DefaultBSRDialog
 import com.sdin.tourstamprally.ui.dialog.DefaultDialog
 import retrofit2.Call
 import retrofit2.Callback
@@ -49,7 +48,7 @@ class SplashActivity2 : BaseActivity() {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this@SplashActivity2, R.layout.activity_splash)
         binding?.let {
-            Glide.with(it.background.context).load(R.drawable.splash_bgclean).into(object : CustomTarget<Drawable>(){
+            Glide.with(it.background.context).load(R.drawable.drawalayout_drarient).into(object : CustomTarget<Drawable>(){
                 override fun onResourceReady(
                     resource: Drawable,
                     transition: Transition<in Drawable>?
@@ -171,7 +170,7 @@ class SplashActivity2 : BaseActivity() {
 
     private fun setSharedPref() = getSharedPreferences("rebuild_preference", MODE_PRIVATE)
 
-    @SuppressLint("InflateParams", "CutPasteId")
+    @SuppressLint("InflateParams", "CutPasteId", "SetTextI18n")
     private fun startLoading() {
         Handler(Looper.getMainLooper()).postDelayed({
             if (!isErr) {
@@ -218,13 +217,13 @@ class SplashActivity2 : BaseActivity() {
                                     mContext,
                                     gpsErrPopUpCloseButtonListener,
                                     "GPS 기능이 꺼져 있습니다. GPS 기능을 켜주세요."
-                                );
-                            defaultPopUpBSRDialog.show();
+                                )
+                            defaultPopUpBSRDialog.show()
                         }
 
                         2 -> {
                             val networkErrText =
-                                permissionView.findViewById<TextView>(R.id.tv_test);
+                                permissionView.findViewById<TextView>(R.id.tv_test)
 
                             networkErrText.text = "네트워크 오류가 발생 하였습니다."
 
@@ -243,7 +242,7 @@ class SplashActivity2 : BaseActivity() {
     }
 
     private val permissionErrPopUpCloseButtonListener = View.OnClickListener {
-        defaultPopUpBSRDialog.dismiss();
+        defaultPopUpBSRDialog.dismiss()
         ActivityCompat.requestPermissions(
             this@SplashActivity2,
             arrayOf(
@@ -326,7 +325,7 @@ class SplashActivity2 : BaseActivity() {
 
     private val requestPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { map ->
-            if (map.all { it.value == true }) {
+            if (map.all { it.value }) {
                 val preferences = setSharedPref()
                 val phone = preferences.getString("phone", "")
                 val psw = preferences.getString("password", "")

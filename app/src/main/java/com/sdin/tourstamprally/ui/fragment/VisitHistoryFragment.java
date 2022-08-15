@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,10 +17,10 @@ import androidx.databinding.DataBindingUtil;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.sdin.tourstamprally.R;
 import com.sdin.tourstamprally.Utils;
 import com.sdin.tourstamprally.adapter.ViSitReAdapter;
-
 import com.sdin.tourstamprally.databinding.DirectionGuidTagItemBinding;
 import com.sdin.tourstamprally.databinding.FragmentVisithistoryBinding;
 import com.sdin.tourstamprally.model.CouponModel;
@@ -52,6 +53,7 @@ public class VisitHistoryFragment extends BaseFragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_visithistory, container, false);
+        Log.wtf("VisitHistoryFragment", "onCreateView");
         return binding.getRoot();
     }
 
@@ -325,13 +327,99 @@ public class VisitHistoryFragment extends BaseFragment {
 
 
         private void setBackground(int position, CaterotyAdaper.ViewHolder holder) {
+            int icon;
             if (selectedItem == position) {
-                holder.binding.tagItemTxv.setBackground(ContextCompat.getDrawable(holder.binding.tagItemTxv.getContext(), R.drawable.bg_rounded_category_selected));
+                holder.binding.tagItemContainer.setBackground(ContextCompat.getDrawable(holder.binding.tagItemContainer.getContext(), R.drawable.bg_rounded_category_selected));
                 holder.binding.tagItemTxv.setTextColor(ContextCompat.getColor(holder.binding.tagItemTxv.getContext(), R.color.white));
+                icon = setIcon(true, position);
+                Log.wtf("onBindViewHolder", "setBackground if ");
+                /*if(position == 0){
+                    holder.binding.tagItemImg.setImageResource(R.drawable.ic_roadtour_on);
+                }*/
+
 
             } else {
-                holder.binding.tagItemTxv.setBackground(ContextCompat.getDrawable(holder.binding.tagItemTxv.getContext(), R.drawable.bg_rounded_category));
+                holder.binding.tagItemContainer.setBackground(ContextCompat.getDrawable(holder.binding.tagItemContainer.getContext(), R.drawable.bg_rounded_category));
                 holder.binding.tagItemTxv.setTextColor(ContextCompat.getColor(holder.binding.tagItemTxv.getContext(), R.color.mainColor));
+                icon = setIcon(false, position);
+                Log.wtf("onBindViewHolder", "setBackground elseA ");
+                /*if(position == 0){
+                    holder.binding.tagItemImg.setImageResource(R.drawable.ic_roadtour_off);
+                }*/
+
+            }
+
+            Glide.with(holder.binding.tagItemImg.getContext())
+                    .load(icon)
+                    .error(R.drawable.button_selector_drawable)
+                    .into(holder.binding.tagItemImg);
+        }
+
+        private int setIcon(boolean isSelected, int position) {
+            switch (position) {
+                case 0 : {
+                    if (isSelected) {
+                        return R.drawable.ic_roadtour_on;
+
+                    } else {
+                        return R.drawable.ic_roadtour_off;
+                    }
+
+                }
+
+                case 1 : {
+                    if (isSelected) {
+                        return R.drawable.ic_hardtour_on;
+                    } else {
+                        return R.drawable.ic_hardtour_off;
+                    }
+                }
+
+                case 2 : {
+                    if (isSelected) {
+                        return R.drawable.ic_trackingtour_on;
+                    } else {
+                        return R.drawable.ic_trackingtour_off;
+                    }
+                }
+
+                case 3 : {
+                    if (isSelected) {
+                        return R.drawable.ic_festivaltour_on;
+                    } else {
+                        return R.drawable.ic_festivaltour_off;
+                    }
+
+                }
+
+                case 4 : {
+                    if (isSelected) {
+                        return R.drawable.ic_webtoontour_on;
+                    } else {
+                        return R.drawable.ic_webtoontour_off;
+                    }
+                }
+
+                case 5 : {
+                    if (isSelected) {
+                        return R.drawable.ic_historytour_on;
+                    } else {
+                        return R.drawable.ic_hardtour_off;
+                    }
+                }
+
+                default: {
+                    return R.drawable.ic_hardtour_off;
+                }
+
+            /*case 6 : {
+                if (isSelected) {
+
+                } else {
+
+                }
+                break;
+            }*/
             }
         }
 

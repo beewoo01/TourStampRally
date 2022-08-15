@@ -3,7 +3,6 @@ package com.sdin.tourstamprally.adapter;
 import android.content.Context;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
-import android.util.Log;
 
 import java.io.File;
 

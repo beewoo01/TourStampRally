@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    >
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.fragment.around.course.CourseFragment">
+
+        <HorizontalScrollView
+            android:id="@+id/category_ScrollView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:scrollbars="none"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="@dimen/_8sdp">
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/course_chipGroup"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:paddingHorizontal="12dp"
+                app:checkedChip="@id/all_tour_chip"
+                app:selectionRequired="true"
+                app:singleLine="true"
+                app:singleSelection="true">
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/road_tour_chip"
+                    style="@style/Widget.around.tour.Chip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/_40sdp"
+                    android:text="@string/roadTour"
+                    app:chipIcon="@drawable/selector_road_chip_icon"
+                    app:chipIconEnabled="true" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/hard_tour_chip"
+                    style="@style/Widget.around.tour.Chip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/_40sdp"
+                    android:text="@string/hardTour"
+                    app:chipIcon="@drawable/selector_hard_chip_icon"
+                    app:chipIconEnabled="true" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/tracking_tour_chip"
+                    style="@style/Widget.around.tour.Chip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/_40sdp"
+                    android:text="@string/trackingTour"
+                    app:chipIcon="@drawable/selector_tracking_chip_icon"
+                    app:chipIconEnabled="true" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/history_tour_chip"
+                    style="@style/Widget.around.tour.Chip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/_40sdp"
+                    android:text="@string/historyTour"
+                    app:chipIcon="@drawable/selector_history_chip_icon"
+                    app:chipIconEnabled="true" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/treasure_tour_chip"
+                    style="@style/Widget.around.tour.Chip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/_40sdp"
+                    android:text="@string/find_treasure"
+                    app:chipIcon="@drawable/selector_treasure_chip_icon"
+                    app:chipIconEnabled="true" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/festival_tour_chip"
+                    style="@style/Widget.around.tour.Chip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/_40sdp"
+                    android:text="@string/festival_tour"
+                    app:chipIcon="@drawable/selector_festival_chip_icon"
+                    app:chipIconEnabled="true" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/webtoon_tour_chip"
+                    style="@style/Widget.around.tour.Chip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/_40sdp"
+                    android:text="@string/webtoon_tour"
+                    app:chipIcon="@drawable/selector_webtoon_chip_icon"
+                    app:chipIconEnabled="true" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/all_tour_chip"
+                    style="@style/Widget.around.tour.Chip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/_40sdp"
+                    android:text="@string/watch_all"
+                    app:chipIconEnabled="true" />
+
+            </com.google.android.material.chip.ChipGroup>
+
+
+        </HorizontalScrollView>
+
+
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/_10sdp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/category_ScrollView">
+
+
+            <RelativeLayout
+                android:id="@+id/map_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <include
+                android:id="@+id/bottom_sheet_incl"
+                layout="@layout/course_include_layout"
+                />
+
+
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

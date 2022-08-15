@@ -5,12 +5,12 @@ import android.content.Intent
 import android.location.Geocoder
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.kakao.sdk.common.util.KakaoCustomTabsClient.openWithDefault
@@ -22,7 +22,6 @@ import com.sdin.tourstamprally.R
 import com.sdin.tourstamprally.databinding.FragmentTourDetailBinding
 import com.sdin.tourstamprally.model.TouristSpotPointDC
 import com.sdin.tourstamprally.model.TouristSpotPointImg
-import com.sdin.tourstamprally.ui.dialog.DetailDialog
 import com.sdin.tourstamprally.ui.dialog.ReadyDialog
 import com.sdin.tourstamprally.ui.fragment.BaseFragment
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
@@ -48,12 +47,14 @@ class TourDetailFragment : BaseFragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_tour_detail, container, false)
-        Log.wtf("TourDetailFragment", "onCreateView")
         val model: TourDetailFragmentArgs by navArgs()
         touristSpotPointModel = model.touristSpotPointDC
-        Log.wtf("onCreateView", "touristSpotPointModel")
-        Log.wtf("onCreateView", touristSpotPointModel.touristspotpoint_detail_explan)
         binding?.fragment = this@TourDetailFragment
+
+        binding?.btnGetstamp?.setOnClickListener {
+            val action = TourDetailFragmentDirections.actionFragmentTourDetailToPageStamp()
+            findNavController().navigate(action)
+        }
         return binding?.root
     }
 

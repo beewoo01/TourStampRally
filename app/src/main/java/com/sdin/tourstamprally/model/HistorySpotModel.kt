@@ -60,5 +60,11 @@ data class HistorySpotModel(
     var coupon_status : Int?,
 
     @SerializedName("coupon_createtime")
-    var coupon_createtime : String?
+    var coupon_createtime : String?,
+
+    @SerializedName("touristspot_latitude")
+    val touristspot_latitude : Double,
+
+    @SerializedName("touristspot_longitude")
+    val touristspot_longitude : Double
 ) : Serializable

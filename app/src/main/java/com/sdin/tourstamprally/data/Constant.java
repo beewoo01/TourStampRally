@@ -1,9 +1,6 @@
 package com.sdin.tourstamprally.data;
 
 
-import android.util.Log;
-
-
 public class Constant {
 
     public static final String SERVER_URL = "http://coratest.kr/base_project_brs/";

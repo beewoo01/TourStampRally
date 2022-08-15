@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.google.gson.annotations.SerializedName
 import com.sdin.tourstamprally.R
 import com.sdin.tourstamprally.Utils
 import com.sdin.tourstamprally.databinding.FragmentTourSpotPointBinding
@@ -33,7 +32,7 @@ class TourSpotPointFragment : BaseFragment() {
     private var binding: FragmentTourSpotPointBinding? = null
     private lateinit var list: List<TouristSpotPointDC>
     private lateinit var rallyMapModel: RallyMapModel
-    private lateinit var mapView: MapView
+    private var mapView: MapView? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -44,6 +43,12 @@ class TourSpotPointFragment : BaseFragment() {
             DataBindingUtil.inflate(inflater, R.layout.fragment_tour_spot_point, container, false)
         val model: TourSpotPointFragmentArgs by navArgs()
         rallyMapModel = model.rallyMapModel
+
+        binding?.btnGetstamp?.setOnClickListener {
+
+            val action = TourSpotPointFragmentDirections.actionFragmentTourSpotPointToPageStamp()
+            findNavController().navigate(action)
+        }
         return binding?.root
     }
 
@@ -59,7 +64,9 @@ class TourSpotPointFragment : BaseFragment() {
     override fun onPause() {
         super.onPause()
         binding?.mapLayout?.removeView(mapView)
+        mapView = null
     }
+
 
     private fun getData() {
         val map = HashMap<String, Int>()
@@ -92,7 +99,7 @@ class TourSpotPointFragment : BaseFragment() {
 
     private fun initRecyclerView() {
         with(binding!!) {
-            recyclerviewLocationRe.apply {
+            bottomSheetIncl.recyclerviewLocationRe.apply {
                 adapter = TourSpotPointAdapter(callback = {
                     val action =
                         TourSpotPointFragmentDirections.actionFragmentTourSpotPointToFragmentTourDetail(
@@ -110,9 +117,11 @@ class TourSpotPointFragment : BaseFragment() {
     }
 
     private fun setMap() {
-        Log.wtf("getData", "setMap")
-        mapView = MapView(requireActivity())
-        mapView.setMapCenterPointAndZoomLevel(
+        if (mapView == null) {
+            mapView = MapView(requireActivity())
+        }
+
+        mapView?.setMapCenterPointAndZoomLevel(
             MapPoint.mapPointWithGeoCoord(
                 rallyMapModel.touristspot_latitude,
                 rallyMapModel.touristspot_longitude
@@ -149,20 +158,56 @@ class TourSpotPointFragment : BaseFragment() {
                 itemName = list[index].touristspotpoint_name
                 markerType = MapPOIItem.MarkerType.CustomImage
 
+
                 customImageResourceId =
                     if (model.touristhistory_idx > 1) {
                         R.drawable.marker_icon_success
                     } else {
-                        R.drawable.marker_icon_prev
+                        getCourseNumberMarkerImage(model.touristspotpoint_course_number)
+                        //R.drawable.marker_icon_prev
                     }
 
                 isCustomImageAutoscale = true
             }
         }
 
-        mapView.addPOIItems(markers)
+        mapView?.addPOIItems(markers)
         binding?.tourSpotPointPgb?.visibility = View.GONE
     }
+
+    private fun getCourseNumberMarkerImage(courseNumber : Int) : Int =
+        when(courseNumber) {
+            1 -> R.drawable.around_course_marker1
+            2 -> R.drawable.around_course_marker2
+            3 -> R.drawable.around_course_marker3
+            4 -> R.drawable.around_course_marker4
+            5 -> R.drawable.around_course_marker5
+            6 -> R.drawable.around_course_marker6
+            7 -> R.drawable.around_course_marker7
+            8 -> R.drawable.around_course_marker8
+            9 -> R.drawable.around_course_marker9
+            10 -> R.drawable.around_course_marker10
+            11 -> R.drawable.around_course_marker11
+            12 -> R.drawable.around_course_marker12
+            13 -> R.drawable.around_course_marker13
+            14 -> R.drawable.around_course_marker14
+            15 -> R.drawable.around_course_marker15
+            16 -> R.drawable.around_course_marker16
+            17 -> R.drawable.around_course_marker17
+            18 -> R.drawable.around_course_marker18
+            19 -> R.drawable.around_course_marker19
+            20 -> R.drawable.around_course_marker20
+            21 -> R.drawable.around_course_marker21
+            22 -> R.drawable.around_course_marker22
+            23 -> R.drawable.around_course_marker23
+            24 -> R.drawable.around_course_marker24
+            25 -> R.drawable.around_course_marker25
+            26 -> R.drawable.around_course_marker26
+            27 -> R.drawable.around_course_marker27
+            28 -> R.drawable.around_course_marker28
+            29 -> R.drawable.around_course_marker29
+            else -> R.drawable.around_course_marker30
+        }
 
     class TourSpotPointAdapter(private val callback: (TouristSpotPointDC) -> Unit) :
         ListAdapter<TouristSpotPointDC, TourSpotPointAdapter.ViewHolder>(differ) {
@@ -189,9 +234,9 @@ class TourSpotPointFragment : BaseFragment() {
                     Glide.with(locationImv.context)
                         .load(
                             if (absoluteAdapterPosition % 2 == 0) {
-                                R.drawable.icon_deep_blue
+                                R.drawable.location_puple
                             } else {
-                                R.drawable.icon_sky_blue
+                                R.drawable.location_sky
                             }
                         ).into(locationImv)
 
@@ -247,6 +292,11 @@ class TourSpotPointFragment : BaseFragment() {
             }
         }
 
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        binding = null
     }
 
 

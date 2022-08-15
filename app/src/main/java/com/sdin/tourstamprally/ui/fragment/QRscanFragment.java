@@ -1,18 +1,17 @@
 package com.sdin.tourstamprally.ui.fragment;
 
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
-
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.budiyev.android.codescanner.CodeScanner;
 import com.sdin.tourstamprally.R;
@@ -25,8 +24,8 @@ import com.sdin.tourstamprally.ui.dialog.DialogFailTimeOver;
 import com.sdin.tourstamprally.ui.dialog.ScanResultDialog;
 import com.sdin.tourstamprally.ui.dialog.ScanResultPopup;
 import com.sdin.tourstamprally.ui.dialog.course.SelectCourseDialog;
-import com.sdin.tourstamprally.utill.listener.DialogListener;
 import com.sdin.tourstamprally.utill.GpsTracker;
+import com.sdin.tourstamprally.utill.listener.DialogListener;
 import com.sdin.tourstamprally.utill.listener.ScanListener;
 
 import org.jetbrains.annotations.NotNull;
@@ -36,9 +35,6 @@ import java.util.HashMap;
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.observers.DisposableSingleObserver;
 import io.reactivex.rxjava3.schedulers.Schedulers;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class QRscanFragment extends BaseFragment implements DialogListener, ScanListener {
 

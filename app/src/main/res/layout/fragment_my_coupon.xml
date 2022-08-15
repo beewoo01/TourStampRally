@@ -7,7 +7,68 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-
+        <View
+            android:id="@+id/top_view"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_60sdp"
+            android:background="#FFF4EB"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/middle_view"/>
+        <TextView
+            android:id="@+id/have_stamp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:elevation="1dp"
+            android:text="보유스탬프"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_13sdp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/start_guidline"
+            app:layout_constraintTop_toTopOf="@+id/top_view"
+            app:layout_constraintBottom_toBottomOf="@id/top_view"
+            />
+        <TextView
+            android:id="@+id/mystamp_count_txv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_3sdp"
+            android:elevation="1dp"
+            android:text="0"
+            android:textColor="#E66249"
+            android:textSize="@dimen/_13sdp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@id/top_view"
+            app:layout_constraintStart_toEndOf="@id/have_stamp"
+            app:layout_constraintTop_toTopOf="@id/top_view" />
+        <TextView
+            android:id="@+id/end_stamp_txv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_3sdp"
+            android:elevation="1dp"
+            android:text="장"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_13sdp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@id/top_view"
+            app:layout_constraintStart_toEndOf="@id/mystamp_count_txv"
+            app:layout_constraintTop_toTopOf="@id/top_view" />
+        <ImageView
+            android:layout_width="@dimen/_18sdp"
+            android:layout_height="@dimen/_18sdp"
+            android:src="@drawable/stamp_back"
+            app:layout_constraintBottom_toBottomOf="@id/top_view"
+            app:layout_constraintStart_toEndOf="@id/end_stamp_txv"
+            app:layout_constraintTop_toTopOf="@id/top_view"/>
+        <ImageView
+            android:layout_width="@dimen/_50sdp"
+            android:layout_height="@dimen/_50sdp"
+            android:src="@drawable/ic_logo_bg_white"
+            app:layout_constraintBottom_toBottomOf="@id/top_view"
+            app:layout_constraintEnd_toEndOf="@id/end_guidline"
+            app:layout_constraintTop_toTopOf="@id/top_view"/>
         <!--<View
             android:id="@+id/toppad"
             android:layout_width="0dp"
@@ -82,15 +143,22 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/toppad" />-->
-
+        <View
+            android:id="@+id/line3"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="@color/gray_e2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/top_view" />
         <View
             android:id="@+id/middle_view"
             android:layout_width="0dp"
             android:layout_height="@dimen/_40sdp"
-            android:background="@color/light_goldenrod_yellow"
+            android:background="#FFFEF5"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/line3" />
 
         <TextView
             android:id="@+id/base_txv"
@@ -98,7 +166,7 @@
             android:layout_height="wrap_content"
             android:elevation="1dp"
             android:text="보유쿠폰"
-            android:textColor="@color/Black"
+            android:textColor="@color/black"
             android:textSize="@dimen/_13sdp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@id/middle_view"
@@ -112,7 +180,7 @@
             android:layout_marginStart="@dimen/_3sdp"
             android:elevation="1dp"
             android:text="0"
-            android:textColor="@color/orange"
+            android:textColor="#E66249"
             android:textSize="@dimen/_13sdp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@id/middle_view"
@@ -138,7 +206,7 @@
             android:id="@+id/line2"
             android:layout_width="0dp"
             android:layout_height="1dp"
-            android:background="@color/gray"
+            android:background="@color/gray_e2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/middle_view" />
@@ -199,6 +267,8 @@
             app:layout_constraintStart_toStartOf="@id/start_guidline"
             app:layout_constraintTop_toBottomOf="@id/coupon_list_txv"
             tools:listitem="@layout/mycoupon_item" />
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

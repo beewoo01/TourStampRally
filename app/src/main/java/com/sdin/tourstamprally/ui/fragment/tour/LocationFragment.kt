@@ -3,11 +3,9 @@ package com.sdin.tourstamprally.ui.fragment.tour
 import android.annotation.SuppressLint
 import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.SeekBar
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -17,14 +15,12 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
-import com.bumptech.glide.request.target.Target
 import com.bumptech.glide.request.transition.Transition
 import com.sdin.tourstamprally.R
 import com.sdin.tourstamprally.Utils
 import com.sdin.tourstamprally.databinding.FragmentLocationBinding
 import com.sdin.tourstamprally.databinding.ItemReRallyMapBinding
 import com.sdin.tourstamprally.model.RallyMapModel
-import com.sdin.tourstamprally.model.StoreModel
 import com.sdin.tourstamprally.model.TopFourLocationModel
 import com.sdin.tourstamprally.ui.fragment.BaseFragment
 import retrofit2.Call
@@ -36,7 +32,7 @@ class LocationFragment : BaseFragment() {
     private var binding: FragmentLocationBinding? = null
     private lateinit var model: TopFourLocationModel
     private lateinit var list: List<RallyMapModel>
-    private lateinit var locationFragmentAdapter : LocationFragAdapter
+    private lateinit var locationFragmentAdapter: LocationFragAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -46,6 +42,11 @@ class LocationFragment : BaseFragment() {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_location, container, false)
         val args: LocationFragmentArgs by navArgs()
         model = args.topFourModel
+
+        binding?.btnGetstamp?.setOnClickListener {
+            val action = LocationFragmentDirections.actionFragmentLocationToPageStamp()
+            findNavController().navigate(action)
+        }
         return binding?.root
     }
 
@@ -93,7 +94,10 @@ class LocationFragment : BaseFragment() {
                     setRecyclerViewAdapter()
                 }
 
-                override fun onFailure(call: Call<List<RallyMapModel>>, t: Throwable) {}
+                override fun onFailure(call: Call<List<RallyMapModel>>, t: Throwable) {
+                    t.printStackTrace()
+                    binding!!.locationPgb.visibility = View.GONE
+                }
             })
     }
 
@@ -135,7 +139,7 @@ class LocationFragment : BaseFragment() {
             adapter = locationFragmentAdapter
 
             layoutManager = GridLayoutManager(requireContext(), 2)
-
+            binding!!.locationPgb.visibility = View.GONE
             setProgress()
         }
     }
@@ -170,7 +174,7 @@ class LocationFragment : BaseFragment() {
 
     private fun deleteTourInter(model: RallyMapModel) {
         model.user_touristspot_interest_idx?.let {
-            apiService.remove_intest(it, 1).enqueue(object : Callback<Int>{
+            apiService.remove_intest(it, 1).enqueue(object : Callback<Int> {
                 override fun onResponse(call: Call<Int>, response: Response<Int>) {
                     if (response.isSuccessful) {
                         val result = response.body()
@@ -199,17 +203,16 @@ class LocationFragment : BaseFragment() {
 
     @SuppressLint("SetTextI18n")
     private fun setProgress() = with(binding!!) {
-        val myCount =
-            ((model.myHistoryCount.toDouble()) / model.allPointCount.toDouble() * 100).roundToInt()
+        if (model.myHistoryCount != 0 && model.allPointCount != 0) {
+            val myCount =
+                ((model.myHistoryCount.toDouble()) / model.allPointCount.toDouble() * 100).roundToInt()
 
-        seekBarLocation.max = 100
-        seekBarLocation.progress = myCount
-        /*Log.wtf("setProgress", "allPointCount ${model.allPointCount}")
-        Log.wtf("setProgress", "myHistoryCount ${model.myHistoryCount}")
-        Log.wtf("setProgress", "myCount $myCount")*/
-        seekPercentTxv.text = "${myCount}%"
-        locationPgb.visibility = View.GONE
+            seekBarLocation.max = 100
+            seekBarLocation.progress = myCount
+            seekPercentTxv.text = "${myCount}%"
+            locationPgb.visibility = View.GONE
 
+        }
     }
 
 
@@ -226,9 +229,19 @@ class LocationFragment : BaseFragment() {
                     Glide.with(locationImv.context)
                         .load(
                             if (absoluteAdapterPosition % 2 == 0)
-                                R.drawable.icon_deep_blue
-                            else R.drawable.icon_sky_blue
+                                R.drawable.location_puple
+                            else R.drawable.location_sky
                         ).into(locationImv)
+
+                    spotContainer.let {
+                        if(absoluteAdapterPosition % 4 == 0 ||absoluteAdapterPosition % 4 == 1){
+                            it.setBackgroundResource(R.drawable.bg_rounded_03_location)
+                        }
+                        else{
+                            it.setBackgroundResource(R.drawable.bg_rounded_03)
+                        }
+                    }
+
 
                     Glide.with(logoImv.context)
                         .load(

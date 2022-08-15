@@ -1,26 +1,19 @@
 package com.sdin.tourstamprally.ui.fragment;
 
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.CompoundButton;
-
 import com.sdin.tourstamprally.R;
 import com.sdin.tourstamprally.Utils;
 import com.sdin.tourstamprally.databinding.FragmentSetAlarmBinding;
 import com.sdin.tourstamprally.model.AlramState;
-import com.sdin.tourstamprally.sqlite.DbOpenHelper;
 import com.sdin.tourstamprally.sqlite.SQLiteConnector;
 
 import org.jetbrains.annotations.NotNull;

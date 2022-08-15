@@ -1,14 +1,13 @@
 package com.sdin.tourstamprally.ui.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.databinding.DataBindingUtil;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
 
 import com.sdin.tourstamprally.R;
 import com.sdin.tourstamprally.databinding.ActivityTermsOfConditionsBinding;

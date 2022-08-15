@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/main_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_rounded_03_coral"
+            android:paddingVertical="@dimen/_10sdp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/title_txv"
+                style="@style/Text.TitleStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:fontFamily="@font/notosans_kr_medium"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_15sdp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@id/location_re"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_chainStyle="packed"
+                android:text="어디로 가고싶으세요?" />
+
+            <!--<LinearLayout
+                android:id="@+id/first_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_30sdp"
+                android:background="@drawable/bg_rounded_03"
+                android:orientation="horizontal"
+                android:elevation="@dimen/_3sdp"
+                android:padding="@dimen/_8sdp"
+                app:layout_constraintBottom_toTopOf="@+id/second_layout"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/title_txv">
+
+                <RelativeLayout
+                    android:layout_width="@dimen/_50sdp"
+                    android:layout_height="@dimen/_50sdp"
+                    >
+
+                    <ImageView
+                        android:id="@+id/tourimg_imv"
+                        android:layout_width="@dimen/_40sdp"
+                        android:layout_height="@dimen/_40sdp"
+                        android:layout_centerInParent="true"
+                        android:background="@drawable/bg_circle_gray"
+                        android:padding="@dimen/_5sdp"
+                        android:src="@drawable/ic_main_roadtour" />
+
+                </RelativeLayout>
+
+
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_gravity="center">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/location_txv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="@dimen/_10sdp"
+                            android:layout_weight="1"
+                            android:background="@drawable/bg_rounded_33_yellow"
+                            android:paddingVertical="@dimen/_3sdp"
+                            android:paddingHorizontal="@dimen/_8sdp"
+                            android:text="로드투어"
+                            android:layout_gravity="center"
+                            android:textColor="@color/white"
+                            android:textStyle="bold"
+                            android:textSize="@dimen/_8sdp"/>
+
+                        <TextView
+                            android:id="@+id/tourspot_name_txv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="초량이바구길"
+                            android:layout_marginEnd="@dimen/_8sdp"
+                            android:layout_gravity="center"
+                            android:textSize="@dimen/_12sdp"
+                            android:textStyle="bold"
+                            android:textColor="@color/black"/>
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/hashtag_txv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginTop="@dimen/_8sdp"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:textSize="@dimen/_8sdp"
+                        android:text="#모노레일 #전망대 #이바구충전소" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/second_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:layout_marginBottom="@dimen/_30sdp"
+                android:background="@drawable/bg_rounded_03"
+                android:orientation="horizontal"
+                android:elevation="@dimen/_3sdp"
+                android:padding="@dimen/_8sdp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/first_layout">
+
+                <RelativeLayout
+                    android:layout_width="@dimen/_50sdp"
+                    android:layout_height="@dimen/_50sdp"
+                    >
+
+                    <ImageView
+                        android:id="@+id/tourimg2_imv"
+                        android:layout_width="@dimen/_40sdp"
+                        android:layout_height="@dimen/_40sdp"
+                        android:layout_centerInParent="true"
+                        android:background="@drawable/bg_circle_gray"
+                        android:padding="@dimen/_5sdp"
+                        android:src="@drawable/ic_bike_tour" />
+
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_gravity="center">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/location2_txv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="@dimen/_10sdp"
+                            android:layout_weight="1"
+                            android:background="@drawable/bg_rounded_33_sky"
+                            android:paddingVertical="@dimen/_3sdp"
+                            android:paddingHorizontal="@dimen/_8sdp"
+                            android:text="자전거투어"
+                            android:layout_gravity="center"
+                            android:textColor="@color/white"
+                            android:textStyle="bold"
+                            android:textSize="@dimen/_8sdp"/>
+
+                        <TextView
+                            android:id="@+id/tourspot2_name_txv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="초량이바구길"
+                            android:layout_marginEnd="@dimen/_8sdp"
+                            android:layout_gravity="center"
+                            android:textSize="@dimen/_12sdp"
+                            android:textStyle="bold"
+                            android:textColor="@color/black"/>
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/hashtag2_txv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginTop="@dimen/_8sdp"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:textSize="@dimen/_8sdp"
+                        android:text="#모노레일 #전망대 #이바구충전소" />
+                </LinearLayout>
+
+            </LinearLayout>-->
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@id/location_re"
+                android:layout_width="match_parent"
+                android:layout_marginHorizontal="@dimen/_15sdp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_15sdp"
+                app:layout_constraintTop_toBottomOf="@+id/title_txv"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                tools:itemCount="2"
+                tools:listitem="@layout/item_re_location"/>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <ImageButton
+            android:id="@+id/close_imb"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@null"
+            android:contentDescription="@string/close"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_close_btn_bg_main"
+            app:layout_constraintBottom_toTopOf="@id/main_container"
+            app:layout_constraintEnd_toEndOf="@id/main_container"
+            app:layout_constraintStart_toEndOf="@id/main_container"
+            app:layout_constraintTop_toTopOf="@id/main_container" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

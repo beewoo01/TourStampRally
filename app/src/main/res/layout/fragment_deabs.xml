@@ -31,19 +31,20 @@
             android:id="@+id/slide_imv"
             android:layout_width="@dimen/_20sdp"
             android:layout_height="@dimen/_20sdp"
-            android:background="@null"
-            android:src="@drawable/ic_arrow_right_24"
             android:layout_marginEnd="@dimen/_5sdp"
-            app:layout_constraintTop_toTopOf="@id/location_re"
+            android:background="@null"
+            android:contentDescription="@string/slide"
+            android:src="@drawable/ic_arrow_right_24"
             app:layout_constraintBottom_toBottomOf="@id/location_re"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/location_re"
-            />
+            app:layout_constraintTop_toTopOf="@id/location_re"
+            tools:ignore="TouchTargetSizeCheck" />
 
         <View
             android:id="@+id/line1"
             android:layout_width="match_parent"
-            android:layout_height="1dp"
+            android:layout_height="0.5dp"
             android:background="@color/black"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -54,6 +55,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginStart="@dimen/_30sdp"
             android:background="@drawable/icon_bg_blue_resize"
             android:onClick="@{fragment::buttonClick}"
             app:layout_constraintEnd_toStartOf="@id/store_txv_bg"
@@ -66,10 +68,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:drawableTop="@drawable/folder_icon_white_resize"
                 android:gravity="center"
-                android:text="전체"
-                android:textColor="@color/white" />
+                android:text="@string/all"
+                android:textColor="@color/white"
+                app:drawableTopCompat="@drawable/folder_icon_white_resize" />
         </RelativeLayout>
 
 
@@ -90,10 +92,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:drawableTop="@drawable/store_icon_resize"
                 android:gravity="center"
-                android:text="매장"
-                android:textColor="@color/black" />
+                android:text="@string/store"
+                android:textColor="@color/black"
+                app:drawableTopCompat="@drawable/store_icon_resize" />
 
         </RelativeLayout>
 
@@ -102,6 +104,7 @@
             android:id="@+id/tour_txv_bg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/_30sdp"
             android:background="@drawable/icon_bg_gray_resize"
             android:onClick="@{fragment::buttonClick}"
             app:layout_constraintBottom_toBottomOf="@id/all_txv_bg"
@@ -114,10 +117,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:drawableTop="@drawable/map_icon_resize"
                 android:gravity="center"
-                android:text="관광지"
-                android:textColor="@color/black" />
+                android:text="@string/tour"
+                android:textColor="@color/black"
+                app:drawableTopCompat="@drawable/map_icon_resize" />
 
         </RelativeLayout>
 
@@ -126,6 +129,7 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginTop="@dimen/_10sdp"
+            android:background="@drawable/bg_rounded_05_gray"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

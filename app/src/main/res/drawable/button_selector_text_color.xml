@@ -3,6 +3,6 @@
 
     <item android:state_pressed="true" android:color="@color/white"/>
 
-    <item android:color="@color/Black"/>
+    <item android:color="@color/black"/>
 
 </selector>

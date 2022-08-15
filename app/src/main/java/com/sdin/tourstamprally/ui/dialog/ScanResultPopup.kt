@@ -8,13 +8,12 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.WindowManager
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import com.bumptech.glide.Glide
 import com.sdin.tourstamprally.R
-import com.sdin.tourstamprally.databinding.DialogScanResult2Binding
+import com.sdin.tourstamprally.databinding.DialogQrScansuccessBinding
 import com.sdin.tourstamprally.utill.listener.DialogListener
 
 class ScanResultPopup(
@@ -30,14 +29,14 @@ class ScanResultPopup(
      *  1 -> Wrong
      *  2 -> Already
      * */
-    private var binding: DialogScanResult2Binding? = null
+    private var binding: DialogQrScansuccessBinding? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = DataBindingUtil.inflate(
             LayoutInflater.from(context),
-            R.layout.dialog_scan_result2,
+            R.layout.dialog_qr_scansuccess,
             null,
             false
         )
@@ -81,31 +80,31 @@ class ScanResultPopup(
     private fun initSuccess() = with(binding!!) {
         mainContainer.background = ContextCompat.getDrawable(
             mainContainer.context,
-            R.drawable.ic_scan_result_di_success_bg
+            R.drawable.bg_scan_success
         )
 
         titleTxv.apply {
             text = "$parentFragment 스캔 성공"
+            setTextColor(ContextCompat.getColor(this.context, R.color.scansuccess))
+        }
+
+        /*stempImv.apply {
+            Glide.with(this.context).load(R.drawable.ic_scan_result_di_success_stemp).into(this)
+            visibility = View.VISIBLE
+        }*/
+
+        contentTxv.apply {
+            text = "스탬프 랠리 획득"
+            background = ContextCompat.getDrawable(this.context, R.drawable.bg_rounded_28_purple)
             setTextColor(ContextCompat.getColor(this.context, R.color.white))
         }
 
-        stempImv.apply {
-            Glide.with(this.context).load(R.drawable.ic_scan_result_di_success_stemp).into(this)
-            visibility = View.VISIBLE
-        }
-
-        contentTxv.apply {
-            text = "스탬프 랠리 획득!"
-            textSize = 18F
-            setTextColor(ContextCompat.getColor(this.context, R.color.scan_dialog_text_color))
-        }
-
-        Glide.with(logoImv.context).load(R.drawable.ic_scan_result_di_success_logo).into(logoImv)
+        Glide.with(alertImv.context).load(R.drawable.ic_scan_success).into(alertImv)
 
         checkTxv.apply {
             text = "확인하러가기 >"
-            setTextColor(ContextCompat.getColor(this.context, R.color.scan_dialog_text_color))
-            background = ContextCompat.getDrawable(this.context, R.drawable.bg_rounded_full_white)
+            setTextColor(ContextCompat.getColor(this.context, R.color.scansuccess))
+            background = ContextCompat.getDrawable(this.context, R.drawable.bg_rounded_02_green)
             setOnClickListener {
                 callBack()
                 dismiss()
@@ -120,31 +119,31 @@ class ScanResultPopup(
     private fun initFail() = with(binding!!) {
         mainContainer.background = ContextCompat.getDrawable(
             mainContainer.context,
-            R.drawable.ic_scan_fail_bg
+            R.drawable.bg_qr_scanfail
         )
 
         titleTxv.apply {
             text = "$parentFragment 스캔 실패"
-            setTextColor(ContextCompat.getColor(this.context, R.color.scan_fail_btn_Color))
+            setTextColor(ContextCompat.getColor(this.context, R.color.mainColor))
         }
 
-        stempImv.apply {
-            Glide.with(this.context).load(R.drawable.thumb_down).into(this)
-            visibility = View.VISIBLE
-        }
+        /* stempImv.apply {
+             Glide.with(this.context).load(R.drawable.thumb_down).into(this)
+             visibility = View.VISIBLE
+         }*/
 
         contentTxv.apply {
-            text = "$parentFragment 확인 하신 후 \n재시도 해주세요."
-            textSize = 12F
-            setTextColor(ContextCompat.getColor(this.context, R.color.Black))
+            text = "재시도 해주세요."
+            setTextColor(ContextCompat.getColor(this.context, R.color.black))
+            background = ContextCompat.getDrawable(this.context, R.drawable.bg_rounded_28_white)
         }
 
-        Glide.with(logoImv.context).load(R.drawable.ic_scan_result_di_gray_logo).into(logoImv)
+        Glide.with(alertImv.context).load(R.drawable.ic_scan_fail).into(alertImv)
 
         checkTxv.apply {
             text = "재시도하기 >"
             setTextColor(ContextCompat.getColor(this.context, R.color.white))
-            background = ContextCompat.getDrawable(this.context, R.drawable.scan_fail_button_bg)
+            background = ContextCompat.getDrawable(this.context, R.drawable.bg_rounded_03_purple)
 
             setOnClickListener {
                 dismissListener?.onDisMiss()
@@ -157,7 +156,7 @@ class ScanResultPopup(
     private fun initAlready() = with(binding!!) {
         mainContainer.background = ContextCompat.getDrawable(
             mainContainer.context,
-            R.drawable.ic_scan_result_alreay_bg
+            R.drawable.bg_rounded_28_blue
         )
 
         titleTxv.apply {
@@ -166,22 +165,22 @@ class ScanResultPopup(
 
         }
 
-        stempImv.apply {
+        /*stempImv.apply {
             visibility = View.INVISIBLE
-        }
+        }*/
 
         contentTxv.apply {
-            text = "이미 획득 완료하신 \n스탬프 입니다."
-            textSize = 12F
-            setTextColor(ContextCompat.getColor(this.context, R.color.Black))
+            text = "이미획득 완료하셨습니다."
+            background = ContextCompat.getDrawable(this.context, R.drawable.bg_rounded_28_deepblue)
+            setTextColor(ContextCompat.getColor(this.context, R.color.white))
         }
 
-        Glide.with(logoImv.context).load(R.drawable.ic_scan_result_di_success_logo).into(logoImv)
+        Glide.with(alertImv.context).load(R.drawable.ic_scan_overlapping).into(alertImv)
 
         checkTxv.apply {
             text = "확인하러가기 >"
-            setTextColor(ContextCompat.getColor(this.context, R.color.scan_Al_text_color))
-            background = ContextCompat.getDrawable(this.context, R.drawable.bg_rounded_full_white)
+            setTextColor(ContextCompat.getColor(this.context, R.color.mainColor))
+            background = ContextCompat.getDrawable(this.context, R.drawable.bg_rounded_02_purple)
 
             setOnClickListener {
                 // TODO: MoveFragment

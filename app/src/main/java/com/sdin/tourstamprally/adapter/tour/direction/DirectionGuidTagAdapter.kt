@@ -1,7 +1,6 @@
 package com.sdin.tourstamprally.adapter.tour.direction
 
 import android.annotation.SuppressLint
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
@@ -17,6 +16,7 @@ class DirectionGuidTagAdapter(private val callback : (TourTagModelDC) -> Unit) :
 
     private var selectedItem: Int = -1
     private var prevSelected: Int = -1
+
 
 
     inner class ViewHolder(private val binding: DirectionGuidTagItemBinding) :

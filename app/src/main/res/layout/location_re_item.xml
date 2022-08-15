@@ -16,7 +16,7 @@
             android:id="@+id/top_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/bg_rounded_07"
+            android:background="@drawable/bg_rounded_03_ivory"
             android:elevation="@dimen/_3sdp"
             android:outlineAmbientShadowColor="#98A2AA"
             android:outlineProvider="background"

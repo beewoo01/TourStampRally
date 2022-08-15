@@ -122,6 +122,20 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 />
 
+            <ImageButton
+                android:id="@+id/btn_getstamp"
+                android:layout_width="@dimen/_60sdp"
+                android:layout_height="@dimen/_60sdp"
+                android:scaleType="fitCenter"
+                android:background="@color/trans"
+                app:srcCompat="@drawable/ic_btn_stamp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.9"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.97"/>
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </FrameLayout>

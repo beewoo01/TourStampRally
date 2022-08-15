@@ -19,16 +19,14 @@ import com.sdin.tourstamprally.R
 import com.sdin.tourstamprally.Utils
 import com.sdin.tourstamprally.adapter.report.CategoryAdapter
 import com.sdin.tourstamprally.adapter.report.VisitAdapter
-import com.sdin.tourstamprally.adapter.swipe.ItemDecoration
 import com.sdin.tourstamprally.adapter.swipe.SwipeHelperCallback
 import com.sdin.tourstamprally.databinding.FragmentVisithistoryBinding
 import com.sdin.tourstamprally.model.CouponModel
 import com.sdin.tourstamprally.model.HistorySpotModel
 import com.sdin.tourstamprally.model.ReviewWriter
-import com.sdin.tourstamprally.model.event.EventModel
+import com.sdin.tourstamprally.model.around.AllArroundEntity
 import com.sdin.tourstamprally.ui.dialog.DefaultBSRDialog
 import com.sdin.tourstamprally.ui.dialog.DialogEventJoinSuccess
-import com.sdin.tourstamprally.ui.dialog.PopUp_Image
 import com.sdin.tourstamprally.ui.dialog.event.TicketDialog
 import com.sdin.tourstamprally.ui.fragment.BaseFragment
 import com.sdin.tourstamprally.utill.listener.VisitItemClickListener
@@ -38,7 +36,6 @@ import io.reactivex.rxjava3.schedulers.Schedulers
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.lang.Exception
 
 class VisitHistoryFragment : BaseFragment(), VisitItemClickListener {
     private var binding: FragmentVisithistoryBinding? = null
@@ -46,6 +43,7 @@ class VisitHistoryFragment : BaseFragment(), VisitItemClickListener {
     private lateinit var visitAdapter: VisitAdapter
     private var currentHistorySpotModel: HistorySpotModel? = null
     private var currentPosition = -1
+    private var location = 0
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -59,12 +57,20 @@ class VisitHistoryFragment : BaseFragment(), VisitItemClickListener {
     override fun onViewCreated(view: View, savedInstancdState: Bundle?) {
         super.onViewCreated(view, savedInstancdState)
 
-
-
         binding?.apply {
             progressBar.visibility = View.VISIBLE
-            setVisitInit()
             setCategory()
+            if(location == 0){
+                location = 1
+                setVisitInit(1)
+            }
+//            setVisitInit()
+
+
+            btnGetstamp.setOnClickListener {
+                val action = VisitHistoryFragmentDirections.actionPageReportToPageStamp()
+                findNavController().navigate(action)
+            }
 
 
             searchEdt.addTextChangedListener(object : TextWatcher {
@@ -86,8 +92,9 @@ class VisitHistoryFragment : BaseFragment(), VisitItemClickListener {
         }
     }
 
-    private fun setVisitInit() {
-        apiService.getHistorySpot(Utils.User_Idx)
+    private fun setVisitInit(locationx : Int) {
+        Log.wtf("funsetVisitInit",locationx.toString())
+        apiService.getHistorySpotVisit(Utils.User_Idx,locationx)
             .enqueue(object : Callback<List<HistorySpotModel>> {
                 @SuppressLint("ClickableViewAccessibility")
                 override fun onResponse(
@@ -119,7 +126,7 @@ class VisitHistoryFragment : BaseFragment(), VisitItemClickListener {
                             binding?.visitRecyclerView?.apply {
                                 layoutManager = LinearLayoutManager(requireContext())
                                 adapter = visitAdapter
-                                addItemDecoration(ItemDecoration())
+//                                addItemDecoration(ItemDecoration())
                                 setOnTouchListener { _, _ ->
                                     callback.removePreviousClamp(this)
                                     false
@@ -137,6 +144,7 @@ class VisitHistoryFragment : BaseFragment(), VisitItemClickListener {
             })
     }
 
+
     private fun onWriteReviewClick(model: ReviewWriter) {
         val action = VisitHistoryFragmentDirections.actionFragmentVisithistoryToFragmentWriteReview(
             writerModel = model,
@@ -147,21 +155,64 @@ class VisitHistoryFragment : BaseFragment(), VisitItemClickListener {
 
 
     private fun setCategory() {
+        apiService.allLocation.enqueue(object : Callback<List<AllArroundEntity>> {
+            override fun onResponse(
+                call: Call<List<AllArroundEntity>>,
+                response: Response<List<AllArroundEntity>>
+            ) {
+                val res = response.body()
+                res?.let { result ->
+                    binding?.categoryRecyclerView?.apply {
+                        layoutManager = LinearLayoutManager(requireContext())
+                            .apply {
+                                orientation = LinearLayoutManager.HORIZONTAL
+                            }
+
+                        adapter = CategoryAdapter(callback = {
+                            Log.wtf("CategoryAdapterlocation_idx",it.location_idx.toString())
+                            if(location != 0){
+                                location = it.location_idx!!
+                                Log.wtf("setVisitInit",location.toString())
+                                setVisitInit(location)
+                            }
+
+
+                        }).apply {
+                            setViewType(0)
+                            setLocationCount(result.count())
+                            submitList(result)
+                        }
+                    }
+
+                }
+            }
+
+            override fun onFailure(call: Call<List<AllArroundEntity>>, t: Throwable) {
+                t.printStackTrace()
+            }
+
+
+        })
+
         val arr: Array<String> = resources.getStringArray(R.array.area_direction)
+
         binding?.categoryRecyclerView?.apply {
             adapter = CategoryAdapter { location ->
-                var paramData = location
-                if (location == "전체") {
-                    paramData = "";
+                //var paramData = location
+                if (location.location_name == "전체") {
+                    //paramData.hashTa = "";
                 }
-                search(paramData)
+                //search(paramData)
             }.apply {
-                submitList(arr.toMutableList())
+
             }
         }
 
     }
 
+    private fun getlocationspot(locationidx : Int){
+
+    }
 
     private fun search(searchData: String) {
         val mutableList = mutableListOf<HistorySpotModel>()
@@ -313,11 +364,12 @@ class VisitHistoryFragment : BaseFragment(), VisitItemClickListener {
             isSpecial = false,
             isSwitchBtn = false,
             leftBtnStr = "도전",
-            rightBtnStr = "닫기"
+            rightBtnStr = "응모하기"
         ) { callback ->
 
             if (callback) {
                 //초기화
+                Log.wtf("currentHistorySpotModelcallback",callback.toString())
                 if (currentHistorySpotModel != null) {
                     apiService.resetTourSpot(
                         currentHistorySpotModel!!.touristspot_idx,
@@ -344,6 +396,24 @@ class VisitHistoryFragment : BaseFragment(), VisitItemClickListener {
                         })
                 }
 
+            }
+            else{
+                //joinEvent
+
+                currentHistorySpotModel?.coupon_idx?.let {
+                    val couponModel = CouponModel(
+                        it,
+                        Utils.User_Idx,
+                        currentHistorySpotModel?.coupon_number!!,
+                        currentHistorySpotModel?.coupon_status!!,
+                        currentHistorySpotModel?.touristspot_idx!!,
+                        currentHistorySpotModel?.coupon_createtime!!,
+                        currentHistorySpotModel?.coupon_createtime!!
+                    )
+
+                    joinEvent(couponModel)
+
+                }
             }
 
         }.show()

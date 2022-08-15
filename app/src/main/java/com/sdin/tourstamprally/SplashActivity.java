@@ -1,10 +1,5 @@
 package com.sdin.tourstamprally;
 
-import androidx.annotation.NonNull;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.databinding.DataBindingUtil;
-
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
@@ -26,13 +21,17 @@ import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.databinding.DataBindingUtil;
+
 import com.sdin.tourstamprally.data.Constant;
 import com.sdin.tourstamprally.databinding.ActivitySplashBinding;
 import com.sdin.tourstamprally.model.UserModel;
 import com.sdin.tourstamprally.ui.activity.BaseActivity;
 import com.sdin.tourstamprally.ui.activity.LoginActivity;
 import com.sdin.tourstamprally.ui.activity.MainActivity2;
-import com.sdin.tourstamprally.ui.dialog.DefaultBSRDialog;
 import com.sdin.tourstamprally.ui.dialog.DefaultDialog;
 
 import retrofit2.Call;

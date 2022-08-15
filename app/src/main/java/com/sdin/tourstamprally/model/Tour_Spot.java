@@ -1,9 +1,5 @@
 package com.sdin.tourstamprally.model;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-import android.security.identity.EphemeralPublicKeyNotFoundException;
-
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;

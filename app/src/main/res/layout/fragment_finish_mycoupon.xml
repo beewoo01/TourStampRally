@@ -49,7 +49,7 @@
                     android:id="@+id/toppad"
                     android:layout_width="0dp"
                     android:layout_height="@dimen/_40sdp"
-                    android:background="@color/light_goldenrod_yellow"
+                    android:background="#FFFEF5"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -59,7 +59,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="사용완료 쿠폰"
-                    android:textColor="@color/Black"
+                    android:textColor="@color/black"
                     android:textSize="@dimen/_13sdp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="@id/toppad"
@@ -83,7 +83,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="장"
-                    android:textColor="@color/Black"
+                    android:textColor="@color/black"
                     android:textSize="@dimen/_13sdp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="@id/toppad"
@@ -216,7 +216,7 @@
                     android:id="@+id/bottom_pad"
                     android:layout_width="0dp"
                     android:layout_height="@dimen/_40sdp"
-                    android:background="@color/light_goldenrod_yellow"
+                    android:background="#FFFEF5"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
@@ -227,7 +227,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="기간만료 쿠폰"
-                    android:textColor="@color/Black"
+                    android:textColor="@color/black"
                     android:textSize="@dimen/_13sdp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="@id/bottom_pad"
@@ -251,7 +251,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="장"
-                    android:textColor="@color/Black"
+                    android:textColor="@color/black"
                     android:textSize="@dimen/_13sdp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="@id/bottom_pad"
@@ -299,7 +299,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    app:layout_constraintGuide_percent="0.05" />
+                    app:layout_constraintGuide_percent="0.05109489" />
 
                 <androidx.constraintlayout.widget.Guideline
                     android:id="@+id/bottom_end_bottom_guidLine"

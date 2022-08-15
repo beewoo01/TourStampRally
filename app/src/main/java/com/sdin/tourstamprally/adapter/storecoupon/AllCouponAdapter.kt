@@ -1,7 +1,6 @@
 package com.sdin.tourstamprally.adapter.storecoupon
 
 import android.annotation.SuppressLint
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -11,7 +10,6 @@ import com.bumptech.glide.Glide
 import com.sdin.tourstamprally.R
 import com.sdin.tourstamprally.databinding.MycouponItemBinding
 import com.sdin.tourstamprally.model.StoreAllCouponModel
-import java.util.stream.Collectors
 
 class AllCouponAdapter(private val callback : (StoreAllCouponModel) -> Unit): ListAdapter<StoreAllCouponModel, AllCouponAdapter.ViewHolder>(differ) {
     inner class ViewHolder(private val binding: MycouponItemBinding) :

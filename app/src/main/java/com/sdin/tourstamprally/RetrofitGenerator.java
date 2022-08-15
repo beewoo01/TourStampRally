@@ -1,23 +1,18 @@
 package com.sdin.tourstamprally;
 
 
-import com.google.gson.stream.JsonReader;
-import com.sdin.tourstamprally.api.APIService;
-import com.sdin.tourstamprally.data.Constant;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.sdin.tourstamprally.api.APIService;
+import com.sdin.tourstamprally.data.Constant;
 import com.sdin.tourstamprally.data.LenientGsonConverterFactory;
-import com.sdin.tourstamprally.data.NullOnEmptyConverterFactory;
 
-import java.io.StringReader;
 import java.util.concurrent.TimeUnit;
 
-import io.reactivex.rxjava3.plugins.RxJavaPlugins;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * ClassName            RetrofitGenerator

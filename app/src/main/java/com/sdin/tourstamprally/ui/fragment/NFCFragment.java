@@ -4,11 +4,6 @@ import android.graphics.Outline;
 import android.nfc.NdefMessage;
 import android.nfc.NfcAdapter;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.databinding.DataBindingUtil;
-import androidx.navigation.Navigation;
-
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,12 +12,15 @@ import android.view.ViewGroup;
 import android.view.ViewOutlineProvider;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.databinding.DataBindingUtil;
+import androidx.navigation.Navigation;
+
 import com.sdin.tourstamprally.R;
 import com.sdin.tourstamprally.Utils;
 import com.sdin.tourstamprally.databinding.FragmentNfcBinding;
 import com.sdin.tourstamprally.model.RallyMapDTO;
 import com.sdin.tourstamprally.model.TouristSpotPoint;
-import com.sdin.tourstamprally.model.course.SelectCourseModel;
 import com.sdin.tourstamprally.ui.activity.MainActivity2;
 import com.sdin.tourstamprally.ui.dialog.DefaultBSRDialog;
 import com.sdin.tourstamprally.ui.dialog.DialogFailTimeOver;
@@ -37,16 +35,10 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
-import java.util.List;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.observers.DisposableSingleObserver;
 import io.reactivex.rxjava3.schedulers.Schedulers;
-import kotlin.Unit;
-import kotlin.jvm.functions.Function0;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 
 public class NFCFragment extends BaseFragment implements NFCListener, ScanListener {

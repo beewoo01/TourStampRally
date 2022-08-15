@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".ui.fragment.TourSpotPointFragment">
@@ -14,28 +15,46 @@
 
 
 
-            <RelativeLayout
+           <!-- <RelativeLayout
                 android:id="@+id/top_layout"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/_200sdp"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                >
+                >-->
+            <androidx.coordinatorlayout.widget.CoordinatorLayout
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginTop="@dimen/_10sdp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
                 <RelativeLayout
                     android:id="@+id/map_layout"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_centerInParent="true"
+                    android:layout_height="match_parent" />
+
+                <include
+                    android:id="@+id/bottom_sheet_incl"
+                    layout="@layout/location_bottom_sheet"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_280sdp"
+                    android:layout_marginHorizontal="10dp"
+                    app:behavior_peekHeight="@dimen/_100sdp"
+                    app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
                     />
 
 
-            </RelativeLayout>
+            </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+<!--            </RelativeLayout>-->
 
 
 
-            <androidx.recyclerview.widget.RecyclerView
+            <!--<androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerview_location_re"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
@@ -50,7 +69,7 @@
                 app:layout_constraintTop_toBottomOf="@id/top_layout"
                 app:layout_constraintBottom_toBottomOf="parent"
                 tools:listitem="@layout/location_re_item"
-                />
+                />-->
 
             <ProgressBar
                 android:id="@+id/tour_spot_point_pgb"
@@ -62,6 +81,20 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 />
+
+            <ImageButton
+                android:id="@+id/btn_getstamp"
+                android:layout_width="@dimen/_60sdp"
+                android:layout_height="@dimen/_60sdp"
+                android:scaleType="fitCenter"
+                android:background="@color/trans"
+                app:srcCompat="@drawable/ic_btn_stamp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.9"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.97"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
