@@ -185,7 +185,7 @@ class VisitAdapter(
 
         @SuppressLint("Recycle")
         private fun changeVisibility(isExpanded: Boolean, reviewIdx: Int) {
-            Log.wtf("changeVisibility", "current height = " + binding.reviewParentLayout.height)
+
             val height =
                 if (reviewIdx > 0) {
                     600
@@ -210,7 +210,7 @@ class VisitAdapter(
                         View.GONE
                     }
                 }
-                Log.wtf("changeVisibility", "current height = " + binding.reviewParentLayout.height)
+
             }
 
             animator.start()

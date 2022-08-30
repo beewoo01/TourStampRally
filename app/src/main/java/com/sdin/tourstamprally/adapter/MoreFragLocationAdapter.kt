@@ -35,7 +35,6 @@ class MoreFragLocationAdapter(val list: MutableList<Pair<Int, String>>, val cont
         fun bind(data: Pair<Int, String>) {
 
 
-            Log.wtf("ViewHolderdatafirst ",data.first.toString())
             locationIdx = data.first
 
             binding.tagItemTxv.text = data.second
@@ -86,7 +85,7 @@ class MoreFragLocationAdapter(val list: MutableList<Pair<Int, String>>, val cont
                     R.color.white
                 )
             )
-            Log.wtf("locationAdaptericon",locationIdx.toString())
+
             icon = setIcon(true, locationIdx)
         } else {
             holder.binding.tagItemCon.background = ContextCompat.getDrawable(

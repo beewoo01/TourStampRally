@@ -251,10 +251,17 @@ class TourSpotPointFragment : BaseFragment() {
 
                     spotName.text = model.touristspotpoint_name
                     explanTxv.text = model.touristspotpoint_explan
+                    if(model.touristhistory_idx > 0){
+                        topLayout.setBackgroundResource(R.drawable.bg_rounded_03_ivory)
 
+                    }else{
+                        topLayout.setBackgroundResource(R.drawable.bg_rounded_03_white)
+                    }
                     topLayout.setOnClickListener {
                         callback(model)
                     }
+
+
 
                 }
             }

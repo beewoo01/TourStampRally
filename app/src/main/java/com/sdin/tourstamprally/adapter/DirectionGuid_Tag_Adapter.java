@@ -56,7 +56,6 @@ public class DirectionGuid_Tag_Adapter extends RecyclerView.Adapter<DirectionGui
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Log.wtf("", "");
         holder.binding.tagItemTxv.setText("# " + arrayList.get(position).getHashTag());
         setBackground(position, holder);
     }
@@ -67,13 +66,11 @@ public class DirectionGuid_Tag_Adapter extends RecyclerView.Adapter<DirectionGui
             holder.binding.tagItemContainer.setBackground(ContextCompat.getDrawable(holder.binding.tagItemContainer.getContext(), R.drawable.bg_rounded_category_selected));
             holder.binding.tagItemTxv.setTextColor(ContextCompat.getColor(holder.binding.tagItemTxv.getContext(), R.color.white));
             icon = setIcon(true, position);
-            Log.wtf("onBindViewHolder", "setBackground if ");
 
         }else {
             holder.binding.tagItemContainer.setBackground(ContextCompat.getDrawable(holder.binding.tagItemContainer.getContext(), R.drawable.bg_rounded_category));
             holder.binding.tagItemTxv.setTextColor(ContextCompat.getColor(holder.binding.tagItemTxv.getContext(), R.color.mainColor));
             icon = setIcon(false, position);
-            Log.wtf("onBindViewHolder", "setBackground elseA ");
         }
 
         /*Glide.with(holder.binding.tagItemImg.getContext())

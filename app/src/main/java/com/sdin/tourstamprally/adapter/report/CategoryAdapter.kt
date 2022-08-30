@@ -11,44 +11,43 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.sdin.tourstamprally.R
 import com.sdin.tourstamprally.databinding.DirectionGuidTagItemBinding
-import com.sdin.tourstamprally.model.around.AllArroundEntity
+import com.sdin.tourstamprally.model.around.AllAroundEntity
 
-class CategoryAdapter(private val callback: (AllArroundEntity) -> Unit) :
-    ListAdapter<AllArroundEntity, CategoryAdapter.ViewHolder>(differ) {
+class CategoryAdapter(private val callback: (AllAroundEntity) -> Unit) :
+    ListAdapter<AllAroundEntity, CategoryAdapter.ViewHolder>(differ) {
 
     private var selectedItem = 0
     private var prevSelected = -1
-    private var currentViewType = 0
-    private var locationCount = 0
-    private var storeCount = 0
+    //private var currentViewType = 0
+    /*private var locationCount = 0
+    private var storeCount = 0*/
 
-    fun setViewType(viewType: Int) {
+    /*fun setViewType(viewType: Int) {
         currentViewType = viewType
-    }
+    }*/
 
-    fun setLocationCount(locationCount: Int) {
+    /*fun setLocationCount(locationCount: Int) {
         this.locationCount = locationCount
     }
 
     fun setStoreCount(storeCount: Int) {
         this.storeCount = storeCount
-    }
+    }*/
 
-
-    override fun getItemCount(): Int {
+    /*override fun getItemCount(): Int {
         return if (currentViewType == 0) {
             locationCount
         } else {
             storeCount
         }
 
-    }
+    }*/
 
 
     inner class ViewHolder(private val binding: DirectionGuidTagItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun onBind(tag: AllArroundEntity) {
+        fun onBind(tag: AllAroundEntity) {
             with(binding) {
                 tagItemContainer.apply {
                     var icon: Int? = null
@@ -60,7 +59,9 @@ class CategoryAdapter(private val callback: (AllArroundEntity) -> Unit) :
                             R.drawable.bg_rounded_category_selected
                         )
 
-                        if (currentViewType == 0) {
+                        icon = setIcon(true, absoluteAdapterPosition)
+
+                        /*if (currentViewType == 0) {
                             //Location
 
                             icon = setIcon(true, absoluteAdapterPosition)
@@ -69,7 +70,7 @@ class CategoryAdapter(private val callback: (AllArroundEntity) -> Unit) :
                             tagItemImg.isVisible = absoluteAdapterPosition == 0
                             storeicon = storeIcon(true, absoluteAdapterPosition)
 
-                        }
+                        }*/
 
                         tagItemTxv.setTextColor(ContextCompat.getColor(context, R.color.white))
 
@@ -79,18 +80,35 @@ class CategoryAdapter(private val callback: (AllArroundEntity) -> Unit) :
                             context,
                             R.drawable.bg_rounded_category
                         )
-                        if(currentViewType == 0){
+
+                        icon = setIcon(false, absoluteAdapterPosition)
+
+                        /*if(currentViewType == 0){
                             icon = setIcon(false, absoluteAdapterPosition)
                         }else{
                             tagItemImg.isVisible = absoluteAdapterPosition == 0
                             storeicon = storeIcon(false, absoluteAdapterPosition)
-                        }
+                        }*/
 
                         tagItemTxv.setTextColor(ContextCompat.getColor(context, R.color.mainColor))
 
                     }
 
-                    if(currentViewType == 0){
+                    icon?.let {
+                        tagItemImg.isVisible = true
+
+                        Glide.with(tagItemImg.context)
+                            .load(it)
+                            //.error(R.drawable.button_selector_drawable)
+                            .into(tagItemImg)
+
+                    } ?: kotlin.run {
+
+                        tagItemImg.isVisible = false
+
+                    }
+
+                    /*if(currentViewType == 0){
                         icon.let {
                             Glide.with(tagItemImg.context)
                                 .load(it)
@@ -104,7 +122,7 @@ class CategoryAdapter(private val callback: (AllArroundEntity) -> Unit) :
                                 //.error(R.drawable.button_selector_drawable)
                                 .into(tagItemImg)
                         }
-                    }
+                    }*/
 
 
 
@@ -112,18 +130,20 @@ class CategoryAdapter(private val callback: (AllArroundEntity) -> Unit) :
                     setOnClickListener {
                         prevSelected = selectedItem
                         selectedItem = absoluteAdapterPosition
-                        Log.wtf("setOnClickListener", selectedItem.toString())
                         callback(tag)
                         notifyItemChanged(prevSelected)
                         notifyItemChanged(selectedItem)
                     }
 
-                    tagItemTxv.text = if (currentViewType == 0) {
+
+                    tagItemTxv.text = tag.location_name
+
+                    /*tagItemTxv.text = if (currentViewType == 0) {
                         //Location
                         tag.location_name
                     } else {
                         tag.storeName
-                    }
+                    }*/
 
                 }
 
@@ -132,7 +152,7 @@ class CategoryAdapter(private val callback: (AllArroundEntity) -> Unit) :
 
             }
         }
-        private fun storeIcon(isSelected: Boolean, position: Int):Int{
+        /*private fun storeIcon(isSelected: Boolean, position: Int):Int{
             return when (position){
                 0->{
                     if (isSelected) {
@@ -164,53 +184,57 @@ class CategoryAdapter(private val callback: (AllArroundEntity) -> Unit) :
                 }
                 else -> R.drawable.ic_menu_bed_off
             }
-        }
+        }*/
 
-        private fun setIcon(isSelected: Boolean, position: Int): Int {
+        private fun setIcon(isSelected: Boolean, position: Int): Int? {
             return when (position) {
                 0 -> {
+                    null
+                }
+
+                1 -> {
                     if (isSelected) {
                         R.drawable.ic_roadtour_on
                     } else {
                         R.drawable.ic_roadtour_off
                     }
                 }
-                1 -> {
+                2 -> {
                     if (isSelected) {
                         R.drawable.ic_hardtour_on
                     } else {
                         R.drawable.ic_hardtour_off
                     }
                 }
-                2 -> {
+                3 -> {
                     if (isSelected) {
                         R.drawable.ic_trackingtour_on
                     } else {
                         R.drawable.ic_trackingtour_off
                     }
                 }
-                3->{ //보물찾기
+                4->{ //보물찾기
                     if (isSelected) {
                         R.drawable.treasure_on
                     } else {
                         R.drawable.treasure_off
                     }
                 }
-                4 -> {
+                5 -> {
                     if (isSelected) {
                         R.drawable.ic_festivaltour_on
                     } else {
                         R.drawable.ic_festivaltour_off
                     }
                 }
-                5 -> {
+                6 -> {
                     if (isSelected) {
                         R.drawable.ic_webtoontour_on
                     } else {
                         R.drawable.ic_webtoontour_off
                     }
                 }
-                6 -> {
+                7 -> {
                     if (isSelected) {
                         R.drawable.ic_historytour_on
                     } else {
@@ -240,23 +264,24 @@ class CategoryAdapter(private val callback: (AllArroundEntity) -> Unit) :
     }
 
     companion object {
-        val differ = object : DiffUtil.ItemCallback<AllArroundEntity>() {
+        val differ = object : DiffUtil.ItemCallback<AllAroundEntity>() {
             override fun areItemsTheSame(
-                oldItem: AllArroundEntity,
-                newItem: AllArroundEntity
+                oldItem: AllAroundEntity,
+                newItem: AllAroundEntity
             ): Boolean {
-                if (oldItem.viewType == 0) {
+                return oldItem.location_idx == newItem.location_idx
+                /*if (oldItem.viewType == 0) {
                     return oldItem.location_idx == newItem.location_idx
                 } else {
-                    return oldItem.storeType == newItem.storeType
-                }
+                    return oldItem == newItem
+                }*/
 
 
             }
 
             override fun areContentsTheSame(
-                oldItem: AllArroundEntity,
-                newItem: AllArroundEntity
+                oldItem: AllAroundEntity,
+                newItem: AllAroundEntity
             ): Boolean {
                 return oldItem.toString() == newItem.toString()
             }

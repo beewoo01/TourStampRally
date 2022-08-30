@@ -28,6 +28,10 @@ class DirectionGuidAdapter(context: Context, private val callback: (TopFourLocat
         longitude = gpsTracker.longitude
     }
 
+    override fun getItemCount(): Int {
+        return 8
+    }
+
     inner class ViewHolder(private val binding: DirectionGuidLocationItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
@@ -60,7 +64,6 @@ class DirectionGuidAdapter(context: Context, private val callback: (TopFourLocat
 
                         })
                 }
-
 
                 if (model.location_idx > 0) {
                     val allCount = model.allPointCount

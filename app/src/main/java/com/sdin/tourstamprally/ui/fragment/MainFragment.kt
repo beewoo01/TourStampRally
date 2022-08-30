@@ -38,7 +38,10 @@ import com.sdin.tourstamprally.model.RallyMapModel
 import com.sdin.tourstamprally.model.StoreBannerCouponDTO
 import com.sdin.tourstamprally.model.TopFourLocationModel
 import com.sdin.tourstamprally.ui.dialog.GetStampDialog
+import retrofit2.Call
 import retrofit2.Callback
+import retrofit2.Response
+import java.util.function.IntToDoubleFunction
 
 
 class MainFragment : BaseFragment() {
@@ -51,8 +54,14 @@ class MainFragment : BaseFragment() {
         setPage()
         true
     }
-    private var currentPage = 0
+    private val handlerr = Handler(Looper.getMainLooper()) {
+        setPagead()
+        true
+    }
+    private var currentPage = 100
+    private var currentPagead = 0
     private val thread = Thread(PagerRunnable())
+    private val threadad = Thread(ADPagerRunnable())
 
     private var rallyMapModel: RallyMapModel? = null
 
@@ -90,19 +99,29 @@ class MainFragment : BaseFragment() {
 
     private fun initView() {
 
-        val mainslideradapter = ViewPager2Adapter(this)
+        val mainslideradapter = ViewPager2Adapter(this, 4)
 
-        mainslideradapter.addFragment(MainPic1Fragment())
+        /*mainslideradapter.addFragment(MainPic1Fragment())
         mainslideradapter.addFragment(MainPic2Fragment())
         mainslideradapter.addFragment(MainPic3Fragment())
-        mainslideradapter.addFragment(MainPic4Fragment())
-
+        mainslideradapter.addFragment(MainPic4Fragment())*/
         viewBind.backgroundImg.adapter = mainslideradapter
+        viewBind.backgroundImg.currentItem = currentPage
         viewBind.backgroundImg.orientation = ViewPager2.ORIENTATION_HORIZONTAL
         val child = viewBind.backgroundImg.getChildAt(0)
         (child as? RecyclerView)?.overScrollMode = View.OVER_SCROLL_NEVER
         viewBind.backgroundImg.registerOnPageChangeCallback(object :
             ViewPager2.OnPageChangeCallback() {
+            override fun onPageScrolled(
+                position: Int,
+                positionOffset: Float,
+                positionOffsetPixels: Int
+            ) {
+                super.onPageScrolled(position, positionOffset, positionOffsetPixels)
+                if(positionOffsetPixels == 0){
+                    viewBind.backgroundImg.currentItem = position
+                }
+            }
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
                 currentPage = position
@@ -110,6 +129,9 @@ class MainFragment : BaseFragment() {
         })
         if (!thread.isAlive) {
             thread.start()
+        }
+        if (!threadad.isAlive) {
+            threadad.start()
         }
 
         viewBind.btnViewall.setOnClickListener {
@@ -153,7 +175,6 @@ class MainFragment : BaseFragment() {
         viewBind.circleIv.setOnClickListener {
             //Log.wtf("historySpotListsize", historySpotList?.get(0)?.touristspot_idx.toString())
             if (historySpotList.size > 0) {
-
                 apiService.select_tour_location_for_spot_main(
                     Utils.User_Idx,
                     historySpotList[0].location_idx,
@@ -201,7 +222,6 @@ class MainFragment : BaseFragment() {
                         }
 
                     })
-
             } else {
 
                 findNavController().navigate(R.id.action_page_home_to_page_store)
@@ -214,13 +234,20 @@ class MainFragment : BaseFragment() {
     override fun onDestroy() {
         super.onDestroy()
         thread.interrupt()
+        threadad.interrupt()
     }
 
     fun setPage() {
-        if (currentPage == 4)
+        if (currentPage == 2000)
             currentPage = 0
         viewBind.backgroundImg.setCurrentItem(currentPage, false)
         currentPage += 1
+    }
+    fun setPagead() {
+        if (currentPagead == bannerCouponList.size+1)
+            currentPagead = 0
+        viewBind.viewpagerAd.setCurrentItem(currentPagead, false)
+        currentPagead += 1
     }
 
 
@@ -233,7 +260,7 @@ class MainFragment : BaseFragment() {
         override fun run() {
             while (true) {
                 try {
-                    Thread.sleep(2000)
+                    Thread.sleep(4000)
                     handler.sendEmptyMessage(0)
                 } catch (e: InterruptedException) {
                     e.printStackTrace()
@@ -242,22 +269,31 @@ class MainFragment : BaseFragment() {
         }
     }
 
-    inner class ViewPager2Adapter(fragment: Fragment) : FragmentStateAdapter(requireActivity()) {
-        private val fragmentlist: ArrayList<Fragment> = ArrayList()
+    inner class ViewPager2Adapter(fragment: Fragment, var mCount: Int) : FragmentStateAdapter(requireActivity()) {
 
-        override fun getItemCount(): Int = fragmentlist.size
+
+        override fun getItemCount(): Int = 2000
 
         override fun createFragment(position: Int): Fragment {
-
-            return fragmentlist[position]
+            val index = getRealPosition(position)
+            return when(index){
+                0-> MainPic1Fragment()
+                1-> MainPic2Fragment()
+                2 -> MainPic3Fragment()
+                else -> MainPic4Fragment()
+            }
         }
 
-        fun addFragment(fragment: Fragment) {
+       /* fun addFragment(fragment: Fragment) {
             fragmentlist.add(fragment)
             notifyItemInserted(fragmentlist.size - 1)
+        }*/
+        fun getRealPosition(position: Int): Int {
+            return position % mCount
         }
-
     }
+
+
 
     //actionbar 제거
     fun Activity.setStatusBarTransparent() {
@@ -328,16 +364,16 @@ class MainFragment : BaseFragment() {
         })
     }
 
+    //adviewpager
     private fun initViewPagerAdapter(couponList: MutableList<BannerModel>) {
+        Log.wtf("couponListsize",couponList.size.toString())
+        Log.wtf("bannerCouponListsize",bannerCouponList.size.toString())
         val adapter = ViewPagerAdapter(requireContext(), couponList) { idx ->
-            Log.wtf("initViewPagerAdapter", "idx 1111")
-            Log.wtf("initViewPagerAdapter", "idx ? $idx")
             var paramModel: StoreBannerCouponDTO? = null
             for (model in bannerCouponList) {
                 if (model.store_coupon_idx == idx) {
                     paramModel = model
-                    Log.wtf("initViewPagerAdapter", "model.store_coupon_idx 1111")
-                    Log.wtf("initViewPagerAdapter", "model.store_coupon_idx ? $idx")
+
                 }
             }
             var action = MainFragmentDirections.actionPageHomeToCouponBannerFragment(
@@ -349,13 +385,26 @@ class MainFragment : BaseFragment() {
         viewBind.viewpagerAd.adapter = adapter
         viewBind.viewpagerAd.clipToOutline = true
     }
+    inner class ADPagerRunnable:Runnable{
+        override fun run() {
+            while (true){
+                try {
+                    Thread.sleep(2000)
+                    handlerr.sendEmptyMessage(0)
+                }catch (e:InterruptedException){
+                    e.printStackTrace()
+                }
+            }
+        }
+    }
+
 
     data class BannerModel(
         val sampleIdx: Int,
         val sampleImage: Any
     )
 
-    //viewpageradapter
+    //viewpageradapterad
     inner class ViewPagerAdapter(
         private val context: Context,
         private val list: MutableList<BannerModel>,
@@ -409,10 +458,63 @@ class MainFragment : BaseFragment() {
         }
     }
 
+
     //progressbar 설정
     private fun setProgressbar() {
 
-        apiService.getHistorySpot(Utils.User_Idx)
+        apiService.selectcurrenthistory_spot(Utils.User_Idx)
+            .enqueue(object : Callback<List<HistorySpotModel>>{
+                override fun onResponse(
+                    call: Call<List<HistorySpotModel>>,
+                    response: Response<List<HistorySpotModel>>
+                ) {
+                    if (response.isSuccessful){
+                        val result = response.body()
+                        if (result != null){
+                            historySpotList = result.toMutableList()
+                            if (historySpotList.size > 0){
+                                viewBind.circleIvBg.visibility = View.VISIBLE
+                                viewBind.tvxNohistory.visibility = View.INVISIBLE
+
+                                viewBind.tourTitleTxv.text = result[0].location_name
+                                viewBind.tourContentTxv.text = result[0].touristspot_name
+
+                                viewBind.progressCircle.progress =
+                                    (result[0].myCount.toDouble() / result[0].allCount.toDouble() * 100).toInt()
+                                viewBind.tourPercentTxv.text = (result[0].myCount.toDouble() / result[0].allCount.toDouble() * 100).toInt().toString() + "%"
+
+                                Glide.with(viewBind.circleIv.context)
+                                    .load("http://coratest.kr/imagefile/bsr/" + result.get(0).touristspot_img)
+                                    .placeholder(R.drawable.sample_profile_image)
+                                    .error(R.drawable.sample_profile_image)
+                                    .apply(RequestOptions.bitmapTransform(RoundedCorners(20)))
+                                    .into(viewBind.circleIv)
+                            }else{
+                                viewBind.tvxNohistory.visibility = View.VISIBLE
+                                viewBind.tourTitleTxv.visibility = View.INVISIBLE
+                                viewBind.tourContentTxv.visibility = View.INVISIBLE
+
+                                viewBind.progressCircle.progress = 0
+                                viewBind.tourPercentTxv.text = "0%"
+                                viewBind.tourPercentTxv.setTextColor(Color.rgb(101, 29, 230))
+                                Glide.with(viewBind.circleIv.context)
+                                    .load(R.drawable.bg_circle_white)
+                                    .placeholder(R.drawable.sample_profile_image)
+                                    .error(R.drawable.sample_profile_image)
+                                    .apply(RequestOptions.bitmapTransform(RoundedCorners(20)))
+                                    .into(viewBind.circleIv)
+                                viewBind.circleIvBg.visibility = View.GONE
+                            }
+                        }
+                    }
+                }
+
+                override fun onFailure(call: Call<List<HistorySpotModel>>, t: Throwable) {
+                    t.printStackTrace()
+                }
+
+            })
+        /*apiService.getHistorySpot(Utils.User_Idx)
             .enqueue(object : Callback<List<HistorySpotModel>> {
                 @SuppressLint("SetTextI18n")
                 override fun onResponse(
@@ -425,28 +527,43 @@ class MainFragment : BaseFragment() {
 
                             historySpotList = result.toMutableList()
                             //historyspot이 존재할때
-                            if (historySpotList?.size!! > 0) {
+                            if (historySpotList.size > 0) {
+                                if(result[0].allCount == result[0].myCount){
+                                    viewBind.tvxNohistory.visibility = View.VISIBLE
+                                    viewBind.tourTitleTxv.visibility = View.INVISIBLE
+                                    viewBind.tourContentTxv.visibility = View.INVISIBLE
 
-                                viewBind.circleIvBg.visibility = View.VISIBLE
-                                viewBind.tvxNohistory.visibility = View.INVISIBLE
+                                    viewBind.progressCircle.progress = 0
+                                    viewBind.tourPercentTxv.text = "0%"
+                                    viewBind.tourPercentTxv.setTextColor(Color.rgb(101, 29, 230))
+                                    Glide.with(viewBind.circleIv.context)
+                                        .load(R.drawable.bg_circle_white)
+                                        .placeholder(R.drawable.sample_profile_image)
+                                        .error(R.drawable.sample_profile_image)
+                                        .apply(RequestOptions.bitmapTransform(RoundedCorners(20)))
+                                        .into(viewBind.circleIv)
+                                    viewBind.circleIvBg.visibility = View.GONE
+                                }
+                                else{
+                                    viewBind.circleIvBg.visibility = View.VISIBLE
+                                    viewBind.tvxNohistory.visibility = View.INVISIBLE
 
-                                viewBind.tourTitleTxv.text = result[0].location_name
-                                viewBind.tourContentTxv.text = result[0].touristspot_name
+                                    viewBind.tourTitleTxv.text = result[0].location_name
+                                    viewBind.tourContentTxv.text = result[0].touristspot_name
 
-                                viewBind.progressCircle.progress =
-                                    (result[0].myCount.toDouble() / result[0].allCount.toDouble() * 100).toInt()
-                                viewBind.tourPercentTxv.text =
-                                    (result[0].myCount.toDouble() / result[0].allCount.toDouble() * 100).toInt()
-                                        .toString() + "%"
+                                    viewBind.progressCircle.progress =
+                                        (result[0].myCount.toDouble() / result[0].allCount.toDouble() * 100).toInt()
+                                    viewBind.tourPercentTxv.text =
+                                        (result[0].myCount.toDouble() / result[0].allCount.toDouble() * 100).toInt()
+                                            .toString() + "%"
 
-                                Glide.with(viewBind.circleIv.context)
-                                    .load("http://coratest.kr/imagefile/bsr/" + result.get(0).touristspot_img)
-                                    .placeholder(R.drawable.sample_profile_image)
-                                    .error(R.drawable.sample_profile_image)
-                                    .apply(RequestOptions.bitmapTransform(RoundedCorners(20)))
-                                    .into(viewBind.circleIv)
-
-
+                                    Glide.with(viewBind.circleIv.context)
+                                        .load("http://coratest.kr/imagefile/bsr/" + result.get(0).touristspot_img)
+                                        .placeholder(R.drawable.sample_profile_image)
+                                        .error(R.drawable.sample_profile_image)
+                                        .apply(RequestOptions.bitmapTransform(RoundedCorners(20)))
+                                        .into(viewBind.circleIv)
+                                }
                             } else {
                                 //historyspot이 존재하지않을때
                                 viewBind.tvxNohistory.visibility = View.VISIBLE
@@ -474,22 +591,12 @@ class MainFragment : BaseFragment() {
                     t.printStackTrace()
                 }
 
-            })
-
-
-    }
-
-    private fun getAllTourList() {
-
-        /*apiService.getTour(viewBind.roadtourCon.getTag() as Int)
-            .enqueue(object : Callback<List<Tour_Spot>>{
-                override fun onResponse(
-                    call: Call<List<Tour_Spot>>,
-                    response: Response<List<Tour_Spot>>
-                ){
-
             })*/
+
+
     }
+
+
 
 
     private fun getTop4Location() {

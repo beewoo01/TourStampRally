@@ -17,7 +17,8 @@
             app:layout_constraintBottom_toTopOf="@id/content_layout"
             app:layout_constraintEnd_toEndOf="@id/content_layout"
             app:layout_constraintStart_toStartOf="@id/content_layout"
-            app:layout_constraintTop_toTopOf="@id/content_layout" />
+            app:layout_constraintTop_toTopOf="@id/content_layout"
+            android:contentDescription="@string/logo" />
 
 
         <androidx.constraintlayout.widget.ConstraintLayout

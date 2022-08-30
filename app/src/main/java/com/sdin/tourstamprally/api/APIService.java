@@ -8,6 +8,7 @@ import com.sdin.tourstamprally.model.HistorySpotModel;
 import com.sdin.tourstamprally.model.InterestModel;
 import com.sdin.tourstamprally.model.Location;
 import com.sdin.tourstamprally.model.LocationJoinTouristSpot;
+import com.sdin.tourstamprally.model.MapMarkerNumDTO;
 import com.sdin.tourstamprally.model.Notice;
 import com.sdin.tourstamprally.model.RallyMapDTO;
 import com.sdin.tourstamprally.model.RallyMapModel;
@@ -27,7 +28,7 @@ import com.sdin.tourstamprally.model.TouristSpotPointDC;
 import com.sdin.tourstamprally.model.TouristSpotPointImg;
 import com.sdin.tourstamprally.model.UserCurrentCourse;
 import com.sdin.tourstamprally.model.UserModel;
-import com.sdin.tourstamprally.model.around.AllArroundEntity;
+import com.sdin.tourstamprally.model.around.AllAroundEntity;
 import com.sdin.tourstamprally.model.around.coursePoint.AroundCoursePoint;
 import com.sdin.tourstamprally.model.course.SelectCourseModel;
 import com.sdin.tourstamprally.model.store_coupon.StoreMyCouponModel;
@@ -45,6 +46,7 @@ import retrofit2.http.QueryMap;
 
 
 public interface APIService {
+
 
     /*로그인*/
     @GET("login")
@@ -143,7 +145,7 @@ public interface APIService {
     Call<List<Tour_Spot>> getTour(@Query("userIdx") int idx);
 
     @GET("getArround")
-    Call<List<AllArroundEntity>> getAllLocation();
+    Call<List<AllAroundEntity>> getAllLocation();
 
     @GET("getFourLocations")
     Call<List<TopFourLocationModel>> getFourLocations(@Query("userIdx") int idx);
@@ -407,7 +409,8 @@ public interface APIService {
     Call <List<TaggingnoCourseDTO>> hasTaggingInfonocourse(@Query("tagginInfo") String tagginInfo);
 
     @GET("selectTouristspotidx")
-    Single<Integer> selectTouristspotidx(
+    Call<List<MapMarkerNumDTO>> selectTouristspotidx(
+            @Query("user_idx") int user_idx,
             @Query("tagginInfo") String tagginInfo
     );
 
@@ -422,5 +425,7 @@ public interface APIService {
 
     @GET("selectBannerCoupon")
     Call <List<StoreBannerCouponDTO>> selectBannerCoupon();
+    @GET("selectcurrenthistory_spot")
+    Call<List<HistorySpotModel>> selectcurrenthistory_spot(@Query("user_idx") int user_idx);
 
 }

@@ -167,7 +167,7 @@ class WriteReviewFragment : BaseFragment() {
 
     @SuppressLint("SetTextI18n")
     fun onImageDeleteClick(view: View, tag: Int) {
-        Log.wtf("onImageDeleteClick", "onImageDeleteClick")
+
         val subImageFilterView =
             binding?.root?.findViewById<ImageFilterView>(imageFilterViewArray[tag])
         if (tag.toString() == subImageFilterView?.tag.toString()) {
@@ -175,7 +175,7 @@ class WriteReviewFragment : BaseFragment() {
             group?.visibility = View.INVISIBLE
             subImageFilterView?.setImageResource(0)
             reviewImgList.removeAt(tag)
-            Log.wtf("onImageDeleteClick", "subImageFilterView tag $tag")
+
         }
         binding?.addPictureTxv?.text = "사진 ${reviewImgList.size}/5"
 
@@ -186,7 +186,7 @@ class WriteReviewFragment : BaseFragment() {
                 binding?.root?.findViewById<ImageFilterView>(imageFilterViewArray[i])
             imageFilterView?.let {
                 if (reviewImgList[i].img is Bitmap?) {
-                    Log.wtf("Bitmap", "Bitmap")
+
                     Glide.with(it.context)
                         .load(reviewImgList[i].img)
                         .into(it)
@@ -270,7 +270,7 @@ class WriteReviewFragment : BaseFragment() {
     private val requestCamera: ActivityResultLauncher<Intent> = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) { result ->
-        Log.wtf("result DATA", result.data.toString())
+
         val bitmap: Bitmap = result.data?.extras?.get("data") as Bitmap?
             ?: return@registerForActivityResult
 
@@ -283,7 +283,7 @@ class WriteReviewFragment : BaseFragment() {
     ) { result ->
         val url: Uri? = result.data?.data
 
-        Log.wtf("result DATA", result.data?.data.toString())
+
 
         var bitmap: Bitmap? = null
         bitmap = url?.let {
@@ -432,7 +432,7 @@ class WriteReviewFragment : BaseFragment() {
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeWith(object : DisposableSingleObserver<Int>() {
                 override fun onSuccess(t: Int) {
-                    Log.wtf("onSuccess", "onSuccess $t")
+
                     showToast("리뷰 업데이트에 성공하였습니다.")
                     findNavController().popBackStack()
                 }
@@ -455,7 +455,7 @@ class WriteReviewFragment : BaseFragment() {
                 override fun onSuccess(t: Int) {
                     showToast("리뷰 업데이트에 성공하였습니다.")
                     findNavController().popBackStack()
-                    Log.wtf("deleteImages", "onSuccess result = $t")
+
                 }
 
                 override fun onError(e: Throwable) {
@@ -475,7 +475,7 @@ class WriteReviewFragment : BaseFragment() {
             .subscribeWith(object : DisposableSingleObserver<Int>() {
                 override fun onSuccess(t: Int) {
                     showToast("리뷰 업데이트에 성공하였습니다.")
-                    Log.wtf("deleteImages", "onSuccess result = $t")
+
                 }
 
                 override fun onError(e: Throwable) {

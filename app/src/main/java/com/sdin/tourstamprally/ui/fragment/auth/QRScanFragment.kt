@@ -14,8 +14,10 @@ import com.google.zxing.Result
 import com.sdin.tourstamprally.R
 import com.sdin.tourstamprally.Utils
 import com.sdin.tourstamprally.databinding.FragmentQrScanBinding
+import com.sdin.tourstamprally.model.MapMarkerNumDTO
 import com.sdin.tourstamprally.model.RallyMapModel
 import com.sdin.tourstamprally.model.TaggingnoCourseDTO
+import com.sdin.tourstamprally.model.course.SelectCourseModel
 import com.sdin.tourstamprally.ui.dialog.DefaultBSRDialog
 import com.sdin.tourstamprally.ui.dialog.DialogFailTimeOver
 import com.sdin.tourstamprally.ui.dialog.QRScanWanttogoDialog
@@ -38,6 +40,8 @@ class QRScanFragment : BaseFragment(), DialogListener {
     private val gpsTracker: GpsTracker? = null
 
     private var taginfo : String? = null
+    private var checkpop : Boolean = false
+    private var nocourse : Boolean = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -108,7 +112,8 @@ class QRScanFragment : BaseFragment(), DialogListener {
             0 -> {
                 //코스 선택 안함
                 Log.wtf("QRFragment", "코스 선택 안함")
-                getCourseInfo() //주석
+//                getCourseInfo() //주석
+//                getCourse()
             }
             1 -> {
                 Log.wtf("QRFragment", "코스 있음")
@@ -123,7 +128,9 @@ class QRScanFragment : BaseFragment(), DialogListener {
     }
 
     private fun getCourseInfo() {
-        SelectCourseDialog(requireContext()) {
+        checkpop = true
+        SelectCourseDialog(requireContext(),) {
+            checkpop = false
             codeScanner?.startPreview()
         }.show()
     }
@@ -177,10 +184,16 @@ class QRScanFragment : BaseFragment(), DialogListener {
 
             }
             1 -> { //코스 선택 안함 POPUP
+
+                /*if(!checkpop){
+
+                    getCourseInfo()
+                }*/
+                getCourse()
 //                getCourseInfo() //주석
                 //여기에 팝업 들어가면될듯
                 Log.wtf("setCheckInResult","1")
-                apiService.hasTaggingInfonocourse(taginfo).enqueue(object : Callback<List<TaggingnoCourseDTO>>{
+                /*apiService.hasTaggingInfonocourse(taginfo).enqueue(object : Callback<List<TaggingnoCourseDTO>>{
                     override fun onResponse(
                         call: Call<List<TaggingnoCourseDTO>>,
                         response: Response<List<TaggingnoCourseDTO>>
@@ -195,7 +208,7 @@ class QRScanFragment : BaseFragment(), DialogListener {
                                         checkIn(it)
                                     }.show()
                                 }
-                                /*codeScanner?.startPreview()*/
+                                *//*codeScanner?.startPreview()*//*
                             }
                             else{
                                 getCourseInfo()
@@ -210,7 +223,7 @@ class QRScanFragment : BaseFragment(), DialogListener {
                         t.printStackTrace()
                     }
 
-                })
+                })*/
 
             }
 
@@ -261,7 +274,7 @@ class QRScanFragment : BaseFragment(), DialogListener {
                     isSpecial = true,
                     isSwitchBtn = false,
                     leftBtnStr = "취소",
-                    rightBtnStr = "중단"
+                    rightBtnStr = "변경"
                 ) { isCancel: Boolean ->
                     if (!isCancel) {
                         apiService.removeMyCourse(Utils.User_Idx)
@@ -283,7 +296,7 @@ class QRScanFragment : BaseFragment(), DialogListener {
                                         }
                                     }
 
-                                    codeScanner?.startPreview()
+//                                    codeScanner?.startPreview()
                                 }
 
                                 override fun onError(e: Throwable) {
@@ -305,22 +318,63 @@ class QRScanFragment : BaseFragment(), DialogListener {
         }
     }
 
+    private fun overlapCourse(){
+        apiService.hasTaggingInfonocourse(taginfo).enqueue(object : Callback<List<TaggingnoCourseDTO>>{
+            override fun onResponse(
+                call: Call<List<TaggingnoCourseDTO>>,
+                response: Response<List<TaggingnoCourseDTO>>
+            ) {
+                if (response.isSuccessful){
+                    val result = response.body()
+                    if(result?.size!! > 1){
+                        Log.wtf("resultsize",result?.size.toString())
+                        result?.let {
+                            QRScanWanttogoDialog(requireContext(),result, callback = {codeScanner?.startPreview()} ){
+                                //선택된 tag 받아와서 checkin 쓰면될듯
+                                checkIn(it)
+                            }.show()
+                        }
+//                                codeScanner?.startPreview()
+                    }
+
+                }
+            }
+
+            override fun onFailure(call: Call<List<TaggingnoCourseDTO>>, t: Throwable) {
+                t.printStackTrace()
+            }
+
+        })
+    }
+
     private fun getCourse(){
         Log.wtf("getCourse", taginfo)
-        apiService.selectTouristspotidx(taginfo)
-            .subscribeOn(Schedulers.newThread())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribeWith(object : DisposableSingleObserver<Int>(){
-                override fun onSuccess(t: Int) {
-                    Log.wtf("insertcourse", t.toString())
-                    insertcourse(t)
+        apiService.selectTouristspotidx(Utils.User_Idx, taginfo).enqueue(object : Callback<List<MapMarkerNumDTO>>{
+            override fun onResponse(
+                call: Call<List<MapMarkerNumDTO>>,
+                response: Response<List<MapMarkerNumDTO>>
+            ) {
+                val result = response.body()
+                Log.wtf("getCourse", result?.size?.toString())
+                if(result?.size!! > 1){
+                    overlapCourse()
+                }else if(result?.size!! == 0){
+                    Toast.makeText(requireContext(), "이미 완료된 코스입니다.", Toast.LENGTH_SHORT).show()
+//                    getCourseInfo()
+                    codeScanner?.startPreview()
+                    Log.wtf("getCourse", "nocourseeeeeeeeeeeeeeee")
                 }
-
-                override fun onError(e: Throwable) {
-                    e.printStackTrace()
+                else{
+                    Log.wtf("getCourse",result.get(0).touristspot_point_sub_touristspot_idx.toString())
+                    insertcourse(result.get(0).touristspot_point_sub_touristspot_idx)
                 }
+            }
 
-            })
+            override fun onFailure(call: Call<List<MapMarkerNumDTO>>, t: Throwable) {
+                t.printStackTrace()
+            }
+
+        })
     }
     private fun insertcourse(idx : Int){
 

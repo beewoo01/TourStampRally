@@ -19,13 +19,14 @@ data class StoreEntity(
     val storeName : String
 )
 
-data class AllArroundEntity(
+data class AllAroundEntity(
     @SerializedName("location_idx")
-    val location_idx : Int?,
+    val location_idx : Int,
     @SerializedName("location_name")
-    val location_name : String?,
+    val location_name : String?
+    /*,
     val storeType : Int?,
     val storeName : String?,
-    val viewType : Int = 0
+    val viewType : Int = 0*/
     //0 -> Location 1 -> Stroe
 )

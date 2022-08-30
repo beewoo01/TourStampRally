@@ -55,7 +55,7 @@ class LocationReAdapter(
             touristspot.text = item.touristspot_name
             hashtag.text = item.touristspotpoint_tag
 
-            Log.wtf("onBind",item.location_name)
+
 
             var iconimg: Int? = when(item.touristspot_location_location_idx){
                 1 -> R.drawable.ic_main_roadtour

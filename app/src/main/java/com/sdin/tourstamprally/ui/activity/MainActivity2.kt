@@ -407,9 +407,7 @@ class MainActivity2 : BaseActivity()/*, NavigationBarView.OnItemSelectedListener
                 openDrawer()
             }
 
-            Log.wtf("navController", "destination.id? " + destination.id)
-            Log.wtf("navController", "destination.label? " + destination.label)
-            Log.wtf("navController", "destination.navigatorName? " + destination.navigatorName)
+
         }
         /* binding.bottomNavigationView.setOnItemSelectedListener { item ->
 
@@ -436,21 +434,26 @@ class MainActivity2 : BaseActivity()/*, NavigationBarView.OnItemSelectedListener
             .subscribeWith(object : DisposableSingleObserver<Int>() {
                 override fun onSuccess(integer: Int) {
 
-                    DefaultBSRDialog(
-                        context = this@MainActivity2,
-                        title = "현재 진행중인 코스가 있습니다.\n계속 진행 하시겠습니까?",
-                        content = "취소 시 진행중인 코스는 모두\n인증취소 처리가 됩니다.",
-                        isSpecial =  false,
-                        isSwitchBtn = true,
-                        leftBtnStr = "취소",
-                        rightBtnStr = "계속"
-                    ){ result ->
-                        if (result) {
-                            removeMyCourse()
-                            DialogFailTimeOver(this@MainActivity2).show()
-                        }
+                    if(integer > 0){
+                        DefaultBSRDialog(
+                            context = this@MainActivity2,
+                            title = "현재 진행중인 코스가 있습니다.\n계속 진행 하시겠습니까?",
+                            content = "취소 시 진행중인 코스는 모두\n인증취소 처리가 됩니다.",
+                            isSpecial =  false,
+                            isSwitchBtn = true,
+                            leftBtnStr = "취소",
+                            rightBtnStr = "계속"
+                        ){ result ->
+                            if (result) {
+                                removeMyCourse()
+                                DialogFailTimeOver(this@MainActivity2).show()
+                            }
 
-                    }.show()
+                        }.show()
+                    }
+
+
+
                 }
 
                 override fun onError(e: Throwable) {

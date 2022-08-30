@@ -406,8 +406,7 @@ class AllCouponFragment : BaseFragment() {
 
         for (txv in categoryArr) {
             //수정
-            Log.wtf("txv in couponListCategory : ",""+couponListCategory.toString())
-            Log.wtf("txv in view : ","view.id = "+ view.id +" txv = "+txv)
+
             if (view.id == txv && couponListCategory < 3) {
                 /* view.background =
                      ContextCompat.getDrawable(view.context, R.drawable.bg_rounded_category_selected)*/
@@ -450,7 +449,7 @@ class AllCouponFragment : BaseFragment() {
                 //(view as TextView).setTextColor(ContextCompat.getColor(view.context, R.color.white))
             } else {
                 if (couponListCategory == 3) {
-                    Log.wtf("teewge", "3333")
+
                     binding?.run {
 
                         root.findViewById<ConstraintLayout>(txv)?.let {

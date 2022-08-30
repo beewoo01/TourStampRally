@@ -234,11 +234,11 @@ class LocationFragment : BaseFragment() {
                         ).into(locationImv)
 
                     spotContainer.let {
-                        if(absoluteAdapterPosition % 4 == 0 ||absoluteAdapterPosition % 4 == 1){
-                            it.setBackgroundResource(R.drawable.bg_rounded_03_location)
+                        if(model.myCount == 0){
+                            it.setBackgroundResource(R.drawable.bg_rounded_03)
                         }
                         else{
-                            it.setBackgroundResource(R.drawable.bg_rounded_03)
+                            it.setBackgroundResource(R.drawable.bg_rounded_03_location)
                         }
                     }
 

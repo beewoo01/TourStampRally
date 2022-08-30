@@ -5,6 +5,8 @@ import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.text.BoringLayout
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,6 +24,7 @@ import com.sdin.tourstamprally.databinding.DialogSelectCourseBinding
 import com.sdin.tourstamprally.databinding.SelectCourseReItemBinding
 import com.sdin.tourstamprally.model.course.SelectCourseModel
 import com.sdin.tourstamprally.ui.dialog.BaseDialog
+import com.sdin.tourstamprally.ui.fragment.auth.QRScanFragment
 import com.sdin.tourstamprally.utill.recyclerveiew.CustomItemDecoration
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.observers.DisposableSingleObserver
@@ -89,7 +92,7 @@ class SelectCourseDialog(context: Context, val callback: (() -> Unit?)?) :
     }
 
     private fun initLocationRecyclerView(list: List<SelectCourseModel>) {
-        if (!list.isNullOrEmpty()) {
+        if (list.isNotEmpty()) {
             val locationMap = HashMap<Int, String>()
             for (model in list) {
                 locationMap[model.location_idx] = model.location_name

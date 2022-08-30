@@ -1,47 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/tag_item_container"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/bg_rounded_category_selected"
-        android:layout_marginVertical="@dimen/_10sdp"
         android:layout_marginHorizontal="@dimen/_5sdp"
-        >
+        android:layout_marginVertical="@dimen/_10sdp"
+        android:background="@drawable/bg_rounded_category_selected">
 
         <ImageView
             android:id="@+id/tag_item_img"
             android:layout_width="@dimen/_12sdp"
             android:layout_height="@dimen/_12sdp"
             android:layout_marginStart="@dimen/_8sdp"
-            app:srcCompat="@drawable/ic_roadtour_off"
-            app:layout_constraintTop_toTopOf="parent"
+            android:contentDescription="@string/icon"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toStartOf="@id/tag_item_txv"
-            android:contentDescription="@string/icon" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:visibility="gone"
+            tools:srcCompat="@drawable/ic_roadtour_off" />
 
         <TextView
             android:id="@+id/tag_item_txv"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/_35sdp"
-            android:text="광안대교"
-            android:textSize="@dimen/_13sdp"
-            android:textColor="@color/white"
-            android:gravity="center"
-            android:layout_marginEnd="@dimen/_15sdp"
             android:layout_marginStart="6dp"
-            app:layout_goneMarginStart="@dimen/_15sdp"
+            android:layout_marginEnd="@dimen/_15sdp"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_13sdp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/tag_item_img"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            />
-
-
-
+            app:layout_goneMarginStart="@dimen/_15sdp"
+            tools:text="광안대교" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

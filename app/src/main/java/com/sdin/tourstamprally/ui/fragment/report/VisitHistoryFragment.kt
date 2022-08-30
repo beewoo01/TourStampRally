@@ -24,7 +24,7 @@ import com.sdin.tourstamprally.databinding.FragmentVisithistoryBinding
 import com.sdin.tourstamprally.model.CouponModel
 import com.sdin.tourstamprally.model.HistorySpotModel
 import com.sdin.tourstamprally.model.ReviewWriter
-import com.sdin.tourstamprally.model.around.AllArroundEntity
+import com.sdin.tourstamprally.model.around.AllAroundEntity
 import com.sdin.tourstamprally.ui.dialog.DefaultBSRDialog
 import com.sdin.tourstamprally.ui.dialog.DialogEventJoinSuccess
 import com.sdin.tourstamprally.ui.dialog.event.TicketDialog
@@ -62,7 +62,7 @@ class VisitHistoryFragment : BaseFragment(), VisitItemClickListener {
             setCategory()
             if(location == 0){
                 location = 1
-                setVisitInit(1)
+                setVisitInit(0)
             }
 //            setVisitInit()
 
@@ -93,7 +93,6 @@ class VisitHistoryFragment : BaseFragment(), VisitItemClickListener {
     }
 
     private fun setVisitInit(locationx : Int) {
-        Log.wtf("funsetVisitInit",locationx.toString())
         apiService.getHistorySpotVisit(Utils.User_Idx,locationx)
             .enqueue(object : Callback<List<HistorySpotModel>> {
                 @SuppressLint("ClickableViewAccessibility")
@@ -155,13 +154,14 @@ class VisitHistoryFragment : BaseFragment(), VisitItemClickListener {
 
 
     private fun setCategory() {
-        apiService.allLocation.enqueue(object : Callback<List<AllArroundEntity>> {
+        apiService.allLocation.enqueue(object : Callback<List<AllAroundEntity>> {
             override fun onResponse(
-                call: Call<List<AllArroundEntity>>,
-                response: Response<List<AllArroundEntity>>
+                call: Call<List<AllAroundEntity>>,
+                response: Response<List<AllAroundEntity>>
             ) {
                 val res = response.body()
                 res?.let { result ->
+
                     binding?.categoryRecyclerView?.apply {
                         layoutManager = LinearLayoutManager(requireContext())
                             .apply {
@@ -169,25 +169,26 @@ class VisitHistoryFragment : BaseFragment(), VisitItemClickListener {
                             }
 
                         adapter = CategoryAdapter(callback = {
-                            Log.wtf("CategoryAdapterlocation_idx",it.location_idx.toString())
-                            if(location != 0){
-                                location = it.location_idx!!
-                                Log.wtf("setVisitInit",location.toString())
-                                setVisitInit(location)
-                            }
 
+                            location = it.location_idx
+
+                            setVisitInit(location)
 
                         }).apply {
-                            setViewType(0)
-                            setLocationCount(result.count())
-                            submitList(result)
+                            //setViewType(0)
+                            val categoryList = mutableListOf<AllAroundEntity>()
+                            val entity = AllAroundEntity(0, "전체보기")
+                            categoryList.add(entity)
+                            categoryList.addAll(result)
+                            //setLocationCount(categoryList.count())
+                            submitList(categoryList)
                         }
                     }
 
                 }
             }
 
-            override fun onFailure(call: Call<List<AllArroundEntity>>, t: Throwable) {
+            override fun onFailure(call: Call<List<AllAroundEntity>>, t: Throwable) {
                 t.printStackTrace()
             }
 
@@ -369,7 +370,7 @@ class VisitHistoryFragment : BaseFragment(), VisitItemClickListener {
 
             if (callback) {
                 //초기화
-                Log.wtf("currentHistorySpotModelcallback",callback.toString())
+
                 if (currentHistorySpotModel != null) {
                     apiService.resetTourSpot(
                         currentHistorySpotModel!!.touristspot_idx,
@@ -381,7 +382,7 @@ class VisitHistoryFragment : BaseFragment(), VisitItemClickListener {
                             override fun onSuccess(result: Int) {
                                 if (result > 0) {
                                     // 삭제 성공
-                                    Log.wtf("result", "result")
+
                                     val list = visitAdapter.currentList.toMutableList()
                                     list.removeAt(currentPosition)
                                     visitAdapter.submitList(list)
